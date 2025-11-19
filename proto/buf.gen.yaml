@@ -10,9 +10,9 @@ plugins:
 
   # --- API ---
   - name: python
-    out: ../apps/api/python/gen
+    out: ../apps/api/gen
   - name: pyi
-    out: ../apps/api/python/gen
+    out: ../apps/api/gen
 
   # --- Frontend ---
   - name: es
