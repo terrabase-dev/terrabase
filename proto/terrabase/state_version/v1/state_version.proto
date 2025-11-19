@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package terrabase.state_version.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/state_version/v1;stateVersionv1";
+
+message StateVersion {
+  string id = 1;
+  string workspace_id = 2;
+  string version = 3;
+  string hash = 4;
+  int64 size_bytes = 5;
+  string storage_key = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message CreateStateVersionRequest {
+  string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string storage_key = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateStateVersionResponse {
+  StateVersion state_version = 1;
+}
+
+message GetStateVersionRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetStateVersionResponse {
+  StateVersion state_version = 1;
+}
+
+message ListStateVersionsRequest {
+  string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+  optional int32 page_size = 2;
+  optional string page_token = 3;
+}
+
+message ListStateVersionsResponse {
+  repeated StateVersion state_versions = 1;
+  optional string next_page_token = 2;
+}
+
+message DeleteStateVersionRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteStateVersionResponse {}
+
+service StateVersionService {
+  rpc CreateStateVersion(CreateStateVersionRequest) returns (CreateStateVersionResponse);
+  rpc GetStateVersion(GetStateVersionRequest) returns (GetStateVersionResponse);
+  rpc ListStateVersions(ListStateVersionsRequest) returns (ListStateVersionsResponse);
+  rpc DeleteStateVersion(DeleteStateVersionRequest) returns (DeleteStateVersionResponse);
+}

@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package terrabase.environment.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "terrabase/workspace/v1/workspace.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/environment/v1;environmentv1";
+
+message Environment {
+  string id = 1;
+  string name = 2;
+  string application_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message CreateEnvironmentRequest {
+  string name = 1 [(google.api.field_behavior) = REQUIRED];
+  string application_id = 2 [(google.api.field_behavior) = REQUIRED];
+  terrabase.workspace.v1.CreateWorkspaceRequest new_workspace = 3;
+}
+
+message CreateEnvironmentResponse {
+  Environment environment = 1;
+}
+
+message GetEnvironmentRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetEnvironmentResponse {
+  Environment environment = 1;
+}
+
+message ListEnvironmentsRequest {
+  string application_id = 1 [(google.api.field_behavior) = REQUIRED];
+  optional int32 page_size = 2;
+  optional string page_token = 3;
+}
+
+message ListEnvironmentsResponse {
+  repeated Environment environments = 1;
+  optional string next_page_token = 2;
+}
+
+message UpdateEnvironmentRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  optional string name = 2;
+}
+
+message UpdateEnvironmentResponse {
+  Environment environment = 1;
+}
+
+message DeleteEnvironmentRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteEnvironmentResponse {}
+
+service EnvironmentService {
+  rpc CreateEnvironment(CreateEnvironmentRequest) returns (CreateEnvironmentResponse);
+  rpc GetEnvironment(GetEnvironmentRequest) returns (GetEnvironmentResponse);
+  rpc ListEnvironments(ListEnvironmentsRequest) returns (ListEnvironmentsResponse);
+  rpc UpdateEnvironment(UpdateEnvironmentRequest) returns (UpdateEnvironmentResponse);
+  rpc DeleteEnvironment(DeleteEnvironmentRequest) returns (DeleteEnvironmentResponse);
+}

@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package terrabase.workspace.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "terrabase/backend_type/v1/backend_type.proto";
+import "terrabase/s3_backend_config/v1/s3_backend_config.proto";
+import "terrabase/team/v1/team.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/workspace/v1;workspacev1";
+
+message Workspace {
+  string id = 1;
+  string name = 2;
+  terrabase.backend_type.v1.BackendType backend_type = 3;
+  optional string environment_id = 4;
+  optional string s3_backend_config_id = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message CreateWorkspaceRequest {
+  string name = 1 [(google.api.field_behavior) = REQUIRED];
+  terrabase.backend_type.v1.BackendType backend_type = 2 [(google.api.field_behavior) = REQUIRED];
+  optional string environment_id = 3;
+  optional string team_id = 4;
+  terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 5;
+}
+
+message CreateWorkspaceResponse {
+  Workspace workspace = 1;
+}
+
+message GetWorkspaceRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetWorkspaceResponse {
+  Workspace workspace = 1;
+}
+
+message ListWorkspacesRequest {
+  optional int32 page_size = 1;
+  optional string page_token = 2;
+
+  optional string team_id = 3;
+  optional string environment_id = 4;
+}
+
+message ListWorkspacesResponse {
+  repeated Workspace workspaces = 1;
+  optional string next_page_token = 2;
+}
+
+message UpdateWorkspaceRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  optional string name = 2;
+  terrabase.backend_type.v1.BackendType backend_type = 3;
+  optional string environment_id = 4;
+  optional string team_id = 5;
+  optional string s3_backend_config_id = 6;
+  terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 7;
+}
+
+message UpdateWorkspaceResponse {
+  Workspace workspace = 1;
+}
+
+message DeleteWorkspaceRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteWorkspaceResponse {}
+
+/*
+ ##########################
+ # Team access management #
+ ##########################
+*/
+message GrantTeamAccessRequest {
+  string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+  terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GrantTeamAccessResponse {}
+
+message RevokeTeamAccessRequest {
+  string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+  terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message RevokeTeamAccessResponse {}
+
+service WorkspaceService {
+  rpc CreateWorkspace(CreateWorkspaceRequest) returns (CreateWorkspaceResponse);
+  rpc GetWorkspace(GetWorkspaceRequest) returns (GetWorkspaceResponse);
+  rpc ListWorkspaces(ListWorkspacesRequest) returns (ListWorkspacesResponse);
+  rpc UpdateWorkspace(UpdateWorkspaceRequest) returns (UpdateWorkspaceResponse);
+  rpc DeleteWorkspace(DeleteWorkspaceRequest) returns (DeleteWorkspaceResponse);
+
+  rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse);
+  rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse);
+}

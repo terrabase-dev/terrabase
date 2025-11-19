@@ -1,0 +1,8 @@
+{
+    "[go]": {
+        "editor.autoClosingOvertype": "always",
+        "editor.formatOnSave": true
+    },
+    "makefile.configureOnOpen": true,
+    "buf.restartAfterCrash": true
+}

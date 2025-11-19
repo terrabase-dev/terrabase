@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package terrabase.application.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/application/v1;applicationv1";
+
+message Application {
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message CreateApplicationRequest {
+  string name = 1 [(google.api.field_behavior) = REQUIRED];
+  string team_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateApplicationResponse {
+  Application application = 1;
+}
+
+message GetApplicationRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetApplicationResponse {
+  Application application = 1;
+}
+
+message ListApplicationsRequest {
+  string team_id = 1 [(google.api.field_behavior) = REQUIRED];
+  optional int32 page_size = 2;
+  optional string page_token = 3;
+}
+
+message ListApplicationsResponse {
+  repeated Application applications = 1;
+  optional string next_page_token = 2;
+}
+
+message UpdateApplicationRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  string name = 2 [(google.api.field_behavior) = REQUIRED];
+  optional string team_id = 3;
+}
+
+message UpdateApplicationResponse {
+  Application application = 1;
+}
+
+message DeleteApplicationRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteApplicationResponse {}
+
+/*
+ ##########################
+ # Team access management #
+ ##########################
+*/
+message GrantTeamAccessRequest {
+  string application_id = 1 [(google.api.field_behavior) = REQUIRED];
+  repeated string team_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GrantTeamAccessResponse {}
+
+message RevokeTeamAccessRequest {
+  string application_id = 1 [(google.api.field_behavior) = REQUIRED];
+  repeated string team_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message RevokeTeamAccessResponse {}
+
+service ApplicationService {
+  rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse);
+  rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse);
+  rpc ListApplications(ListApplicationsRequest) returns (ListApplicationsResponse);
+  rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse);
+  rpc DeleteApplication(DeleteApplicationRequest) returns (DeleteApplicationResponse);
+
+  rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse);
+  rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse);
+}

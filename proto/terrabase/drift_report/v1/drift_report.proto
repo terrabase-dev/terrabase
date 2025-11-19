@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package terrabase.drift_report.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/drift_report/v1;driftReportv1";
+
+message Drift {
+  string resource_id = 1;
+  map<string, string> changes = 2;
+}
+
+message DriftReport {
+  string id = 1;
+  string workspace_id = 2;
+  bool drifted = 3;
+  repeated Drift changes = 4;
+  google.protobuf.Timestamp detected_at = 5;
+}
+
+message CreateDriftReportRequest {
+  string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+  bool drifted = 2 [(google.api.field_behavior) = REQUIRED];
+  repeated Drift changes = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateDriftReportResponse {
+  DriftReport drift_report = 1;
+}
+
+message GetDriftReportRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetDriftReportResponse {
+  DriftReport drift_report = 1;
+}
+
+service DriftReportService {
+  rpc CreateDriftReport(CreateDriftReportRequest) returns (CreateDriftReportResponse);
+  rpc GetDriftReport(GetDriftReportRequest) returns (GetDriftReportResponse);
+}

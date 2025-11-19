@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package terrabase.user_membership.v1;
+
+import "google/api/field_behavior.proto";
+import "terrabase/user_role/v1/user_role.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/user_membership/v1;userMembershipv1";
+
+/*
+ ###########################
+ # Organization membership #
+ ###########################
+*/
+message AddUserToOrganizationRequest {
+  string user_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string organization_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message AddUserToOrganizationResponse {}
+
+message RemoveUserFromOrganizationRequest {
+  string user_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string organization_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message RemoveUserFromOrganizationResponse {}
+
+/*
+ ###################
+ # Team membership #
+ ###################
+*/
+message AddUserToTeamRequest {
+  string user_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string team_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message AddUserToTeamResponse {}
+
+message RemoveUserFromTeamRequest {
+  string user_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string team_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message RemoveUserFromTeamResponse {}
+
+/*
+ ########################
+ # Workspace membership #
+ ########################
+*/
+message AddUserToWorkspaceRequest {
+  string user_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string workspace_id = 2 [(google.api.field_behavior) = REQUIRED];
+  terrabase.user_role.v1.UserRole role = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message AddUserToWorkspaceResponse {}
+
+message RemoveUserFromWorkspaceRequest {
+  string user_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string workspace_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message RemoveUserFromWorkspaceResponse {}
+
+message SetUserWorkspaceRoleRequest {
+  string user_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string workspace_id = 2 [(google.api.field_behavior) = REQUIRED];
+  terrabase.user_role.v1.UserRole role = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message SetUserWorkspaceRoleResponse {}
+
+service UserMembershipService {
+  rpc AddUserToOrganization(AddUserToOrganizationRequest) returns (AddUserToOrganizationResponse);
+  rpc RemoveUserFromOrganization(RemoveUserFromOrganizationRequest) returns (RemoveUserFromOrganizationResponse);
+
+  rpc AddUserToTeam(AddUserToTeamRequest) returns (AddUserToTeamResponse);
+  rpc RemoveUserFromTeam(RemoveUserFromTeamRequest) returns (RemoveUserFromTeamResponse);
+
+  rpc AddUserToWorkspace(AddUserToWorkspaceRequest) returns (AddUserToWorkspaceResponse);
+  rpc RemoveUserFromWorkspace(RemoveUserFromWorkspaceRequest) returns (RemoveUserFromWorkspaceResponse);
+  rpc SetUserWorkspaceRole(SetUserWorkspaceRoleRequest) returns (SetUserWorkspaceRoleResponse);
+}

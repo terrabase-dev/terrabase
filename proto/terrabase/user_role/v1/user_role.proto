@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package terrabase.user_role.v1;
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/user_role/v1;userRolev1";
+
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_DEVELOPER = 2;
+  USER_ROLE_MAINTAINER = 3;
+  USER_ROLE_OWNER = 4;
+}

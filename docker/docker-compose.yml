@@ -1,0 +1,36 @@
+---
+services:
+  postgres:
+    image: postgres:16
+    container_name: terrabase-db
+    restart: always
+    environment:
+      POSTGRES_USER: terrabase
+      POSTGRES_PASSWORD: terrabase
+      POSTGRES_DB: terrabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - terrabase_db_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.api
+    image: terrabase-api
+    container_name: terrabase-api
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: terrabase
+      DB_PASS: terrabase
+      DB_NAME: terrabase
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../:/app
+
+volumes:
+  terrabase_db_data:

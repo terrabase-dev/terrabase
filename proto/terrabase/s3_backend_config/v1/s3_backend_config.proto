@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package terrabase.s3_backend_config.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/s3_backend_config/v1;s3BackendConfigv1";
+
+message S3BackendConfig {
+  string id = 1;
+  string bucket = 2;
+  string key = 3;
+  string region = 4;
+  string dynamodb_lock = 5;
+  bool encrypt = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message CreateS3BackendConfigRequest {
+  string bucket = 1 [(google.api.field_behavior) = REQUIRED];
+  string key = 2 [(google.api.field_behavior) = REQUIRED];
+  string region = 3 [(google.api.field_behavior) = REQUIRED];
+  optional string dynamodb_lock = 4;
+  bool encrypt = 5 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateS3BackendConfigResponse {
+  S3BackendConfig s3_backend_config = 1;
+}
+
+message GetS3BackendConfigRequest {
+  string id = 1;
+}
+
+message GetS3BackendConfigResponse {
+  S3BackendConfig s3_backend_config = 1;
+}
+
+message UpdateS3BackendConfigRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  optional string bucket = 2;
+  optional string key = 3;
+  optional string region = 4;
+  optional string dynamodb_lock = 5;
+  optional bool encrypt = 6;
+}
+
+message UpdateS3BackendConfigResponse {
+  S3BackendConfig s3_backend_config = 1;
+}
+
+message DeleteS3BackendConfigRequest {
+  string id = 1;
+}
+
+message DeleteS3BackendConfigResponse {}
+
+service S3BackendConfigService {
+  rpc CreateS3BackendConfig(CreateS3BackendConfigRequest) returns (CreateS3BackendConfigResponse);
+  rpc GetS3BackendConfig(GetS3BackendConfigRequest) returns (GetS3BackendConfigResponse);
+  rpc UpdateS3BackendConfig(UpdateS3BackendConfigRequest) returns (UpdateS3BackendConfigResponse);
+  rpc DeleteS3BackendConfig(DeleteS3BackendConfigRequest) returns (DeleteS3BackendConfigResponse);
+}

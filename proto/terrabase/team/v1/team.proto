@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package terrabase.team.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/team/v1;teamv1";
+
+message Team {
+  string id = 1;
+  string name = 2;
+  string organization_id = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message TeamIds {
+  repeated string team_id = 1;
+}
+
+message CreateTeamRequest {
+  string name = 1 [(google.api.field_behavior) = REQUIRED];
+  string organization_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateTeamResponse {
+  Team team = 1;
+}
+
+message GetTeamRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetTeamResponse {
+  Team team = 1;
+}
+
+message ListTeamsRequest {
+  optional int32 page_size = 1;
+  optional string page_token = 2;
+}
+
+message ListTeamsResponse {
+  repeated Team teams = 1;
+  optional string next_page_token = 2;
+}
+
+message UpdateTeamRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  optional string name = 2;
+}
+
+message UpdateTeamResponse {
+  Team team = 1;
+}
+
+message DeleteTeamRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteTeamResponse {}
+
+service TeamService {
+  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
+  rpc GetTeam(GetTeamRequest) returns (GetTeamResponse);
+  rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse);
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
+  rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse);
+}

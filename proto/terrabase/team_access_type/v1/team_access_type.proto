@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package terrabase.team_access_type.v1;
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/team_access_type/v1;teamAccessTypev1";
+
+enum TeamAccessType {
+  TEAM_ACCESS_TYPE_UNSPECIFIED = 0;
+  TEAM_ACCESS_TYPE_OWNER = 1;
+  TEAM_ACCESS_TYPE_GRANTED = 2;
+}

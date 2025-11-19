@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package terrabase.lock.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "terrabase/user/v1/user.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/lock/v1;lockv1";
+
+message Lock {
+  string id = 1;
+  string workspace_id = 2;
+  terrabase.user.v1.User owner = 3;
+  string info = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp expires_at = 6;
+}
+
+message CreateLockRequest {
+  string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+  terrabase.user.v1.User owner = 2 [(google.api.field_behavior) = REQUIRED];
+  optional string info = 3;
+}
+
+message CreateLockResponse {
+  Lock lock = 1;
+}
+
+message GetLockRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetLockResponse {
+  Lock lock = 1;
+}
+
+message DeleteLockRequest {
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteLockResponse {}
+
+service LockService {
+  rpc CreateLock(CreateLockRequest) returns (CreateLockResponse);
+  rpc GetLock(GetLockRequest) returns (GetLockResponse);
+  rpc DeleteLock(DeleteLockRequest) returns (DeleteLockResponse);
+}
