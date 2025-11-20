@@ -1,8 +1,36 @@
-PROTOC_BIN := $(PWD)/tools/protoc/bin
-PROTOC_NPM := $(PWD)/tools/protoc/node_modules/.bin
-PROTOC_PY  := $(PWD)/tools/protoc/venv/bin
+ROOT_DIR := $(PWD)
+
+PROTOC_TOOLS_DIR := tools/protoc
+PROTOC_BIN       := $(PROTOC_TOOLS_DIR)/bin
+PROTOC_NPM       := $(PROTOC_TOOLS_DIR)/node_modules/.bin
+PROTOC_PY        := $(PROTOC_TOOLS_DIR)/venv/bin
+
+API_DIR           := apps/api
+UV_LOCK           := $(API_DIR)/uv.lock
+API_LOCK_STAMP    := $(API_DIR)/.locked
+API_INSTALL_STAMP := $(API_DIR)/.installed
+API_PYPROJECT     := $(API_DIR)/pyproject.toml
+
+UV_ENV_PREFIX := if [ -n "$$VIRTUAL_ENV" ]; then export UV_PROJECT_ENVIRONMENT=$$VIRTUAL_ENV; fi &&
 
 .PHONY: proto
 proto:
 	PATH="$(PROTOC_BIN):$(PROTOC_NPM):$(PROTOC_PY):$$PATH" && \
 	cd proto && buf generate
+
+.PHONY: install-api
+install-api: $(API_INSTALL_STAMP)
+
+$(API_LOCK_STAMP): $(API_PYPROJECT)
+	cd $(API_DIR) && \
+	uv lock && \
+	cd $(ROOT_DIR) && \
+	touch $(API_LOCK_STAMP)
+
+$(UV_LOCK): $(API_LOCK_STAMP)
+
+$(API_INSTALL_STAMP): $(UV_LOCK)
+	@$(UV_ENV_PREFIX) cd $(API_DIR) && \
+	uv sync --all-groups && \
+	cd $(ROOT_DIR) && \
+	touch $(API_INSTALL_STAMP)
