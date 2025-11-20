@@ -5,7 +5,7 @@ package terrabase.user_membership.v1;
 import "google/api/field_behavior.proto";
 import "terrabase/user_role/v1/user_role.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/user_membership/v1;userMembershipv1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/user_membership/v1;userMembershipv1";
 
 /*
  ###########################

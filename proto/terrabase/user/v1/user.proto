@@ -6,7 +6,7 @@ import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "terrabase/user_role/v1/user_role.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/user/v1;userv1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1";
 
 message User {
   string id = 1;

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package terrabase.user_role.v1;
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/user_role/v1;userRolev1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/user_role/v1;userRolev1";
 
 enum UserRole {
   USER_ROLE_UNSPECIFIED = 0;

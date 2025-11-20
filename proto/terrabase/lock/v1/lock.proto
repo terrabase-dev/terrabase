@@ -6,7 +6,7 @@ import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "terrabase/user/v1/user.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/lock/v1;lockv1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/lock/v1;lockv1";
 
 message Lock {
   string id = 1;

@@ -1,11 +1,11 @@
 ROOT_DIR := $(PWD)
 
-PROTOC_TOOLS_DIR := tools/protoc
+PROTOC_TOOLS_DIR := $(ROOT_DIR)/tools/protoc
 PROTOC_BIN       := $(PROTOC_TOOLS_DIR)/bin
 PROTOC_NPM       := $(PROTOC_TOOLS_DIR)/node_modules/.bin
 PROTOC_PY        := $(PROTOC_TOOLS_DIR)/venv/bin
 
-API_DIR           := apps/api
+API_DIR           := api
 UV_LOCK           := $(API_DIR)/uv.lock
 API_LOCK_STAMP    := $(API_DIR)/.locked
 API_INSTALL_STAMP := $(API_DIR)/.installed

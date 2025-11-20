@@ -6,7 +6,7 @@ import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 import "terrabase/workspace/v1/workspace.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/environment/v1;environmentv1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/environment/v1;environmentv1";
 
 message Environment {
   string id = 1;

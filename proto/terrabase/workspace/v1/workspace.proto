@@ -8,7 +8,7 @@ import "terrabase/backend_type/v1/backend_type.proto";
 import "terrabase/s3_backend_config/v1/s3_backend_config.proto";
 import "terrabase/team/v1/team.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/workspace/v1;workspacev1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1;workspacev1";
 
 message Workspace {
   string id = 1;

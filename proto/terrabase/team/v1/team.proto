@@ -5,7 +5,7 @@ package terrabase.team.v1;
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/team/v1;teamv1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1;teamv1";
 
 message Team {
   string id = 1;

@@ -5,7 +5,7 @@ package terrabase.drift_report.v1;
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/drift_report/v1;driftReportv1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/drift_report/v1;driftReportv1";
 
 message Drift {
   string resource_id = 1;

@@ -2,20 +2,20 @@ version: v1
 plugins:
   # --- RPC server/CLI ---
   - name: go
-    out: ../gen/go
+    out: ../specs
     opt: paths=source_relative
   - name: connect-go
-    out: ../gen/go
+    out: ../specs
     opt: paths=source_relative
 
   # --- API ---
   - name: python
-    out: ../apps/api/gen
+    out: ../api/specs
   - name: pyi
-    out: ../apps/api/gen
+    out: ../api/specs
 
   # --- Frontend ---
   - name: es
-    out: ../apps/web/gen
+    out: ../web/specs
     opt:
       - target=ts

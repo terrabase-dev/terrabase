@@ -5,7 +5,7 @@ package terrabase.state_version.v1;
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/terrabase-dev/terrabase/gen/go/terrabase/state_version/v1;stateVersionv1";
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/state_version/v1;stateVersionv1";
 
 message StateVersion {
   string id = 1;
