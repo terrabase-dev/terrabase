@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "web",
+      "name": "terrabase",
       "dependencies": {
         "@bufbuild/protobuf": "^2.10.1",
         "@connectrpc/connect": "^2.1.1",
