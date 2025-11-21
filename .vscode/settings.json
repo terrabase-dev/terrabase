@@ -3,6 +3,10 @@
         "editor.autoClosingOvertype": "always",
         "editor.formatOnSave": true
     },
+    "[python]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "charliermarsh.ruff"
+    },
     "makefile.configureOnOpen": true,
     "buf.restartAfterCrash": true
 }

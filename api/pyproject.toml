@@ -1,5 +1,5 @@
 [project]
-name = "terrabase"
+name = "terrabase-api"
 version = "0.1.0"
 description = "Terrabase API"
 authors = [{name = "Tyler Walker", email = "twalker1998@gmail.com"}]
@@ -7,6 +7,8 @@ requires-python = ">=3.12"
 
 [dependency-groups]
 base = [
+    "fastapi==0.121.3",
+    "fastapi-cli==0.0.16",
     "google-api-python-client>=2.187.0,<3",
     "googleapis-common-protos>=1.63.0,<2",
     "protobuf>=5.0.0,<6"

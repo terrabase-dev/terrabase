@@ -39,5 +39,6 @@ $(UV_LOCK): $(API_LOCK_STAMP)
 $(API_INSTALL_STAMP): $(API_PYPROJECT) $(UV_LOCK)
 	@$(UV_ENV_PREFIX) cd $(API_DIR) && \
 	uv sync --all-groups && \
+	uv pip install -e . && \
 	cd $(ROOT_DIR) && \
 	touch $(API_INSTALL_STAMP)
