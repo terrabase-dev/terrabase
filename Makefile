@@ -6,15 +6,21 @@ API_LOCK_STAMP    := $(API_DIR)/.locked
 API_INSTALL_STAMP := $(API_DIR)/.installed
 API_PYPROJECT     := $(API_DIR)/pyproject.toml
 
+DOCKER_CERTS     := docker/certs
+DOCKER_BOOTSTRAP := docker/scripts/bootstrap.sh
+
 UV_ENV_PREFIX := if [ -n "$$VIRTUAL_ENV" ]; then export UV_PROJECT_ENVIRONMENT=$$VIRTUAL_ENV; fi &&
 
 .PHONY: dev
-dev:
-	docker compose -f docker/docker-compose.yml up --build -d postgres rpc
+dev: $(DOCKER_CERTS)
+	docker compose -f docker/docker-compose.yml up --build -d
 
 .PHONY: stop
 stop:
 	docker compose -f docker/docker-compose.yml down
+
+.PHONY: restart
+restart: stop dev
 
 .PHONY: migrate
 DATABASE_URL ?= postgres://terrabase:terrabase@localhost:5432/terrabase?sslmode=disable
@@ -39,6 +45,8 @@ $(UV_LOCK): $(API_LOCK_STAMP)
 $(API_INSTALL_STAMP): $(API_PYPROJECT) $(UV_LOCK)
 	@$(UV_ENV_PREFIX) cd $(API_DIR) && \
 	uv sync --all-groups && \
-	uv pip install -e . && \
 	cd $(ROOT_DIR) && \
 	touch $(API_INSTALL_STAMP)
+
+$(DOCKER_CERTS): $(DOCKER_BOOTSTRAP)
+	sudo ./$(DOCKER_BOOTSTRAP)

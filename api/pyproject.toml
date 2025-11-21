@@ -12,7 +12,7 @@ base = [
     "google-api-python-client==2.187.0",
     "googleapis-common-protos==1.72.0",
     "grpcio==1.76.0",
-    "protobuf==5.29.5"
+    "protobuf==6.33.1"
 ]
 dev = [
     {include-group = "base"},

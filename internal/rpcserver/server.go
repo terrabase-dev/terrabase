@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 )
 
 type Config struct {
@@ -25,11 +28,12 @@ func New(cfg Config, services Services, logger *log.Logger) *Server {
 	}
 
 	handler := buildHandler(services, logger)
+	h2cHandler := h2c.NewHandler(handler, &http2.Server{})
 
 	return &Server{
 		httpServer: &http.Server{
 			Addr:              cfg.Addr,
-			Handler:           handler,
+			Handler:           h2cHandler,
 			ReadHeaderTimeout: 10 * time.Second,
 		},
 		logger: logger,
