@@ -4,6 +4,7 @@ from fastapi.responses import Response
 
 from terrabase_api import __version__
 from terrabase_api.docs import configure_openapi, get_openapi_yaml
+from terrabase_api.middleware import AccessLogMiddleware
 from terrabase_api.routers import organization_router
 from terrabase_api.tags import openapi_tags
 
@@ -23,7 +24,7 @@ terrabase_api.openapi = lambda: configure_openapi(terrabase_api)
 
 # TODO: configure exception handlers
 
-# TODO: add middleware
+terrabase_api.add_middleware(AccessLogMiddleware)
 
 terrabase_api.include_router(organization_router)
 
