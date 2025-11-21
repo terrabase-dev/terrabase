@@ -13,20 +13,16 @@ services:
     volumes:
       - terrabase_db_data:/var/lib/postgresql/data
 
-  api:
+  rpc:
     build:
       context: ../
-      dockerfile: docker/Dockerfile.api
-    image: terrabase-api
-    container_name: terrabase-api
+      dockerfile: docker/Dockerfile.rpc
+    image: terrabase-rpc
+    container_name: terrabase-rpc
     depends_on:
       - postgres
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: terrabase
-      DB_PASS: terrabase
-      DB_NAME: terrabase
+      DATABASE_URL: postgres://terrabase:terrabase@postgres:5432/terrabase?sslmode=disable
     ports:
       - "8080:8080"
     volumes:

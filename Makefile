@@ -8,6 +8,19 @@ API_PYPROJECT     := $(API_DIR)/pyproject.toml
 
 UV_ENV_PREFIX := if [ -n "$$VIRTUAL_ENV" ]; then export UV_PROJECT_ENVIRONMENT=$$VIRTUAL_ENV; fi &&
 
+.PHONY: dev
+dev:
+	docker compose -f docker/docker-compose.yml up --build -d postgres rpc
+
+.PHONY: stop
+stop:
+	docker compose -f docker/docker-compose.yml down
+
+.PHONY: migrate
+DATABASE_URL ?= postgres://terrabase:terrabase@localhost:5432/terrabase?sslmode=disable
+migrate:
+	DATABASE_URL=$(DATABASE_URL) go run ./cmd/bedrockmigrate
+
 .PHONY: proto
 proto:
 	cd proto && buf generate

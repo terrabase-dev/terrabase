@@ -13,26 +13,26 @@ import (
 var migrations = migrate.NewMigrations()
 
 func init() {
-	migrations.MustRegister(
-		func(ctx context.Context, db *bun.DB) error {
-			_, err := db.NewCreateTable().
-				IfNotExists().
-				Model((*models.Organization)(nil)).
-				WithForeignKeys().
-				Exec(ctx)
-			return err
-		},
-		func(ctx context.Context, db *bun.DB) error {
-			_, err := db.NewDropTable().
-				IfExists().
-				Model((*models.Organization)(nil)).
-				Exec(ctx)
-			return err
-		},
-	)
+	up := func(ctx context.Context, db *bun.DB) error {
+		_, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.Organization)(nil)).
+			WithForeignKeys().
+			Exec(ctx)
+		return err
+	}
+
+	down := func(ctx context.Context, db *bun.DB) error {
+		_, err := db.NewDropTable().
+			IfExists().
+			Model((*models.Organization)(nil)).
+			Exec(ctx)
+		return err
+	}
+
+	migrations.MustRegister(up, down)
 }
 
-// RunMigrations applies all pending migrations.
 func RunMigrations(ctx context.Context, db *bun.DB, logger *log.Logger) error {
 	migrator := migrate.NewMigrator(db, migrations)
 
