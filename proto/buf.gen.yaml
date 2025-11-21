@@ -13,10 +13,10 @@ plugins:
 
   # --- API ---
   - remote: buf.build/protocolbuffers/python:v33.1
-    out: ../api/specs
+    out: ../api/terrabase_api/specs
 
   - remote: buf.build/protocolbuffers/pyi:v33.1
-    out: ../api/specs
+    out: ../api/terrabase_api/specs
 
   # --- Frontend ---
   - remote: buf.build/bufbuild/es:v2.10.1
