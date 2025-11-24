@@ -32,6 +32,8 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgres://terrabase:terrabase@postgres:5432/terrabase?sslmode=disable
+    env_file:
+      - ../.env
     networks:
       - terrabase
     ports:
@@ -65,6 +67,8 @@ services:
       - traefik
     environment:
       TERRABASE_RPC_ADDR: "rpc:8080"
+    env_file:
+      - ../.env
     networks:
       - terrabase
     ports:

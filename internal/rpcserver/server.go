@@ -8,10 +8,13 @@ import (
 
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
+
+	"github.com/terrabase-dev/terrabase/internal/auth"
 )
 
 type Config struct {
-	Addr string
+	Addr          string
+	Authenticator *auth.Authenticator
 }
 
 type Server struct {
@@ -27,7 +30,7 @@ func New(cfg Config, services Services, logger *log.Logger) *Server {
 		logger = log.Default()
 	}
 
-	handler := buildHandler(services, logger)
+	handler := buildHandler(services, cfg.Authenticator, logger)
 	h2cHandler := h2c.NewHandler(handler, &http2.Server{})
 
 	return &Server{

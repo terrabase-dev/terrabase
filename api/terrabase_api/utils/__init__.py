@@ -1,7 +1,7 @@
 # ruff: noqa: F403
 from .request import *
 from .rpc import (
-    OrganizationService as OrganizationService,
+    RPC_ADDR as RPC_ADDR,
     call as call,
     parse as parse,
 )

@@ -1,11 +1,14 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.responses import Response
 # from fastapi.staticfiles import StaticFiles
 
 from terrabase_api import __version__
+from terrabase_api.auth.tokens import JWTManager
 from terrabase_api.docs import configure_openapi, get_openapi_yaml
-from terrabase_api.middleware import AccessLogMiddleware
-from terrabase_api.routers import organization_router
+from terrabase_api.middleware import AccessLogMiddleware, AuthContextMiddleware
+from terrabase_api.routers import auth_router, organization_router, user_router
 from terrabase_api.tags import openapi_tags
 
 terrabase_api = FastAPI(
@@ -24,9 +27,22 @@ terrabase_api.openapi = lambda: configure_openapi(terrabase_api)
 
 # TODO: configure exception handlers
 
+JWT_SECRET = os.getenv("AUTH_JWT_SECRET")
+if not JWT_SECRET:
+    raise RuntimeError("AUTH_JWT_SECRET is required")
+
+jwt_manager = JWTManager(
+    secret=JWT_SECRET,
+    issuer=os.getenv("AUTH_JWT_ISSUER", ""),
+    audience=os.getenv("AUTH_JWT_AUDIENCE"),
+)
+
+terrabase_api.add_middleware(AuthContextMiddleware, jwt_manager=jwt_manager)
 terrabase_api.add_middleware(AccessLogMiddleware)
 
+terrabase_api.include_router(auth_router)
 terrabase_api.include_router(organization_router)
+terrabase_api.include_router(user_router)
 
 
 @terrabase_api.get("/openapi.yaml", include_in_schema=False)

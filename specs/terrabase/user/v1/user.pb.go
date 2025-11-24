@@ -24,6 +24,58 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type UserType int32
+
+const (
+	UserType_USER_TYPE_UNSPECIFIED UserType = 0
+	UserType_USER_TYPE_USER        UserType = 1
+	UserType_USER_TYPE_BOT         UserType = 2
+	UserType_USER_TYPE_SERVICE     UserType = 3
+)
+
+// Enum value maps for UserType.
+var (
+	UserType_name = map[int32]string{
+		0: "USER_TYPE_UNSPECIFIED",
+		1: "USER_TYPE_USER",
+		2: "USER_TYPE_BOT",
+		3: "USER_TYPE_SERVICE",
+	}
+	UserType_value = map[string]int32{
+		"USER_TYPE_UNSPECIFIED": 0,
+		"USER_TYPE_USER":        1,
+		"USER_TYPE_BOT":         2,
+		"USER_TYPE_SERVICE":     3,
+	}
+)
+
+func (x UserType) Enum() *UserType {
+	p := new(UserType)
+	*p = x
+	return p
+}
+
+func (x UserType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserType) Descriptor() protoreflect.EnumDescriptor {
+	return file_terrabase_user_v1_user_proto_enumTypes[0].Descriptor()
+}
+
+func (UserType) Type() protoreflect.EnumType {
+	return &file_terrabase_user_v1_user_proto_enumTypes[0]
+}
+
+func (x UserType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserType.Descriptor instead.
+func (UserType) EnumDescriptor() ([]byte, []int) {
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{0}
+}
+
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -32,6 +84,8 @@ type User struct {
 	DefaultRole   v1.UserRole            `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserType      UserType               `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
+	OwnerUserId   *string                `protobuf:"bytes,8,opt,name=owner_user_id,json=ownerUserId,proto3,oneof" json:"owner_user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -108,15 +162,31 @@ func (x *User) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *User) GetUserType() UserType {
+	if x != nil {
+		return x.UserType
+	}
+	return UserType_USER_TYPE_UNSPECIFIED
+}
+
+func (x *User) GetOwnerUserId() string {
+	if x != nil && x.OwnerUserId != nil {
+		return *x.OwnerUserId
+	}
+	return ""
+}
+
 // UserSummary is context aware- i.e. the role will be the user's effective role in the context (organization, team, workspace) of which the ListUsers rpc is called
 type UserSummary struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Email         *string                `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
 	Role          v1.UserRole            `protobuf:"varint,4,opt,name=role,proto3,enum=terrabase.user_role.v1.UserRole" json:"role,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	UserType      UserType               `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
+	OwnerUserId   *string                `protobuf:"bytes,8,opt,name=owner_user_id,json=ownerUserId,proto3,oneof" json:"owner_user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -166,8 +236,8 @@ func (x *UserSummary) GetName() string {
 }
 
 func (x *UserSummary) GetEmail() string {
-	if x != nil {
-		return x.Email
+	if x != nil && x.Email != nil {
+		return *x.Email
 	}
 	return ""
 }
@@ -193,108 +263,18 @@ func (x *UserSummary) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-type CreateUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	DefaultRole   v1.UserRole            `protobuf:"varint,3,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserRequest) Reset() {
-	*x = CreateUserRequest{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserRequest) ProtoMessage() {}
-
-func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[2]
+func (x *UserSummary) GetUserType() UserType {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+		return x.UserType
 	}
-	return mi.MessageOf(x)
+	return UserType_USER_TYPE_UNSPECIFIED
 }
 
-// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
-func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *CreateUserRequest) GetName() string {
-	if x != nil {
-		return x.Name
+func (x *UserSummary) GetOwnerUserId() string {
+	if x != nil && x.OwnerUserId != nil {
+		return *x.OwnerUserId
 	}
 	return ""
-}
-
-func (x *CreateUserRequest) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-func (x *CreateUserRequest) GetDefaultRole() v1.UserRole {
-	if x != nil {
-		return x.DefaultRole
-	}
-	return v1.UserRole(0)
-}
-
-type CreateUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserResponse) Reset() {
-	*x = CreateUserResponse{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserResponse) ProtoMessage() {}
-
-func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
-func (*CreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *CreateUserResponse) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
 }
 
 type GetUserRequest struct {
@@ -306,7 +286,7 @@ type GetUserRequest struct {
 
 func (x *GetUserRequest) Reset() {
 	*x = GetUserRequest{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[4]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -318,7 +298,7 @@ func (x *GetUserRequest) String() string {
 func (*GetUserRequest) ProtoMessage() {}
 
 func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[4]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -331,7 +311,7 @@ func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRequest) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{4}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetUserRequest) GetId() string {
@@ -350,7 +330,7 @@ type GetUserResponse struct {
 
 func (x *GetUserResponse) Reset() {
 	*x = GetUserResponse{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[5]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -362,7 +342,7 @@ func (x *GetUserResponse) String() string {
 func (*GetUserResponse) ProtoMessage() {}
 
 func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[5]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -375,7 +355,7 @@ func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
 func (*GetUserResponse) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{5}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetUserResponse) GetUser() *User {
@@ -392,13 +372,14 @@ type ListUsersRequest struct {
 	OrganizationId *string                `protobuf:"bytes,3,opt,name=organization_id,json=organizationId,proto3,oneof" json:"organization_id,omitempty"`
 	TeamId         *string                `protobuf:"bytes,4,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
 	WorkspaceId    *string                `protobuf:"bytes,5,opt,name=workspace_id,json=workspaceId,proto3,oneof" json:"workspace_id,omitempty"`
+	UserType       *UserType              `protobuf:"varint,6,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType,oneof" json:"user_type,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ListUsersRequest) Reset() {
 	*x = ListUsersRequest{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[6]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -410,7 +391,7 @@ func (x *ListUsersRequest) String() string {
 func (*ListUsersRequest) ProtoMessage() {}
 
 func (x *ListUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[6]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,7 +404,7 @@ func (x *ListUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUsersRequest.ProtoReflect.Descriptor instead.
 func (*ListUsersRequest) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{6}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ListUsersRequest) GetPageSize() int32 {
@@ -461,6 +442,13 @@ func (x *ListUsersRequest) GetWorkspaceId() string {
 	return ""
 }
 
+func (x *ListUsersRequest) GetUserType() UserType {
+	if x != nil && x.UserType != nil {
+		return *x.UserType
+	}
+	return UserType_USER_TYPE_UNSPECIFIED
+}
+
 type ListUsersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Users         []*UserSummary         `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
@@ -471,7 +459,7 @@ type ListUsersResponse struct {
 
 func (x *ListUsersResponse) Reset() {
 	*x = ListUsersResponse{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[7]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -483,7 +471,7 @@ func (x *ListUsersResponse) String() string {
 func (*ListUsersResponse) ProtoMessage() {}
 
 func (x *ListUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[7]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -496,7 +484,7 @@ func (x *ListUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUsersResponse.ProtoReflect.Descriptor instead.
 func (*ListUsersResponse) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{7}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ListUsersResponse) GetUsers() []*UserSummary {
@@ -518,14 +506,14 @@ type UpdateUserRequest struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	Email         *string                `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	DefaultRole   *string                `protobuf:"bytes,4,opt,name=default_role,json=defaultRole,proto3,oneof" json:"default_role,omitempty"`
+	DefaultRole   *v1.UserRole           `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole,oneof" json:"default_role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[8]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -537,7 +525,7 @@ func (x *UpdateUserRequest) String() string {
 func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[8]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -550,7 +538,7 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{8}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdateUserRequest) GetId() string {
@@ -574,11 +562,11 @@ func (x *UpdateUserRequest) GetEmail() string {
 	return ""
 }
 
-func (x *UpdateUserRequest) GetDefaultRole() string {
+func (x *UpdateUserRequest) GetDefaultRole() v1.UserRole {
 	if x != nil && x.DefaultRole != nil {
 		return *x.DefaultRole
 	}
-	return ""
+	return v1.UserRole(0)
 }
 
 type UpdateUserResponse struct {
@@ -590,7 +578,7 @@ type UpdateUserResponse struct {
 
 func (x *UpdateUserResponse) Reset() {
 	*x = UpdateUserResponse{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[9]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -602,7 +590,7 @@ func (x *UpdateUserResponse) String() string {
 func (*UpdateUserResponse) ProtoMessage() {}
 
 func (x *UpdateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[9]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -615,7 +603,7 @@ func (x *UpdateUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserResponse) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{9}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateUserResponse) GetUser() *User {
@@ -634,7 +622,7 @@ type DeleteUserRequest struct {
 
 func (x *DeleteUserRequest) Reset() {
 	*x = DeleteUserRequest{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[10]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -646,7 +634,7 @@ func (x *DeleteUserRequest) String() string {
 func (*DeleteUserRequest) ProtoMessage() {}
 
 func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[10]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -659,7 +647,7 @@ func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{10}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteUserRequest) GetId() string {
@@ -677,7 +665,7 @@ type DeleteUserResponse struct {
 
 func (x *DeleteUserResponse) Reset() {
 	*x = DeleteUserResponse{}
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[11]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -689,7 +677,7 @@ func (x *DeleteUserResponse) String() string {
 func (*DeleteUserResponse) ProtoMessage() {}
 
 func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_terrabase_user_v1_user_proto_msgTypes[11]
+	mi := &file_terrabase_user_v1_user_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -702,14 +690,14 @@ func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
-	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{11}
+	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{9}
 }
 
 var File_terrabase_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_terrabase_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1cterrabase/user/v1/user.proto\x12\x11terrabase.user.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xfb\x01\n" +
+	"\x1cterrabase/user/v1/user.proto\x12\x11terrabase.user.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xf0\x02\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
@@ -718,49 +706,53 @@ const file_terrabase_user_v1_user_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xf3\x01\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x128\n" +
+	"\tuser_type\x18\a \x01(\x0e2\x1b.terrabase.user.v1.UserTypeR\buserType\x12'\n" +
+	"\rowner_user_id\x18\b \x01(\tH\x00R\vownerUserId\x88\x01\x01B\x10\n" +
+	"\x0e_owner_user_id\"\xf7\x02\n" +
 	"\vUserSummary\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\x124\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
+	"\x05email\x18\x03 \x01(\tH\x00R\x05email\x88\x01\x01\x124\n" +
 	"\x04role\x18\x04 \x01(\x0e2 .terrabase.user_role.v1.UserRoleR\x04role\x129\n" +
 	"\n" +
 	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x91\x01\n" +
-	"\x11CreateUserRequest\x12\x17\n" +
-	"\x04name\x18\x01 \x01(\tB\x03\xe0A\x02R\x04name\x12\x19\n" +
-	"\x05email\x18\x02 \x01(\tB\x03\xe0A\x02R\x05email\x12H\n" +
-	"\fdefault_role\x18\x03 \x01(\x0e2 .terrabase.user_role.v1.UserRoleB\x03\xe0A\x02R\vdefaultRole\"A\n" +
-	"\x12CreateUserResponse\x12+\n" +
-	"\x04user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\x04user\"%\n" +
+	"updated_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x128\n" +
+	"\tuser_type\x18\a \x01(\x0e2\x1b.terrabase.user.v1.UserTypeR\buserType\x12'\n" +
+	"\rowner_user_id\x18\b \x01(\tH\x01R\vownerUserId\x88\x01\x01B\b\n" +
+	"\x06_emailB\x10\n" +
+	"\x0e_owner_user_id\"%\n" +
 	"\x0eGetUserRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\">\n" +
 	"\x0fGetUserResponse\x12+\n" +
-	"\x04user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\x04user\"\x9a\x02\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\x04user\"\xe7\x02\n" +
 	"\x10ListUsersRequest\x12 \n" +
 	"\tpage_size\x18\x01 \x01(\x05H\x00R\bpageSize\x88\x01\x01\x12\"\n" +
 	"\n" +
 	"page_token\x18\x02 \x01(\tH\x01R\tpageToken\x88\x01\x01\x12,\n" +
 	"\x0forganization_id\x18\x03 \x01(\tH\x02R\x0eorganizationId\x88\x01\x01\x12\x1c\n" +
 	"\ateam_id\x18\x04 \x01(\tH\x03R\x06teamId\x88\x01\x01\x12&\n" +
-	"\fworkspace_id\x18\x05 \x01(\tH\x04R\vworkspaceId\x88\x01\x01B\f\n" +
+	"\fworkspace_id\x18\x05 \x01(\tH\x04R\vworkspaceId\x88\x01\x01\x12=\n" +
+	"\tuser_type\x18\x06 \x01(\x0e2\x1b.terrabase.user.v1.UserTypeH\x05R\buserType\x88\x01\x01B\f\n" +
 	"\n" +
 	"_page_sizeB\r\n" +
 	"\v_page_tokenB\x12\n" +
 	"\x10_organization_idB\n" +
 	"\n" +
 	"\b_team_idB\x0f\n" +
-	"\r_workspace_id\"\x8a\x01\n" +
+	"\r_workspace_idB\f\n" +
+	"\n" +
+	"_user_type\"\x8a\x01\n" +
 	"\x11ListUsersResponse\x124\n" +
 	"\x05users\x18\x01 \x03(\v2\x1e.terrabase.user.v1.UserSummaryR\x05users\x12+\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01B\x12\n" +
-	"\x10_next_page_token\"\xa8\x01\n" +
+	"\x10_next_page_token\"\xca\x01\n" +
 	"\x11UpdateUserRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x19\n" +
-	"\x05email\x18\x03 \x01(\tH\x01R\x05email\x88\x01\x01\x12&\n" +
-	"\fdefault_role\x18\x04 \x01(\tH\x02R\vdefaultRole\x88\x01\x01B\a\n" +
+	"\x05email\x18\x03 \x01(\tH\x01R\x05email\x88\x01\x01\x12H\n" +
+	"\fdefault_role\x18\x04 \x01(\x0e2 .terrabase.user_role.v1.UserRoleH\x02R\vdefaultRole\x88\x01\x01B\a\n" +
 	"\x05_nameB\b\n" +
 	"\x06_emailB\x0f\n" +
 	"\r_default_role\"A\n" +
@@ -768,10 +760,13 @@ const file_terrabase_user_v1_user_proto_rawDesc = "" +
 	"\x04user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\x04user\"(\n" +
 	"\x11DeleteUserRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\"\x14\n" +
-	"\x12DeleteUserResponse2\xc8\x03\n" +
-	"\vUserService\x12Y\n" +
-	"\n" +
-	"CreateUser\x12$.terrabase.user.v1.CreateUserRequest\x1a%.terrabase.user.v1.CreateUserResponse\x12P\n" +
+	"\x12DeleteUserResponse*c\n" +
+	"\bUserType\x12\x19\n" +
+	"\x15USER_TYPE_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eUSER_TYPE_USER\x10\x01\x12\x11\n" +
+	"\rUSER_TYPE_BOT\x10\x02\x12\x15\n" +
+	"\x11USER_TYPE_SERVICE\x10\x032\xed\x02\n" +
+	"\vUserService\x12P\n" +
 	"\aGetUser\x12!.terrabase.user.v1.GetUserRequest\x1a\".terrabase.user.v1.GetUserResponse\x12V\n" +
 	"\tListUsers\x12#.terrabase.user.v1.ListUsersRequest\x1a$.terrabase.user.v1.ListUsersResponse\x12Y\n" +
 	"\n" +
@@ -791,50 +786,50 @@ func file_terrabase_user_v1_user_proto_rawDescGZIP() []byte {
 	return file_terrabase_user_v1_user_proto_rawDescData
 }
 
-var file_terrabase_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_terrabase_user_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_terrabase_user_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_terrabase_user_v1_user_proto_goTypes = []any{
-	(*User)(nil),                  // 0: terrabase.user.v1.User
-	(*UserSummary)(nil),           // 1: terrabase.user.v1.UserSummary
-	(*CreateUserRequest)(nil),     // 2: terrabase.user.v1.CreateUserRequest
-	(*CreateUserResponse)(nil),    // 3: terrabase.user.v1.CreateUserResponse
-	(*GetUserRequest)(nil),        // 4: terrabase.user.v1.GetUserRequest
-	(*GetUserResponse)(nil),       // 5: terrabase.user.v1.GetUserResponse
-	(*ListUsersRequest)(nil),      // 6: terrabase.user.v1.ListUsersRequest
-	(*ListUsersResponse)(nil),     // 7: terrabase.user.v1.ListUsersResponse
-	(*UpdateUserRequest)(nil),     // 8: terrabase.user.v1.UpdateUserRequest
-	(*UpdateUserResponse)(nil),    // 9: terrabase.user.v1.UpdateUserResponse
-	(*DeleteUserRequest)(nil),     // 10: terrabase.user.v1.DeleteUserRequest
-	(*DeleteUserResponse)(nil),    // 11: terrabase.user.v1.DeleteUserResponse
-	(v1.UserRole)(0),              // 12: terrabase.user_role.v1.UserRole
-	(*timestamppb.Timestamp)(nil), // 13: google.protobuf.Timestamp
+	(UserType)(0),                 // 0: terrabase.user.v1.UserType
+	(*User)(nil),                  // 1: terrabase.user.v1.User
+	(*UserSummary)(nil),           // 2: terrabase.user.v1.UserSummary
+	(*GetUserRequest)(nil),        // 3: terrabase.user.v1.GetUserRequest
+	(*GetUserResponse)(nil),       // 4: terrabase.user.v1.GetUserResponse
+	(*ListUsersRequest)(nil),      // 5: terrabase.user.v1.ListUsersRequest
+	(*ListUsersResponse)(nil),     // 6: terrabase.user.v1.ListUsersResponse
+	(*UpdateUserRequest)(nil),     // 7: terrabase.user.v1.UpdateUserRequest
+	(*UpdateUserResponse)(nil),    // 8: terrabase.user.v1.UpdateUserResponse
+	(*DeleteUserRequest)(nil),     // 9: terrabase.user.v1.DeleteUserRequest
+	(*DeleteUserResponse)(nil),    // 10: terrabase.user.v1.DeleteUserResponse
+	(v1.UserRole)(0),              // 11: terrabase.user_role.v1.UserRole
+	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
 }
 var file_terrabase_user_v1_user_proto_depIdxs = []int32{
-	12, // 0: terrabase.user.v1.User.default_role:type_name -> terrabase.user_role.v1.UserRole
-	13, // 1: terrabase.user.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	13, // 2: terrabase.user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
-	12, // 3: terrabase.user.v1.UserSummary.role:type_name -> terrabase.user_role.v1.UserRole
-	13, // 4: terrabase.user.v1.UserSummary.created_at:type_name -> google.protobuf.Timestamp
-	13, // 5: terrabase.user.v1.UserSummary.updated_at:type_name -> google.protobuf.Timestamp
-	12, // 6: terrabase.user.v1.CreateUserRequest.default_role:type_name -> terrabase.user_role.v1.UserRole
-	0,  // 7: terrabase.user.v1.CreateUserResponse.user:type_name -> terrabase.user.v1.User
-	0,  // 8: terrabase.user.v1.GetUserResponse.user:type_name -> terrabase.user.v1.User
-	1,  // 9: terrabase.user.v1.ListUsersResponse.users:type_name -> terrabase.user.v1.UserSummary
-	0,  // 10: terrabase.user.v1.UpdateUserResponse.user:type_name -> terrabase.user.v1.User
-	2,  // 11: terrabase.user.v1.UserService.CreateUser:input_type -> terrabase.user.v1.CreateUserRequest
-	4,  // 12: terrabase.user.v1.UserService.GetUser:input_type -> terrabase.user.v1.GetUserRequest
-	6,  // 13: terrabase.user.v1.UserService.ListUsers:input_type -> terrabase.user.v1.ListUsersRequest
-	8,  // 14: terrabase.user.v1.UserService.UpdateUser:input_type -> terrabase.user.v1.UpdateUserRequest
-	10, // 15: terrabase.user.v1.UserService.DeleteUser:input_type -> terrabase.user.v1.DeleteUserRequest
-	3,  // 16: terrabase.user.v1.UserService.CreateUser:output_type -> terrabase.user.v1.CreateUserResponse
-	5,  // 17: terrabase.user.v1.UserService.GetUser:output_type -> terrabase.user.v1.GetUserResponse
-	7,  // 18: terrabase.user.v1.UserService.ListUsers:output_type -> terrabase.user.v1.ListUsersResponse
-	9,  // 19: terrabase.user.v1.UserService.UpdateUser:output_type -> terrabase.user.v1.UpdateUserResponse
-	11, // 20: terrabase.user.v1.UserService.DeleteUser:output_type -> terrabase.user.v1.DeleteUserResponse
-	16, // [16:21] is the sub-list for method output_type
-	11, // [11:16] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	11, // 0: terrabase.user.v1.User.default_role:type_name -> terrabase.user_role.v1.UserRole
+	12, // 1: terrabase.user.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	12, // 2: terrabase.user.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 3: terrabase.user.v1.User.user_type:type_name -> terrabase.user.v1.UserType
+	11, // 4: terrabase.user.v1.UserSummary.role:type_name -> terrabase.user_role.v1.UserRole
+	12, // 5: terrabase.user.v1.UserSummary.created_at:type_name -> google.protobuf.Timestamp
+	12, // 6: terrabase.user.v1.UserSummary.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 7: terrabase.user.v1.UserSummary.user_type:type_name -> terrabase.user.v1.UserType
+	1,  // 8: terrabase.user.v1.GetUserResponse.user:type_name -> terrabase.user.v1.User
+	0,  // 9: terrabase.user.v1.ListUsersRequest.user_type:type_name -> terrabase.user.v1.UserType
+	2,  // 10: terrabase.user.v1.ListUsersResponse.users:type_name -> terrabase.user.v1.UserSummary
+	11, // 11: terrabase.user.v1.UpdateUserRequest.default_role:type_name -> terrabase.user_role.v1.UserRole
+	1,  // 12: terrabase.user.v1.UpdateUserResponse.user:type_name -> terrabase.user.v1.User
+	3,  // 13: terrabase.user.v1.UserService.GetUser:input_type -> terrabase.user.v1.GetUserRequest
+	5,  // 14: terrabase.user.v1.UserService.ListUsers:input_type -> terrabase.user.v1.ListUsersRequest
+	7,  // 15: terrabase.user.v1.UserService.UpdateUser:input_type -> terrabase.user.v1.UpdateUserRequest
+	9,  // 16: terrabase.user.v1.UserService.DeleteUser:input_type -> terrabase.user.v1.DeleteUserRequest
+	4,  // 17: terrabase.user.v1.UserService.GetUser:output_type -> terrabase.user.v1.GetUserResponse
+	6,  // 18: terrabase.user.v1.UserService.ListUsers:output_type -> terrabase.user.v1.ListUsersResponse
+	8,  // 19: terrabase.user.v1.UserService.UpdateUser:output_type -> terrabase.user.v1.UpdateUserResponse
+	10, // 20: terrabase.user.v1.UserService.DeleteUser:output_type -> terrabase.user.v1.DeleteUserResponse
+	17, // [17:21] is the sub-list for method output_type
+	13, // [13:17] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_terrabase_user_v1_user_proto_init() }
@@ -842,21 +837,24 @@ func file_terrabase_user_v1_user_proto_init() {
 	if File_terrabase_user_v1_user_proto != nil {
 		return
 	}
+	file_terrabase_user_v1_user_proto_msgTypes[0].OneofWrappers = []any{}
+	file_terrabase_user_v1_user_proto_msgTypes[1].OneofWrappers = []any{}
+	file_terrabase_user_v1_user_proto_msgTypes[4].OneofWrappers = []any{}
+	file_terrabase_user_v1_user_proto_msgTypes[5].OneofWrappers = []any{}
 	file_terrabase_user_v1_user_proto_msgTypes[6].OneofWrappers = []any{}
-	file_terrabase_user_v1_user_proto_msgTypes[7].OneofWrappers = []any{}
-	file_terrabase_user_v1_user_proto_msgTypes[8].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_terrabase_user_v1_user_proto_rawDesc), len(file_terrabase_user_v1_user_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   12,
+			NumEnums:      1,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_terrabase_user_v1_user_proto_goTypes,
 		DependencyIndexes: file_terrabase_user_v1_user_proto_depIdxs,
+		EnumInfos:         file_terrabase_user_v1_user_proto_enumTypes,
 		MessageInfos:      file_terrabase_user_v1_user_proto_msgTypes,
 	}.Build()
 	File_terrabase_user_v1_user_proto = out.File

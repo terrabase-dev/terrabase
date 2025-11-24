@@ -27,7 +27,7 @@ from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__
 from terrabase.user_role.v1 import user_role_pb2 as terrabase_dot_user__role_dot_v1_dot_user__role__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cterrabase/user/v1/user.proto\x12\x11terrabase.user.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xfb\x01\n\x04User\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n\x05\x65mail\x18\x03 \x01(\tR\x05\x65mail\x12\x43\n\x0c\x64\x65\x66\x61ult_role\x18\x04 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleR\x0b\x64\x65\x66\x61ultRole\x12\x39\n\ncreated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x39\n\nupdated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tupdatedAt\"\xf3\x01\n\x0bUserSummary\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n\x05\x65mail\x18\x03 \x01(\tR\x05\x65mail\x12\x34\n\x04role\x18\x04 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleR\x04role\x12\x39\n\ncreated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x39\n\nupdated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tupdatedAt\"\x91\x01\n\x11\x43reateUserRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x04name\x12\x19\n\x05\x65mail\x18\x02 \x01(\tB\x03\xe0\x41\x02R\x05\x65mail\x12H\n\x0c\x64\x65\x66\x61ult_role\x18\x03 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleB\x03\xe0\x41\x02R\x0b\x64\x65\x66\x61ultRole\"A\n\x12\x43reateUserResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\"%\n\x0eGetUserRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\">\n\x0fGetUserResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\"\x9a\x02\n\x10ListUsersRequest\x12 \n\tpage_size\x18\x01 \x01(\x05H\x00R\x08pageSize\x88\x01\x01\x12\"\n\npage_token\x18\x02 \x01(\tH\x01R\tpageToken\x88\x01\x01\x12,\n\x0forganization_id\x18\x03 \x01(\tH\x02R\x0eorganizationId\x88\x01\x01\x12\x1c\n\x07team_id\x18\x04 \x01(\tH\x03R\x06teamId\x88\x01\x01\x12&\n\x0cworkspace_id\x18\x05 \x01(\tH\x04R\x0bworkspaceId\x88\x01\x01\x42\x0c\n\n_page_sizeB\r\n\x0b_page_tokenB\x12\n\x10_organization_idB\n\n\x08_team_idB\x0f\n\r_workspace_id\"\x8a\x01\n\x11ListUsersResponse\x12\x34\n\x05users\x18\x01 \x03(\x0b\x32\x1e.terrabase.user.v1.UserSummaryR\x05users\x12+\n\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01\x42\x12\n\x10_next_page_token\"\xa8\x01\n\x11UpdateUserRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\x12\x17\n\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x19\n\x05\x65mail\x18\x03 \x01(\tH\x01R\x05\x65mail\x88\x01\x01\x12&\n\x0c\x64\x65\x66\x61ult_role\x18\x04 \x01(\tH\x02R\x0b\x64\x65\x66\x61ultRole\x88\x01\x01\x42\x07\n\x05_nameB\x08\n\x06_emailB\x0f\n\r_default_role\"A\n\x12UpdateUserResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\"(\n\x11\x44\x65leteUserRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\"\x14\n\x12\x44\x65leteUserResponse2\xc8\x03\n\x0bUserService\x12Y\n\nCreateUser\x12$.terrabase.user.v1.CreateUserRequest\x1a%.terrabase.user.v1.CreateUserResponse\x12P\n\x07GetUser\x12!.terrabase.user.v1.GetUserRequest\x1a\".terrabase.user.v1.GetUserResponse\x12V\n\tListUsers\x12#.terrabase.user.v1.ListUsersRequest\x1a$.terrabase.user.v1.ListUsersResponse\x12Y\n\nUpdateUser\x12$.terrabase.user.v1.UpdateUserRequest\x1a%.terrabase.user.v1.UpdateUserResponse\x12Y\n\nDeleteUser\x12$.terrabase.user.v1.DeleteUserRequest\x1a%.terrabase.user.v1.DeleteUserResponseBCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cterrabase/user/v1/user.proto\x12\x11terrabase.user.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xf0\x02\n\x04User\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n\x05\x65mail\x18\x03 \x01(\tR\x05\x65mail\x12\x43\n\x0c\x64\x65\x66\x61ult_role\x18\x04 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleR\x0b\x64\x65\x66\x61ultRole\x12\x39\n\ncreated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x39\n\nupdated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x38\n\tuser_type\x18\x07 \x01(\x0e\x32\x1b.terrabase.user.v1.UserTypeR\x08userType\x12\'\n\rowner_user_id\x18\x08 \x01(\tH\x00R\x0bownerUserId\x88\x01\x01\x42\x10\n\x0e_owner_user_id\"\xf7\x02\n\x0bUserSummary\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n\x05\x65mail\x18\x03 \x01(\tH\x00R\x05\x65mail\x88\x01\x01\x12\x34\n\x04role\x18\x04 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleR\x04role\x12\x39\n\ncreated_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x39\n\nupdated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tupdatedAt\x12\x38\n\tuser_type\x18\x07 \x01(\x0e\x32\x1b.terrabase.user.v1.UserTypeR\x08userType\x12\'\n\rowner_user_id\x18\x08 \x01(\tH\x01R\x0bownerUserId\x88\x01\x01\x42\x08\n\x06_emailB\x10\n\x0e_owner_user_id\"%\n\x0eGetUserRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\">\n\x0fGetUserResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\"\xe7\x02\n\x10ListUsersRequest\x12 \n\tpage_size\x18\x01 \x01(\x05H\x00R\x08pageSize\x88\x01\x01\x12\"\n\npage_token\x18\x02 \x01(\tH\x01R\tpageToken\x88\x01\x01\x12,\n\x0forganization_id\x18\x03 \x01(\tH\x02R\x0eorganizationId\x88\x01\x01\x12\x1c\n\x07team_id\x18\x04 \x01(\tH\x03R\x06teamId\x88\x01\x01\x12&\n\x0cworkspace_id\x18\x05 \x01(\tH\x04R\x0bworkspaceId\x88\x01\x01\x12=\n\tuser_type\x18\x06 \x01(\x0e\x32\x1b.terrabase.user.v1.UserTypeH\x05R\x08userType\x88\x01\x01\x42\x0c\n\n_page_sizeB\r\n\x0b_page_tokenB\x12\n\x10_organization_idB\n\n\x08_team_idB\x0f\n\r_workspace_idB\x0c\n\n_user_type\"\x8a\x01\n\x11ListUsersResponse\x12\x34\n\x05users\x18\x01 \x03(\x0b\x32\x1e.terrabase.user.v1.UserSummaryR\x05users\x12+\n\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01\x42\x12\n\x10_next_page_token\"\xca\x01\n\x11UpdateUserRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\x12\x17\n\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x19\n\x05\x65mail\x18\x03 \x01(\tH\x01R\x05\x65mail\x88\x01\x01\x12H\n\x0c\x64\x65\x66\x61ult_role\x18\x04 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleH\x02R\x0b\x64\x65\x66\x61ultRole\x88\x01\x01\x42\x07\n\x05_nameB\x08\n\x06_emailB\x0f\n\r_default_role\"A\n\x12UpdateUserResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\"(\n\x11\x44\x65leteUserRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\"\x14\n\x12\x44\x65leteUserResponse*c\n\x08UserType\x12\x19\n\x15USER_TYPE_UNSPECIFIED\x10\x00\x12\x12\n\x0eUSER_TYPE_USER\x10\x01\x12\x11\n\rUSER_TYPE_BOT\x10\x02\x12\x15\n\x11USER_TYPE_SERVICE\x10\x03\x32\xed\x02\n\x0bUserService\x12P\n\x07GetUser\x12!.terrabase.user.v1.GetUserRequest\x1a\".terrabase.user.v1.GetUserResponse\x12V\n\tListUsers\x12#.terrabase.user.v1.ListUsersRequest\x1a$.terrabase.user.v1.ListUsersResponse\x12Y\n\nUpdateUser\x12$.terrabase.user.v1.UpdateUserRequest\x1a%.terrabase.user.v1.UpdateUserResponse\x12Y\n\nDeleteUser\x12$.terrabase.user.v1.DeleteUserRequest\x1a%.terrabase.user.v1.DeleteUserResponseBCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,42 +35,34 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'terrabase.user.v1.user_pb2'
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZAgithub.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1'
-  _globals['_CREATEUSERREQUEST'].fields_by_name['name']._loaded_options = None
-  _globals['_CREATEUSERREQUEST'].fields_by_name['name']._serialized_options = b'\340A\002'
-  _globals['_CREATEUSERREQUEST'].fields_by_name['email']._loaded_options = None
-  _globals['_CREATEUSERREQUEST'].fields_by_name['email']._serialized_options = b'\340A\002'
-  _globals['_CREATEUSERREQUEST'].fields_by_name['default_role']._loaded_options = None
-  _globals['_CREATEUSERREQUEST'].fields_by_name['default_role']._serialized_options = b'\340A\002'
   _globals['_GETUSERREQUEST'].fields_by_name['id']._loaded_options = None
   _globals['_GETUSERREQUEST'].fields_by_name['id']._serialized_options = b'\340A\002'
   _globals['_UPDATEUSERREQUEST'].fields_by_name['id']._loaded_options = None
   _globals['_UPDATEUSERREQUEST'].fields_by_name['id']._serialized_options = b'\340A\002'
   _globals['_DELETEUSERREQUEST'].fields_by_name['id']._loaded_options = None
   _globals['_DELETEUSERREQUEST'].fields_by_name['id']._serialized_options = b'\340A\002'
+  _globals['_USERTYPE']._serialized_start=1848
+  _globals['_USERTYPE']._serialized_end=1947
   _globals['_USER']._serialized_start=158
-  _globals['_USER']._serialized_end=409
-  _globals['_USERSUMMARY']._serialized_start=412
-  _globals['_USERSUMMARY']._serialized_end=655
-  _globals['_CREATEUSERREQUEST']._serialized_start=658
-  _globals['_CREATEUSERREQUEST']._serialized_end=803
-  _globals['_CREATEUSERRESPONSE']._serialized_start=805
-  _globals['_CREATEUSERRESPONSE']._serialized_end=870
-  _globals['_GETUSERREQUEST']._serialized_start=872
-  _globals['_GETUSERREQUEST']._serialized_end=909
-  _globals['_GETUSERRESPONSE']._serialized_start=911
-  _globals['_GETUSERRESPONSE']._serialized_end=973
-  _globals['_LISTUSERSREQUEST']._serialized_start=976
-  _globals['_LISTUSERSREQUEST']._serialized_end=1258
-  _globals['_LISTUSERSRESPONSE']._serialized_start=1261
-  _globals['_LISTUSERSRESPONSE']._serialized_end=1399
-  _globals['_UPDATEUSERREQUEST']._serialized_start=1402
-  _globals['_UPDATEUSERREQUEST']._serialized_end=1570
-  _globals['_UPDATEUSERRESPONSE']._serialized_start=1572
-  _globals['_UPDATEUSERRESPONSE']._serialized_end=1637
-  _globals['_DELETEUSERREQUEST']._serialized_start=1639
-  _globals['_DELETEUSERREQUEST']._serialized_end=1679
-  _globals['_DELETEUSERRESPONSE']._serialized_start=1681
-  _globals['_DELETEUSERRESPONSE']._serialized_end=1701
-  _globals['_USERSERVICE']._serialized_start=1704
-  _globals['_USERSERVICE']._serialized_end=2160
+  _globals['_USER']._serialized_end=526
+  _globals['_USERSUMMARY']._serialized_start=529
+  _globals['_USERSUMMARY']._serialized_end=904
+  _globals['_GETUSERREQUEST']._serialized_start=906
+  _globals['_GETUSERREQUEST']._serialized_end=943
+  _globals['_GETUSERRESPONSE']._serialized_start=945
+  _globals['_GETUSERRESPONSE']._serialized_end=1007
+  _globals['_LISTUSERSREQUEST']._serialized_start=1010
+  _globals['_LISTUSERSREQUEST']._serialized_end=1369
+  _globals['_LISTUSERSRESPONSE']._serialized_start=1372
+  _globals['_LISTUSERSRESPONSE']._serialized_end=1510
+  _globals['_UPDATEUSERREQUEST']._serialized_start=1513
+  _globals['_UPDATEUSERREQUEST']._serialized_end=1715
+  _globals['_UPDATEUSERRESPONSE']._serialized_start=1717
+  _globals['_UPDATEUSERRESPONSE']._serialized_end=1782
+  _globals['_DELETEUSERREQUEST']._serialized_start=1784
+  _globals['_DELETEUSERREQUEST']._serialized_end=1824
+  _globals['_DELETEUSERRESPONSE']._serialized_start=1826
+  _globals['_DELETEUSERRESPONSE']._serialized_end=1846
+  _globals['_USERSERVICE']._serialized_start=1950
+  _globals['_USERSERVICE']._serialized_end=2315
 # @@protoc_insertion_point(module_scope)

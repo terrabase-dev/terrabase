@@ -7,7 +7,9 @@ import (
 	"time"
 
 	"connectrpc.com/connect"
+	"github.com/terrabase-dev/terrabase/internal/auth"
 	applicationv1connect "github.com/terrabase-dev/terrabase/specs/terrabase/application/v1/applicationv1connect"
+	authv1connect "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1/authv1connect"
 	driftReportv1connect "github.com/terrabase-dev/terrabase/specs/terrabase/drift_report/v1/driftReportv1connect"
 	environmentv1connect "github.com/terrabase-dev/terrabase/specs/terrabase/environment/v1/environmentv1connect"
 	lockv1connect "github.com/terrabase-dev/terrabase/specs/terrabase/lock/v1/lockv1connect"
@@ -20,14 +22,18 @@ import (
 	workspacev1connect "github.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1/workspacev1connect"
 )
 
-func buildHandler(services Services, logger *log.Logger) http.Handler {
+func buildHandler(services Services, authenticator *auth.Authenticator, logger *log.Logger) http.Handler {
 	mux := http.NewServeMux()
 
 	handlerOpts := []connect.HandlerOption{
+		connect.WithInterceptors(auth.ContextInterceptor(authenticator, logger)),
 		connect.WithInterceptors(loggingInterceptor(logger)),
 	}
 
 	path, handler := applicationv1connect.NewApplicationServiceHandler(services.Application, handlerOpts...)
+	mux.Handle(path, handler)
+
+	path, handler = authv1connect.NewAuthServiceHandler(services.Auth, handlerOpts...)
 	mux.Handle(path, handler)
 
 	path, handler = environmentv1connect.NewEnvironmentServiceHandler(services.Environment, handlerOpts...)

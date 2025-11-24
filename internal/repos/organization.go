@@ -30,7 +30,6 @@ func (r *OrganizationRepo) Create(ctx context.Context, org *organizationv1.Organ
 	}
 
 	_, err := r.db.NewInsert().Model(model).Returning("*").Exec(ctx)
-
 	if err != nil {
 		if isUniqueViolation(err) {
 			return nil, fmt.Errorf("organization: %w", ErrAlreadyExists)
@@ -46,7 +45,6 @@ func (r *OrganizationRepo) Get(ctx context.Context, id string) (*organizationv1.
 	var model models.Organization
 
 	err := r.db.NewSelect().Model(&model).Where("id = ?", id).Scan(ctx)
-
 	if err != nil {
 		if isNotFound(err) {
 			return nil, fmt.Errorf("organization: %w", ErrNotFound)
@@ -76,7 +74,6 @@ func (r *OrganizationRepo) List(ctx context.Context, pageSize int32, pageToken s
 	var models []models.Organization
 
 	err := r.db.NewSelect().Model(&models).Order("created_at DESC").Limit(limit).Offset(offset).Scan(ctx)
-
 	if err != nil {
 		return nil, "", err
 	}
@@ -100,7 +97,6 @@ func (r *OrganizationRepo) Update(ctx context.Context, id string, name *string, 
 	var model models.Organization
 
 	err := r.db.NewSelect().Model(&model).Where("id = ?", id).Scan(ctx)
-
 	if err != nil {
 		if isNotFound(err) {
 			return nil, fmt.Errorf("organization: %w", ErrNotFound)
@@ -120,7 +116,6 @@ func (r *OrganizationRepo) Update(ctx context.Context, id string, name *string, 
 	model.UpdatedAt = time.Now().UTC()
 
 	_, err = r.db.NewUpdate().Model(&model).Column("name", "subscription", "updated_at").WherePK().Exec(ctx)
-
 	if err != nil {
 		if isUniqueViolation(err) {
 			return nil, fmt.Errorf("organization: %w", ErrAlreadyExists)
@@ -134,7 +129,6 @@ func (r *OrganizationRepo) Update(ctx context.Context, id string, name *string, 
 
 func (r *OrganizationRepo) Delete(ctx context.Context, id string) error {
 	res, err := r.db.NewDelete().Model((*models.Organization)(nil)).Where("id = ?", id).Exec(ctx)
-
 	if err != nil {
 		return err
 	}

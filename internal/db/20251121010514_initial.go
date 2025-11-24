@@ -14,20 +14,76 @@ var migrations = migrate.NewMigrations()
 
 func init() {
 	up := func(ctx context.Context, db *bun.DB) error {
-		_, err := db.NewCreateTable().
+		// Create user first so FKs have a target.
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.User)(nil)).
+			WithForeignKeys().
+			Exec(ctx); err != nil {
+			return err
+		}
+
+		// Dependent tables with explicit ON DELETE CASCADE where we want cascading cleanup.
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.UserCredential)(nil)).
+			ForeignKey(`("user_id") REFERENCES "user_account" ("id") ON DELETE CASCADE`).
+			Exec(ctx); err != nil {
+			return err
+		}
+
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.Identity)(nil)).
+			ForeignKey(`("user_id") REFERENCES "user_account" ("id") ON DELETE CASCADE`).
+			Exec(ctx); err != nil {
+			return err
+		}
+
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.Session)(nil)).
+			ForeignKey(`("user_id") REFERENCES "user_account" ("id") ON DELETE CASCADE`).
+			Exec(ctx); err != nil {
+			return err
+		}
+
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.APIKey)(nil)).
+			ForeignKey(`("owner_id") REFERENCES "user_account" ("id") ON DELETE CASCADE`).
+			Exec(ctx); err != nil {
+			return err
+		}
+
+		if _, err := db.NewCreateTable().
 			IfNotExists().
 			Model((*models.Organization)(nil)).
 			WithForeignKeys().
-			Exec(ctx)
-		return err
+			Exec(ctx); err != nil {
+			return err
+		}
+
+		return nil
 	}
 
 	down := func(ctx context.Context, db *bun.DB) error {
-		_, err := db.NewDropTable().
-			IfExists().
-			Model((*models.Organization)(nil)).
-			Exec(ctx)
-		return err
+		tables := []any{
+			(*models.Organization)(nil),
+			(*models.APIKey)(nil),
+			(*models.Session)(nil),
+			(*models.Identity)(nil),
+			(*models.UserCredential)(nil),
+			(*models.User)(nil),
+		}
+
+		for _, table := range tables {
+			if _, err := db.NewDropTable().IfExists().Model(table).Exec(ctx); err != nil {
+				return err
+			}
+		}
+
+		return nil
 	}
 
 	migrations.MustRegister(up, down)

@@ -2,8 +2,8 @@
 // @generated from file terrabase/user/v1/user.proto (package terrabase.user.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_google_api_field_behavior } from "../../../google/api/field_behavior_pb";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
@@ -15,7 +15,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file terrabase/user/v1/user.proto.
  */
 export const file_terrabase_user_v1_user: GenFile = /*@__PURE__*/
-  fileDesc("Chx0ZXJyYWJhc2UvdXNlci92MS91c2VyLnByb3RvEhF0ZXJyYWJhc2UudXNlci52MSLHAQoEVXNlchIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBWVtYWlsGAMgASgJEjYKDGRlZmF1bHRfcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGUSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAixgEKC1VzZXJTdW1tYXJ5EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDQoFZW1haWwYAyABKAkSLgoEcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGUSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAidwoRQ3JlYXRlVXNlclJlcXVlc3QSEQoEbmFtZRgBIAEoCUID4EECEhIKBWVtYWlsGAIgASgJQgPgQQISOwoMZGVmYXVsdF9yb2xlGAMgASgOMiAudGVycmFiYXNlLnVzZXJfcm9sZS52MS5Vc2VyUm9sZUID4EECIjsKEkNyZWF0ZVVzZXJSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlciIhCg5HZXRVc2VyUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIjgKD0dldFVzZXJSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlciLgAQoQTGlzdFVzZXJzUmVxdWVzdBIWCglwYWdlX3NpemUYASABKAVIAIgBARIXCgpwYWdlX3Rva2VuGAIgASgJSAGIAQESHAoPb3JnYW5pemF0aW9uX2lkGAMgASgJSAKIAQESFAoHdGVhbV9pZBgEIAEoCUgDiAEBEhkKDHdvcmtzcGFjZV9pZBgFIAEoCUgEiAEBQgwKCl9wYWdlX3NpemVCDQoLX3BhZ2VfdG9rZW5CEgoQX29yZ2FuaXphdGlvbl9pZEIKCghfdGVhbV9pZEIPCg1fd29ya3NwYWNlX2lkInQKEUxpc3RVc2Vyc1Jlc3BvbnNlEi0KBXVzZXJzGAEgAygLMh4udGVycmFiYXNlLnVzZXIudjEuVXNlclN1bW1hcnkSHAoPbmV4dF9wYWdlX3Rva2VuGAIgASgJSACIAQFCEgoQX25leHRfcGFnZV90b2tlbiKKAQoRVXBkYXRlVXNlclJlcXVlc3QSDwoCaWQYASABKAlCA+BBAhIRCgRuYW1lGAIgASgJSACIAQESEgoFZW1haWwYAyABKAlIAYgBARIZCgxkZWZhdWx0X3JvbGUYBCABKAlIAogBAUIHCgVfbmFtZUIICgZfZW1haWxCDwoNX2RlZmF1bHRfcm9sZSI7ChJVcGRhdGVVc2VyUmVzcG9uc2USJQoEdXNlchgBIAEoCzIXLnRlcnJhYmFzZS51c2VyLnYxLlVzZXIiJAoRRGVsZXRlVXNlclJlcXVlc3QSDwoCaWQYASABKAlCA+BBAiIUChJEZWxldGVVc2VyUmVzcG9uc2UyyAMKC1VzZXJTZXJ2aWNlElkKCkNyZWF0ZVVzZXISJC50ZXJyYWJhc2UudXNlci52MS5DcmVhdGVVc2VyUmVxdWVzdBolLnRlcnJhYmFzZS51c2VyLnYxLkNyZWF0ZVVzZXJSZXNwb25zZRJQCgdHZXRVc2VyEiEudGVycmFiYXNlLnVzZXIudjEuR2V0VXNlclJlcXVlc3QaIi50ZXJyYWJhc2UudXNlci52MS5HZXRVc2VyUmVzcG9uc2USVgoJTGlzdFVzZXJzEiMudGVycmFiYXNlLnVzZXIudjEuTGlzdFVzZXJzUmVxdWVzdBokLnRlcnJhYmFzZS51c2VyLnYxLkxpc3RVc2Vyc1Jlc3BvbnNlElkKClVwZGF0ZVVzZXISJC50ZXJyYWJhc2UudXNlci52MS5VcGRhdGVVc2VyUmVxdWVzdBolLnRlcnJhYmFzZS51c2VyLnYxLlVwZGF0ZVVzZXJSZXNwb25zZRJZCgpEZWxldGVVc2VyEiQudGVycmFiYXNlLnVzZXIudjEuRGVsZXRlVXNlclJlcXVlc3QaJS50ZXJyYWJhc2UudXNlci52MS5EZWxldGVVc2VyUmVzcG9uc2VCQ1pBZ2l0aHViLmNvbS90ZXJyYWJhc2UtZGV2L3RlcnJhYmFzZS9zcGVjcy90ZXJyYWJhc2UvdXNlci92MTt1c2VydjFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_user_role_v1_user_role]);
+  fileDesc("Chx0ZXJyYWJhc2UvdXNlci92MS91c2VyLnByb3RvEhF0ZXJyYWJhc2UudXNlci52MSKlAgoEVXNlchIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBWVtYWlsGAMgASgJEjYKDGRlZmF1bHRfcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGUSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoJdXNlcl90eXBlGAcgASgOMhsudGVycmFiYXNlLnVzZXIudjEuVXNlclR5cGUSGgoNb3duZXJfdXNlcl9pZBgIIAEoCUgAiAEBQhAKDl9vd25lcl91c2VyX2lkIrMCCgtVc2VyU3VtbWFyeRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBWVtYWlsGAMgASgJSACIAQESLgoEcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGUSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoJdXNlcl90eXBlGAcgASgOMhsudGVycmFiYXNlLnVzZXIudjEuVXNlclR5cGUSGgoNb3duZXJfdXNlcl9pZBgIIAEoCUgBiAEBQggKBl9lbWFpbEIQCg5fb3duZXJfdXNlcl9pZCIhCg5HZXRVc2VyUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIjgKD0dldFVzZXJSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlciKjAgoQTGlzdFVzZXJzUmVxdWVzdBIWCglwYWdlX3NpemUYASABKAVIAIgBARIXCgpwYWdlX3Rva2VuGAIgASgJSAGIAQESHAoPb3JnYW5pemF0aW9uX2lkGAMgASgJSAKIAQESFAoHdGVhbV9pZBgEIAEoCUgDiAEBEhkKDHdvcmtzcGFjZV9pZBgFIAEoCUgEiAEBEjMKCXVzZXJfdHlwZRgGIAEoDjIbLnRlcnJhYmFzZS51c2VyLnYxLlVzZXJUeXBlSAWIAQFCDAoKX3BhZ2Vfc2l6ZUINCgtfcGFnZV90b2tlbkISChBfb3JnYW5pemF0aW9uX2lkQgoKCF90ZWFtX2lkQg8KDV93b3Jrc3BhY2VfaWRCDAoKX3VzZXJfdHlwZSJ0ChFMaXN0VXNlcnNSZXNwb25zZRItCgV1c2VycxgBIAMoCzIeLnRlcnJhYmFzZS51c2VyLnYxLlVzZXJTdW1tYXJ5EhwKD25leHRfcGFnZV90b2tlbhgCIAEoCUgAiAEBQhIKEF9uZXh0X3BhZ2VfdG9rZW4irAEKEVVwZGF0ZVVzZXJSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISEQoEbmFtZRgCIAEoCUgAiAEBEhIKBWVtYWlsGAMgASgJSAGIAQESOwoMZGVmYXVsdF9yb2xlGAQgASgOMiAudGVycmFiYXNlLnVzZXJfcm9sZS52MS5Vc2VyUm9sZUgCiAEBQgcKBV9uYW1lQggKBl9lbWFpbEIPCg1fZGVmYXVsdF9yb2xlIjsKElVwZGF0ZVVzZXJSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlciIkChFEZWxldGVVc2VyUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIhQKEkRlbGV0ZVVzZXJSZXNwb25zZSpjCghVc2VyVHlwZRIZChVVU0VSX1RZUEVfVU5TUEVDSUZJRUQQABISCg5VU0VSX1RZUEVfVVNFUhABEhEKDVVTRVJfVFlQRV9CT1QQAhIVChFVU0VSX1RZUEVfU0VSVklDRRADMu0CCgtVc2VyU2VydmljZRJQCgdHZXRVc2VyEiEudGVycmFiYXNlLnVzZXIudjEuR2V0VXNlclJlcXVlc3QaIi50ZXJyYWJhc2UudXNlci52MS5HZXRVc2VyUmVzcG9uc2USVgoJTGlzdFVzZXJzEiMudGVycmFiYXNlLnVzZXIudjEuTGlzdFVzZXJzUmVxdWVzdBokLnRlcnJhYmFzZS51c2VyLnYxLkxpc3RVc2Vyc1Jlc3BvbnNlElkKClVwZGF0ZVVzZXISJC50ZXJyYWJhc2UudXNlci52MS5VcGRhdGVVc2VyUmVxdWVzdBolLnRlcnJhYmFzZS51c2VyLnYxLlVwZGF0ZVVzZXJSZXNwb25zZRJZCgpEZWxldGVVc2VyEiQudGVycmFiYXNlLnVzZXIudjEuRGVsZXRlVXNlclJlcXVlc3QaJS50ZXJyYWJhc2UudXNlci52MS5EZWxldGVVc2VyUmVzcG9uc2VCQ1pBZ2l0aHViLmNvbS90ZXJyYWJhc2UtZGV2L3RlcnJhYmFzZS9zcGVjcy90ZXJyYWJhc2UvdXNlci92MTt1c2VydjFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_user_role_v1_user_role]);
 
 /**
  * @generated from message terrabase.user.v1.User
@@ -50,6 +50,16 @@ export type User = Message<"terrabase.user.v1.User"> & {
    * @generated from field: google.protobuf.Timestamp updated_at = 6;
    */
   updatedAt?: Timestamp;
+
+  /**
+   * @generated from field: terrabase.user.v1.UserType user_type = 7;
+   */
+  userType: UserType;
+
+  /**
+   * @generated from field: optional string owner_user_id = 8;
+   */
+  ownerUserId?: string;
 };
 
 /**
@@ -76,9 +86,9 @@ export type UserSummary = Message<"terrabase.user.v1.UserSummary"> & {
   name: string;
 
   /**
-   * @generated from field: string email = 3;
+   * @generated from field: optional string email = 3;
    */
-  email: string;
+  email?: string;
 
   /**
    * @generated from field: terrabase.user_role.v1.UserRole role = 4;
@@ -94,6 +104,16 @@ export type UserSummary = Message<"terrabase.user.v1.UserSummary"> & {
    * @generated from field: google.protobuf.Timestamp updated_at = 6;
    */
   updatedAt?: Timestamp;
+
+  /**
+   * @generated from field: terrabase.user.v1.UserType user_type = 7;
+   */
+  userType: UserType;
+
+  /**
+   * @generated from field: optional string owner_user_id = 8;
+   */
+  ownerUserId?: string;
 };
 
 /**
@@ -102,50 +122,6 @@ export type UserSummary = Message<"terrabase.user.v1.UserSummary"> & {
  */
 export const UserSummarySchema: GenMessage<UserSummary> = /*@__PURE__*/
   messageDesc(file_terrabase_user_v1_user, 1);
-
-/**
- * @generated from message terrabase.user.v1.CreateUserRequest
- */
-export type CreateUserRequest = Message<"terrabase.user.v1.CreateUserRequest"> & {
-  /**
-   * @generated from field: string name = 1;
-   */
-  name: string;
-
-  /**
-   * @generated from field: string email = 2;
-   */
-  email: string;
-
-  /**
-   * @generated from field: terrabase.user_role.v1.UserRole default_role = 3;
-   */
-  defaultRole: UserRole;
-};
-
-/**
- * Describes the message terrabase.user.v1.CreateUserRequest.
- * Use `create(CreateUserRequestSchema)` to create a new message.
- */
-export const CreateUserRequestSchema: GenMessage<CreateUserRequest> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 2);
-
-/**
- * @generated from message terrabase.user.v1.CreateUserResponse
- */
-export type CreateUserResponse = Message<"terrabase.user.v1.CreateUserResponse"> & {
-  /**
-   * @generated from field: terrabase.user.v1.User user = 1;
-   */
-  user?: User;
-};
-
-/**
- * Describes the message terrabase.user.v1.CreateUserResponse.
- * Use `create(CreateUserResponseSchema)` to create a new message.
- */
-export const CreateUserResponseSchema: GenMessage<CreateUserResponse> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 3);
 
 /**
  * @generated from message terrabase.user.v1.GetUserRequest
@@ -162,7 +138,7 @@ export type GetUserRequest = Message<"terrabase.user.v1.GetUserRequest"> & {
  * Use `create(GetUserRequestSchema)` to create a new message.
  */
 export const GetUserRequestSchema: GenMessage<GetUserRequest> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 4);
+  messageDesc(file_terrabase_user_v1_user, 2);
 
 /**
  * @generated from message terrabase.user.v1.GetUserResponse
@@ -179,7 +155,7 @@ export type GetUserResponse = Message<"terrabase.user.v1.GetUserResponse"> & {
  * Use `create(GetUserResponseSchema)` to create a new message.
  */
 export const GetUserResponseSchema: GenMessage<GetUserResponse> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 5);
+  messageDesc(file_terrabase_user_v1_user, 3);
 
 /**
  * @generated from message terrabase.user.v1.ListUsersRequest
@@ -209,6 +185,11 @@ export type ListUsersRequest = Message<"terrabase.user.v1.ListUsersRequest"> & {
    * @generated from field: optional string workspace_id = 5;
    */
   workspaceId?: string;
+
+  /**
+   * @generated from field: optional terrabase.user.v1.UserType user_type = 6;
+   */
+  userType?: UserType;
 };
 
 /**
@@ -216,7 +197,7 @@ export type ListUsersRequest = Message<"terrabase.user.v1.ListUsersRequest"> & {
  * Use `create(ListUsersRequestSchema)` to create a new message.
  */
 export const ListUsersRequestSchema: GenMessage<ListUsersRequest> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 6);
+  messageDesc(file_terrabase_user_v1_user, 4);
 
 /**
  * @generated from message terrabase.user.v1.ListUsersResponse
@@ -238,7 +219,7 @@ export type ListUsersResponse = Message<"terrabase.user.v1.ListUsersResponse"> &
  * Use `create(ListUsersResponseSchema)` to create a new message.
  */
 export const ListUsersResponseSchema: GenMessage<ListUsersResponse> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 7);
+  messageDesc(file_terrabase_user_v1_user, 5);
 
 /**
  * @generated from message terrabase.user.v1.UpdateUserRequest
@@ -260,9 +241,9 @@ export type UpdateUserRequest = Message<"terrabase.user.v1.UpdateUserRequest"> &
   email?: string;
 
   /**
-   * @generated from field: optional string default_role = 4;
+   * @generated from field: optional terrabase.user_role.v1.UserRole default_role = 4;
    */
-  defaultRole?: string;
+  defaultRole?: UserRole;
 };
 
 /**
@@ -270,7 +251,7 @@ export type UpdateUserRequest = Message<"terrabase.user.v1.UpdateUserRequest"> &
  * Use `create(UpdateUserRequestSchema)` to create a new message.
  */
 export const UpdateUserRequestSchema: GenMessage<UpdateUserRequest> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 8);
+  messageDesc(file_terrabase_user_v1_user, 6);
 
 /**
  * @generated from message terrabase.user.v1.UpdateUserResponse
@@ -287,7 +268,7 @@ export type UpdateUserResponse = Message<"terrabase.user.v1.UpdateUserResponse">
  * Use `create(UpdateUserResponseSchema)` to create a new message.
  */
 export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 9);
+  messageDesc(file_terrabase_user_v1_user, 7);
 
 /**
  * @generated from message terrabase.user.v1.DeleteUserRequest
@@ -304,7 +285,7 @@ export type DeleteUserRequest = Message<"terrabase.user.v1.DeleteUserRequest"> &
  * Use `create(DeleteUserRequestSchema)` to create a new message.
  */
 export const DeleteUserRequestSchema: GenMessage<DeleteUserRequest> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 10);
+  messageDesc(file_terrabase_user_v1_user, 8);
 
 /**
  * @generated from message terrabase.user.v1.DeleteUserResponse
@@ -317,20 +298,43 @@ export type DeleteUserResponse = Message<"terrabase.user.v1.DeleteUserResponse">
  * Use `create(DeleteUserResponseSchema)` to create a new message.
  */
 export const DeleteUserResponseSchema: GenMessage<DeleteUserResponse> = /*@__PURE__*/
-  messageDesc(file_terrabase_user_v1_user, 11);
+  messageDesc(file_terrabase_user_v1_user, 9);
+
+/**
+ * @generated from enum terrabase.user.v1.UserType
+ */
+export enum UserType {
+  /**
+   * @generated from enum value: USER_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: USER_TYPE_USER = 1;
+   */
+  USER = 1,
+
+  /**
+   * @generated from enum value: USER_TYPE_BOT = 2;
+   */
+  BOT = 2,
+
+  /**
+   * @generated from enum value: USER_TYPE_SERVICE = 3;
+   */
+  SERVICE = 3,
+}
+
+/**
+ * Describes the enum terrabase.user.v1.UserType.
+ */
+export const UserTypeSchema: GenEnum<UserType> = /*@__PURE__*/
+  enumDesc(file_terrabase_user_v1_user, 0);
 
 /**
  * @generated from service terrabase.user.v1.UserService
  */
 export const UserService: GenService<{
-  /**
-   * @generated from rpc terrabase.user.v1.UserService.CreateUser
-   */
-  createUser: {
-    methodKind: "unary";
-    input: typeof CreateUserRequestSchema;
-    output: typeof CreateUserResponseSchema;
-  },
   /**
    * @generated from rpc terrabase.user.v1.UserService.GetUser
    */

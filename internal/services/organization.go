@@ -37,7 +37,6 @@ func (s *OrganizationService) CreateOrganization(ctx context.Context, req *conne
 	}
 
 	created, err := s.repo.Create(ctx, org)
-
 	if err != nil {
 		return nil, mapError(err)
 	}
@@ -53,7 +52,6 @@ func (s *OrganizationService) GetOrganization(ctx context.Context, req *connect.
 	}
 
 	org, err := s.repo.Get(ctx, req.Msg.GetId())
-
 	if err != nil {
 		return nil, mapError(err)
 	}
@@ -63,7 +61,6 @@ func (s *OrganizationService) GetOrganization(ctx context.Context, req *connect.
 
 func (s *OrganizationService) ListOrganizations(ctx context.Context, req *connect.Request[organizationv1.ListOrganizationsRequest]) (*connect.Response[organizationv1.ListOrganizationsResponse], error) {
 	orgs, nextToken, err := s.repo.List(ctx, req.Msg.GetPageSize(), req.Msg.GetPageToken())
-
 	if err != nil {
 		return nil, mapError(err)
 	}

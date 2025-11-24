@@ -14,11 +14,6 @@ class UserServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.CreateUser = channel.unary_unary(
-                '/terrabase.user.v1.UserService/CreateUser',
-                request_serializer=terrabase_dot_user_dot_v1_dot_user__pb2.CreateUserRequest.SerializeToString,
-                response_deserializer=terrabase_dot_user_dot_v1_dot_user__pb2.CreateUserResponse.FromString,
-                _registered_method=True)
         self.GetUser = channel.unary_unary(
                 '/terrabase.user.v1.UserService/GetUser',
                 request_serializer=terrabase_dot_user_dot_v1_dot_user__pb2.GetUserRequest.SerializeToString,
@@ -43,12 +38,6 @@ class UserServiceStub(object):
 
 class UserServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
-
-    def CreateUser(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
 
     def GetUser(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -77,11 +66,6 @@ class UserServiceServicer(object):
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CreateUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.CreateUser,
-                    request_deserializer=terrabase_dot_user_dot_v1_dot_user__pb2.CreateUserRequest.FromString,
-                    response_serializer=terrabase_dot_user_dot_v1_dot_user__pb2.CreateUserResponse.SerializeToString,
-            ),
             'GetUser': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUser,
                     request_deserializer=terrabase_dot_user_dot_v1_dot_user__pb2.GetUserRequest.FromString,
@@ -112,33 +96,6 @@ def add_UserServiceServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class UserService(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def CreateUser(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/terrabase.user.v1.UserService/CreateUser',
-            terrabase_dot_user_dot_v1_dot_user__pb2.CreateUserRequest.SerializeToString,
-            terrabase_dot_user_dot_v1_dot_user__pb2.CreateUserResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
 
     @staticmethod
     def GetUser(request,

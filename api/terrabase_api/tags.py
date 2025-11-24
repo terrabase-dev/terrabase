@@ -7,7 +7,11 @@ class TagMetadata(TypedDict):
 
 
 tags_metadata: List[TagMetadata] = [
-    {"name": "organization", "description": "Manage Terrabase organizations"}
+    {
+        "name": "auth",
+        "description": "Manage user/machine authentication and authorization",
+    },
+    {"name": "organization", "description": "Manage Terrabase organizations"},
 ]
 
 openapi_tags = cast(List[Dict[str, str]], tags_metadata)

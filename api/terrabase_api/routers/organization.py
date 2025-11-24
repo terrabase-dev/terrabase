@@ -7,10 +7,10 @@ from starlette.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 
+from terrabase_api.services import OrganizationService
 from terrabase_api.specs.terrabase.organization.v1 import organization_pb2
 from terrabase_api.types import ErrorResponse
 from terrabase_api.utils import (
-    OrganizationService,
     call,
     get_paginated_request_params,
     parse,
