@@ -48,7 +48,7 @@ func NewServicesWithAuth(db *bun.DB, logger *log.Logger, tokenVerifier *auth.Tok
 		Environment:     environmentv1connect.UnimplementedEnvironmentServiceHandler{},
 		StateVersion:    stateVersionv1connect.UnimplementedStateVersionServiceHandler{},
 		User:            services.NewUserService(repos.NewUserRepo(db), logger),
-		Team:            teamv1connect.UnimplementedTeamServiceHandler{},
+		Team:            services.NewTeamService(repos.NewTeamRepo(db), logger),
 		Workspace:       workspacev1connect.UnimplementedWorkspaceServiceHandler{},
 		Lock:            lockv1connect.UnimplementedLockServiceHandler{},
 		DriftReport:     driftReportv1connect.UnimplementedDriftReportServiceHandler{},

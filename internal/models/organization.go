@@ -11,9 +11,9 @@ import (
 type Organization struct {
 	bun.BaseModel `bun:"table:organization"`
 
-	ID           string `bun:",pk"`
-	Name         string `bun:",unique"`
-	Subscription int32
+	ID           string    `bun:",pk"`
+	Name         string    `bun:",unique,notnull"`
+	Subscription int32     `bun:"notnull"`
 	CreatedAt    time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt    time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 }

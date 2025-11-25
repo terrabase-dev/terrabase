@@ -105,7 +105,6 @@ func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *conne
 	}
 
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.Name, req.Msg.Subscription)
-
 	if err != nil {
 		return nil, mapError(err)
 	}

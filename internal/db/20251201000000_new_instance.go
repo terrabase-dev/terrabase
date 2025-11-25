@@ -64,6 +64,14 @@ func init() {
 			return err
 		}
 
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.Team)(nil)).
+			ForeignKey(`("organization_id") REFERENCES "organization" ("id") ON DELETE CASCADE`).
+			Exec(ctx); err != nil {
+			return err
+		}
+
 		return nil
 	}
 
