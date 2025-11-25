@@ -228,7 +228,7 @@ func (s *AuthService) CreateMachineUser(ctx context.Context, req *connect.Reques
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
 	}
 
-	if authCtx == nil || !authCtx.HasScope("admin") {
+	if authCtx == nil || !authCtx.HasScope(authv1.Scope_SCOPE_ADMIN) {
 		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
 	}
 
@@ -300,16 +300,46 @@ func (s *AuthService) hashRefreshToken(token string) string {
 	return hex.EncodeToString(mac.Sum(nil))
 }
 
-func scopesForRole(role userRolev1.UserRole) []string {
+func scopesForRole(role userRolev1.UserRole) []authv1.Scope {
 	switch role {
 	case userRolev1.UserRole_USER_ROLE_OWNER:
-		return []string{"admin", "org.write", "org.read", "state.write", "state.read"}
+		return []authv1.Scope{
+			authv1.Scope_SCOPE_ADMIN,
+			authv1.Scope_SCOPE_ORG_WRITE,
+			authv1.Scope_SCOPE_ORG_READ,
+			authv1.Scope_SCOPE_TEAM_WRITE,
+			authv1.Scope_SCOPE_TEAM_READ,
+			authv1.Scope_SCOPE_APPLICATION_WRITE,
+			authv1.Scope_SCOPE_APPLICATION_READ,
+			authv1.Scope_SCOPE_ENVIRONMENT_WRITE,
+			authv1.Scope_SCOPE_ENVIRONMENT_READ,
+			authv1.Scope_SCOPE_WORKSPACE_WRITE,
+			authv1.Scope_SCOPE_WORKSPACE_READ,
+		}
 	case userRolev1.UserRole_USER_ROLE_MAINTAINER:
-		return []string{"org.write", "org.read", "state.write", "state.read"}
+		return []authv1.Scope{
+			authv1.Scope_SCOPE_ORG_READ,
+			authv1.Scope_SCOPE_TEAM_WRITE,
+			authv1.Scope_SCOPE_TEAM_READ,
+			authv1.Scope_SCOPE_APPLICATION_WRITE,
+			authv1.Scope_SCOPE_APPLICATION_READ,
+			authv1.Scope_SCOPE_ENVIRONMENT_WRITE,
+			authv1.Scope_SCOPE_ENVIRONMENT_READ,
+			authv1.Scope_SCOPE_WORKSPACE_WRITE,
+			authv1.Scope_SCOPE_WORKSPACE_READ,
+		}
 	case userRolev1.UserRole_USER_ROLE_DEVELOPER:
-		return []string{"org.read", "state.read"}
+		return []authv1.Scope{
+			authv1.Scope_SCOPE_ORG_READ,
+			authv1.Scope_SCOPE_TEAM_READ,
+			authv1.Scope_SCOPE_APPLICATION_READ,
+			authv1.Scope_SCOPE_ENVIRONMENT_READ,
+			authv1.Scope_SCOPE_WORKSPACE_READ,
+		}
 	default:
-		return []string{"org.read"}
+		return []authv1.Scope{
+			authv1.Scope_SCOPE_ORG_READ,
+		}
 	}
 }
 
@@ -505,7 +535,7 @@ func (s *AuthService) RotateApiKey(ctx context.Context, req *connect.Request[aut
 	}), nil
 }
 
-func (s *AuthService) requireScope(ctx context.Context, scope string) error {
+func (s *AuthService) requireScope(ctx context.Context, scope authv1.Scope) error {
 	authCtx, ok := auth.FromContext(ctx)
 	if !ok || !authCtx.Authenticated {
 		return connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
@@ -592,7 +622,7 @@ func isAdminOrSelfUser(authCtx *auth.Context, ownerType string, ownerID string) 
 		return false
 	}
 
-	if authCtx.HasScope("admin") {
+	if authCtx.HasScope(authv1.Scope_SCOPE_ADMIN) {
 		return true
 	}
 

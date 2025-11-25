@@ -9,6 +9,21 @@ import "terrabase/user_role/v1/user_role.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1";
 
+enum Scope {
+  SCOPE_UNSPECIFIED = 0;
+  SCOPE_ADMIN = 1;
+  SCOPE_ORG_WRITE = 2;
+  SCOPE_ORG_READ = 3;
+  SCOPE_TEAM_WRITE = 4;
+  SCOPE_TEAM_READ = 5;
+  SCOPE_APPLICATION_WRITE = 6;
+  SCOPE_APPLICATION_READ = 7;
+  SCOPE_ENVIRONMENT_WRITE = 8;
+  SCOPE_ENVIRONMENT_READ = 9;
+  SCOPE_WORKSPACE_WRITE = 10;
+  SCOPE_WORKSPACE_READ = 11;
+}
+
 /*
  #######################
  # User authentication #
@@ -51,7 +66,7 @@ message WhoAmIRequest {}
 
 message WhoAmIResponse {
   terrabase.user.v1.User user = 1;
-  repeated string scopes = 2;
+  repeated Scope scopes = 2;
 }
 
 message LogoutRequest {
@@ -91,7 +106,7 @@ enum ApiKeyOwnerType {
 message ApiKey {
   string id = 1;
   string name = 2;
-  repeated string scopes = 3;
+  repeated Scope scopes = 3;
   string owner_id = 4;
   ApiKeyOwnerType owner_type = 5;
   google.protobuf.Timestamp created_at = 6;
@@ -104,7 +119,7 @@ message CreateApiKeyRequest {
   string name = 1 [(google.api.field_behavior) = REQUIRED];
   ApiKeyOwnerType owner_type = 2 [(google.api.field_behavior) = REQUIRED];
   string owner_id = 3 [(google.api.field_behavior) = REQUIRED];
-  repeated string scopes = 4 [(google.api.field_behavior) = REQUIRED];
+  repeated Scope scopes = 4 [(google.api.field_behavior) = REQUIRED];
   // Hours until expiry; if unset, key does not expire.
   optional int64 ttl_hours = 5;
 }
@@ -133,7 +148,7 @@ message RevokeApiKeyResponse {}
 message RotateApiKeyRequest {
   string id = 1 [(google.api.field_behavior) = REQUIRED];
   // Optional: inherit existing scopes and ttl when unset.
-  repeated string scopes = 2;
+  repeated Scope scopes = 2;
   optional int64 ttl_hours = 3;
 }
 

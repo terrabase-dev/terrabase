@@ -3,6 +3,8 @@ package auth
 import (
 	"context"
 	"slices"
+
+	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 )
 
 type PrincipalType string
@@ -20,7 +22,7 @@ type Context struct {
 	Name          string
 	Email         string
 	DefaultRole   int32
-	Scopes        []string
+	Scopes        []authv1.Scope
 	Entitlements  map[string][]string
 	Metadata      map[string]any
 	TokenID       string
@@ -29,7 +31,7 @@ type Context struct {
 	Authenticated bool
 }
 
-func (c *Context) HasScope(scope string) bool {
+func (c *Context) HasScope(scope authv1.Scope) bool {
 	return slices.Contains(c.Scopes, scope)
 }
 

@@ -13,12 +13,39 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
+class Scope(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    SCOPE_UNSPECIFIED: _ClassVar[Scope]
+    SCOPE_ADMIN: _ClassVar[Scope]
+    SCOPE_ORG_WRITE: _ClassVar[Scope]
+    SCOPE_ORG_READ: _ClassVar[Scope]
+    SCOPE_TEAM_WRITE: _ClassVar[Scope]
+    SCOPE_TEAM_READ: _ClassVar[Scope]
+    SCOPE_APPLICATION_WRITE: _ClassVar[Scope]
+    SCOPE_APPLICATION_READ: _ClassVar[Scope]
+    SCOPE_ENVIRONMENT_WRITE: _ClassVar[Scope]
+    SCOPE_ENVIRONMENT_READ: _ClassVar[Scope]
+    SCOPE_WORKSPACE_WRITE: _ClassVar[Scope]
+    SCOPE_WORKSPACE_READ: _ClassVar[Scope]
+
 class ApiKeyOwnerType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     API_KEY_OWNER_TYPE_UNSPECIFIED: _ClassVar[ApiKeyOwnerType]
     API_KEY_OWNER_TYPE_USER: _ClassVar[ApiKeyOwnerType]
     API_KEY_OWNER_TYPE_BOT: _ClassVar[ApiKeyOwnerType]
     API_KEY_OWNER_TYPE_SERVICE: _ClassVar[ApiKeyOwnerType]
+SCOPE_UNSPECIFIED: Scope
+SCOPE_ADMIN: Scope
+SCOPE_ORG_WRITE: Scope
+SCOPE_ORG_READ: Scope
+SCOPE_TEAM_WRITE: Scope
+SCOPE_TEAM_READ: Scope
+SCOPE_APPLICATION_WRITE: Scope
+SCOPE_APPLICATION_READ: Scope
+SCOPE_ENVIRONMENT_WRITE: Scope
+SCOPE_ENVIRONMENT_READ: Scope
+SCOPE_WORKSPACE_WRITE: Scope
+SCOPE_WORKSPACE_READ: Scope
 API_KEY_OWNER_TYPE_UNSPECIFIED: ApiKeyOwnerType
 API_KEY_OWNER_TYPE_USER: ApiKeyOwnerType
 API_KEY_OWNER_TYPE_BOT: ApiKeyOwnerType
@@ -87,8 +114,8 @@ class WhoAmIResponse(_message.Message):
     USER_FIELD_NUMBER: _ClassVar[int]
     SCOPES_FIELD_NUMBER: _ClassVar[int]
     user: _user_pb2.User
-    scopes: _containers.RepeatedScalarFieldContainer[str]
-    def __init__(self, user: _Optional[_Union[_user_pb2.User, _Mapping]] = ..., scopes: _Optional[_Iterable[str]] = ...) -> None: ...
+    scopes: _containers.RepeatedScalarFieldContainer[Scope]
+    def __init__(self, user: _Optional[_Union[_user_pb2.User, _Mapping]] = ..., scopes: _Optional[_Iterable[_Union[Scope, str]]] = ...) -> None: ...
 
 class LogoutRequest(_message.Message):
     __slots__ = ()
@@ -131,14 +158,14 @@ class ApiKey(_message.Message):
     REVOKED_AT_FIELD_NUMBER: _ClassVar[int]
     id: str
     name: str
-    scopes: _containers.RepeatedScalarFieldContainer[str]
+    scopes: _containers.RepeatedScalarFieldContainer[Scope]
     owner_id: str
     owner_type: ApiKeyOwnerType
     created_at: _timestamp_pb2.Timestamp
     expires_at: _timestamp_pb2.Timestamp
     last_used_at: _timestamp_pb2.Timestamp
     revoked_at: _timestamp_pb2.Timestamp
-    def __init__(self, id: _Optional[str] = ..., name: _Optional[str] = ..., scopes: _Optional[_Iterable[str]] = ..., owner_id: _Optional[str] = ..., owner_type: _Optional[_Union[ApiKeyOwnerType, str]] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., expires_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., last_used_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., revoked_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
+    def __init__(self, id: _Optional[str] = ..., name: _Optional[str] = ..., scopes: _Optional[_Iterable[_Union[Scope, str]]] = ..., owner_id: _Optional[str] = ..., owner_type: _Optional[_Union[ApiKeyOwnerType, str]] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., expires_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., last_used_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., revoked_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
 
 class CreateApiKeyRequest(_message.Message):
     __slots__ = ()
@@ -150,9 +177,9 @@ class CreateApiKeyRequest(_message.Message):
     name: str
     owner_type: ApiKeyOwnerType
     owner_id: str
-    scopes: _containers.RepeatedScalarFieldContainer[str]
+    scopes: _containers.RepeatedScalarFieldContainer[Scope]
     ttl_hours: int
-    def __init__(self, name: _Optional[str] = ..., owner_type: _Optional[_Union[ApiKeyOwnerType, str]] = ..., owner_id: _Optional[str] = ..., scopes: _Optional[_Iterable[str]] = ..., ttl_hours: _Optional[int] = ...) -> None: ...
+    def __init__(self, name: _Optional[str] = ..., owner_type: _Optional[_Union[ApiKeyOwnerType, str]] = ..., owner_id: _Optional[str] = ..., scopes: _Optional[_Iterable[_Union[Scope, str]]] = ..., ttl_hours: _Optional[int] = ...) -> None: ...
 
 class CreateApiKeyResponse(_message.Message):
     __slots__ = ()
@@ -194,9 +221,9 @@ class RotateApiKeyRequest(_message.Message):
     SCOPES_FIELD_NUMBER: _ClassVar[int]
     TTL_HOURS_FIELD_NUMBER: _ClassVar[int]
     id: str
-    scopes: _containers.RepeatedScalarFieldContainer[str]
+    scopes: _containers.RepeatedScalarFieldContainer[Scope]
     ttl_hours: int
-    def __init__(self, id: _Optional[str] = ..., scopes: _Optional[_Iterable[str]] = ..., ttl_hours: _Optional[int] = ...) -> None: ...
+    def __init__(self, id: _Optional[str] = ..., scopes: _Optional[_Iterable[_Union[Scope, str]]] = ..., ttl_hours: _Optional[int] = ...) -> None: ...
 
 class RotateApiKeyResponse(_message.Message):
     __slots__ = ()

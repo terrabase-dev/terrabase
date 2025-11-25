@@ -28,7 +28,7 @@ from terrabase.user.v1 import user_pb2 as terrabase_dot_user_dot_v1_dot_user__pb
 from terrabase.user_role.v1 import user_role_pb2 as terrabase_dot_user__role_dot_v1_dot_user__role__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cterrabase/auth/v1/auth.proto\x12\x11terrabase.auth.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cterrabase/user/v1/user.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xae\x01\n\rSignupRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x04name\x12\x19\n\x05\x65mail\x18\x02 \x01(\tB\x03\xe0\x41\x02R\x05\x65mail\x12\x1f\n\x08password\x18\x03 \x01(\tB\x03\xe0\x41\x02R\x08password\x12H\n\x0c\x64\x65\x66\x61ult_role\x18\x04 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleB\x03\xe0\x41\x02R\x0b\x64\x65\x66\x61ultRole\"\x85\x01\n\x0eSignupResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12#\n\rrefresh_token\x18\x03 \x01(\tR\x0crefreshToken\"J\n\x0cLoginRequest\x12\x19\n\x05\x65mail\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x05\x65mail\x12\x1f\n\x08password\x18\x02 \x01(\tB\x03\xe0\x41\x02R\x08password\"\x84\x01\n\rLoginResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12#\n\rrefresh_token\x18\x03 \x01(\tR\x0crefreshToken\":\n\x0eRefreshRequest\x12(\n\rrefresh_token\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x0crefreshToken\"Y\n\x0fRefreshResponse\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12#\n\rrefresh_token\x18\x02 \x01(\tR\x0crefreshToken\"\x0f\n\rWhoAmIRequest\"U\n\x0eWhoAmIResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\x12\x16\n\x06scopes\x18\x02 \x03(\tR\x06scopes\".\n\rLogoutRequest\x12\x1d\n\nsession_id\x18\x01 \x01(\tR\tsessionId\"\x10\n\x0eLogoutResponse\"\xe5\x01\n\x18\x43reateMachineUserRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x04name\x12H\n\x0c\x64\x65\x66\x61ult_role\x18\x02 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleB\x03\xe0\x41\x02R\x0b\x64\x65\x66\x61ultRole\x12=\n\tuser_type\x18\x03 \x01(\x0e\x32\x1b.terrabase.user.v1.UserTypeB\x03\xe0\x41\x02R\x08userType\x12\'\n\rowner_user_id\x18\x04 \x01(\tB\x03\xe0\x41\x02R\x0bownerUserId\"W\n\x19\x43reateMachineUserResponse\x12:\n\x0cmachine_user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x0bmachineUser\"\x91\x03\n\x06\x41piKey\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04name\x18\x02 \x01(\tR\x04name\x12\x16\n\x06scopes\x18\x03 \x03(\tR\x06scopes\x12\x19\n\x08owner_id\x18\x04 \x01(\tR\x07ownerId\x12\x41\n\nowner_type\x18\x05 \x01(\x0e\x32\".terrabase.auth.v1.ApiKeyOwnerTypeR\townerType\x12\x39\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x39\n\nexpires_at\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\texpiresAt\x12<\n\x0clast_used_at\x18\x08 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nlastUsedAt\x12\x39\n\nrevoked_at\x18\t \x01(\x0b\x32\x1a.google.protobuf.TimestampR\trevokedAt\"\xe3\x01\n\x13\x43reateApiKeyRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x04name\x12\x46\n\nowner_type\x18\x02 \x01(\x0e\x32\".terrabase.auth.v1.ApiKeyOwnerTypeB\x03\xe0\x41\x02R\townerType\x12\x1e\n\x08owner_id\x18\x03 \x01(\tB\x03\xe0\x41\x02R\x07ownerId\x12\x1b\n\x06scopes\x18\x04 \x03(\tB\x03\xe0\x41\x02R\x06scopes\x12 \n\tttl_hours\x18\x05 \x01(\x03H\x00R\x08ttlHours\x88\x01\x01\x42\x0c\n\n_ttl_hours\"n\n\x14\x43reateApiKeyResponse\x12\"\n\rapi_key_token\x18\x01 \x01(\tR\x0b\x61piKeyToken\x12\x32\n\x07\x61pi_key\x18\x02 \x01(\x0b\x32\x19.terrabase.auth.v1.ApiKeyR\x06\x61piKey\"r\n\x12ListApiKeysRequest\x12\x41\n\nowner_type\x18\x01 \x01(\x0e\x32\".terrabase.auth.v1.ApiKeyOwnerTypeR\townerType\x12\x19\n\x08owner_id\x18\x02 \x01(\tR\x07ownerId\"K\n\x13ListApiKeysResponse\x12\x34\n\x08\x61pi_keys\x18\x01 \x03(\x0b\x32\x19.terrabase.auth.v1.ApiKeyR\x07\x61piKeys\"B\n\x13RevokeApiKeyRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\x12\x16\n\x06reason\x18\x02 \x01(\tR\x06reason\"\x16\n\x14RevokeApiKeyResponse\"r\n\x13RotateApiKeyRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\x12\x16\n\x06scopes\x18\x02 \x03(\tR\x06scopes\x12 \n\tttl_hours\x18\x03 \x01(\x03H\x00R\x08ttlHours\x88\x01\x01\x42\x0c\n\n_ttl_hours\"n\n\x14RotateApiKeyResponse\x12\"\n\rapi_key_token\x18\x01 \x01(\tR\x0b\x61piKeyToken\x12\x32\n\x07\x61pi_key\x18\x02 \x01(\x0b\x32\x19.terrabase.auth.v1.ApiKeyR\x06\x61piKey\"\xfc\x01\n\x07Session\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n\nuser_agent\x18\x02 \x01(\tR\tuserAgent\x12\x0e\n\x02ip\x18\x03 \x01(\tR\x02ip\x12\x39\n\nexpires_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\texpiresAt\x12<\n\x0clast_used_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nlastUsedAt\x12\x39\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\"\x15\n\x13ListSessionsRequest\"N\n\x14ListSessionsResponse\x12\x36\n\x08sessions\x18\x01 \x03(\x0b\x32\x1a.terrabase.auth.v1.SessionR\x08sessions*\x8e\x01\n\x0f\x41piKeyOwnerType\x12\"\n\x1e\x41PI_KEY_OWNER_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n\x17\x41PI_KEY_OWNER_TYPE_USER\x10\x01\x12\x1a\n\x16\x41PI_KEY_OWNER_TYPE_BOT\x10\x02\x12\x1e\n\x1a\x41PI_KEY_OWNER_TYPE_SERVICE\x10\x03\x32\xea\x07\n\x0b\x41uthService\x12M\n\x06Signup\x12 .terrabase.auth.v1.SignupRequest\x1a!.terrabase.auth.v1.SignupResponse\x12J\n\x05Login\x12\x1f.terrabase.auth.v1.LoginRequest\x1a .terrabase.auth.v1.LoginResponse\x12P\n\x07Refresh\x12!.terrabase.auth.v1.RefreshRequest\x1a\".terrabase.auth.v1.RefreshResponse\x12M\n\x06WhoAmI\x12 .terrabase.auth.v1.WhoAmIRequest\x1a!.terrabase.auth.v1.WhoAmIResponse\x12M\n\x06Logout\x12 .terrabase.auth.v1.LogoutRequest\x1a!.terrabase.auth.v1.LogoutResponse\x12_\n\x0cListSessions\x12&.terrabase.auth.v1.ListSessionsRequest\x1a\'.terrabase.auth.v1.ListSessionsResponse\x12n\n\x11\x43reateMachineUser\x12+.terrabase.auth.v1.CreateMachineUserRequest\x1a,.terrabase.auth.v1.CreateMachineUserResponse\x12_\n\x0c\x43reateApiKey\x12&.terrabase.auth.v1.CreateApiKeyRequest\x1a\'.terrabase.auth.v1.CreateApiKeyResponse\x12\\\n\x0bListApiKeys\x12%.terrabase.auth.v1.ListApiKeysRequest\x1a&.terrabase.auth.v1.ListApiKeysResponse\x12_\n\x0cRevokeApiKey\x12&.terrabase.auth.v1.RevokeApiKeyRequest\x1a\'.terrabase.auth.v1.RevokeApiKeyResponse\x12_\n\x0cRotateApiKey\x12&.terrabase.auth.v1.RotateApiKeyRequest\x1a\'.terrabase.auth.v1.RotateApiKeyResponseBCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cterrabase/auth/v1/auth.proto\x12\x11terrabase.auth.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cterrabase/user/v1/user.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xae\x01\n\rSignupRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x04name\x12\x19\n\x05\x65mail\x18\x02 \x01(\tB\x03\xe0\x41\x02R\x05\x65mail\x12\x1f\n\x08password\x18\x03 \x01(\tB\x03\xe0\x41\x02R\x08password\x12H\n\x0c\x64\x65\x66\x61ult_role\x18\x04 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleB\x03\xe0\x41\x02R\x0b\x64\x65\x66\x61ultRole\"\x85\x01\n\x0eSignupResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12#\n\rrefresh_token\x18\x03 \x01(\tR\x0crefreshToken\"J\n\x0cLoginRequest\x12\x19\n\x05\x65mail\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x05\x65mail\x12\x1f\n\x08password\x18\x02 \x01(\tB\x03\xe0\x41\x02R\x08password\"\x84\x01\n\rLoginResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x02 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12#\n\rrefresh_token\x18\x03 \x01(\tR\x0crefreshToken\":\n\x0eRefreshRequest\x12(\n\rrefresh_token\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x0crefreshToken\"Y\n\x0fRefreshResponse\x12!\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\tR\x0b\x61\x63\x63\x65ssToken\x12#\n\rrefresh_token\x18\x02 \x01(\tR\x0crefreshToken\"\x0f\n\rWhoAmIRequest\"o\n\x0eWhoAmIResponse\x12+\n\x04user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x04user\x12\x30\n\x06scopes\x18\x02 \x03(\x0e\x32\x18.terrabase.auth.v1.ScopeR\x06scopes\".\n\rLogoutRequest\x12\x1d\n\nsession_id\x18\x01 \x01(\tR\tsessionId\"\x10\n\x0eLogoutResponse\"\xe5\x01\n\x18\x43reateMachineUserRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x04name\x12H\n\x0c\x64\x65\x66\x61ult_role\x18\x02 \x01(\x0e\x32 .terrabase.user_role.v1.UserRoleB\x03\xe0\x41\x02R\x0b\x64\x65\x66\x61ultRole\x12=\n\tuser_type\x18\x03 \x01(\x0e\x32\x1b.terrabase.user.v1.UserTypeB\x03\xe0\x41\x02R\x08userType\x12\'\n\rowner_user_id\x18\x04 \x01(\tB\x03\xe0\x41\x02R\x0bownerUserId\"W\n\x19\x43reateMachineUserResponse\x12:\n\x0cmachine_user\x18\x01 \x01(\x0b\x32\x17.terrabase.user.v1.UserR\x0bmachineUser\"\xab\x03\n\x06\x41piKey\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n\x04name\x18\x02 \x01(\tR\x04name\x12\x30\n\x06scopes\x18\x03 \x03(\x0e\x32\x18.terrabase.auth.v1.ScopeR\x06scopes\x12\x19\n\x08owner_id\x18\x04 \x01(\tR\x07ownerId\x12\x41\n\nowner_type\x18\x05 \x01(\x0e\x32\".terrabase.auth.v1.ApiKeyOwnerTypeR\townerType\x12\x39\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x39\n\nexpires_at\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\texpiresAt\x12<\n\x0clast_used_at\x18\x08 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nlastUsedAt\x12\x39\n\nrevoked_at\x18\t \x01(\x0b\x32\x1a.google.protobuf.TimestampR\trevokedAt\"\xfd\x01\n\x13\x43reateApiKeyRequest\x12\x17\n\x04name\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x04name\x12\x46\n\nowner_type\x18\x02 \x01(\x0e\x32\".terrabase.auth.v1.ApiKeyOwnerTypeB\x03\xe0\x41\x02R\townerType\x12\x1e\n\x08owner_id\x18\x03 \x01(\tB\x03\xe0\x41\x02R\x07ownerId\x12\x35\n\x06scopes\x18\x04 \x03(\x0e\x32\x18.terrabase.auth.v1.ScopeB\x03\xe0\x41\x02R\x06scopes\x12 \n\tttl_hours\x18\x05 \x01(\x03H\x00R\x08ttlHours\x88\x01\x01\x42\x0c\n\n_ttl_hours\"n\n\x14\x43reateApiKeyResponse\x12\"\n\rapi_key_token\x18\x01 \x01(\tR\x0b\x61piKeyToken\x12\x32\n\x07\x61pi_key\x18\x02 \x01(\x0b\x32\x19.terrabase.auth.v1.ApiKeyR\x06\x61piKey\"r\n\x12ListApiKeysRequest\x12\x41\n\nowner_type\x18\x01 \x01(\x0e\x32\".terrabase.auth.v1.ApiKeyOwnerTypeR\townerType\x12\x19\n\x08owner_id\x18\x02 \x01(\tR\x07ownerId\"K\n\x13ListApiKeysResponse\x12\x34\n\x08\x61pi_keys\x18\x01 \x03(\x0b\x32\x19.terrabase.auth.v1.ApiKeyR\x07\x61piKeys\"B\n\x13RevokeApiKeyRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\x12\x16\n\x06reason\x18\x02 \x01(\tR\x06reason\"\x16\n\x14RevokeApiKeyResponse\"\x8c\x01\n\x13RotateApiKeyRequest\x12\x13\n\x02id\x18\x01 \x01(\tB\x03\xe0\x41\x02R\x02id\x12\x30\n\x06scopes\x18\x02 \x03(\x0e\x32\x18.terrabase.auth.v1.ScopeR\x06scopes\x12 \n\tttl_hours\x18\x03 \x01(\x03H\x00R\x08ttlHours\x88\x01\x01\x42\x0c\n\n_ttl_hours\"n\n\x14RotateApiKeyResponse\x12\"\n\rapi_key_token\x18\x01 \x01(\tR\x0b\x61piKeyToken\x12\x32\n\x07\x61pi_key\x18\x02 \x01(\x0b\x32\x19.terrabase.auth.v1.ApiKeyR\x06\x61piKey\"\xfc\x01\n\x07Session\x12\x0e\n\x02id\x18\x01 \x01(\tR\x02id\x12\x1d\n\nuser_agent\x18\x02 \x01(\tR\tuserAgent\x12\x0e\n\x02ip\x18\x03 \x01(\tR\x02ip\x12\x39\n\nexpires_at\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\texpiresAt\x12<\n\x0clast_used_at\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\nlastUsedAt\x12\x39\n\ncreated_at\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.TimestampR\tcreatedAt\"\x15\n\x13ListSessionsRequest\"N\n\x14ListSessionsResponse\x12\x36\n\x08sessions\x18\x01 \x03(\x0b\x32\x1a.terrabase.auth.v1.SessionR\x08sessions*\xaa\x02\n\x05Scope\x12\x15\n\x11SCOPE_UNSPECIFIED\x10\x00\x12\x0f\n\x0bSCOPE_ADMIN\x10\x01\x12\x13\n\x0fSCOPE_ORG_WRITE\x10\x02\x12\x12\n\x0eSCOPE_ORG_READ\x10\x03\x12\x14\n\x10SCOPE_TEAM_WRITE\x10\x04\x12\x13\n\x0fSCOPE_TEAM_READ\x10\x05\x12\x1b\n\x17SCOPE_APPLICATION_WRITE\x10\x06\x12\x1a\n\x16SCOPE_APPLICATION_READ\x10\x07\x12\x1b\n\x17SCOPE_ENVIRONMENT_WRITE\x10\x08\x12\x1a\n\x16SCOPE_ENVIRONMENT_READ\x10\t\x12\x19\n\x15SCOPE_WORKSPACE_WRITE\x10\n\x12\x18\n\x14SCOPE_WORKSPACE_READ\x10\x0b*\x8e\x01\n\x0f\x41piKeyOwnerType\x12\"\n\x1e\x41PI_KEY_OWNER_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n\x17\x41PI_KEY_OWNER_TYPE_USER\x10\x01\x12\x1a\n\x16\x41PI_KEY_OWNER_TYPE_BOT\x10\x02\x12\x1e\n\x1a\x41PI_KEY_OWNER_TYPE_SERVICE\x10\x03\x32\xea\x07\n\x0b\x41uthService\x12M\n\x06Signup\x12 .terrabase.auth.v1.SignupRequest\x1a!.terrabase.auth.v1.SignupResponse\x12J\n\x05Login\x12\x1f.terrabase.auth.v1.LoginRequest\x1a .terrabase.auth.v1.LoginResponse\x12P\n\x07Refresh\x12!.terrabase.auth.v1.RefreshRequest\x1a\".terrabase.auth.v1.RefreshResponse\x12M\n\x06WhoAmI\x12 .terrabase.auth.v1.WhoAmIRequest\x1a!.terrabase.auth.v1.WhoAmIResponse\x12M\n\x06Logout\x12 .terrabase.auth.v1.LogoutRequest\x1a!.terrabase.auth.v1.LogoutResponse\x12_\n\x0cListSessions\x12&.terrabase.auth.v1.ListSessionsRequest\x1a\'.terrabase.auth.v1.ListSessionsResponse\x12n\n\x11\x43reateMachineUser\x12+.terrabase.auth.v1.CreateMachineUserRequest\x1a,.terrabase.auth.v1.CreateMachineUserResponse\x12_\n\x0c\x43reateApiKey\x12&.terrabase.auth.v1.CreateApiKeyRequest\x1a\'.terrabase.auth.v1.CreateApiKeyResponse\x12\\\n\x0bListApiKeys\x12%.terrabase.auth.v1.ListApiKeysRequest\x1a&.terrabase.auth.v1.ListApiKeysResponse\x12_\n\x0cRevokeApiKey\x12&.terrabase.auth.v1.RevokeApiKeyRequest\x1a\'.terrabase.auth.v1.RevokeApiKeyResponse\x12_\n\x0cRotateApiKey\x12&.terrabase.auth.v1.RotateApiKeyRequest\x1a\'.terrabase.auth.v1.RotateApiKeyResponseBCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -70,8 +70,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_REVOKEAPIKEYREQUEST'].fields_by_name['id']._serialized_options = b'\340A\002'
   _globals['_ROTATEAPIKEYREQUEST'].fields_by_name['id']._loaded_options = None
   _globals['_ROTATEAPIKEYREQUEST'].fields_by_name['id']._serialized_options = b'\340A\002'
-  _globals['_APIKEYOWNERTYPE']._serialized_start=2971
-  _globals['_APIKEYOWNERTYPE']._serialized_end=3113
+  _globals['_SCOPE']._serialized_start=3076
+  _globals['_SCOPE']._serialized_end=3374
+  _globals['_APIKEYOWNERTYPE']._serialized_start=3377
+  _globals['_APIKEYOWNERTYPE']._serialized_end=3519
   _globals['_SIGNUPREQUEST']._serialized_start=188
   _globals['_SIGNUPREQUEST']._serialized_end=362
   _globals['_SIGNUPRESPONSE']._serialized_start=365
@@ -87,39 +89,39 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_WHOAMIREQUEST']._serialized_start=862
   _globals['_WHOAMIREQUEST']._serialized_end=877
   _globals['_WHOAMIRESPONSE']._serialized_start=879
-  _globals['_WHOAMIRESPONSE']._serialized_end=964
-  _globals['_LOGOUTREQUEST']._serialized_start=966
-  _globals['_LOGOUTREQUEST']._serialized_end=1012
-  _globals['_LOGOUTRESPONSE']._serialized_start=1014
-  _globals['_LOGOUTRESPONSE']._serialized_end=1030
-  _globals['_CREATEMACHINEUSERREQUEST']._serialized_start=1033
-  _globals['_CREATEMACHINEUSERREQUEST']._serialized_end=1262
-  _globals['_CREATEMACHINEUSERRESPONSE']._serialized_start=1264
-  _globals['_CREATEMACHINEUSERRESPONSE']._serialized_end=1351
-  _globals['_APIKEY']._serialized_start=1354
-  _globals['_APIKEY']._serialized_end=1755
-  _globals['_CREATEAPIKEYREQUEST']._serialized_start=1758
-  _globals['_CREATEAPIKEYREQUEST']._serialized_end=1985
-  _globals['_CREATEAPIKEYRESPONSE']._serialized_start=1987
-  _globals['_CREATEAPIKEYRESPONSE']._serialized_end=2097
-  _globals['_LISTAPIKEYSREQUEST']._serialized_start=2099
-  _globals['_LISTAPIKEYSREQUEST']._serialized_end=2213
-  _globals['_LISTAPIKEYSRESPONSE']._serialized_start=2215
-  _globals['_LISTAPIKEYSRESPONSE']._serialized_end=2290
-  _globals['_REVOKEAPIKEYREQUEST']._serialized_start=2292
-  _globals['_REVOKEAPIKEYREQUEST']._serialized_end=2358
-  _globals['_REVOKEAPIKEYRESPONSE']._serialized_start=2360
-  _globals['_REVOKEAPIKEYRESPONSE']._serialized_end=2382
-  _globals['_ROTATEAPIKEYREQUEST']._serialized_start=2384
-  _globals['_ROTATEAPIKEYREQUEST']._serialized_end=2498
-  _globals['_ROTATEAPIKEYRESPONSE']._serialized_start=2500
-  _globals['_ROTATEAPIKEYRESPONSE']._serialized_end=2610
-  _globals['_SESSION']._serialized_start=2613
-  _globals['_SESSION']._serialized_end=2865
-  _globals['_LISTSESSIONSREQUEST']._serialized_start=2867
-  _globals['_LISTSESSIONSREQUEST']._serialized_end=2888
-  _globals['_LISTSESSIONSRESPONSE']._serialized_start=2890
-  _globals['_LISTSESSIONSRESPONSE']._serialized_end=2968
-  _globals['_AUTHSERVICE']._serialized_start=3116
-  _globals['_AUTHSERVICE']._serialized_end=4118
+  _globals['_WHOAMIRESPONSE']._serialized_end=990
+  _globals['_LOGOUTREQUEST']._serialized_start=992
+  _globals['_LOGOUTREQUEST']._serialized_end=1038
+  _globals['_LOGOUTRESPONSE']._serialized_start=1040
+  _globals['_LOGOUTRESPONSE']._serialized_end=1056
+  _globals['_CREATEMACHINEUSERREQUEST']._serialized_start=1059
+  _globals['_CREATEMACHINEUSERREQUEST']._serialized_end=1288
+  _globals['_CREATEMACHINEUSERRESPONSE']._serialized_start=1290
+  _globals['_CREATEMACHINEUSERRESPONSE']._serialized_end=1377
+  _globals['_APIKEY']._serialized_start=1380
+  _globals['_APIKEY']._serialized_end=1807
+  _globals['_CREATEAPIKEYREQUEST']._serialized_start=1810
+  _globals['_CREATEAPIKEYREQUEST']._serialized_end=2063
+  _globals['_CREATEAPIKEYRESPONSE']._serialized_start=2065
+  _globals['_CREATEAPIKEYRESPONSE']._serialized_end=2175
+  _globals['_LISTAPIKEYSREQUEST']._serialized_start=2177
+  _globals['_LISTAPIKEYSREQUEST']._serialized_end=2291
+  _globals['_LISTAPIKEYSRESPONSE']._serialized_start=2293
+  _globals['_LISTAPIKEYSRESPONSE']._serialized_end=2368
+  _globals['_REVOKEAPIKEYREQUEST']._serialized_start=2370
+  _globals['_REVOKEAPIKEYREQUEST']._serialized_end=2436
+  _globals['_REVOKEAPIKEYRESPONSE']._serialized_start=2438
+  _globals['_REVOKEAPIKEYRESPONSE']._serialized_end=2460
+  _globals['_ROTATEAPIKEYREQUEST']._serialized_start=2463
+  _globals['_ROTATEAPIKEYREQUEST']._serialized_end=2603
+  _globals['_ROTATEAPIKEYRESPONSE']._serialized_start=2605
+  _globals['_ROTATEAPIKEYRESPONSE']._serialized_end=2715
+  _globals['_SESSION']._serialized_start=2718
+  _globals['_SESSION']._serialized_end=2970
+  _globals['_LISTSESSIONSREQUEST']._serialized_start=2972
+  _globals['_LISTSESSIONSREQUEST']._serialized_end=2993
+  _globals['_LISTSESSIONSRESPONSE']._serialized_start=2995
+  _globals['_LISTSESSIONSRESPONSE']._serialized_end=3073
+  _globals['_AUTHSERVICE']._serialized_start=3522
+  _globals['_AUTHSERVICE']._serialized_end=4524
 # @@protoc_insertion_point(module_scope)

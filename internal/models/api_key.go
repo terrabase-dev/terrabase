@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 	"github.com/uptrace/bun"
 )
 
@@ -16,7 +17,7 @@ type APIKey struct {
 	Name          string         `bun:",notnull"`
 	Prefix        string         `bun:",notnull,unique"`
 	SecretHash    string         `bun:",notnull"`
-	Scopes        []string       `bun:",array"`
+	Scopes        []authv1.Scope `bun:",array"`
 	Metadata      map[string]any `bun:",type:jsonb"`
 	ExpiresAt     time.Time      `bun:",nullzero"`
 	RevokedAt     time.Time      `bun:",nullzero"`

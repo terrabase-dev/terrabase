@@ -8,6 +8,7 @@ import (
 	"connectrpc.com/connect"
 	"github.com/terrabase-dev/terrabase/internal/auth"
 	"github.com/terrabase-dev/terrabase/internal/repos"
+	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 	userv1 "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1"
 )
 
@@ -84,7 +85,7 @@ func (s *UserService) DeleteUser(ctx context.Context, req *connect.Request[userv
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
 	}
 
-	if authCtx == nil || !authCtx.HasScope("admin") {
+	if authCtx == nil || !authCtx.HasScope(authv1.Scope_SCOPE_ADMIN) {
 		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
 	}
 
