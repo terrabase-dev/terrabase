@@ -7,10 +7,12 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/terrabase-dev/terrabase/internal/repos"
+	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 	organizationv1 "github.com/terrabase-dev/terrabase/specs/terrabase/organization/v1"
 )
 
 type OrganizationService struct {
+	AuthAware
 	repo   *repos.OrganizationRepo
 	logger *log.Logger
 }
@@ -29,6 +31,10 @@ func (s *OrganizationService) CreateOrganization(ctx context.Context, req *conne
 
 	if req.Msg.GetSubscription() == organizationv1.Subscription_SUBSCRIPTION_UNSPECIFIED {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("subscription is required"))
+	}
+
+	if _, err := s.requireAnyScope(ctx, authv1.Scope_SCOPE_ADMIN, authv1.Scope_SCOPE_ORG_WRITE); err != nil {
+		return nil, err
 	}
 
 	org := &organizationv1.Organization{
@@ -51,6 +57,10 @@ func (s *OrganizationService) GetOrganization(ctx context.Context, req *connect.
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
+	if _, err := s.requireAnyScope(ctx, authv1.Scope_SCOPE_ADMIN, authv1.Scope_SCOPE_ORG_WRITE, authv1.Scope_SCOPE_ORG_READ); err != nil {
+		return nil, err
+	}
+
 	org, err := s.repo.Get(ctx, req.Msg.GetId())
 	if err != nil {
 		return nil, mapError(err)
@@ -60,6 +70,10 @@ func (s *OrganizationService) GetOrganization(ctx context.Context, req *connect.
 }
 
 func (s *OrganizationService) ListOrganizations(ctx context.Context, req *connect.Request[organizationv1.ListOrganizationsRequest]) (*connect.Response[organizationv1.ListOrganizationsResponse], error) {
+	if _, err := s.requireAnyScope(ctx, authv1.Scope_SCOPE_ADMIN, authv1.Scope_SCOPE_ORG_WRITE, authv1.Scope_SCOPE_ORG_READ); err != nil {
+		return nil, err
+	}
+
 	orgs, nextToken, err := s.repo.List(ctx, req.Msg.GetPageSize(), req.Msg.GetPageToken())
 	if err != nil {
 		return nil, mapError(err)
@@ -86,6 +100,10 @@ func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *conne
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("no updates provided"))
 	}
 
+	if _, err := s.requireAnyScope(ctx, authv1.Scope_SCOPE_ADMIN, authv1.Scope_SCOPE_ORG_WRITE); err != nil {
+		return nil, err
+	}
+
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.Name, req.Msg.Subscription)
 
 	if err != nil {
@@ -100,6 +118,10 @@ func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *conne
 func (s *OrganizationService) DeleteOrganization(ctx context.Context, req *connect.Request[organizationv1.DeleteOrganizationRequest]) (*connect.Response[organizationv1.DeleteOrganizationResponse], error) {
 	if req.Msg.GetId() == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+	}
+
+	if _, err := s.requireAnyScope(ctx, authv1.Scope_SCOPE_ADMIN, authv1.Scope_SCOPE_ORG_WRITE); err != nil {
+		return nil, err
 	}
 
 	if err := s.repo.Delete(ctx, req.Msg.GetId()); err != nil {

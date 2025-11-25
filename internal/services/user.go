@@ -6,13 +6,13 @@ import (
 	"log"
 
 	"connectrpc.com/connect"
-	"github.com/terrabase-dev/terrabase/internal/auth"
 	"github.com/terrabase-dev/terrabase/internal/repos"
 	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 	userv1 "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1"
 )
 
 type UserService struct {
+	AuthAware
 	repo   *repos.UserRepo
 	logger *log.Logger
 }
@@ -29,16 +29,13 @@ func (s *UserService) GetUser(ctx context.Context, req *connect.Request[userv1.G
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
-	s.logger.Println(authCtx.PrincipalType)
-	s.logger.Println(authCtx.SubjectID)
-
-	if !isAdminOrSelfUser(authCtx, string(authCtx.PrincipalType), req.Msg.GetId()) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	if err := s.requireAdminOrSelf(authCtx, string(authCtx.PrincipalType), req.Msg.GetId()); err != nil {
+		return nil, err
 	}
 
 	user, err := s.repo.Get(ctx, req.Msg.GetId())
@@ -58,13 +55,13 @@ func (s *UserService) UpdateUser(ctx context.Context, req *connect.Request[userv
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
-	if !isAdminOrSelfUser(authCtx, string(authCtx.PrincipalType), req.Msg.GetId()) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	if err := s.requireAdminOrSelf(authCtx, string(authCtx.PrincipalType), req.Msg.GetId()); err != nil {
+		return nil, err
 	}
 
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.Name, req.Msg.Email, (*int32)(req.Msg.DefaultRole))
@@ -80,13 +77,10 @@ func (s *UserService) DeleteUser(ctx context.Context, req *connect.Request[userv
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
-	}
+	authCtx, err := s.requireScope(ctx, authv1.Scope_SCOPE_ADMIN)
 
-	if authCtx == nil || !authCtx.HasScope(authv1.Scope_SCOPE_ADMIN) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	if err != nil {
+		return nil, err
 	}
 
 	if authCtx.SubjectID == req.Msg.GetId() {

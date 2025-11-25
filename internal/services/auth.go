@@ -17,7 +17,6 @@ import (
 	"github.com/terrabase-dev/terrabase/internal/repos"
 	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 	userv1 "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1"
-	userRolev1 "github.com/terrabase-dev/terrabase/specs/terrabase/user_role/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -27,6 +26,7 @@ const (
 )
 
 type AuthService struct {
+	AuthAware
 	users       *repos.UserRepo
 	creds       *repos.CredentialRepo
 	sessions    *repos.SessionRepo
@@ -300,62 +300,6 @@ func (s *AuthService) hashRefreshToken(token string) string {
 	return hex.EncodeToString(mac.Sum(nil))
 }
 
-func scopesForRole(role userRolev1.UserRole) []authv1.Scope {
-	switch role {
-	case userRolev1.UserRole_USER_ROLE_OWNER:
-		return []authv1.Scope{
-			authv1.Scope_SCOPE_ADMIN,
-			authv1.Scope_SCOPE_ORG_WRITE,
-			authv1.Scope_SCOPE_ORG_READ,
-			authv1.Scope_SCOPE_TEAM_WRITE,
-			authv1.Scope_SCOPE_TEAM_READ,
-			authv1.Scope_SCOPE_APPLICATION_WRITE,
-			authv1.Scope_SCOPE_APPLICATION_READ,
-			authv1.Scope_SCOPE_ENVIRONMENT_WRITE,
-			authv1.Scope_SCOPE_ENVIRONMENT_READ,
-			authv1.Scope_SCOPE_WORKSPACE_WRITE,
-			authv1.Scope_SCOPE_WORKSPACE_READ,
-		}
-	case userRolev1.UserRole_USER_ROLE_MAINTAINER:
-		return []authv1.Scope{
-			authv1.Scope_SCOPE_ORG_READ,
-			authv1.Scope_SCOPE_TEAM_WRITE,
-			authv1.Scope_SCOPE_TEAM_READ,
-			authv1.Scope_SCOPE_APPLICATION_WRITE,
-			authv1.Scope_SCOPE_APPLICATION_READ,
-			authv1.Scope_SCOPE_ENVIRONMENT_WRITE,
-			authv1.Scope_SCOPE_ENVIRONMENT_READ,
-			authv1.Scope_SCOPE_WORKSPACE_WRITE,
-			authv1.Scope_SCOPE_WORKSPACE_READ,
-		}
-	case userRolev1.UserRole_USER_ROLE_DEVELOPER:
-		return []authv1.Scope{
-			authv1.Scope_SCOPE_ORG_READ,
-			authv1.Scope_SCOPE_TEAM_READ,
-			authv1.Scope_SCOPE_APPLICATION_READ,
-			authv1.Scope_SCOPE_ENVIRONMENT_READ,
-			authv1.Scope_SCOPE_WORKSPACE_READ,
-		}
-	default:
-		return []authv1.Scope{
-			authv1.Scope_SCOPE_ORG_READ,
-		}
-	}
-}
-
-func apiKeyOwnerTypeToString(ownerType authv1.ApiKeyOwnerType) string {
-	switch ownerType {
-	case authv1.ApiKeyOwnerType_API_KEY_OWNER_TYPE_USER:
-		return "user"
-	case authv1.ApiKeyOwnerType_API_KEY_OWNER_TYPE_BOT:
-		return "bot"
-	case authv1.ApiKeyOwnerType_API_KEY_OWNER_TYPE_SERVICE:
-		return "service"
-	default:
-		return ""
-	}
-}
-
 func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[authv1.CreateApiKeyRequest]) (*connect.Response[authv1.CreateApiKeyResponse], error) {
 	if s.apiKeys == nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
@@ -376,8 +320,8 @@ func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[aut
 		ownerID = authCtx.SubjectID
 	}
 
-	if !isAdminOrSelfUser(authCtx, ownerType, ownerID) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	if err := s.requireAdminOrSelf(authCtx, ownerType, ownerID); err != nil {
+		return nil, err
 	}
 
 	if len(req.Msg.Scopes) == 0 {
@@ -431,8 +375,8 @@ func (s *AuthService) ListApiKeys(ctx context.Context, req *connect.Request[auth
 		ownerID = authCtx.SubjectID
 	}
 
-	if !isAdminOrSelfUser(authCtx, ownerType, ownerID) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	if err := s.requireAdminOrSelf(authCtx, ownerType, ownerID); err != nil {
+		return nil, err
 	}
 
 	keys, err := s.apiKeys.ListByOwner(ctx, ownerType, ownerID)
@@ -464,8 +408,8 @@ func (s *AuthService) RevokeApiKey(ctx context.Context, req *connect.Request[aut
 		return nil, mapError(err)
 	}
 
-	if !isAdminOrSelfUser(authCtx, existing.OwnerType, existing.OwnerID) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	if err := s.requireAdminOrSelf(authCtx, existing.OwnerType, existing.OwnerID); err != nil {
+		return nil, err
 	}
 
 	if err := s.apiKeys.Revoke(ctx, req.Msg.GetId(), req.Msg.GetReason()); err != nil {
@@ -490,8 +434,8 @@ func (s *AuthService) RotateApiKey(ctx context.Context, req *connect.Request[aut
 		return nil, mapError(err)
 	}
 
-	if !isAdminOrSelfUser(authCtx, existing.OwnerType, existing.OwnerID) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	if err := s.requireAdminOrSelf(authCtx, existing.OwnerType, existing.OwnerID); err != nil {
+		return nil, err
 	}
 
 	scopes := req.Msg.GetScopes()
@@ -533,19 +477,6 @@ func (s *AuthService) RotateApiKey(ctx context.Context, req *connect.Request[aut
 		ApiKeyToken: mat.Token(),
 		ApiKey:      toProtoAPIKey(newKey),
 	}), nil
-}
-
-func (s *AuthService) requireScope(ctx context.Context, scope authv1.Scope) error {
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
-	}
-
-	if !authCtx.HasScope(scope) {
-		return connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
-	}
-
-	return nil
 }
 
 func toProtoAPIKey(key *models.APIKey) *authv1.ApiKey {
@@ -615,20 +546,4 @@ func extractClientInfo(req connect.AnyRequest) (userAgent string, ip string) {
 	}
 
 	return userAgent, ip
-}
-
-func isAdminOrSelfUser(authCtx *auth.Context, ownerType string, ownerID string) bool {
-	if authCtx == nil {
-		return false
-	}
-
-	if authCtx.HasScope(authv1.Scope_SCOPE_ADMIN) {
-		return true
-	}
-
-	if ownerType == "user" && ownerID != "" && authCtx.SubjectID == ownerID {
-		return true
-	}
-
-	return false
 }
