@@ -39,3 +39,11 @@ func (o *Organization) ToProto() *organizationv1.Organization {
 		UpdatedAt:    timestamppb.New(o.UpdatedAt.UTC()),
 	}
 }
+
+func (o *Organization) SetUpdatedAt(time time.Time) {
+	o.UpdatedAt = time
+}
+
+func (o *Organization) ModelName() string {
+	return "organization"
+}

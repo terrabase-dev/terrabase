@@ -113,9 +113,6 @@ func ContextInterceptor(a *Authenticator, logger *log.Logger) connect.UnaryInter
 			}
 
 			res, callErr := next(ctx, req)
-			if callErr == nil && authCtx != nil && logger != nil && authCtx.Authenticated {
-				logger.Printf("authenticated request principal=%s type=%s scopes=%v", authCtx.SubjectID, authCtx.PrincipalType, authCtx.Scopes)
-			}
 
 			return res, callErr
 		}
