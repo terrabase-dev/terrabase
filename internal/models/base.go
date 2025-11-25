@@ -7,7 +7,7 @@ import (
 )
 
 type TerrabaseModel[P proto.Message] interface {
-	SetUpdatedAt(time time.Time)
+	SetUpdatedAt(updatedAt time.Time)
 	ToProto() P
 	ModelName() string
 }

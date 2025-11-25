@@ -40,8 +40,8 @@ func (o *Organization) ToProto() *organizationv1.Organization {
 	}
 }
 
-func (o *Organization) SetUpdatedAt(time time.Time) {
-	o.UpdatedAt = time
+func (o *Organization) SetUpdatedAt(updatedAt time.Time) {
+	o.UpdatedAt = updatedAt
 }
 
 func (o *Organization) ModelName() string {
