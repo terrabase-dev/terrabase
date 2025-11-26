@@ -12,6 +12,7 @@ tags_metadata: List[TagMetadata] = [
         "description": "Manage user/machine authentication and authorization",
     },
     {"name": "organization", "description": "Manage Terrabase organizations"},
+    {"name": "team", "description": "Manage Terrabase teams"},
 ]
 
 openapi_tags = cast(List[Dict[str, str]], tags_metadata)

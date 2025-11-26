@@ -8,7 +8,12 @@ from terrabase_api import __version__
 from terrabase_api.auth.tokens import JWTManager
 from terrabase_api.docs import configure_openapi, get_openapi_yaml
 from terrabase_api.middleware import AccessLogMiddleware, AuthContextMiddleware
-from terrabase_api.routers import auth_router, organization_router, user_router
+from terrabase_api.routers import (
+    auth_router,
+    organization_router,
+    team_router,
+    user_router,
+)
 from terrabase_api.tags import openapi_tags
 
 terrabase_api = FastAPI(
@@ -42,6 +47,7 @@ terrabase_api.add_middleware(AccessLogMiddleware)
 
 terrabase_api.include_router(auth_router)
 terrabase_api.include_router(organization_router)
+terrabase_api.include_router(team_router)
 terrabase_api.include_router(user_router)
 
 

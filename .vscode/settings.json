@@ -8,5 +8,6 @@
       "editor.defaultFormatter": "charliermarsh.ruff"
     },
     "makefile.configureOnOpen": true,
-    "buf.restartAfterCrash": true
+    "buf.restartAfterCrash": true,
+    "python.REPL.enableREPLSmartSend": false
 }

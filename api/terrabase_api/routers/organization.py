@@ -67,7 +67,7 @@ async def get_organization(
 @organization_router.post("/{id}", response_model=None)
 async def update_organization(
     service: OrganizationService,
-    req: dict = Body(...),
+    req: Dict = Body(...),
     id: str = Path(description="The ID of the organization to update"),
 ):
     update_req = parse(organization_pb2.UpdateOrganizationRequest, req)
