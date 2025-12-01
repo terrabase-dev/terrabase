@@ -22,22 +22,25 @@ services:
     volumes:
       - terrabase_db_data:/var/lib/postgresql/data
 
-  rpc:
+  api:
     build:
       context: ../
-      dockerfile: docker/Dockerfile.rpc
-    image: terrabase-rpc
-    container_name: rpc
+      dockerfile: docker/Dockerfile.api
+    image: terrabase-api
+    container_name: api
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgres://terrabase:terrabase@postgres:5432/terrabase?sslmode=disable
     env_file:
       - ../.env
     networks:
       - terrabase
     ports:
       - "8080:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls=true"
     volumes:
       - ../:/app
 
@@ -55,29 +58,3 @@ services:
       - ./certs/terrabase.key:/certs/terrabase.key:ro
       - ./traefik/traefik.yaml:/etc/traefik/traefik.yaml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-
-  api:
-    build:
-      context: ../
-      dockerfile: api/Dockerfile
-    image: terrabase-api
-    container_name: api
-    depends_on:
-      - rpc
-      - traefik
-    environment:
-      TERRABASE_RPC_ADDR: "rpc:8080"
-    env_file:
-      - ../.env
-    networks:
-      - terrabase
-    ports:
-      - "8000:8000"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
-      - "traefik.http.routers.api.entrypoints=websecure"
-      - "traefik.http.routers.api.tls=true"
-    volumes:
-      - ../api/terrabase_api:/app/terrabase_api
-    command: ["python", "-m", "fastapi", "dev", "terrabase_api/main.py", "--host", "0.0.0.0", "--proxy-headers", "--port", "8000"]

@@ -1,2 +1,0 @@
-from .access_log import AccessLogMiddleware as AccessLogMiddleware
-from terrabase_api.auth.middleware import AuthContextMiddleware as AuthContextMiddleware
