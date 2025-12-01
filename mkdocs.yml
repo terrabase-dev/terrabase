@@ -1,0 +1,37 @@
+site_name: Terrabase API
+docs_dir: docs
+repo_url: https://github.com/terrabase-dev/terrabase
+repo_name: terrabase-dev/terrabase
+
+nav:
+  - API Reference: index.md
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - toc:
+      permalink: true
+
+plugins:
+  - search

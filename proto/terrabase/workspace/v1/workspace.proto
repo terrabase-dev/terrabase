@@ -73,11 +73,6 @@ message DeleteWorkspaceRequest {
 
 message DeleteWorkspaceResponse {}
 
-/*
- ##########################
- # Team access management #
- ##########################
-*/
 message GrantTeamAccessRequest {
   string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
   terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];

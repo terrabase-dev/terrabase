@@ -662,9 +662,6 @@ func (*DeleteWorkspaceResponse) Descriptor() ([]byte, []int) {
 	return file_terrabase_workspace_v1_workspace_proto_rawDescGZIP(), []int{10}
 }
 
-// ##########################
-// # Team access management #
-// ##########################
 type GrantTeamAccessRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	WorkspaceId   string                 `protobuf:"bytes,1,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`

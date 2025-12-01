@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/application/v1;applicationv1";
 
 message Application {
+  // The ID of the application
   string id = 1;
   string name = 2;
   google.protobuf.Timestamp created_at = 3;
@@ -58,11 +59,6 @@ message DeleteApplicationRequest {
 
 message DeleteApplicationResponse {}
 
-/*
- ##########################
- # Team access management #
- ##########################
-*/
 message GrantTeamAccessRequest {
   string application_id = 1 [(google.api.field_behavior) = REQUIRED];
   repeated string team_id = 2 [(google.api.field_behavior) = REQUIRED];

@@ -23,9 +23,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// ###########################
-// # Organization membership #
-// ###########################
 type AddUserToOrganizationRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -202,9 +199,6 @@ func (*RemoveUserFromOrganizationResponse) Descriptor() ([]byte, []int) {
 	return file_terrabase_user_membership_v1_user_membership_proto_rawDescGZIP(), []int{3}
 }
 
-// ###################
-// # Team membership #
-// ###################
 type AddUserToTeamRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -381,9 +375,6 @@ func (*RemoveUserFromTeamResponse) Descriptor() ([]byte, []int) {
 	return file_terrabase_user_membership_v1_user_membership_proto_rawDescGZIP(), []int{7}
 }
 
-// ########################
-// # Workspace membership #
-// ########################
 type AddUserToWorkspaceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`

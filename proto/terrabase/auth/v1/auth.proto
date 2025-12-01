@@ -3,11 +3,18 @@ syntax = "proto3";
 package terrabase.auth.v1;
 
 import "google/api/field_behavior.proto";
+import "google/protobuf/descriptor.proto";
 import "google/protobuf/timestamp.proto";
 import "terrabase/user/v1/user.proto";
 import "terrabase/user_role/v1/user_role.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1";
+
+extend google.protobuf.MethodOptions {
+  bool auth_required = 50001;
+  repeated Scope required_scopes = 50002;
+  repeated string error_codes = 50003;
+}
 
 enum Scope {
   SCOPE_UNSPECIFIED = 0;
@@ -24,11 +31,6 @@ enum Scope {
   SCOPE_WORKSPACE_READ = 11;
 }
 
-/*
- #######################
- # User authentication #
- #######################
-*/
 message SignupRequest {
   string name = 1 [(google.api.field_behavior) = REQUIRED];
   string email = 2 [(google.api.field_behavior) = REQUIRED];
@@ -75,11 +77,6 @@ message LogoutRequest {
 
 message LogoutResponse {}
 
-/*
- #################
- # Machine users #
- #################
-*/
 message CreateMachineUserRequest {
   string name = 1 [(google.api.field_behavior) = REQUIRED];
   terrabase.user_role.v1.UserRole default_role = 2 [(google.api.field_behavior) = REQUIRED];
@@ -91,11 +88,6 @@ message CreateMachineUserResponse {
   terrabase.user.v1.User machine_user = 1;
 }
 
-/*
- ############
- # API keys #
- ############
-*/
 enum ApiKeyOwnerType {
   API_KEY_OWNER_TYPE_UNSPECIFIED = 0;
   API_KEY_OWNER_TYPE_USER = 1;

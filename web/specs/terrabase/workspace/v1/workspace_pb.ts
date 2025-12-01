@@ -305,11 +305,6 @@ export const DeleteWorkspaceResponseSchema: GenMessage<DeleteWorkspaceResponse> 
   messageDesc(file_terrabase_workspace_v1_workspace, 10);
 
 /**
- *
- * ##########################
- * # Team access management #
- * ##########################
- *
  * @generated from message terrabase.workspace.v1.GrantTeamAccessRequest
  */
 export type GrantTeamAccessRequest = Message<"terrabase.workspace.v1.GrantTeamAccessRequest"> & {

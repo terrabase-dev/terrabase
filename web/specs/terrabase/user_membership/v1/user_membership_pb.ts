@@ -16,11 +16,6 @@ export const file_terrabase_user_membership_v1_user_membership: GenFile = /*@__P
   fileDesc("CjJ0ZXJyYWJhc2UvdXNlcl9tZW1iZXJzaGlwL3YxL3VzZXJfbWVtYmVyc2hpcC5wcm90bxIcdGVycmFiYXNlLnVzZXJfbWVtYmVyc2hpcC52MSJSChxBZGRVc2VyVG9Pcmdhbml6YXRpb25SZXF1ZXN0EhQKB3VzZXJfaWQYASABKAlCA+BBAhIcCg9vcmdhbml6YXRpb25faWQYAiABKAlCA+BBAiIfCh1BZGRVc2VyVG9Pcmdhbml6YXRpb25SZXNwb25zZSJXCiFSZW1vdmVVc2VyRnJvbU9yZ2FuaXphdGlvblJlcXVlc3QSFAoHdXNlcl9pZBgBIAEoCUID4EECEhwKD29yZ2FuaXphdGlvbl9pZBgCIAEoCUID4EECIiQKIlJlbW92ZVVzZXJGcm9tT3JnYW5pemF0aW9uUmVzcG9uc2UiQgoUQWRkVXNlclRvVGVhbVJlcXVlc3QSFAoHdXNlcl9pZBgBIAEoCUID4EECEhQKB3RlYW1faWQYAiABKAlCA+BBAiIXChVBZGRVc2VyVG9UZWFtUmVzcG9uc2UiRwoZUmVtb3ZlVXNlckZyb21UZWFtUmVxdWVzdBIUCgd1c2VyX2lkGAEgASgJQgPgQQISFAoHdGVhbV9pZBgCIAEoCUID4EECIhwKGlJlbW92ZVVzZXJGcm9tVGVhbVJlc3BvbnNlIoEBChlBZGRVc2VyVG9Xb3Jrc3BhY2VSZXF1ZXN0EhQKB3VzZXJfaWQYASABKAlCA+BBAhIZCgx3b3Jrc3BhY2VfaWQYAiABKAlCA+BBAhIzCgRyb2xlGAMgASgOMiAudGVycmFiYXNlLnVzZXJfcm9sZS52MS5Vc2VyUm9sZUID4EECIhwKGkFkZFVzZXJUb1dvcmtzcGFjZVJlc3BvbnNlIlEKHlJlbW92ZVVzZXJGcm9tV29ya3NwYWNlUmVxdWVzdBIUCgd1c2VyX2lkGAEgASgJQgPgQQISGQoMd29ya3NwYWNlX2lkGAIgASgJQgPgQQIiIQofUmVtb3ZlVXNlckZyb21Xb3Jrc3BhY2VSZXNwb25zZSKDAQobU2V0VXNlcldvcmtzcGFjZVJvbGVSZXF1ZXN0EhQKB3VzZXJfaWQYASABKAlCA+BBAhIZCgx3b3Jrc3BhY2VfaWQYAiABKAlCA+BBAhIzCgRyb2xlGAMgASgOMiAudGVycmFiYXNlLnVzZXJfcm9sZS52MS5Vc2VyUm9sZUID4EECIh4KHFNldFVzZXJXb3Jrc3BhY2VSb2xlUmVzcG9uc2UygwgKFVVzZXJNZW1iZXJzaGlwU2VydmljZRKQAQoVQWRkVXNlclRvT3JnYW5pemF0aW9uEjoudGVycmFiYXNlLnVzZXJfbWVtYmVyc2hpcC52MS5BZGRVc2VyVG9Pcmdhbml6YXRpb25SZXF1ZXN0GjsudGVycmFiYXNlLnVzZXJfbWVtYmVyc2hpcC52MS5BZGRVc2VyVG9Pcmdhbml6YXRpb25SZXNwb25zZRKfAQoaUmVtb3ZlVXNlckZyb21Pcmdhbml6YXRpb24SPy50ZXJyYWJhc2UudXNlcl9tZW1iZXJzaGlwLnYxLlJlbW92ZVVzZXJGcm9tT3JnYW5pemF0aW9uUmVxdWVzdBpALnRlcnJhYmFzZS51c2VyX21lbWJlcnNoaXAudjEuUmVtb3ZlVXNlckZyb21Pcmdhbml6YXRpb25SZXNwb25zZRJ4Cg1BZGRVc2VyVG9UZWFtEjIudGVycmFiYXNlLnVzZXJfbWVtYmVyc2hpcC52MS5BZGRVc2VyVG9UZWFtUmVxdWVzdBozLnRlcnJhYmFzZS51c2VyX21lbWJlcnNoaXAudjEuQWRkVXNlclRvVGVhbVJlc3BvbnNlEocBChJSZW1vdmVVc2VyRnJvbVRlYW0SNy50ZXJyYWJhc2UudXNlcl9tZW1iZXJzaGlwLnYxLlJlbW92ZVVzZXJGcm9tVGVhbVJlcXVlc3QaOC50ZXJyYWJhc2UudXNlcl9tZW1iZXJzaGlwLnYxLlJlbW92ZVVzZXJGcm9tVGVhbVJlc3BvbnNlEocBChJBZGRVc2VyVG9Xb3Jrc3BhY2USNy50ZXJyYWJhc2UudXNlcl9tZW1iZXJzaGlwLnYxLkFkZFVzZXJUb1dvcmtzcGFjZVJlcXVlc3QaOC50ZXJyYWJhc2UudXNlcl9tZW1iZXJzaGlwLnYxLkFkZFVzZXJUb1dvcmtzcGFjZVJlc3BvbnNlEpYBChdSZW1vdmVVc2VyRnJvbVdvcmtzcGFjZRI8LnRlcnJhYmFzZS51c2VyX21lbWJlcnNoaXAudjEuUmVtb3ZlVXNlckZyb21Xb3Jrc3BhY2VSZXF1ZXN0Gj0udGVycmFiYXNlLnVzZXJfbWVtYmVyc2hpcC52MS5SZW1vdmVVc2VyRnJvbVdvcmtzcGFjZVJlc3BvbnNlEo0BChRTZXRVc2VyV29ya3NwYWNlUm9sZRI5LnRlcnJhYmFzZS51c2VyX21lbWJlcnNoaXAudjEuU2V0VXNlcldvcmtzcGFjZVJvbGVSZXF1ZXN0GjoudGVycmFiYXNlLnVzZXJfbWVtYmVyc2hpcC52MS5TZXRVc2VyV29ya3NwYWNlUm9sZVJlc3BvbnNlQlhaVmdpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL3VzZXJfbWVtYmVyc2hpcC92MTt1c2VyTWVtYmVyc2hpcHYxYgZwcm90bzM", [file_google_api_field_behavior, file_terrabase_user_role_v1_user_role]);
 
 /**
- *
- * ###########################
- * # Organization membership #
- * ###########################
- *
  * @generated from message terrabase.user_membership.v1.AddUserToOrganizationRequest
  */
 export type AddUserToOrganizationRequest = Message<"terrabase.user_membership.v1.AddUserToOrganizationRequest"> & {
@@ -91,11 +86,6 @@ export const RemoveUserFromOrganizationResponseSchema: GenMessage<RemoveUserFrom
   messageDesc(file_terrabase_user_membership_v1_user_membership, 3);
 
 /**
- *
- * ###################
- * # Team membership #
- * ###################
- *
  * @generated from message terrabase.user_membership.v1.AddUserToTeamRequest
  */
 export type AddUserToTeamRequest = Message<"terrabase.user_membership.v1.AddUserToTeamRequest"> & {
@@ -166,11 +156,6 @@ export const RemoveUserFromTeamResponseSchema: GenMessage<RemoveUserFromTeamResp
   messageDesc(file_terrabase_user_membership_v1_user_membership, 7);
 
 /**
- *
- * ########################
- * # Workspace membership #
- * ########################
- *
  * @generated from message terrabase.user_membership.v1.AddUserToWorkspaceRequest
  */
 export type AddUserToWorkspaceRequest = Message<"terrabase.user_membership.v1.AddUserToWorkspaceRequest"> & {

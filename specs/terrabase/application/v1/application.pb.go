@@ -24,7 +24,8 @@ const (
 )
 
 type Application struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The ID of the application
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -571,9 +572,6 @@ func (*DeleteApplicationResponse) Descriptor() ([]byte, []int) {
 	return file_terrabase_application_v1_application_proto_rawDescGZIP(), []int{10}
 }
 
-// ##########################
-// # Team access management #
-// ##########################
 type GrantTeamAccessRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ApplicationId string                 `protobuf:"bytes,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`

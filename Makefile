@@ -30,6 +30,12 @@ migrate:
 .PHONY: proto
 proto:
 	cd proto && buf generate
+	cd proto && buf build -o ../docs/descriptor.bin
+	go run ./cmd/gendoc
+
+.PHONY: docs
+docs: proto
+	python -m mkdocs build
 
 .PHONY: install-api
 install-api: $(API_INSTALL_STAMP)

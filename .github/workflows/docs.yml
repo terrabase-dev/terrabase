@@ -1,0 +1,51 @@
+name: Publish Docs
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install MkDocs
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r docs/requirements.txt
+
+      - name: Install buf
+        uses: bufbuild/buf-setup-action@v1
+
+      - name: Generate docs
+        run: make docs
+
+      - name: Commit generated index.md
+        run: |
+          git add docs/index.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: update API reference documentation [skip ci]"
+            git push
+          fi
+
+      - name: Deploy to GitHub pages
+        run: mkdocs gh-deploy --force

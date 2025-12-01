@@ -31,3 +31,6 @@ go.work.sum
 .locked
 
 docker/certs
+
+docs/descriptor.bin
+site/

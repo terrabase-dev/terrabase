@@ -20,6 +20,8 @@ export const file_terrabase_application_v1_application: GenFile = /*@__PURE__*/
  */
 export type Application = Message<"terrabase.application.v1.Application"> & {
   /**
+   * The ID of the application
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -244,11 +246,6 @@ export const DeleteApplicationResponseSchema: GenMessage<DeleteApplicationRespon
   messageDesc(file_terrabase_application_v1_application, 10);
 
 /**
- *
- * ##########################
- * # Team access management #
- * ##########################
- *
  * @generated from message terrabase.application.v1.GrantTeamAccessRequest
  */
 export type GrantTeamAccessRequest = Message<"terrabase.application.v1.GrantTeamAccessRequest"> & {

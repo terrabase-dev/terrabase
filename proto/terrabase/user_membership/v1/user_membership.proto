@@ -7,11 +7,6 @@ import "terrabase/user_role/v1/user_role.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/user_membership/v1;userMembershipv1";
 
-/*
- ###########################
- # Organization membership #
- ###########################
-*/
 message AddUserToOrganizationRequest {
   string user_id = 1 [(google.api.field_behavior) = REQUIRED];
   string organization_id = 2 [(google.api.field_behavior) = REQUIRED];
@@ -26,11 +21,6 @@ message RemoveUserFromOrganizationRequest {
 
 message RemoveUserFromOrganizationResponse {}
 
-/*
- ###################
- # Team membership #
- ###################
-*/
 message AddUserToTeamRequest {
   string user_id = 1 [(google.api.field_behavior) = REQUIRED];
   string team_id = 2 [(google.api.field_behavior) = REQUIRED];
@@ -45,11 +35,6 @@ message RemoveUserFromTeamRequest {
 
 message RemoveUserFromTeamResponse {}
 
-/*
- ########################
- # Workspace membership #
- ########################
-*/
 message AddUserToWorkspaceRequest {
   string user_id = 1 [(google.api.field_behavior) = REQUIRED];
   string workspace_id = 2 [(google.api.field_behavior) = REQUIRED];

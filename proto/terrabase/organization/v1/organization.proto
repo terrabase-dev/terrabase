@@ -4,6 +4,7 @@ package terrabase.organization.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/auth/v1/auth.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/organization/v1;organizationv1";
 
@@ -66,9 +67,43 @@ message DeleteOrganizationRequest {
 message DeleteOrganizationResponse {}
 
 service OrganizationService {
-  rpc CreateOrganization(CreateOrganizationRequest) returns (CreateOrganizationResponse);
-  rpc GetOrganization(GetOrganizationRequest) returns (GetOrganizationResponse);
-  rpc ListOrganizations(ListOrganizationsRequest) returns (ListOrganizationsResponse);
-  rpc UpdateOrganization(UpdateOrganizationRequest) returns (UpdateOrganizationResponse);
-  rpc DeleteOrganization(DeleteOrganizationRequest) returns (DeleteOrganizationResponse);
+  rpc CreateOrganization(CreateOrganizationRequest) returns (CreateOrganizationResponse) {
+    option (terrabase.auth.v1.auth_required) = true;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ORG_WRITE;
+    option (terrabase.auth.v1.error_codes) = "Unauthenticated";
+    option (terrabase.auth.v1.error_codes) = "PermissionDenied";
+  }
+
+  rpc GetOrganization(GetOrganizationRequest) returns (GetOrganizationResponse) {
+    option (terrabase.auth.v1.auth_required) = true;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ORG_READ;
+    option (terrabase.auth.v1.error_codes) = "Unauthenticated";
+    option (terrabase.auth.v1.error_codes) = "PermissionDenied";
+  }
+
+  rpc ListOrganizations(ListOrganizationsRequest) returns (ListOrganizationsResponse) {
+    option (terrabase.auth.v1.auth_required) = true;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ORG_READ;
+    option (terrabase.auth.v1.error_codes) = "Unauthenticated";
+    option (terrabase.auth.v1.error_codes) = "PermissionDenied";
+  }
+
+  rpc UpdateOrganization(UpdateOrganizationRequest) returns (UpdateOrganizationResponse) {
+    option (terrabase.auth.v1.auth_required) = true;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ORG_WRITE;
+    option (terrabase.auth.v1.error_codes) = "Unauthenticated";
+    option (terrabase.auth.v1.error_codes) = "PermissionDenied";
+  }
+
+  rpc DeleteOrganization(DeleteOrganizationRequest) returns (DeleteOrganizationResponse) {
+    option (terrabase.auth.v1.auth_required) = true;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.auth.v1.required_scopes) = SCOPE_ORG_WRITE;
+    option (terrabase.auth.v1.error_codes) = "Unauthenticated";
+    option (terrabase.auth.v1.error_codes) = "PermissionDenied";
+  }
 }
