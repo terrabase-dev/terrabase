@@ -1,4 +1,4 @@
-site_name: Terrabase API
+site_name: Terrabase
 docs_dir: docs
 repo_url: https://github.com/terrabase-dev/terrabase
 repo_name: terrabase-dev/terrabase
@@ -22,10 +22,12 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   features:
+    - navigation.expand
     - navigation.sections
     - navigation.top
     - search.suggest
     - search.highlight
+    - toc.integrate
 
 markdown_extensions:
   - admonition
