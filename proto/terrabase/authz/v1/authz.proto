@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package terrabase.authz.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1;authzv1";
+
+extend google.protobuf.MethodOptions {
+  bool auth_required = 50001;
+  repeated Scope required_scopes = 50002;
+  repeated string error_codes = 50003;
+  bool admin_or_self = 50004;
+  string owner_id_field = 50005;
+}
+
+enum Scope {
+  SCOPE_UNSPECIFIED = 0;
+  SCOPE_ADMIN = 1;
+  SCOPE_ORG_WRITE = 2;
+  SCOPE_ORG_READ = 3;
+  SCOPE_TEAM_WRITE = 4;
+  SCOPE_TEAM_READ = 5;
+  SCOPE_APPLICATION_WRITE = 6;
+  SCOPE_APPLICATION_READ = 7;
+  SCOPE_ENVIRONMENT_WRITE = 8;
+  SCOPE_ENVIRONMENT_READ = 9;
+  SCOPE_WORKSPACE_WRITE = 10;
+  SCOPE_WORKSPACE_READ = 11;
+}

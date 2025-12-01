@@ -7,12 +7,12 @@
 package authv1
 
 import (
+	v12 "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 	v11 "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1"
 	v1 "github.com/terrabase-dev/terrabase/specs/terrabase/user_role/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	descriptorpb "google.golang.org/protobuf/types/descriptorpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
@@ -25,82 +25,6 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
-
-type Scope int32
-
-const (
-	Scope_SCOPE_UNSPECIFIED       Scope = 0
-	Scope_SCOPE_ADMIN             Scope = 1
-	Scope_SCOPE_ORG_WRITE         Scope = 2
-	Scope_SCOPE_ORG_READ          Scope = 3
-	Scope_SCOPE_TEAM_WRITE        Scope = 4
-	Scope_SCOPE_TEAM_READ         Scope = 5
-	Scope_SCOPE_APPLICATION_WRITE Scope = 6
-	Scope_SCOPE_APPLICATION_READ  Scope = 7
-	Scope_SCOPE_ENVIRONMENT_WRITE Scope = 8
-	Scope_SCOPE_ENVIRONMENT_READ  Scope = 9
-	Scope_SCOPE_WORKSPACE_WRITE   Scope = 10
-	Scope_SCOPE_WORKSPACE_READ    Scope = 11
-)
-
-// Enum value maps for Scope.
-var (
-	Scope_name = map[int32]string{
-		0:  "SCOPE_UNSPECIFIED",
-		1:  "SCOPE_ADMIN",
-		2:  "SCOPE_ORG_WRITE",
-		3:  "SCOPE_ORG_READ",
-		4:  "SCOPE_TEAM_WRITE",
-		5:  "SCOPE_TEAM_READ",
-		6:  "SCOPE_APPLICATION_WRITE",
-		7:  "SCOPE_APPLICATION_READ",
-		8:  "SCOPE_ENVIRONMENT_WRITE",
-		9:  "SCOPE_ENVIRONMENT_READ",
-		10: "SCOPE_WORKSPACE_WRITE",
-		11: "SCOPE_WORKSPACE_READ",
-	}
-	Scope_value = map[string]int32{
-		"SCOPE_UNSPECIFIED":       0,
-		"SCOPE_ADMIN":             1,
-		"SCOPE_ORG_WRITE":         2,
-		"SCOPE_ORG_READ":          3,
-		"SCOPE_TEAM_WRITE":        4,
-		"SCOPE_TEAM_READ":         5,
-		"SCOPE_APPLICATION_WRITE": 6,
-		"SCOPE_APPLICATION_READ":  7,
-		"SCOPE_ENVIRONMENT_WRITE": 8,
-		"SCOPE_ENVIRONMENT_READ":  9,
-		"SCOPE_WORKSPACE_WRITE":   10,
-		"SCOPE_WORKSPACE_READ":    11,
-	}
-)
-
-func (x Scope) Enum() *Scope {
-	p := new(Scope)
-	*p = x
-	return p
-}
-
-func (x Scope) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (Scope) Descriptor() protoreflect.EnumDescriptor {
-	return file_terrabase_auth_v1_auth_proto_enumTypes[0].Descriptor()
-}
-
-func (Scope) Type() protoreflect.EnumType {
-	return &file_terrabase_auth_v1_auth_proto_enumTypes[0]
-}
-
-func (x Scope) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Scope.Descriptor instead.
-func (Scope) EnumDescriptor() ([]byte, []int) {
-	return file_terrabase_auth_v1_auth_proto_rawDescGZIP(), []int{0}
-}
 
 type ApiKeyOwnerType int32
 
@@ -138,11 +62,11 @@ func (x ApiKeyOwnerType) String() string {
 }
 
 func (ApiKeyOwnerType) Descriptor() protoreflect.EnumDescriptor {
-	return file_terrabase_auth_v1_auth_proto_enumTypes[1].Descriptor()
+	return file_terrabase_auth_v1_auth_proto_enumTypes[0].Descriptor()
 }
 
 func (ApiKeyOwnerType) Type() protoreflect.EnumType {
-	return &file_terrabase_auth_v1_auth_proto_enumTypes[1]
+	return &file_terrabase_auth_v1_auth_proto_enumTypes[0]
 }
 
 func (x ApiKeyOwnerType) Number() protoreflect.EnumNumber {
@@ -151,7 +75,7 @@ func (x ApiKeyOwnerType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ApiKeyOwnerType.Descriptor instead.
 func (ApiKeyOwnerType) EnumDescriptor() ([]byte, []int) {
-	return file_terrabase_auth_v1_auth_proto_rawDescGZIP(), []int{1}
+	return file_terrabase_auth_v1_auth_proto_rawDescGZIP(), []int{0}
 }
 
 type SignupRequest struct {
@@ -529,7 +453,7 @@ func (*WhoAmIRequest) Descriptor() ([]byte, []int) {
 type WhoAmIResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	User          *v11.User              `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	Scopes        []Scope                `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.auth.v1.Scope" json:"scopes,omitempty"`
+	Scopes        []v12.Scope            `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -571,7 +495,7 @@ func (x *WhoAmIResponse) GetUser() *v11.User {
 	return nil
 }
 
-func (x *WhoAmIResponse) GetScopes() []Scope {
+func (x *WhoAmIResponse) GetScopes() []v12.Scope {
 	if x != nil {
 		return x.Scopes
 	}
@@ -774,7 +698,7 @@ type ApiKey struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Scopes        []Scope                `protobuf:"varint,3,rep,packed,name=scopes,proto3,enum=terrabase.auth.v1.Scope" json:"scopes,omitempty"`
+	Scopes        []v12.Scope            `protobuf:"varint,3,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
 	OwnerId       string                 `protobuf:"bytes,4,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
 	OwnerType     ApiKeyOwnerType        `protobuf:"varint,5,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
@@ -829,7 +753,7 @@ func (x *ApiKey) GetName() string {
 	return ""
 }
 
-func (x *ApiKey) GetScopes() []Scope {
+func (x *ApiKey) GetScopes() []v12.Scope {
 	if x != nil {
 		return x.Scopes
 	}
@@ -883,7 +807,7 @@ type CreateApiKeyRequest struct {
 	Name      string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	OwnerType ApiKeyOwnerType        `protobuf:"varint,2,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
 	OwnerId   string                 `protobuf:"bytes,3,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
-	Scopes    []Scope                `protobuf:"varint,4,rep,packed,name=scopes,proto3,enum=terrabase.auth.v1.Scope" json:"scopes,omitempty"`
+	Scopes    []v12.Scope            `protobuf:"varint,4,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
 	// Hours until expiry; if unset, key does not expire.
 	TtlHours      *int64 `protobuf:"varint,5,opt,name=ttl_hours,json=ttlHours,proto3,oneof" json:"ttl_hours,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -941,7 +865,7 @@ func (x *CreateApiKeyRequest) GetOwnerId() string {
 	return ""
 }
 
-func (x *CreateApiKeyRequest) GetScopes() []Scope {
+func (x *CreateApiKeyRequest) GetScopes() []v12.Scope {
 	if x != nil {
 		return x.Scopes
 	}
@@ -1195,8 +1119,8 @@ type RotateApiKeyRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Optional: inherit existing scopes and ttl when unset.
-	Scopes        []Scope `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.auth.v1.Scope" json:"scopes,omitempty"`
-	TtlHours      *int64  `protobuf:"varint,3,opt,name=ttl_hours,json=ttlHours,proto3,oneof" json:"ttl_hours,omitempty"`
+	Scopes        []v12.Scope `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
+	TtlHours      *int64      `protobuf:"varint,3,opt,name=ttl_hours,json=ttlHours,proto3,oneof" json:"ttl_hours,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1238,7 +1162,7 @@ func (x *RotateApiKeyRequest) GetId() string {
 	return ""
 }
 
-func (x *RotateApiKeyRequest) GetScopes() []Scope {
+func (x *RotateApiKeyRequest) GetScopes() []v12.Scope {
 	if x != nil {
 		return x.Scopes
 	}
@@ -1468,48 +1392,11 @@ func (x *ListSessionsResponse) GetSessions() []*Session {
 	return nil
 }
 
-var file_terrabase_auth_v1_auth_proto_extTypes = []protoimpl.ExtensionInfo{
-	{
-		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: (*bool)(nil),
-		Field:         50001,
-		Name:          "terrabase.auth.v1.auth_required",
-		Tag:           "varint,50001,opt,name=auth_required",
-		Filename:      "terrabase/auth/v1/auth.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: ([]Scope)(nil),
-		Field:         50002,
-		Name:          "terrabase.auth.v1.required_scopes",
-		Tag:           "varint,50002,rep,packed,name=required_scopes,enum=terrabase.auth.v1.Scope",
-		Filename:      "terrabase/auth/v1/auth.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
-		ExtensionType: ([]string)(nil),
-		Field:         50003,
-		Name:          "terrabase.auth.v1.error_codes",
-		Tag:           "bytes,50003,rep,name=error_codes",
-		Filename:      "terrabase/auth/v1/auth.proto",
-	},
-}
-
-// Extension fields to descriptorpb.MethodOptions.
-var (
-	// optional bool auth_required = 50001;
-	E_AuthRequired = &file_terrabase_auth_v1_auth_proto_extTypes[0]
-	// repeated terrabase.auth.v1.Scope required_scopes = 50002;
-	E_RequiredScopes = &file_terrabase_auth_v1_auth_proto_extTypes[1]
-	// repeated string error_codes = 50003;
-	E_ErrorCodes = &file_terrabase_auth_v1_auth_proto_extTypes[2]
-)
-
 var File_terrabase_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_terrabase_auth_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x1cterrabase/auth/v1/auth.proto\x12\x11terrabase.auth.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a google/protobuf/descriptor.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cterrabase/user/v1/user.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xae\x01\n" +
+	"\x1cterrabase/auth/v1/auth.proto\x12\x11terrabase.auth.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\x1a\x1cterrabase/user/v1/user.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xae\x01\n" +
 	"\rSignupRequest\x12\x17\n" +
 	"\x04name\x18\x01 \x01(\tB\x03\xe0A\x02R\x04name\x12\x19\n" +
 	"\x05email\x18\x02 \x01(\tB\x03\xe0A\x02R\x05email\x12\x1f\n" +
@@ -1531,10 +1418,10 @@ const file_terrabase_auth_v1_auth_proto_rawDesc = "" +
 	"\x0fRefreshResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12#\n" +
 	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\"\x0f\n" +
-	"\rWhoAmIRequest\"o\n" +
+	"\rWhoAmIRequest\"p\n" +
 	"\x0eWhoAmIResponse\x12+\n" +
-	"\x04user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\x04user\x120\n" +
-	"\x06scopes\x18\x02 \x03(\x0e2\x18.terrabase.auth.v1.ScopeR\x06scopes\".\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\x04user\x121\n" +
+	"\x06scopes\x18\x02 \x03(\x0e2\x19.terrabase.authz.v1.ScopeR\x06scopes\".\n" +
 	"\rLogoutRequest\x12\x1d\n" +
 	"\n" +
 	"session_id\x18\x01 \x01(\tR\tsessionId\"\x10\n" +
@@ -1545,11 +1432,11 @@ const file_terrabase_auth_v1_auth_proto_rawDesc = "" +
 	"\tuser_type\x18\x03 \x01(\x0e2\x1b.terrabase.user.v1.UserTypeB\x03\xe0A\x02R\buserType\x12'\n" +
 	"\rowner_user_id\x18\x04 \x01(\tB\x03\xe0A\x02R\vownerUserId\"W\n" +
 	"\x19CreateMachineUserResponse\x12:\n" +
-	"\fmachine_user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\vmachineUser\"\xab\x03\n" +
+	"\fmachine_user\x18\x01 \x01(\v2\x17.terrabase.user.v1.UserR\vmachineUser\"\xac\x03\n" +
 	"\x06ApiKey\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x120\n" +
-	"\x06scopes\x18\x03 \x03(\x0e2\x18.terrabase.auth.v1.ScopeR\x06scopes\x12\x19\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x121\n" +
+	"\x06scopes\x18\x03 \x03(\x0e2\x19.terrabase.authz.v1.ScopeR\x06scopes\x12\x19\n" +
 	"\bowner_id\x18\x04 \x01(\tR\aownerId\x12A\n" +
 	"\n" +
 	"owner_type\x18\x05 \x01(\x0e2\".terrabase.auth.v1.ApiKeyOwnerTypeR\townerType\x129\n" +
@@ -1560,13 +1447,13 @@ const file_terrabase_auth_v1_auth_proto_rawDesc = "" +
 	"\flast_used_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"lastUsedAt\x129\n" +
 	"\n" +
-	"revoked_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\trevokedAt\"\xfd\x01\n" +
+	"revoked_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\trevokedAt\"\xfe\x01\n" +
 	"\x13CreateApiKeyRequest\x12\x17\n" +
 	"\x04name\x18\x01 \x01(\tB\x03\xe0A\x02R\x04name\x12F\n" +
 	"\n" +
 	"owner_type\x18\x02 \x01(\x0e2\".terrabase.auth.v1.ApiKeyOwnerTypeB\x03\xe0A\x02R\townerType\x12\x1e\n" +
-	"\bowner_id\x18\x03 \x01(\tB\x03\xe0A\x02R\aownerId\x125\n" +
-	"\x06scopes\x18\x04 \x03(\x0e2\x18.terrabase.auth.v1.ScopeB\x03\xe0A\x02R\x06scopes\x12 \n" +
+	"\bowner_id\x18\x03 \x01(\tB\x03\xe0A\x02R\aownerId\x126\n" +
+	"\x06scopes\x18\x04 \x03(\x0e2\x19.terrabase.authz.v1.ScopeB\x03\xe0A\x02R\x06scopes\x12 \n" +
 	"\tttl_hours\x18\x05 \x01(\x03H\x00R\bttlHours\x88\x01\x01B\f\n" +
 	"\n" +
 	"_ttl_hours\"n\n" +
@@ -1582,10 +1469,10 @@ const file_terrabase_auth_v1_auth_proto_rawDesc = "" +
 	"\x13RevokeApiKeyRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\"\x16\n" +
-	"\x14RevokeApiKeyResponse\"\x8c\x01\n" +
+	"\x14RevokeApiKeyResponse\"\x8d\x01\n" +
 	"\x13RotateApiKeyRequest\x12\x13\n" +
-	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x120\n" +
-	"\x06scopes\x18\x02 \x03(\x0e2\x18.terrabase.auth.v1.ScopeR\x06scopes\x12 \n" +
+	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x121\n" +
+	"\x06scopes\x18\x02 \x03(\x0e2\x19.terrabase.authz.v1.ScopeR\x06scopes\x12 \n" +
 	"\tttl_hours\x18\x03 \x01(\x03H\x00R\bttlHours\x88\x01\x01B\f\n" +
 	"\n" +
 	"_ttl_hours\"n\n" +
@@ -1605,42 +1492,24 @@ const file_terrabase_auth_v1_auth_proto_rawDesc = "" +
 	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\x15\n" +
 	"\x13ListSessionsRequest\"N\n" +
 	"\x14ListSessionsResponse\x126\n" +
-	"\bsessions\x18\x01 \x03(\v2\x1a.terrabase.auth.v1.SessionR\bsessions*\xaa\x02\n" +
-	"\x05Scope\x12\x15\n" +
-	"\x11SCOPE_UNSPECIFIED\x10\x00\x12\x0f\n" +
-	"\vSCOPE_ADMIN\x10\x01\x12\x13\n" +
-	"\x0fSCOPE_ORG_WRITE\x10\x02\x12\x12\n" +
-	"\x0eSCOPE_ORG_READ\x10\x03\x12\x14\n" +
-	"\x10SCOPE_TEAM_WRITE\x10\x04\x12\x13\n" +
-	"\x0fSCOPE_TEAM_READ\x10\x05\x12\x1b\n" +
-	"\x17SCOPE_APPLICATION_WRITE\x10\x06\x12\x1a\n" +
-	"\x16SCOPE_APPLICATION_READ\x10\a\x12\x1b\n" +
-	"\x17SCOPE_ENVIRONMENT_WRITE\x10\b\x12\x1a\n" +
-	"\x16SCOPE_ENVIRONMENT_READ\x10\t\x12\x19\n" +
-	"\x15SCOPE_WORKSPACE_WRITE\x10\n" +
-	"\x12\x18\n" +
-	"\x14SCOPE_WORKSPACE_READ\x10\v*\x8e\x01\n" +
+	"\bsessions\x18\x01 \x03(\v2\x1a.terrabase.auth.v1.SessionR\bsessions*\x8e\x01\n" +
 	"\x0fApiKeyOwnerType\x12\"\n" +
 	"\x1eAPI_KEY_OWNER_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17API_KEY_OWNER_TYPE_USER\x10\x01\x12\x1a\n" +
 	"\x16API_KEY_OWNER_TYPE_BOT\x10\x02\x12\x1e\n" +
-	"\x1aAPI_KEY_OWNER_TYPE_SERVICE\x10\x032\xea\a\n" +
-	"\vAuthService\x12M\n" +
-	"\x06Signup\x12 .terrabase.auth.v1.SignupRequest\x1a!.terrabase.auth.v1.SignupResponse\x12J\n" +
-	"\x05Login\x12\x1f.terrabase.auth.v1.LoginRequest\x1a .terrabase.auth.v1.LoginResponse\x12P\n" +
-	"\aRefresh\x12!.terrabase.auth.v1.RefreshRequest\x1a\".terrabase.auth.v1.RefreshResponse\x12M\n" +
-	"\x06WhoAmI\x12 .terrabase.auth.v1.WhoAmIRequest\x1a!.terrabase.auth.v1.WhoAmIResponse\x12M\n" +
-	"\x06Logout\x12 .terrabase.auth.v1.LogoutRequest\x1a!.terrabase.auth.v1.LogoutResponse\x12_\n" +
-	"\fListSessions\x12&.terrabase.auth.v1.ListSessionsRequest\x1a'.terrabase.auth.v1.ListSessionsResponse\x12n\n" +
-	"\x11CreateMachineUser\x12+.terrabase.auth.v1.CreateMachineUserRequest\x1a,.terrabase.auth.v1.CreateMachineUserResponse\x12_\n" +
-	"\fCreateApiKey\x12&.terrabase.auth.v1.CreateApiKeyRequest\x1a'.terrabase.auth.v1.CreateApiKeyResponse\x12\\\n" +
-	"\vListApiKeys\x12%.terrabase.auth.v1.ListApiKeysRequest\x1a&.terrabase.auth.v1.ListApiKeysResponse\x12_\n" +
-	"\fRevokeApiKey\x12&.terrabase.auth.v1.RevokeApiKeyRequest\x1a'.terrabase.auth.v1.RevokeApiKeyResponse\x12_\n" +
-	"\fRotateApiKey\x12&.terrabase.auth.v1.RotateApiKeyRequest\x1a'.terrabase.auth.v1.RotateApiKeyResponse:E\n" +
-	"\rauth_required\x12\x1e.google.protobuf.MethodOptions\x18ц\x03 \x01(\bR\fauthRequired:c\n" +
-	"\x0frequired_scopes\x12\x1e.google.protobuf.MethodOptions\x18҆\x03 \x03(\x0e2\x18.terrabase.auth.v1.ScopeR\x0erequiredScopes:A\n" +
-	"\verror_codes\x12\x1e.google.protobuf.MethodOptions\x18ӆ\x03 \x03(\tR\n" +
-	"errorCodesBCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1b\x06proto3"
+	"\x1aAPI_KEY_OWNER_TYPE_SERVICE\x10\x032\xd9\b\n" +
+	"\vAuthService\x12S\n" +
+	"\x06Signup\x12 .terrabase.auth.v1.SignupRequest\x1a!.terrabase.auth.v1.SignupResponse\"\x04\x88\xb5\x18\x00\x12P\n" +
+	"\x05Login\x12\x1f.terrabase.auth.v1.LoginRequest\x1a .terrabase.auth.v1.LoginResponse\"\x04\x88\xb5\x18\x00\x12V\n" +
+	"\aRefresh\x12!.terrabase.auth.v1.RefreshRequest\x1a\".terrabase.auth.v1.RefreshResponse\"\x04\x88\xb5\x18\x01\x12S\n" +
+	"\x06WhoAmI\x12 .terrabase.auth.v1.WhoAmIRequest\x1a!.terrabase.auth.v1.WhoAmIResponse\"\x04\x88\xb5\x18\x01\x12S\n" +
+	"\x06Logout\x12 .terrabase.auth.v1.LogoutRequest\x1a!.terrabase.auth.v1.LogoutResponse\"\x04\x88\xb5\x18\x01\x12e\n" +
+	"\fListSessions\x12&.terrabase.auth.v1.ListSessionsRequest\x1a'.terrabase.auth.v1.ListSessionsResponse\"\x04\x88\xb5\x18\x01\x12y\n" +
+	"\x11CreateMachineUser\x12+.terrabase.auth.v1.CreateMachineUserRequest\x1a,.terrabase.auth.v1.CreateMachineUserResponse\"\t\x88\xb5\x18\x01\x92\xb5\x18\x01\x01\x12u\n" +
+	"\fCreateApiKey\x12&.terrabase.auth.v1.CreateApiKeyRequest\x1a'.terrabase.auth.v1.CreateApiKeyResponse\"\x14\x88\xb5\x18\x01\xa0\xb5\x18\x01\xaa\xb5\x18\bowner_id\x12r\n" +
+	"\vListApiKeys\x12%.terrabase.auth.v1.ListApiKeysRequest\x1a&.terrabase.auth.v1.ListApiKeysResponse\"\x14\x88\xb5\x18\x01\xa0\xb5\x18\x01\xaa\xb5\x18\bowner_id\x12i\n" +
+	"\fRevokeApiKey\x12&.terrabase.auth.v1.RevokeApiKeyRequest\x1a'.terrabase.auth.v1.RevokeApiKeyResponse\"\b\x88\xb5\x18\x01\xa0\xb5\x18\x01\x12i\n" +
+	"\fRotateApiKey\x12&.terrabase.auth.v1.RotateApiKeyRequest\x1a'.terrabase.auth.v1.RotateApiKeyResponse\"\b\x88\xb5\x18\x01\xa0\xb5\x18\x01BCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1b\x06proto3"
 
 var (
 	file_terrabase_auth_v1_auth_proto_rawDescOnce sync.Once
@@ -1654,97 +1523,92 @@ func file_terrabase_auth_v1_auth_proto_rawDescGZIP() []byte {
 	return file_terrabase_auth_v1_auth_proto_rawDescData
 }
 
-var file_terrabase_auth_v1_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_terrabase_auth_v1_auth_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_terrabase_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_terrabase_auth_v1_auth_proto_goTypes = []any{
-	(Scope)(0),                         // 0: terrabase.auth.v1.Scope
-	(ApiKeyOwnerType)(0),               // 1: terrabase.auth.v1.ApiKeyOwnerType
-	(*SignupRequest)(nil),              // 2: terrabase.auth.v1.SignupRequest
-	(*SignupResponse)(nil),             // 3: terrabase.auth.v1.SignupResponse
-	(*LoginRequest)(nil),               // 4: terrabase.auth.v1.LoginRequest
-	(*LoginResponse)(nil),              // 5: terrabase.auth.v1.LoginResponse
-	(*RefreshRequest)(nil),             // 6: terrabase.auth.v1.RefreshRequest
-	(*RefreshResponse)(nil),            // 7: terrabase.auth.v1.RefreshResponse
-	(*WhoAmIRequest)(nil),              // 8: terrabase.auth.v1.WhoAmIRequest
-	(*WhoAmIResponse)(nil),             // 9: terrabase.auth.v1.WhoAmIResponse
-	(*LogoutRequest)(nil),              // 10: terrabase.auth.v1.LogoutRequest
-	(*LogoutResponse)(nil),             // 11: terrabase.auth.v1.LogoutResponse
-	(*CreateMachineUserRequest)(nil),   // 12: terrabase.auth.v1.CreateMachineUserRequest
-	(*CreateMachineUserResponse)(nil),  // 13: terrabase.auth.v1.CreateMachineUserResponse
-	(*ApiKey)(nil),                     // 14: terrabase.auth.v1.ApiKey
-	(*CreateApiKeyRequest)(nil),        // 15: terrabase.auth.v1.CreateApiKeyRequest
-	(*CreateApiKeyResponse)(nil),       // 16: terrabase.auth.v1.CreateApiKeyResponse
-	(*ListApiKeysRequest)(nil),         // 17: terrabase.auth.v1.ListApiKeysRequest
-	(*ListApiKeysResponse)(nil),        // 18: terrabase.auth.v1.ListApiKeysResponse
-	(*RevokeApiKeyRequest)(nil),        // 19: terrabase.auth.v1.RevokeApiKeyRequest
-	(*RevokeApiKeyResponse)(nil),       // 20: terrabase.auth.v1.RevokeApiKeyResponse
-	(*RotateApiKeyRequest)(nil),        // 21: terrabase.auth.v1.RotateApiKeyRequest
-	(*RotateApiKeyResponse)(nil),       // 22: terrabase.auth.v1.RotateApiKeyResponse
-	(*Session)(nil),                    // 23: terrabase.auth.v1.Session
-	(*ListSessionsRequest)(nil),        // 24: terrabase.auth.v1.ListSessionsRequest
-	(*ListSessionsResponse)(nil),       // 25: terrabase.auth.v1.ListSessionsResponse
-	(v1.UserRole)(0),                   // 26: terrabase.user_role.v1.UserRole
-	(*v11.User)(nil),                   // 27: terrabase.user.v1.User
-	(v11.UserType)(0),                  // 28: terrabase.user.v1.UserType
-	(*timestamppb.Timestamp)(nil),      // 29: google.protobuf.Timestamp
-	(*descriptorpb.MethodOptions)(nil), // 30: google.protobuf.MethodOptions
+	(ApiKeyOwnerType)(0),              // 0: terrabase.auth.v1.ApiKeyOwnerType
+	(*SignupRequest)(nil),             // 1: terrabase.auth.v1.SignupRequest
+	(*SignupResponse)(nil),            // 2: terrabase.auth.v1.SignupResponse
+	(*LoginRequest)(nil),              // 3: terrabase.auth.v1.LoginRequest
+	(*LoginResponse)(nil),             // 4: terrabase.auth.v1.LoginResponse
+	(*RefreshRequest)(nil),            // 5: terrabase.auth.v1.RefreshRequest
+	(*RefreshResponse)(nil),           // 6: terrabase.auth.v1.RefreshResponse
+	(*WhoAmIRequest)(nil),             // 7: terrabase.auth.v1.WhoAmIRequest
+	(*WhoAmIResponse)(nil),            // 8: terrabase.auth.v1.WhoAmIResponse
+	(*LogoutRequest)(nil),             // 9: terrabase.auth.v1.LogoutRequest
+	(*LogoutResponse)(nil),            // 10: terrabase.auth.v1.LogoutResponse
+	(*CreateMachineUserRequest)(nil),  // 11: terrabase.auth.v1.CreateMachineUserRequest
+	(*CreateMachineUserResponse)(nil), // 12: terrabase.auth.v1.CreateMachineUserResponse
+	(*ApiKey)(nil),                    // 13: terrabase.auth.v1.ApiKey
+	(*CreateApiKeyRequest)(nil),       // 14: terrabase.auth.v1.CreateApiKeyRequest
+	(*CreateApiKeyResponse)(nil),      // 15: terrabase.auth.v1.CreateApiKeyResponse
+	(*ListApiKeysRequest)(nil),        // 16: terrabase.auth.v1.ListApiKeysRequest
+	(*ListApiKeysResponse)(nil),       // 17: terrabase.auth.v1.ListApiKeysResponse
+	(*RevokeApiKeyRequest)(nil),       // 18: terrabase.auth.v1.RevokeApiKeyRequest
+	(*RevokeApiKeyResponse)(nil),      // 19: terrabase.auth.v1.RevokeApiKeyResponse
+	(*RotateApiKeyRequest)(nil),       // 20: terrabase.auth.v1.RotateApiKeyRequest
+	(*RotateApiKeyResponse)(nil),      // 21: terrabase.auth.v1.RotateApiKeyResponse
+	(*Session)(nil),                   // 22: terrabase.auth.v1.Session
+	(*ListSessionsRequest)(nil),       // 23: terrabase.auth.v1.ListSessionsRequest
+	(*ListSessionsResponse)(nil),      // 24: terrabase.auth.v1.ListSessionsResponse
+	(v1.UserRole)(0),                  // 25: terrabase.user_role.v1.UserRole
+	(*v11.User)(nil),                  // 26: terrabase.user.v1.User
+	(v12.Scope)(0),                    // 27: terrabase.authz.v1.Scope
+	(v11.UserType)(0),                 // 28: terrabase.user.v1.UserType
+	(*timestamppb.Timestamp)(nil),     // 29: google.protobuf.Timestamp
 }
 var file_terrabase_auth_v1_auth_proto_depIdxs = []int32{
-	26, // 0: terrabase.auth.v1.SignupRequest.default_role:type_name -> terrabase.user_role.v1.UserRole
-	27, // 1: terrabase.auth.v1.SignupResponse.user:type_name -> terrabase.user.v1.User
-	27, // 2: terrabase.auth.v1.LoginResponse.user:type_name -> terrabase.user.v1.User
-	27, // 3: terrabase.auth.v1.WhoAmIResponse.user:type_name -> terrabase.user.v1.User
-	0,  // 4: terrabase.auth.v1.WhoAmIResponse.scopes:type_name -> terrabase.auth.v1.Scope
-	26, // 5: terrabase.auth.v1.CreateMachineUserRequest.default_role:type_name -> terrabase.user_role.v1.UserRole
+	25, // 0: terrabase.auth.v1.SignupRequest.default_role:type_name -> terrabase.user_role.v1.UserRole
+	26, // 1: terrabase.auth.v1.SignupResponse.user:type_name -> terrabase.user.v1.User
+	26, // 2: terrabase.auth.v1.LoginResponse.user:type_name -> terrabase.user.v1.User
+	26, // 3: terrabase.auth.v1.WhoAmIResponse.user:type_name -> terrabase.user.v1.User
+	27, // 4: terrabase.auth.v1.WhoAmIResponse.scopes:type_name -> terrabase.authz.v1.Scope
+	25, // 5: terrabase.auth.v1.CreateMachineUserRequest.default_role:type_name -> terrabase.user_role.v1.UserRole
 	28, // 6: terrabase.auth.v1.CreateMachineUserRequest.user_type:type_name -> terrabase.user.v1.UserType
-	27, // 7: terrabase.auth.v1.CreateMachineUserResponse.machine_user:type_name -> terrabase.user.v1.User
-	0,  // 8: terrabase.auth.v1.ApiKey.scopes:type_name -> terrabase.auth.v1.Scope
-	1,  // 9: terrabase.auth.v1.ApiKey.owner_type:type_name -> terrabase.auth.v1.ApiKeyOwnerType
+	26, // 7: terrabase.auth.v1.CreateMachineUserResponse.machine_user:type_name -> terrabase.user.v1.User
+	27, // 8: terrabase.auth.v1.ApiKey.scopes:type_name -> terrabase.authz.v1.Scope
+	0,  // 9: terrabase.auth.v1.ApiKey.owner_type:type_name -> terrabase.auth.v1.ApiKeyOwnerType
 	29, // 10: terrabase.auth.v1.ApiKey.created_at:type_name -> google.protobuf.Timestamp
 	29, // 11: terrabase.auth.v1.ApiKey.expires_at:type_name -> google.protobuf.Timestamp
 	29, // 12: terrabase.auth.v1.ApiKey.last_used_at:type_name -> google.protobuf.Timestamp
 	29, // 13: terrabase.auth.v1.ApiKey.revoked_at:type_name -> google.protobuf.Timestamp
-	1,  // 14: terrabase.auth.v1.CreateApiKeyRequest.owner_type:type_name -> terrabase.auth.v1.ApiKeyOwnerType
-	0,  // 15: terrabase.auth.v1.CreateApiKeyRequest.scopes:type_name -> terrabase.auth.v1.Scope
-	14, // 16: terrabase.auth.v1.CreateApiKeyResponse.api_key:type_name -> terrabase.auth.v1.ApiKey
-	1,  // 17: terrabase.auth.v1.ListApiKeysRequest.owner_type:type_name -> terrabase.auth.v1.ApiKeyOwnerType
-	14, // 18: terrabase.auth.v1.ListApiKeysResponse.api_keys:type_name -> terrabase.auth.v1.ApiKey
-	0,  // 19: terrabase.auth.v1.RotateApiKeyRequest.scopes:type_name -> terrabase.auth.v1.Scope
-	14, // 20: terrabase.auth.v1.RotateApiKeyResponse.api_key:type_name -> terrabase.auth.v1.ApiKey
+	0,  // 14: terrabase.auth.v1.CreateApiKeyRequest.owner_type:type_name -> terrabase.auth.v1.ApiKeyOwnerType
+	27, // 15: terrabase.auth.v1.CreateApiKeyRequest.scopes:type_name -> terrabase.authz.v1.Scope
+	13, // 16: terrabase.auth.v1.CreateApiKeyResponse.api_key:type_name -> terrabase.auth.v1.ApiKey
+	0,  // 17: terrabase.auth.v1.ListApiKeysRequest.owner_type:type_name -> terrabase.auth.v1.ApiKeyOwnerType
+	13, // 18: terrabase.auth.v1.ListApiKeysResponse.api_keys:type_name -> terrabase.auth.v1.ApiKey
+	27, // 19: terrabase.auth.v1.RotateApiKeyRequest.scopes:type_name -> terrabase.authz.v1.Scope
+	13, // 20: terrabase.auth.v1.RotateApiKeyResponse.api_key:type_name -> terrabase.auth.v1.ApiKey
 	29, // 21: terrabase.auth.v1.Session.expires_at:type_name -> google.protobuf.Timestamp
 	29, // 22: terrabase.auth.v1.Session.last_used_at:type_name -> google.protobuf.Timestamp
 	29, // 23: terrabase.auth.v1.Session.created_at:type_name -> google.protobuf.Timestamp
-	23, // 24: terrabase.auth.v1.ListSessionsResponse.sessions:type_name -> terrabase.auth.v1.Session
-	30, // 25: terrabase.auth.v1.auth_required:extendee -> google.protobuf.MethodOptions
-	30, // 26: terrabase.auth.v1.required_scopes:extendee -> google.protobuf.MethodOptions
-	30, // 27: terrabase.auth.v1.error_codes:extendee -> google.protobuf.MethodOptions
-	0,  // 28: terrabase.auth.v1.required_scopes:type_name -> terrabase.auth.v1.Scope
-	2,  // 29: terrabase.auth.v1.AuthService.Signup:input_type -> terrabase.auth.v1.SignupRequest
-	4,  // 30: terrabase.auth.v1.AuthService.Login:input_type -> terrabase.auth.v1.LoginRequest
-	6,  // 31: terrabase.auth.v1.AuthService.Refresh:input_type -> terrabase.auth.v1.RefreshRequest
-	8,  // 32: terrabase.auth.v1.AuthService.WhoAmI:input_type -> terrabase.auth.v1.WhoAmIRequest
-	10, // 33: terrabase.auth.v1.AuthService.Logout:input_type -> terrabase.auth.v1.LogoutRequest
-	24, // 34: terrabase.auth.v1.AuthService.ListSessions:input_type -> terrabase.auth.v1.ListSessionsRequest
-	12, // 35: terrabase.auth.v1.AuthService.CreateMachineUser:input_type -> terrabase.auth.v1.CreateMachineUserRequest
-	15, // 36: terrabase.auth.v1.AuthService.CreateApiKey:input_type -> terrabase.auth.v1.CreateApiKeyRequest
-	17, // 37: terrabase.auth.v1.AuthService.ListApiKeys:input_type -> terrabase.auth.v1.ListApiKeysRequest
-	19, // 38: terrabase.auth.v1.AuthService.RevokeApiKey:input_type -> terrabase.auth.v1.RevokeApiKeyRequest
-	21, // 39: terrabase.auth.v1.AuthService.RotateApiKey:input_type -> terrabase.auth.v1.RotateApiKeyRequest
-	3,  // 40: terrabase.auth.v1.AuthService.Signup:output_type -> terrabase.auth.v1.SignupResponse
-	5,  // 41: terrabase.auth.v1.AuthService.Login:output_type -> terrabase.auth.v1.LoginResponse
-	7,  // 42: terrabase.auth.v1.AuthService.Refresh:output_type -> terrabase.auth.v1.RefreshResponse
-	9,  // 43: terrabase.auth.v1.AuthService.WhoAmI:output_type -> terrabase.auth.v1.WhoAmIResponse
-	11, // 44: terrabase.auth.v1.AuthService.Logout:output_type -> terrabase.auth.v1.LogoutResponse
-	25, // 45: terrabase.auth.v1.AuthService.ListSessions:output_type -> terrabase.auth.v1.ListSessionsResponse
-	13, // 46: terrabase.auth.v1.AuthService.CreateMachineUser:output_type -> terrabase.auth.v1.CreateMachineUserResponse
-	16, // 47: terrabase.auth.v1.AuthService.CreateApiKey:output_type -> terrabase.auth.v1.CreateApiKeyResponse
-	18, // 48: terrabase.auth.v1.AuthService.ListApiKeys:output_type -> terrabase.auth.v1.ListApiKeysResponse
-	20, // 49: terrabase.auth.v1.AuthService.RevokeApiKey:output_type -> terrabase.auth.v1.RevokeApiKeyResponse
-	22, // 50: terrabase.auth.v1.AuthService.RotateApiKey:output_type -> terrabase.auth.v1.RotateApiKeyResponse
-	40, // [40:51] is the sub-list for method output_type
-	29, // [29:40] is the sub-list for method input_type
-	28, // [28:29] is the sub-list for extension type_name
-	25, // [25:28] is the sub-list for extension extendee
+	22, // 24: terrabase.auth.v1.ListSessionsResponse.sessions:type_name -> terrabase.auth.v1.Session
+	1,  // 25: terrabase.auth.v1.AuthService.Signup:input_type -> terrabase.auth.v1.SignupRequest
+	3,  // 26: terrabase.auth.v1.AuthService.Login:input_type -> terrabase.auth.v1.LoginRequest
+	5,  // 27: terrabase.auth.v1.AuthService.Refresh:input_type -> terrabase.auth.v1.RefreshRequest
+	7,  // 28: terrabase.auth.v1.AuthService.WhoAmI:input_type -> terrabase.auth.v1.WhoAmIRequest
+	9,  // 29: terrabase.auth.v1.AuthService.Logout:input_type -> terrabase.auth.v1.LogoutRequest
+	23, // 30: terrabase.auth.v1.AuthService.ListSessions:input_type -> terrabase.auth.v1.ListSessionsRequest
+	11, // 31: terrabase.auth.v1.AuthService.CreateMachineUser:input_type -> terrabase.auth.v1.CreateMachineUserRequest
+	14, // 32: terrabase.auth.v1.AuthService.CreateApiKey:input_type -> terrabase.auth.v1.CreateApiKeyRequest
+	16, // 33: terrabase.auth.v1.AuthService.ListApiKeys:input_type -> terrabase.auth.v1.ListApiKeysRequest
+	18, // 34: terrabase.auth.v1.AuthService.RevokeApiKey:input_type -> terrabase.auth.v1.RevokeApiKeyRequest
+	20, // 35: terrabase.auth.v1.AuthService.RotateApiKey:input_type -> terrabase.auth.v1.RotateApiKeyRequest
+	2,  // 36: terrabase.auth.v1.AuthService.Signup:output_type -> terrabase.auth.v1.SignupResponse
+	4,  // 37: terrabase.auth.v1.AuthService.Login:output_type -> terrabase.auth.v1.LoginResponse
+	6,  // 38: terrabase.auth.v1.AuthService.Refresh:output_type -> terrabase.auth.v1.RefreshResponse
+	8,  // 39: terrabase.auth.v1.AuthService.WhoAmI:output_type -> terrabase.auth.v1.WhoAmIResponse
+	10, // 40: terrabase.auth.v1.AuthService.Logout:output_type -> terrabase.auth.v1.LogoutResponse
+	24, // 41: terrabase.auth.v1.AuthService.ListSessions:output_type -> terrabase.auth.v1.ListSessionsResponse
+	12, // 42: terrabase.auth.v1.AuthService.CreateMachineUser:output_type -> terrabase.auth.v1.CreateMachineUserResponse
+	15, // 43: terrabase.auth.v1.AuthService.CreateApiKey:output_type -> terrabase.auth.v1.CreateApiKeyResponse
+	17, // 44: terrabase.auth.v1.AuthService.ListApiKeys:output_type -> terrabase.auth.v1.ListApiKeysResponse
+	19, // 45: terrabase.auth.v1.AuthService.RevokeApiKey:output_type -> terrabase.auth.v1.RevokeApiKeyResponse
+	21, // 46: terrabase.auth.v1.AuthService.RotateApiKey:output_type -> terrabase.auth.v1.RotateApiKeyResponse
+	36, // [36:47] is the sub-list for method output_type
+	25, // [25:36] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
 	0,  // [0:25] is the sub-list for field type_name
 }
 
@@ -1760,16 +1624,15 @@ func file_terrabase_auth_v1_auth_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_terrabase_auth_v1_auth_proto_rawDesc), len(file_terrabase_auth_v1_auth_proto_rawDesc)),
-			NumEnums:      2,
+			NumEnums:      1,
 			NumMessages:   24,
-			NumExtensions: 3,
+			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_terrabase_auth_v1_auth_proto_goTypes,
 		DependencyIndexes: file_terrabase_auth_v1_auth_proto_depIdxs,
 		EnumInfos:         file_terrabase_auth_v1_auth_proto_enumTypes,
 		MessageInfos:      file_terrabase_auth_v1_auth_proto_msgTypes,
-		ExtensionInfos:    file_terrabase_auth_v1_auth_proto_extTypes,
 	}.Build()
 	File_terrabase_auth_v1_auth_proto = out.File
 	file_terrabase_auth_v1_auth_proto_goTypes = nil

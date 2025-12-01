@@ -3,33 +3,12 @@ syntax = "proto3";
 package terrabase.auth.v1;
 
 import "google/api/field_behavior.proto";
-import "google/protobuf/descriptor.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
 import "terrabase/user/v1/user.proto";
 import "terrabase/user_role/v1/user_role.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1";
-
-extend google.protobuf.MethodOptions {
-  bool auth_required = 50001;
-  repeated Scope required_scopes = 50002;
-  repeated string error_codes = 50003;
-}
-
-enum Scope {
-  SCOPE_UNSPECIFIED = 0;
-  SCOPE_ADMIN = 1;
-  SCOPE_ORG_WRITE = 2;
-  SCOPE_ORG_READ = 3;
-  SCOPE_TEAM_WRITE = 4;
-  SCOPE_TEAM_READ = 5;
-  SCOPE_APPLICATION_WRITE = 6;
-  SCOPE_APPLICATION_READ = 7;
-  SCOPE_ENVIRONMENT_WRITE = 8;
-  SCOPE_ENVIRONMENT_READ = 9;
-  SCOPE_WORKSPACE_WRITE = 10;
-  SCOPE_WORKSPACE_READ = 11;
-}
 
 message SignupRequest {
   string name = 1 [(google.api.field_behavior) = REQUIRED];
@@ -68,7 +47,7 @@ message WhoAmIRequest {}
 
 message WhoAmIResponse {
   terrabase.user.v1.User user = 1;
-  repeated Scope scopes = 2;
+  repeated terrabase.authz.v1.Scope scopes = 2;
 }
 
 message LogoutRequest {
@@ -98,7 +77,7 @@ enum ApiKeyOwnerType {
 message ApiKey {
   string id = 1;
   string name = 2;
-  repeated Scope scopes = 3;
+  repeated terrabase.authz.v1.Scope scopes = 3;
   string owner_id = 4;
   ApiKeyOwnerType owner_type = 5;
   google.protobuf.Timestamp created_at = 6;
@@ -111,7 +90,7 @@ message CreateApiKeyRequest {
   string name = 1 [(google.api.field_behavior) = REQUIRED];
   ApiKeyOwnerType owner_type = 2 [(google.api.field_behavior) = REQUIRED];
   string owner_id = 3 [(google.api.field_behavior) = REQUIRED];
-  repeated Scope scopes = 4 [(google.api.field_behavior) = REQUIRED];
+  repeated terrabase.authz.v1.Scope scopes = 4 [(google.api.field_behavior) = REQUIRED];
   // Hours until expiry; if unset, key does not expire.
   optional int64 ttl_hours = 5;
 }
@@ -140,7 +119,7 @@ message RevokeApiKeyResponse {}
 message RotateApiKeyRequest {
   string id = 1 [(google.api.field_behavior) = REQUIRED];
   // Optional: inherit existing scopes and ttl when unset.
-  repeated Scope scopes = 2;
+  repeated terrabase.authz.v1.Scope scopes = 2;
   optional int64 ttl_hours = 3;
 }
 
@@ -165,17 +144,54 @@ message ListSessionsResponse {
 }
 
 service AuthService {
-  rpc Signup(SignupRequest) returns (SignupResponse);
-  rpc Login(LoginRequest) returns (LoginResponse);
-  rpc Refresh(RefreshRequest) returns (RefreshResponse);
-  rpc WhoAmI(WhoAmIRequest) returns (WhoAmIResponse);
-  rpc Logout(LogoutRequest) returns (LogoutResponse);
-  rpc ListSessions(ListSessionsRequest) returns (ListSessionsResponse);
+  rpc Signup(SignupRequest) returns (SignupResponse) {
+    option (terrabase.authz.v1.auth_required) = false;
+  }
 
-  rpc CreateMachineUser(CreateMachineUserRequest) returns (CreateMachineUserResponse);
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (terrabase.authz.v1.auth_required) = false;
+  }
 
-  rpc CreateApiKey(CreateApiKeyRequest) returns (CreateApiKeyResponse);
-  rpc ListApiKeys(ListApiKeysRequest) returns (ListApiKeysResponse);
-  rpc RevokeApiKey(RevokeApiKeyRequest) returns (RevokeApiKeyResponse);
-  rpc RotateApiKey(RotateApiKeyRequest) returns (RotateApiKeyResponse);
+  rpc Refresh(RefreshRequest) returns (RefreshResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+  }
+
+  rpc WhoAmI(WhoAmIRequest) returns (WhoAmIResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+  }
+
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+  }
+
+  rpc ListSessions(ListSessionsRequest) returns (ListSessionsResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+  }
+
+  rpc CreateMachineUser(CreateMachineUserRequest) returns (CreateMachineUserResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+  }
+
+  rpc CreateApiKey(CreateApiKeyRequest) returns (CreateApiKeyResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.admin_or_self) = true;
+    option (terrabase.authz.v1.owner_id_field) = "owner_id";
+  }
+
+  rpc ListApiKeys(ListApiKeysRequest) returns (ListApiKeysResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.admin_or_self) = true;
+    option (terrabase.authz.v1.owner_id_field) = "owner_id";
+  }
+
+  rpc RevokeApiKey(RevokeApiKeyRequest) returns (RevokeApiKeyResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.admin_or_self) = true;
+  }
+
+  rpc RotateApiKey(RotateApiKeyRequest) returns (RotateApiKeyResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.admin_or_self) = true;
+  }
 }

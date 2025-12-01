@@ -153,9 +153,9 @@ func (s *AuthService) Refresh(ctx context.Context, req *connect.Request[authv1.R
 }
 
 func (s *AuthService) WhoAmI(ctx context.Context, _ *connect.Request[authv1.WhoAmIRequest]) (*connect.Response[authv1.WhoAmIResponse], error) {
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	user, err := s.users.Get(ctx, authCtx.SubjectID)
@@ -170,9 +170,9 @@ func (s *AuthService) WhoAmI(ctx context.Context, _ *connect.Request[authv1.WhoA
 }
 
 func (s *AuthService) Logout(ctx context.Context, req *connect.Request[authv1.LogoutRequest]) (*connect.Response[authv1.LogoutResponse], error) {
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	targetSessionID := req.Msg.GetSessionId()
@@ -192,9 +192,9 @@ func (s *AuthService) Logout(ctx context.Context, req *connect.Request[authv1.Lo
 }
 
 func (s *AuthService) ListSessions(ctx context.Context, _ *connect.Request[authv1.ListSessionsRequest]) (*connect.Response[authv1.ListSessionsResponse], error) {
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	sessions, err := s.sessions.ListByUser(ctx, authCtx.SubjectID)
@@ -223,13 +223,9 @@ func (s *AuthService) CreateMachineUser(ctx context.Context, req *connect.Reques
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("user_type must be one of \"bot\" or \"service\""))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
-	}
-
-	if authCtx == nil || !authCtx.HasScope(authv1.Scope_SCOPE_ADMIN) {
-		return nil, connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	ownerID := req.Msg.GetOwnerUserId()
@@ -305,9 +301,9 @@ func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[aut
 		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	ownerType := apiKeyOwnerTypeToString(req.Msg.GetOwnerType())
@@ -318,10 +314,6 @@ func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[aut
 	ownerID := req.Msg.GetOwnerId()
 	if ownerType == "user" && ownerID == "" {
 		ownerID = authCtx.SubjectID
-	}
-
-	if err := s.requireAdminOrSelf(authCtx, ownerType, ownerID); err != nil {
-		return nil, err
 	}
 
 	if len(req.Msg.Scopes) == 0 {
@@ -363,9 +355,9 @@ func (s *AuthService) ListApiKeys(ctx context.Context, req *connect.Request[auth
 		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	ownerType := apiKeyOwnerTypeToString(req.Msg.GetOwnerType())
@@ -373,10 +365,6 @@ func (s *AuthService) ListApiKeys(ctx context.Context, req *connect.Request[auth
 
 	if ownerType == "user" && ownerID == "" {
 		ownerID = authCtx.SubjectID
-	}
-
-	if err := s.requireAdminOrSelf(authCtx, ownerType, ownerID); err != nil {
-		return nil, err
 	}
 
 	keys, err := s.apiKeys.ListByOwner(ctx, ownerType, ownerID)
@@ -398,9 +386,9 @@ func (s *AuthService) RevokeApiKey(ctx context.Context, req *connect.Request[aut
 		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	existing, err := s.apiKeys.GetByID(ctx, req.Msg.GetId())
@@ -424,9 +412,9 @@ func (s *AuthService) RotateApiKey(ctx context.Context, req *connect.Request[aut
 		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
 	}
 
-	authCtx, ok := auth.FromContext(ctx)
-	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+	authCtx, err := s.requireAuth(ctx)
+	if err != nil {
+		return nil, err
 	}
 
 	existing, err := s.apiKeys.GetByID(ctx, req.Msg.GetId())

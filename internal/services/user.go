@@ -7,7 +7,6 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/terrabase-dev/terrabase/internal/repos"
-	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 	userv1 "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1"
 )
 
@@ -29,15 +28,6 @@ func (s *UserService) GetUser(ctx context.Context, req *connect.Request[userv1.G
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
-	authCtx, err := s.requireAuth(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := s.requireAdminOrSelf(authCtx, string(authCtx.PrincipalType), req.Msg.GetId()); err != nil {
-		return nil, err
-	}
-
 	user, err := s.repo.Get(ctx, req.Msg.GetId())
 	if err != nil {
 		return nil, mapError(err)
@@ -55,15 +45,6 @@ func (s *UserService) UpdateUser(ctx context.Context, req *connect.Request[userv
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
-	authCtx, err := s.requireAuth(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := s.requireAdminOrSelf(authCtx, string(authCtx.PrincipalType), req.Msg.GetId()); err != nil {
-		return nil, err
-	}
-
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.Name, req.Msg.Email, (*int32)(req.Msg.DefaultRole))
 	if err != nil {
 		return nil, mapError(err)
@@ -77,8 +58,7 @@ func (s *UserService) DeleteUser(ctx context.Context, req *connect.Request[userv
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
-	authCtx, err := s.requireScope(ctx, authv1.Scope_SCOPE_ADMIN)
-
+	authCtx, err := s.requireAuth(ctx)
 	if err != nil {
 		return nil, err
 	}

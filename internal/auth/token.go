@@ -10,7 +10,7 @@ import (
 	"connectrpc.com/connect"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
+	authzv1 "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 )
 
 type TokenVerifier struct {
@@ -24,7 +24,7 @@ type Claims struct {
 	SubjectType  string              `json:"sub_type,omitempty"`
 	Name         string              `json:"name,omitempty"`
 	Email        string              `json:"email,omitempty"`
-	Scopes       []authv1.Scope      `json:"scopes,omitempty"`
+	Scopes       []authzv1.Scope     `json:"scopes,omitempty"`
 	Metadata     map[string]any      `json:"metadata,omitempty"`
 	Entitlements map[string][]string `json:"entitlements,omitempty"`
 	jwt.RegisteredClaims

@@ -11,7 +11,7 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/descriptorpb"
 
-	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
+	authzv1 "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 )
 
 type messageDoc struct {
@@ -251,22 +251,22 @@ func readMethodOptions(opts *descriptorpb.MethodOptions) (bool, []string, []stri
 		errCodes     []string
 	)
 
-	if proto.HasExtension(opts, authv1.E_AuthRequired) {
-		if v, ok := proto.GetExtension(opts, authv1.E_AuthRequired).(bool); ok {
+	if proto.HasExtension(opts, authzv1.E_AuthRequired) {
+		if v, ok := proto.GetExtension(opts, authzv1.E_AuthRequired).(bool); ok {
 			authRequired = v
 		}
 	}
 
-	if proto.HasExtension(opts, authv1.E_RequiredScopes) {
-		if vals, ok := proto.GetExtension(opts, authv1.E_RequiredScopes).([]authv1.Scope); ok {
+	if proto.HasExtension(opts, authzv1.E_RequiredScopes) {
+		if vals, ok := proto.GetExtension(opts, authzv1.E_RequiredScopes).([]authzv1.Scope); ok {
 			for _, s := range vals {
 				scopes = append(scopes, s.String())
 			}
 		}
 	}
 
-	if proto.HasExtension(opts, authv1.E_ErrorCodes) {
-		if vals, ok := proto.GetExtension(opts, authv1.E_ErrorCodes).([]string); ok {
+	if proto.HasExtension(opts, authzv1.E_ErrorCodes) {
+		if vals, ok := proto.GetExtension(opts, authzv1.E_ErrorCodes).([]string); ok {
 			errCodes = append(errCodes, vals...)
 		}
 	}

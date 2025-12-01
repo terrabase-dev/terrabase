@@ -7,7 +7,7 @@
 package organizationv1
 
 import (
-	_ "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
+	_ "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -628,7 +628,7 @@ var File_terrabase_organization_v1_organization_proto protoreflect.FileDescripto
 
 const file_terrabase_organization_v1_organization_proto_rawDesc = "" +
 	"\n" +
-	",terrabase/organization/v1/organization.proto\x12\x19terrabase.organization.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1cterrabase/auth/v1/auth.proto\"\xf5\x01\n" +
+	",terrabase/organization/v1/organization.proto\x12\x19terrabase.organization.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\"\xf5\x01\n" +
 	"\fOrganization\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12K\n" +
@@ -672,11 +672,11 @@ const file_terrabase_organization_v1_organization_proto_rawDesc = "" +
 	"\x18SUBSCRIPTION_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11SUBSCRIPTION_FREE\x10\x01\x12\x15\n" +
 	"\x11SUBSCRIPTION_TEAM\x10\x02\x12\x1b\n" +
-	"\x17SUBSCRIPTION_ENTERPRISE\x10\x032\x9c\a\n" +
+	"\x17SUBSCRIPTION_ENTERPRISE\x10\x032\x9e\a\n" +
 	"\x13OrganizationService\x12\xb4\x01\n" +
-	"\x12CreateOrganization\x124.terrabase.organization.v1.CreateOrganizationRequest\x1a5.terrabase.organization.v1.CreateOrganizationResponse\"1\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x02\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDenied\x12\xab\x01\n" +
-	"\x0fGetOrganization\x121.terrabase.organization.v1.GetOrganizationRequest\x1a2.terrabase.organization.v1.GetOrganizationResponse\"1\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x03\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDenied\x12\xb1\x01\n" +
-	"\x11ListOrganizations\x123.terrabase.organization.v1.ListOrganizationsRequest\x1a4.terrabase.organization.v1.ListOrganizationsResponse\"1\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x03\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDenied\x12\xb4\x01\n" +
+	"\x12CreateOrganization\x124.terrabase.organization.v1.CreateOrganizationRequest\x1a5.terrabase.organization.v1.CreateOrganizationResponse\"1\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x02\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDenied\x12\xac\x01\n" +
+	"\x0fGetOrganization\x121.terrabase.organization.v1.GetOrganizationRequest\x1a2.terrabase.organization.v1.GetOrganizationResponse\"2\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\x03\x02\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDenied\x12\xb2\x01\n" +
+	"\x11ListOrganizations\x123.terrabase.organization.v1.ListOrganizationsRequest\x1a4.terrabase.organization.v1.ListOrganizationsResponse\"2\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\x03\x02\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDenied\x12\xb4\x01\n" +
 	"\x12UpdateOrganization\x124.terrabase.organization.v1.UpdateOrganizationRequest\x1a5.terrabase.organization.v1.UpdateOrganizationResponse\"1\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x02\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDenied\x12\xb4\x01\n" +
 	"\x12DeleteOrganization\x124.terrabase.organization.v1.DeleteOrganizationRequest\x1a5.terrabase.organization.v1.DeleteOrganizationResponse\"1\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x02\x9a\xb5\x18\x0fUnauthenticated\x9a\xb5\x18\x10PermissionDeniedBSZQgithub.com/terrabase-dev/terrabase/specs/terrabase/organization/v1;organizationv1b\x06proto3"
 

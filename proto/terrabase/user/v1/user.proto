@@ -4,6 +4,7 @@ package terrabase.user.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
 import "terrabase/user_role/v1/user_role.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1";
@@ -79,8 +80,25 @@ message DeleteUserRequest {
 message DeleteUserResponse {}
 
 service UserService {
-  rpc GetUser(GetUserRequest) returns (GetUserResponse);
-  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
-  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
-  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.admin_or_self) = true;
+    option (terrabase.authz.v1.owner_id_field) = "id";
+  }
+
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+  }
+
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.admin_or_self) = true;
+    option (terrabase.authz.v1.owner_id_field) = "id";
+  }
+
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+  }
 }

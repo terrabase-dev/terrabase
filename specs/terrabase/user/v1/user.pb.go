@@ -7,6 +7,7 @@
 package userv1
 
 import (
+	_ "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 	v1 "github.com/terrabase-dev/terrabase/specs/terrabase/user_role/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -697,7 +698,7 @@ var File_terrabase_user_v1_user_proto protoreflect.FileDescriptor
 
 const file_terrabase_user_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1cterrabase/user/v1/user.proto\x12\x11terrabase.user.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xf0\x02\n" +
+	"\x1cterrabase/user/v1/user.proto\x12\x11terrabase.user.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\x1a&terrabase/user_role/v1/user_role.proto\"\xf0\x02\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
@@ -765,14 +766,14 @@ const file_terrabase_user_v1_user_proto_rawDesc = "" +
 	"\x15USER_TYPE_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eUSER_TYPE_USER\x10\x01\x12\x11\n" +
 	"\rUSER_TYPE_BOT\x10\x02\x12\x15\n" +
-	"\x11USER_TYPE_SERVICE\x10\x032\xed\x02\n" +
-	"\vUserService\x12P\n" +
-	"\aGetUser\x12!.terrabase.user.v1.GetUserRequest\x1a\".terrabase.user.v1.GetUserResponse\x12V\n" +
-	"\tListUsers\x12#.terrabase.user.v1.ListUsersRequest\x1a$.terrabase.user.v1.ListUsersResponse\x12Y\n" +
+	"\x11USER_TYPE_SERVICE\x10\x032\xa3\x03\n" +
+	"\vUserService\x12`\n" +
+	"\aGetUser\x12!.terrabase.user.v1.GetUserRequest\x1a\".terrabase.user.v1.GetUserResponse\"\x0e\x88\xb5\x18\x01\xa0\xb5\x18\x01\xaa\xb5\x18\x02id\x12a\n" +
+	"\tListUsers\x12#.terrabase.user.v1.ListUsersRequest\x1a$.terrabase.user.v1.ListUsersResponse\"\t\x88\xb5\x18\x01\x92\xb5\x18\x01\x01\x12i\n" +
 	"\n" +
-	"UpdateUser\x12$.terrabase.user.v1.UpdateUserRequest\x1a%.terrabase.user.v1.UpdateUserResponse\x12Y\n" +
+	"UpdateUser\x12$.terrabase.user.v1.UpdateUserRequest\x1a%.terrabase.user.v1.UpdateUserResponse\"\x0e\x88\xb5\x18\x01\xa0\xb5\x18\x01\xaa\xb5\x18\x02id\x12d\n" +
 	"\n" +
-	"DeleteUser\x12$.terrabase.user.v1.DeleteUserRequest\x1a%.terrabase.user.v1.DeleteUserResponseBCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1b\x06proto3"
+	"DeleteUser\x12$.terrabase.user.v1.DeleteUserRequest\x1a%.terrabase.user.v1.DeleteUserResponse\"\t\x88\xb5\x18\x01\x92\xb5\x18\x01\x01BCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1b\x06proto3"
 
 var (
 	file_terrabase_user_v1_user_proto_rawDescOnce sync.Once

@@ -7,6 +7,7 @@
 package teamv1
 
 import (
+	_ "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -611,7 +612,7 @@ var File_terrabase_team_v1_team_proto protoreflect.FileDescriptor
 
 const file_terrabase_team_v1_team_proto_rawDesc = "" +
 	"\n" +
-	"\x1cterrabase/team/v1/team.proto\x12\x11terrabase.team.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc9\x01\n" +
+	"\x1cterrabase/team/v1/team.proto\x12\x11terrabase.team.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\"\xc9\x01\n" +
 	"\x04Team\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12'\n" +
@@ -650,16 +651,19 @@ const file_terrabase_team_v1_team_proto_rawDesc = "" +
 	"\x04team\x18\x01 \x01(\v2\x17.terrabase.team.v1.TeamR\x04team\"(\n" +
 	"\x11DeleteTeamRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\"\x14\n" +
-	"\x12DeleteTeamResponse2\xc8\x03\n" +
-	"\vTeamService\x12Y\n" +
+	"\x12DeleteTeamResponse2\x86\x04\n" +
+	"\vTeamService\x12e\n" +
 	"\n" +
-	"CreateTeam\x12$.terrabase.team.v1.CreateTeamRequest\x1a%.terrabase.team.v1.CreateTeamResponse\x12P\n" +
-	"\aGetTeam\x12!.terrabase.team.v1.GetTeamRequest\x1a\".terrabase.team.v1.GetTeamResponse\x12V\n" +
-	"\tListTeams\x12#.terrabase.team.v1.ListTeamsRequest\x1a$.terrabase.team.v1.ListTeamsResponse\x12Y\n" +
+	"CreateTeam\x12$.terrabase.team.v1.CreateTeamRequest\x1a%.terrabase.team.v1.CreateTeamResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x04\x12]\n" +
+	"\aGetTeam\x12!.terrabase.team.v1.GetTeamRequest\x1a\".terrabase.team.v1.GetTeamResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\x05\x04\x12c\n" +
+	"\tListTeams\x12#.terrabase.team.v1.ListTeamsRequest\x1a$.terrabase.team.v1.ListTeamsResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\x05\x04\x12e\n" +
 	"\n" +
-	"UpdateTeam\x12$.terrabase.team.v1.UpdateTeamRequest\x1a%.terrabase.team.v1.UpdateTeamResponse\x12Y\n" +
+	"UpdateTeam\x12$.terrabase.team.v1.UpdateTeamRequest\x1a%.terrabase.team.v1.UpdateTeamResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x04\x12e\n" +
 	"\n" +
-	"DeleteTeam\x12$.terrabase.team.v1.DeleteTeamRequest\x1a%.terrabase.team.v1.DeleteTeamResponseBCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/team/v1;teamv1b\x06proto3"
+	"DeleteTeam\x12$.terrabase.team.v1.DeleteTeamRequest\x1a%.terrabase.team.v1.DeleteTeamResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x04BCZAgithub.com/terrabase-dev/terrabase/specs/terrabase/team/v1;teamv1b\x06proto3"
 
 var (
 	file_terrabase_team_v1_team_proto_rawDescOnce sync.Once

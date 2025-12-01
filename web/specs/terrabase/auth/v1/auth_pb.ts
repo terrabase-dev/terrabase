@@ -2,11 +2,13 @@
 // @generated from file terrabase/auth/v1/auth.proto (package terrabase.auth.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenExtension, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, extDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_google_api_field_behavior } from "../../../google/api/field_behavior_pb";
-import type { MethodOptions, Timestamp } from "@bufbuild/protobuf/wkt";
-import { file_google_protobuf_descriptor, file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
+import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import type { Scope } from "../../authz/v1/authz_pb";
+import { file_terrabase_authz_v1_authz } from "../../authz/v1/authz_pb";
 import type { User, UserType } from "../../user/v1/user_pb";
 import { file_terrabase_user_v1_user } from "../../user/v1/user_pb";
 import type { UserRole } from "../../user_role/v1/user_role_pb";
@@ -17,7 +19,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file terrabase/auth/v1/auth.proto.
  */
 export const file_terrabase_auth_v1_auth: GenFile = /*@__PURE__*/
-  fileDesc("Chx0ZXJyYWJhc2UvYXV0aC92MS9hdXRoLnByb3RvEhF0ZXJyYWJhc2UuYXV0aC52MSKKAQoNU2lnbnVwUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISEgoFZW1haWwYAiABKAlCA+BBAhIVCghwYXNzd29yZBgDIAEoCUID4EECEjsKDGRlZmF1bHRfcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGVCA+BBAiJkCg5TaWdudXBSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlchIUCgxhY2Nlc3NfdG9rZW4YAiABKAkSFQoNcmVmcmVzaF90b2tlbhgDIAEoCSI5CgxMb2dpblJlcXVlc3QSEgoFZW1haWwYASABKAlCA+BBAhIVCghwYXNzd29yZBgCIAEoCUID4EECImMKDUxvZ2luUmVzcG9uc2USJQoEdXNlchgBIAEoCzIXLnRlcnJhYmFzZS51c2VyLnYxLlVzZXISFAoMYWNjZXNzX3Rva2VuGAIgASgJEhUKDXJlZnJlc2hfdG9rZW4YAyABKAkiLAoOUmVmcmVzaFJlcXVlc3QSGgoNcmVmcmVzaF90b2tlbhgBIAEoCUID4EECIj4KD1JlZnJlc2hSZXNwb25zZRIUCgxhY2Nlc3NfdG9rZW4YASABKAkSFQoNcmVmcmVzaF90b2tlbhgCIAEoCSIPCg1XaG9BbUlSZXF1ZXN0ImEKDldob0FtSVJlc3BvbnNlEiUKBHVzZXIYASABKAsyFy50ZXJyYWJhc2UudXNlci52MS5Vc2VyEigKBnNjb3BlcxgCIAMoDjIYLnRlcnJhYmFzZS5hdXRoLnYxLlNjb3BlIiMKDUxvZ291dFJlcXVlc3QSEgoKc2Vzc2lvbl9pZBgBIAEoCSIQCg5Mb2dvdXRSZXNwb25zZSK7AQoYQ3JlYXRlTWFjaGluZVVzZXJSZXF1ZXN0EhEKBG5hbWUYASABKAlCA+BBAhI7CgxkZWZhdWx0X3JvbGUYAiABKA4yIC50ZXJyYWJhc2UudXNlcl9yb2xlLnYxLlVzZXJSb2xlQgPgQQISMwoJdXNlcl90eXBlGAMgASgOMhsudGVycmFiYXNlLnVzZXIudjEuVXNlclR5cGVCA+BBAhIaCg1vd25lcl91c2VyX2lkGAQgASgJQgPgQQIiSgoZQ3JlYXRlTWFjaGluZVVzZXJSZXNwb25zZRItCgxtYWNoaW5lX3VzZXIYASABKAsyFy50ZXJyYWJhc2UudXNlci52MS5Vc2VyItgCCgZBcGlLZXkSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIoCgZzY29wZXMYAyADKA4yGC50ZXJyYWJhc2UuYXV0aC52MS5TY29wZRIQCghvd25lcl9pZBgEIAEoCRI2Cgpvd25lcl90eXBlGAUgASgOMiIudGVycmFiYXNlLmF1dGgudjEuQXBpS2V5T3duZXJUeXBlEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmV4cGlyZXNfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEjAKDGxhc3RfdXNlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKcmV2b2tlZF9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAi0QEKE0NyZWF0ZUFwaUtleVJlcXVlc3QSEQoEbmFtZRgBIAEoCUID4EECEjsKCm93bmVyX3R5cGUYAiABKA4yIi50ZXJyYWJhc2UuYXV0aC52MS5BcGlLZXlPd25lclR5cGVCA+BBAhIVCghvd25lcl9pZBgDIAEoCUID4EECEi0KBnNjb3BlcxgEIAMoDjIYLnRlcnJhYmFzZS5hdXRoLnYxLlNjb3BlQgPgQQISFgoJdHRsX2hvdXJzGAUgASgDSACIAQFCDAoKX3R0bF9ob3VycyJZChRDcmVhdGVBcGlLZXlSZXNwb25zZRIVCg1hcGlfa2V5X3Rva2VuGAEgASgJEioKB2FwaV9rZXkYAiABKAsyGS50ZXJyYWJhc2UuYXV0aC52MS5BcGlLZXkiXgoSTGlzdEFwaUtleXNSZXF1ZXN0EjYKCm93bmVyX3R5cGUYASABKA4yIi50ZXJyYWJhc2UuYXV0aC52MS5BcGlLZXlPd25lclR5cGUSEAoIb3duZXJfaWQYAiABKAkiQgoTTGlzdEFwaUtleXNSZXNwb25zZRIrCghhcGlfa2V5cxgBIAMoCzIZLnRlcnJhYmFzZS5hdXRoLnYxLkFwaUtleSI2ChNSZXZva2VBcGlLZXlSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISDgoGcmVhc29uGAIgASgJIhYKFFJldm9rZUFwaUtleVJlc3BvbnNlInYKE1JvdGF0ZUFwaUtleVJlcXVlc3QSDwoCaWQYASABKAlCA+BBAhIoCgZzY29wZXMYAiADKA4yGC50ZXJyYWJhc2UuYXV0aC52MS5TY29wZRIWCgl0dGxfaG91cnMYAyABKANIAIgBAUIMCgpfdHRsX2hvdXJzIlkKFFJvdGF0ZUFwaUtleVJlc3BvbnNlEhUKDWFwaV9rZXlfdG9rZW4YASABKAkSKgoHYXBpX2tleRgCIAEoCzIZLnRlcnJhYmFzZS5hdXRoLnYxLkFwaUtleSLHAQoHU2Vzc2lvbhIKCgJpZBgBIAEoCRISCgp1c2VyX2FnZW50GAIgASgJEgoKAmlwGAMgASgJEi4KCmV4cGlyZXNfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEjAKDGxhc3RfdXNlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiFQoTTGlzdFNlc3Npb25zUmVxdWVzdCJEChRMaXN0U2Vzc2lvbnNSZXNwb25zZRIsCghzZXNzaW9ucxgBIAMoCzIaLnRlcnJhYmFzZS5hdXRoLnYxLlNlc3Npb24qqgIKBVNjb3BlEhUKEVNDT1BFX1VOU1BFQ0lGSUVEEAASDwoLU0NPUEVfQURNSU4QARITCg9TQ09QRV9PUkdfV1JJVEUQAhISCg5TQ09QRV9PUkdfUkVBRBADEhQKEFNDT1BFX1RFQU1fV1JJVEUQBBITCg9TQ09QRV9URUFNX1JFQUQQBRIbChdTQ09QRV9BUFBMSUNBVElPTl9XUklURRAGEhoKFlNDT1BFX0FQUExJQ0FUSU9OX1JFQUQQBxIbChdTQ09QRV9FTlZJUk9OTUVOVF9XUklURRAIEhoKFlNDT1BFX0VOVklST05NRU5UX1JFQUQQCRIZChVTQ09QRV9XT1JLU1BBQ0VfV1JJVEUQChIYChRTQ09QRV9XT1JLU1BBQ0VfUkVBRBALKo4BCg9BcGlLZXlPd25lclR5cGUSIgoeQVBJX0tFWV9PV05FUl9UWVBFX1VOU1BFQ0lGSUVEEAASGwoXQVBJX0tFWV9PV05FUl9UWVBFX1VTRVIQARIaChZBUElfS0VZX09XTkVSX1RZUEVfQk9UEAISHgoaQVBJX0tFWV9PV05FUl9UWVBFX1NFUlZJQ0UQAzLqBwoLQXV0aFNlcnZpY2USTQoGU2lnbnVwEiAudGVycmFiYXNlLmF1dGgudjEuU2lnbnVwUmVxdWVzdBohLnRlcnJhYmFzZS5hdXRoLnYxLlNpZ251cFJlc3BvbnNlEkoKBUxvZ2luEh8udGVycmFiYXNlLmF1dGgudjEuTG9naW5SZXF1ZXN0GiAudGVycmFiYXNlLmF1dGgudjEuTG9naW5SZXNwb25zZRJQCgdSZWZyZXNoEiEudGVycmFiYXNlLmF1dGgudjEuUmVmcmVzaFJlcXVlc3QaIi50ZXJyYWJhc2UuYXV0aC52MS5SZWZyZXNoUmVzcG9uc2USTQoGV2hvQW1JEiAudGVycmFiYXNlLmF1dGgudjEuV2hvQW1JUmVxdWVzdBohLnRlcnJhYmFzZS5hdXRoLnYxLldob0FtSVJlc3BvbnNlEk0KBkxvZ291dBIgLnRlcnJhYmFzZS5hdXRoLnYxLkxvZ291dFJlcXVlc3QaIS50ZXJyYWJhc2UuYXV0aC52MS5Mb2dvdXRSZXNwb25zZRJfCgxMaXN0U2Vzc2lvbnMSJi50ZXJyYWJhc2UuYXV0aC52MS5MaXN0U2Vzc2lvbnNSZXF1ZXN0GicudGVycmFiYXNlLmF1dGgudjEuTGlzdFNlc3Npb25zUmVzcG9uc2USbgoRQ3JlYXRlTWFjaGluZVVzZXISKy50ZXJyYWJhc2UuYXV0aC52MS5DcmVhdGVNYWNoaW5lVXNlclJlcXVlc3QaLC50ZXJyYWJhc2UuYXV0aC52MS5DcmVhdGVNYWNoaW5lVXNlclJlc3BvbnNlEl8KDENyZWF0ZUFwaUtleRImLnRlcnJhYmFzZS5hdXRoLnYxLkNyZWF0ZUFwaUtleVJlcXVlc3QaJy50ZXJyYWJhc2UuYXV0aC52MS5DcmVhdGVBcGlLZXlSZXNwb25zZRJcCgtMaXN0QXBpS2V5cxIlLnRlcnJhYmFzZS5hdXRoLnYxLkxpc3RBcGlLZXlzUmVxdWVzdBomLnRlcnJhYmFzZS5hdXRoLnYxLkxpc3RBcGlLZXlzUmVzcG9uc2USXwoMUmV2b2tlQXBpS2V5EiYudGVycmFiYXNlLmF1dGgudjEuUmV2b2tlQXBpS2V5UmVxdWVzdBonLnRlcnJhYmFzZS5hdXRoLnYxLlJldm9rZUFwaUtleVJlc3BvbnNlEl8KDFJvdGF0ZUFwaUtleRImLnRlcnJhYmFzZS5hdXRoLnYxLlJvdGF0ZUFwaUtleVJlcXVlc3QaJy50ZXJyYWJhc2UuYXV0aC52MS5Sb3RhdGVBcGlLZXlSZXNwb25zZTpFCg1hdXRoX3JlcXVpcmVkEh4uZ29vZ2xlLnByb3RvYnVmLk1ldGhvZE9wdGlvbnMY0YYDIAEoCFIMYXV0aFJlcXVpcmVkOmMKD3JlcXVpcmVkX3Njb3BlcxIeLmdvb2dsZS5wcm90b2J1Zi5NZXRob2RPcHRpb25zGNKGAyADKA4yGC50ZXJyYWJhc2UuYXV0aC52MS5TY29wZVIOcmVxdWlyZWRTY29wZXM6QQoLZXJyb3JfY29kZXMSHi5nb29nbGUucHJvdG9idWYuTWV0aG9kT3B0aW9ucxjThgMgAygJUgplcnJvckNvZGVzQkNaQWdpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL2F1dGgvdjE7YXV0aHYxYgZwcm90bzM", [file_google_api_field_behavior, file_google_protobuf_descriptor, file_google_protobuf_timestamp, file_terrabase_user_v1_user, file_terrabase_user_role_v1_user_role]);
+  fileDesc("Chx0ZXJyYWJhc2UvYXV0aC92MS9hdXRoLnByb3RvEhF0ZXJyYWJhc2UuYXV0aC52MSKKAQoNU2lnbnVwUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISEgoFZW1haWwYAiABKAlCA+BBAhIVCghwYXNzd29yZBgDIAEoCUID4EECEjsKDGRlZmF1bHRfcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGVCA+BBAiJkCg5TaWdudXBSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlchIUCgxhY2Nlc3NfdG9rZW4YAiABKAkSFQoNcmVmcmVzaF90b2tlbhgDIAEoCSI5CgxMb2dpblJlcXVlc3QSEgoFZW1haWwYASABKAlCA+BBAhIVCghwYXNzd29yZBgCIAEoCUID4EECImMKDUxvZ2luUmVzcG9uc2USJQoEdXNlchgBIAEoCzIXLnRlcnJhYmFzZS51c2VyLnYxLlVzZXISFAoMYWNjZXNzX3Rva2VuGAIgASgJEhUKDXJlZnJlc2hfdG9rZW4YAyABKAkiLAoOUmVmcmVzaFJlcXVlc3QSGgoNcmVmcmVzaF90b2tlbhgBIAEoCUID4EECIj4KD1JlZnJlc2hSZXNwb25zZRIUCgxhY2Nlc3NfdG9rZW4YASABKAkSFQoNcmVmcmVzaF90b2tlbhgCIAEoCSIPCg1XaG9BbUlSZXF1ZXN0ImIKDldob0FtSVJlc3BvbnNlEiUKBHVzZXIYASABKAsyFy50ZXJyYWJhc2UudXNlci52MS5Vc2VyEikKBnNjb3BlcxgCIAMoDjIZLnRlcnJhYmFzZS5hdXRoei52MS5TY29wZSIjCg1Mb2dvdXRSZXF1ZXN0EhIKCnNlc3Npb25faWQYASABKAkiEAoOTG9nb3V0UmVzcG9uc2UiuwEKGENyZWF0ZU1hY2hpbmVVc2VyUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISOwoMZGVmYXVsdF9yb2xlGAIgASgOMiAudGVycmFiYXNlLnVzZXJfcm9sZS52MS5Vc2VyUm9sZUID4EECEjMKCXVzZXJfdHlwZRgDIAEoDjIbLnRlcnJhYmFzZS51c2VyLnYxLlVzZXJUeXBlQgPgQQISGgoNb3duZXJfdXNlcl9pZBgEIAEoCUID4EECIkoKGUNyZWF0ZU1hY2hpbmVVc2VyUmVzcG9uc2USLQoMbWFjaGluZV91c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlciLZAgoGQXBpS2V5EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSKQoGc2NvcGVzGAMgAygOMhkudGVycmFiYXNlLmF1dGh6LnYxLlNjb3BlEhAKCG93bmVyX2lkGAQgASgJEjYKCm93bmVyX3R5cGUYBSABKA4yIi50ZXJyYWJhc2UuYXV0aC52MS5BcGlLZXlPd25lclR5cGUSLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKZXhwaXJlc19hdBgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASMAoMbGFzdF91c2VkX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpyZXZva2VkX2F0GAkgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCLSAQoTQ3JlYXRlQXBpS2V5UmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISOwoKb3duZXJfdHlwZRgCIAEoDjIiLnRlcnJhYmFzZS5hdXRoLnYxLkFwaUtleU93bmVyVHlwZUID4EECEhUKCG93bmVyX2lkGAMgASgJQgPgQQISLgoGc2NvcGVzGAQgAygOMhkudGVycmFiYXNlLmF1dGh6LnYxLlNjb3BlQgPgQQISFgoJdHRsX2hvdXJzGAUgASgDSACIAQFCDAoKX3R0bF9ob3VycyJZChRDcmVhdGVBcGlLZXlSZXNwb25zZRIVCg1hcGlfa2V5X3Rva2VuGAEgASgJEioKB2FwaV9rZXkYAiABKAsyGS50ZXJyYWJhc2UuYXV0aC52MS5BcGlLZXkiXgoSTGlzdEFwaUtleXNSZXF1ZXN0EjYKCm93bmVyX3R5cGUYASABKA4yIi50ZXJyYWJhc2UuYXV0aC52MS5BcGlLZXlPd25lclR5cGUSEAoIb3duZXJfaWQYAiABKAkiQgoTTGlzdEFwaUtleXNSZXNwb25zZRIrCghhcGlfa2V5cxgBIAMoCzIZLnRlcnJhYmFzZS5hdXRoLnYxLkFwaUtleSI2ChNSZXZva2VBcGlLZXlSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISDgoGcmVhc29uGAIgASgJIhYKFFJldm9rZUFwaUtleVJlc3BvbnNlIncKE1JvdGF0ZUFwaUtleVJlcXVlc3QSDwoCaWQYASABKAlCA+BBAhIpCgZzY29wZXMYAiADKA4yGS50ZXJyYWJhc2UuYXV0aHoudjEuU2NvcGUSFgoJdHRsX2hvdXJzGAMgASgDSACIAQFCDAoKX3R0bF9ob3VycyJZChRSb3RhdGVBcGlLZXlSZXNwb25zZRIVCg1hcGlfa2V5X3Rva2VuGAEgASgJEioKB2FwaV9rZXkYAiABKAsyGS50ZXJyYWJhc2UuYXV0aC52MS5BcGlLZXkixwEKB1Nlc3Npb24SCgoCaWQYASABKAkSEgoKdXNlcl9hZ2VudBgCIAEoCRIKCgJpcBgDIAEoCRIuCgpleHBpcmVzX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgxsYXN0X3VzZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIhUKE0xpc3RTZXNzaW9uc1JlcXVlc3QiRAoUTGlzdFNlc3Npb25zUmVzcG9uc2USLAoIc2Vzc2lvbnMYASADKAsyGi50ZXJyYWJhc2UuYXV0aC52MS5TZXNzaW9uKo4BCg9BcGlLZXlPd25lclR5cGUSIgoeQVBJX0tFWV9PV05FUl9UWVBFX1VOU1BFQ0lGSUVEEAASGwoXQVBJX0tFWV9PV05FUl9UWVBFX1VTRVIQARIaChZBUElfS0VZX09XTkVSX1RZUEVfQk9UEAISHgoaQVBJX0tFWV9PV05FUl9UWVBFX1NFUlZJQ0UQAzLZCAoLQXV0aFNlcnZpY2USUwoGU2lnbnVwEiAudGVycmFiYXNlLmF1dGgudjEuU2lnbnVwUmVxdWVzdBohLnRlcnJhYmFzZS5hdXRoLnYxLlNpZ251cFJlc3BvbnNlIgSItRgAElAKBUxvZ2luEh8udGVycmFiYXNlLmF1dGgudjEuTG9naW5SZXF1ZXN0GiAudGVycmFiYXNlLmF1dGgudjEuTG9naW5SZXNwb25zZSIEiLUYABJWCgdSZWZyZXNoEiEudGVycmFiYXNlLmF1dGgudjEuUmVmcmVzaFJlcXVlc3QaIi50ZXJyYWJhc2UuYXV0aC52MS5SZWZyZXNoUmVzcG9uc2UiBIi1GAESUwoGV2hvQW1JEiAudGVycmFiYXNlLmF1dGgudjEuV2hvQW1JUmVxdWVzdBohLnRlcnJhYmFzZS5hdXRoLnYxLldob0FtSVJlc3BvbnNlIgSItRgBElMKBkxvZ291dBIgLnRlcnJhYmFzZS5hdXRoLnYxLkxvZ291dFJlcXVlc3QaIS50ZXJyYWJhc2UuYXV0aC52MS5Mb2dvdXRSZXNwb25zZSIEiLUYARJlCgxMaXN0U2Vzc2lvbnMSJi50ZXJyYWJhc2UuYXV0aC52MS5MaXN0U2Vzc2lvbnNSZXF1ZXN0GicudGVycmFiYXNlLmF1dGgudjEuTGlzdFNlc3Npb25zUmVzcG9uc2UiBIi1GAESeQoRQ3JlYXRlTWFjaGluZVVzZXISKy50ZXJyYWJhc2UuYXV0aC52MS5DcmVhdGVNYWNoaW5lVXNlclJlcXVlc3QaLC50ZXJyYWJhc2UuYXV0aC52MS5DcmVhdGVNYWNoaW5lVXNlclJlc3BvbnNlIgmItRgBkrUYAQESdQoMQ3JlYXRlQXBpS2V5EiYudGVycmFiYXNlLmF1dGgudjEuQ3JlYXRlQXBpS2V5UmVxdWVzdBonLnRlcnJhYmFzZS5hdXRoLnYxLkNyZWF0ZUFwaUtleVJlc3BvbnNlIhSItRgBoLUYAaq1GAhvd25lcl9pZBJyCgtMaXN0QXBpS2V5cxIlLnRlcnJhYmFzZS5hdXRoLnYxLkxpc3RBcGlLZXlzUmVxdWVzdBomLnRlcnJhYmFzZS5hdXRoLnYxLkxpc3RBcGlLZXlzUmVzcG9uc2UiFIi1GAGgtRgBqrUYCG93bmVyX2lkEmkKDFJldm9rZUFwaUtleRImLnRlcnJhYmFzZS5hdXRoLnYxLlJldm9rZUFwaUtleVJlcXVlc3QaJy50ZXJyYWJhc2UuYXV0aC52MS5SZXZva2VBcGlLZXlSZXNwb25zZSIIiLUYAaC1GAESaQoMUm90YXRlQXBpS2V5EiYudGVycmFiYXNlLmF1dGgudjEuUm90YXRlQXBpS2V5UmVxdWVzdBonLnRlcnJhYmFzZS5hdXRoLnYxLlJvdGF0ZUFwaUtleVJlc3BvbnNlIgiItRgBoLUYAUJDWkFnaXRodWIuY29tL3RlcnJhYmFzZS1kZXYvdGVycmFiYXNlL3NwZWNzL3RlcnJhYmFzZS9hdXRoL3YxO2F1dGh2MWIGcHJvdG8z", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_authz_v1_authz, file_terrabase_user_v1_user, file_terrabase_user_role_v1_user_role]);
 
 /**
  * @generated from message terrabase.auth.v1.SignupRequest
@@ -189,7 +191,7 @@ export type WhoAmIResponse = Message<"terrabase.auth.v1.WhoAmIResponse"> & {
   user?: User;
 
   /**
-   * @generated from field: repeated terrabase.auth.v1.Scope scopes = 2;
+   * @generated from field: repeated terrabase.authz.v1.Scope scopes = 2;
    */
   scopes: Scope[];
 };
@@ -297,7 +299,7 @@ export type ApiKey = Message<"terrabase.auth.v1.ApiKey"> & {
   name: string;
 
   /**
-   * @generated from field: repeated terrabase.auth.v1.Scope scopes = 3;
+   * @generated from field: repeated terrabase.authz.v1.Scope scopes = 3;
    */
   scopes: Scope[];
 
@@ -359,7 +361,7 @@ export type CreateApiKeyRequest = Message<"terrabase.auth.v1.CreateApiKeyRequest
   ownerId: string;
 
   /**
-   * @generated from field: repeated terrabase.auth.v1.Scope scopes = 4;
+   * @generated from field: repeated terrabase.authz.v1.Scope scopes = 4;
    */
   scopes: Scope[];
 
@@ -486,7 +488,7 @@ export type RotateApiKeyRequest = Message<"terrabase.auth.v1.RotateApiKeyRequest
   /**
    * Optional: inherit existing scopes and ttl when unset.
    *
-   * @generated from field: repeated terrabase.auth.v1.Scope scopes = 2;
+   * @generated from field: repeated terrabase.authz.v1.Scope scopes = 2;
    */
   scopes: Scope[];
 
@@ -598,77 +600,6 @@ export const ListSessionsResponseSchema: GenMessage<ListSessionsResponse> = /*@_
   messageDesc(file_terrabase_auth_v1_auth, 23);
 
 /**
- * @generated from enum terrabase.auth.v1.Scope
- */
-export enum Scope {
-  /**
-   * @generated from enum value: SCOPE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: SCOPE_ADMIN = 1;
-   */
-  ADMIN = 1,
-
-  /**
-   * @generated from enum value: SCOPE_ORG_WRITE = 2;
-   */
-  ORG_WRITE = 2,
-
-  /**
-   * @generated from enum value: SCOPE_ORG_READ = 3;
-   */
-  ORG_READ = 3,
-
-  /**
-   * @generated from enum value: SCOPE_TEAM_WRITE = 4;
-   */
-  TEAM_WRITE = 4,
-
-  /**
-   * @generated from enum value: SCOPE_TEAM_READ = 5;
-   */
-  TEAM_READ = 5,
-
-  /**
-   * @generated from enum value: SCOPE_APPLICATION_WRITE = 6;
-   */
-  APPLICATION_WRITE = 6,
-
-  /**
-   * @generated from enum value: SCOPE_APPLICATION_READ = 7;
-   */
-  APPLICATION_READ = 7,
-
-  /**
-   * @generated from enum value: SCOPE_ENVIRONMENT_WRITE = 8;
-   */
-  ENVIRONMENT_WRITE = 8,
-
-  /**
-   * @generated from enum value: SCOPE_ENVIRONMENT_READ = 9;
-   */
-  ENVIRONMENT_READ = 9,
-
-  /**
-   * @generated from enum value: SCOPE_WORKSPACE_WRITE = 10;
-   */
-  WORKSPACE_WRITE = 10,
-
-  /**
-   * @generated from enum value: SCOPE_WORKSPACE_READ = 11;
-   */
-  WORKSPACE_READ = 11,
-}
-
-/**
- * Describes the enum terrabase.auth.v1.Scope.
- */
-export const ScopeSchema: GenEnum<Scope> = /*@__PURE__*/
-  enumDesc(file_terrabase_auth_v1_auth, 0);
-
-/**
  * @generated from enum terrabase.auth.v1.ApiKeyOwnerType
  */
 export enum ApiKeyOwnerType {
@@ -697,7 +628,7 @@ export enum ApiKeyOwnerType {
  * Describes the enum terrabase.auth.v1.ApiKeyOwnerType.
  */
 export const ApiKeyOwnerTypeSchema: GenEnum<ApiKeyOwnerType> = /*@__PURE__*/
-  enumDesc(file_terrabase_auth_v1_auth, 1);
+  enumDesc(file_terrabase_auth_v1_auth, 0);
 
 /**
  * @generated from service terrabase.auth.v1.AuthService
@@ -793,22 +724,4 @@ export const AuthService: GenService<{
   },
 }> = /*@__PURE__*/
   serviceDesc(file_terrabase_auth_v1_auth, 0);
-
-/**
- * @generated from extension: bool auth_required = 50001;
- */
-export const auth_required: GenExtension<MethodOptions, boolean> = /*@__PURE__*/
-  extDesc(file_terrabase_auth_v1_auth, 0);
-
-/**
- * @generated from extension: repeated terrabase.auth.v1.Scope required_scopes = 50002;
- */
-export const required_scopes: GenExtension<MethodOptions, Scope[]> = /*@__PURE__*/
-  extDesc(file_terrabase_auth_v1_auth, 1);
-
-/**
- * @generated from extension: repeated string error_codes = 50003;
- */
-export const error_codes: GenExtension<MethodOptions, string[]> = /*@__PURE__*/
-  extDesc(file_terrabase_auth_v1_auth, 2);
 

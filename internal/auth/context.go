@@ -4,7 +4,7 @@ import (
 	"context"
 	"slices"
 
-	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
+	authzv1 "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 )
 
 type PrincipalType string
@@ -22,7 +22,7 @@ type Context struct {
 	Name          string
 	Email         string
 	DefaultRole   int32
-	Scopes        []authv1.Scope
+	Scopes        []authzv1.Scope
 	Entitlements  map[string][]string
 	Metadata      map[string]any
 	TokenID       string
@@ -31,7 +31,7 @@ type Context struct {
 	Authenticated bool
 }
 
-func (c *Context) HasScope(scope authv1.Scope) bool {
+func (c *Context) HasScope(scope authzv1.Scope) bool {
 	return slices.Contains(c.Scopes, scope)
 }
 

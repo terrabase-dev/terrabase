@@ -24,9 +24,11 @@ import (
 
 func buildHandler(services Services, authenticator *auth.Authenticator, logger *log.Logger) http.Handler {
 	mux := http.NewServeMux()
+	policies := buildMethodPolicies()
 
 	handlerOpts := []connect.HandlerOption{
 		connect.WithInterceptors(auth.ContextInterceptor(authenticator, logger)),
+		connect.WithInterceptors(authzInterceptor(policies)),
 		connect.WithInterceptors(loggingInterceptor(logger)),
 	}
 

@@ -159,55 +159,56 @@
 
 #### Refresh
 
-- Auth: not required
+- Auth: required
 - Request: [RefreshRequest](#refreshrequest-authv1)
 - Response: [RefreshResponse](#refreshresponse-authv1)
 
 #### WhoAmI
 
-- Auth: not required
+- Auth: required
 - Request: [WhoAmIRequest](#whoamirequest-authv1)
 - Response: [WhoAmIResponse](#whoamiresponse-authv1)
 
 #### Logout
 
-- Auth: not required
+- Auth: required
 - Request: [LogoutRequest](#logoutrequest-authv1)
 - Response: [LogoutResponse](#logoutresponse-authv1)
 
 #### ListSessions
 
-- Auth: not required
+- Auth: required
 - Request: [ListSessionsRequest](#listsessionsrequest-authv1)
 - Response: [ListSessionsResponse](#listsessionsresponse-authv1)
 
 #### CreateMachineUser
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN
 - Request: [CreateMachineUserRequest](#createmachineuserrequest-authv1)
 - Response: [CreateMachineUserResponse](#createmachineuserresponse-authv1)
 
 #### CreateApiKey
 
-- Auth: not required
+- Auth: required
 - Request: [CreateApiKeyRequest](#createapikeyrequest-authv1)
 - Response: [CreateApiKeyResponse](#createapikeyresponse-authv1)
 
 #### ListApiKeys
 
-- Auth: not required
+- Auth: required
 - Request: [ListApiKeysRequest](#listapikeysrequest-authv1)
 - Response: [ListApiKeysResponse](#listapikeysresponse-authv1)
 
 #### RevokeApiKey
 
-- Auth: not required
+- Auth: required
 - Request: [RevokeApiKeyRequest](#revokeapikeyrequest-authv1)
 - Response: [RevokeApiKeyResponse](#revokeapikeyresponse-authv1)
 
 #### RotateApiKey
 
-- Auth: not required
+- Auth: required
 - Request: [RotateApiKeyRequest](#rotateapikeyrequest-authv1)
 - Response: [RotateApiKeyResponse](#rotateapikeyresponse-authv1)
 
@@ -641,7 +642,7 @@
 #### GetOrganization
 
 - Auth: required
-- Scopes: SCOPE_ADMIN, SCOPE_ORG_READ
+- Scopes: SCOPE_ADMIN, SCOPE_ORG_READ, SCOPE_ORG_WRITE
 - Errors: Unauthenticated, PermissionDenied
 - Request: [GetOrganizationRequest](#getorganizationrequest-organizationv1)
 - Response: [GetOrganizationResponse](#getorganizationresponse-organizationv1)
@@ -649,7 +650,7 @@
 #### ListOrganizations
 
 - Auth: required
-- Scopes: SCOPE_ADMIN, SCOPE_ORG_READ
+- Scopes: SCOPE_ADMIN, SCOPE_ORG_READ, SCOPE_ORG_WRITE
 - Errors: Unauthenticated, PermissionDenied
 - Request: [ListOrganizationsRequest](#listorganizationsrequest-organizationv1)
 - Response: [ListOrganizationsResponse](#listorganizationsresponse-organizationv1)
@@ -935,31 +936,36 @@
 
 #### CreateTeam
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN, SCOPE_TEAM_WRITE
 - Request: [CreateTeamRequest](#createteamrequest-teamv1)
 - Response: [CreateTeamResponse](#createteamresponse-teamv1)
 
 #### GetTeam
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN, SCOPE_TEAM_READ, SCOPE_TEAM_WRITE
 - Request: [GetTeamRequest](#getteamrequest-teamv1)
 - Response: [GetTeamResponse](#getteamresponse-teamv1)
 
 #### ListTeams
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN, SCOPE_TEAM_READ, SCOPE_TEAM_WRITE
 - Request: [ListTeamsRequest](#listteamsrequest-teamv1)
 - Response: [ListTeamsResponse](#listteamsresponse-teamv1)
 
 #### UpdateTeam
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN, SCOPE_TEAM_WRITE
 - Request: [UpdateTeamRequest](#updateteamrequest-teamv1)
 - Response: [UpdateTeamResponse](#updateteamresponse-teamv1)
 
 #### DeleteTeam
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN, SCOPE_TEAM_WRITE
 - Request: [DeleteTeamRequest](#deleteteamrequest-teamv1)
 - Response: [DeleteTeamResponse](#deleteteamresponse-teamv1)
 
@@ -1047,25 +1053,27 @@
 
 #### GetUser
 
-- Auth: not required
+- Auth: required
 - Request: [GetUserRequest](#getuserrequest-userv1)
 - Response: [GetUserResponse](#getuserresponse-userv1)
 
 #### ListUsers
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN
 - Request: [ListUsersRequest](#listusersrequest-userv1)
 - Response: [ListUsersResponse](#listusersresponse-userv1)
 
 #### UpdateUser
 
-- Auth: not required
+- Auth: required
 - Request: [UpdateUserRequest](#updateuserrequest-userv1)
 - Response: [UpdateUserResponse](#updateuserresponse-userv1)
 
 #### DeleteUser
 
-- Auth: not required
+- Auth: required
+- Scopes: SCOPE_ADMIN
 - Request: [DeleteUserRequest](#deleteuserrequest-userv1)
 - Response: [DeleteUserResponse](#deleteuserresponse-userv1)
 

@@ -4,6 +4,7 @@ package terrabase.team.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1;teamv1";
 
@@ -62,9 +63,35 @@ message DeleteTeamRequest {
 message DeleteTeamResponse {}
 
 service TeamService {
-  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
-  rpc GetTeam(GetTeamRequest) returns (GetTeamResponse);
-  rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse);
-  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
-  rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse);
+  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc GetTeam(GetTeamRequest) returns (GetTeamResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
 }
