@@ -129,32 +129,33 @@ func main() {
 				if desc := commentFor(comments, 6, int32(sIdx)); desc != "" {
 					b.WriteString(desc + "\n\n")
 				}
-				for mIdx, m := range svc.GetMethod() {
-					authReq, scopes, errors := readMethodOptions(m.GetOptions())
+				b.WriteString("| Name | Request | Response | Authentication Required | Required Scopes | Description |\n")
+				b.WriteString("| --- | --- | --- | --- | --- | --- |\n")
 
-					fmt.Fprintf(&b, "#### %s\n\n", m.GetName())
-					if desc := commentFor(comments, 6, int32(sIdx), 2, int32(mIdx)); desc != "" {
-						b.WriteString(desc + "\n\n")
-					}
-					if authReq {
-						b.WriteString("- Auth: required\n")
-					} else {
-						b.WriteString("- Auth: not required\n")
-					}
-					if len(scopes) > 0 {
-						b.WriteString("- Scopes: " + strings.Join(scopes, ", ") + "\n")
-					}
-					if len(errors) > 0 {
-						b.WriteString("- Errors: " + strings.Join(errors, ", ") + "\n")
-					}
+				for mIdx, m := range svc.GetMethod() {
+					authReq, adminOrSelf, scopes := readMethodOptions(m.GetOptions())
+
+					name := m.GetName()
 					reqFull := strings.TrimPrefix(m.GetInputType(), ".")
 					respFull := strings.TrimPrefix(m.GetOutputType(), ".")
-					writeTypeLink(&b, "Request", reqFull, anchorByFull)
-					writeTypeLink(&b, "Response", respFull, anchorByFull)
+					request := formatType(basename(reqFull), reqFull, anchorByFull)
+					response := formatType(basename(respFull), respFull, anchorByFull)
+					desc := commentFor(comments, 6, int32(sIdx), 2, int32(mIdx))
+
+					var requiredScopes string
+
+					if adminOrSelf {
+						requiredScopes = "Admin or self"
+					} else {
+						requiredScopes = strings.Join(scopes, ", ")
+					}
+
 					markType(reqFull)
 					markType(respFull)
-					b.WriteString("\n")
+					fmt.Fprintf(&b, "| `%s` | %s | %s | `%t` | %s | %s |\n", name, request, response, authReq, requiredScopes, desc)
 				}
+
+				b.WriteString("\n")
 			}
 
 			if msgs := messageIndex[pkg]; len(msgs) > 0 {
@@ -162,7 +163,7 @@ func main() {
 					if !neededMessages[msg.FullName] {
 						continue
 					}
-					fmt.Fprintf(&b, "#### %s\n\n", msg.DisplayName)
+					fmt.Fprintf(&b, "### %s\n\n", msg.DisplayName)
 					if msg.Description != "" {
 						b.WriteString(msg.Description + "\n\n")
 					}
@@ -176,12 +177,8 @@ func main() {
 						name := f.Name
 						typ := formatType(f.TypeDisplay, f.TypeFull, anchorByFull)
 						label := f.Label
-						required := "no"
-						if f.Required {
-							required = "yes"
-						}
 						desc := f.Description
-						fmt.Fprintf(&b, "| %s | %s | %s | %s | %s |\n", name, typ, label, required, desc)
+						fmt.Fprintf(&b, "| `%s` | `%s` | %s | `%t` | %s |\n", name, typ, label, f.Required, desc)
 					}
 					b.WriteString("\n")
 				}
@@ -240,15 +237,15 @@ func main() {
 	}
 }
 
-func readMethodOptions(opts *descriptorpb.MethodOptions) (bool, []string, []string) {
+func readMethodOptions(opts *descriptorpb.MethodOptions) (bool, bool, []string) {
 	if opts == nil {
-		return false, nil, nil
+		return false, false, nil
 	}
 
 	var (
 		authRequired bool
+		adminOrSelf  bool
 		scopes       []string
-		errCodes     []string
 	)
 
 	if proto.HasExtension(opts, authzv1.E_AuthRequired) {
@@ -260,18 +257,18 @@ func readMethodOptions(opts *descriptorpb.MethodOptions) (bool, []string, []stri
 	if proto.HasExtension(opts, authzv1.E_RequiredScopes) {
 		if vals, ok := proto.GetExtension(opts, authzv1.E_RequiredScopes).([]authzv1.Scope); ok {
 			for _, s := range vals {
-				scopes = append(scopes, s.String())
+				scopes = append(scopes, fmt.Sprintf("`%s`", s.String()))
 			}
 		}
 	}
 
-	if proto.HasExtension(opts, authzv1.E_ErrorCodes) {
-		if vals, ok := proto.GetExtension(opts, authzv1.E_ErrorCodes).([]string); ok {
-			errCodes = append(errCodes, vals...)
+	if proto.HasExtension(opts, authzv1.E_AdminOrSelf) {
+		if v, ok := proto.GetExtension(opts, authzv1.E_AdminOrSelf).(bool); ok {
+			adminOrSelf = v
 		}
 	}
 
-	return authRequired, scopes, errCodes
+	return authRequired, adminOrSelf, scopes
 }
 
 func collectMessages(pkg string, msgs []*descriptorpb.DescriptorProto, prefix string, anchors map[string]string, comments map[string]string, pathPrefix []int32) ([]string, []messageDoc) {
@@ -338,11 +335,6 @@ func anchorFor(fullName string) string {
 	anchor := b.String()
 	anchor = strings.Trim(anchor, "-")
 	return anchor
-}
-
-func writeTypeLink(b *strings.Builder, label, typeFull string, anchors map[string]string) {
-	display := basename(typeFull)
-	fmt.Fprintf(b, "- %s: %s\n", label, formatType(display, typeFull, anchors))
 }
 
 func formatType(display, typeFull string, anchors map[string]string) string {
