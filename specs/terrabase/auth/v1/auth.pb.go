@@ -29,10 +29,14 @@ const (
 type ApiKeyOwnerType int32
 
 const (
+	// Default - should not use
 	ApiKeyOwnerType_API_KEY_OWNER_TYPE_UNSPECIFIED ApiKeyOwnerType = 0
-	ApiKeyOwnerType_API_KEY_OWNER_TYPE_USER        ApiKeyOwnerType = 1
-	ApiKeyOwnerType_API_KEY_OWNER_TYPE_BOT         ApiKeyOwnerType = 2
-	ApiKeyOwnerType_API_KEY_OWNER_TYPE_SERVICE     ApiKeyOwnerType = 3
+	// A human user
+	ApiKeyOwnerType_API_KEY_OWNER_TYPE_USER ApiKeyOwnerType = 1
+	// A bot user
+	ApiKeyOwnerType_API_KEY_OWNER_TYPE_BOT ApiKeyOwnerType = 2
+	// A service principal
+	ApiKeyOwnerType_API_KEY_OWNER_TYPE_SERVICE ApiKeyOwnerType = 3
 )
 
 // Enum value maps for ApiKeyOwnerType.

@@ -23,6 +23,21 @@ type messageDoc struct {
 	Fields      []fieldDoc
 }
 
+type enumDoc struct {
+	Name        string
+	DisplayName string
+	FullName    string
+	Anchor      string
+	Description string
+	Values      []enumValueDoc
+}
+
+type enumValueDoc struct {
+	Name        string
+	Number      int32
+	Description string
+}
+
 type fieldDoc struct {
 	Name        string
 	TypeFull    string
@@ -39,6 +54,7 @@ type fileEntry struct {
 type packageData struct {
 	files      []fileEntry
 	msgs       []messageDoc
+	enums      []enumDoc
 	hasService bool
 }
 
@@ -64,6 +80,7 @@ func main() {
 		b             strings.Builder
 		packages      = make(map[string]*packageData)
 		messageByName = make(map[string]*messageDoc)
+		enumByName    = make(map[string]*enumDoc)
 		pkgs          []string
 	)
 
@@ -102,7 +119,17 @@ func main() {
 
 		pkgData.files = append(pkgData.files, fileEntry{fd: fd, comments: comments})
 
-		docs := collectMessages(pkg, fd.GetMessageType(), "", comments, []int32{4})
+		enumStart := len(pkgData.enums)
+		enumDocs := collectEnums(pkg, fd.GetEnumType(), "", comments, []int32{5})
+		pkgData.enums = append(pkgData.enums, enumDocs...)
+
+		for i := range enumDocs {
+			ed := &pkgData.enums[enumStart+i]
+			enumByName[ed.FullName] = ed
+		}
+
+		nestedEnumStart := len(pkgData.enums)
+		docs := collectMessages(pkg, fd.GetMessageType(), "", comments, []int32{4}, &pkgData.enums)
 		start := len(pkgData.msgs)
 		pkgData.msgs = append(pkgData.msgs, docs...)
 
@@ -111,13 +138,20 @@ func main() {
 			messageByName[md.FullName] = md
 		}
 
+		if len(pkgData.enums) > nestedEnumStart {
+			for i := nestedEnumStart; i < len(pkgData.enums); i++ {
+				ed := &pkgData.enums[i]
+				enumByName[ed.FullName] = ed
+			}
+		}
+
 		if len(fd.GetService()) > 0 {
 			pkgData.hasService = true
 		}
 	}
 
 	for pkg, data := range packages {
-		if data.hasService || len(data.msgs) > 0 {
+		if data.hasService || len(data.msgs) > 0 || len(data.enums) > 0 {
 			pkgs = append(pkgs, pkg)
 		}
 	}
@@ -128,18 +162,26 @@ func main() {
 
 	// Determine which message types are actually referenced (requests/responses/fields).
 	neededMessages := make(map[string]bool)
+	neededEnums := make(map[string]bool)
 
-	// Start by including all non-google.protobuf messages so top-level types are documented even if not referenced.
-	for name := range messageByName {
-		if strings.HasPrefix(name, "google.protobuf.") {
-			continue
+	// Start by including all non-google.protobuf messages and enums so top-level types are documented even if not referenced.
+	// Dependency traversal ensures nested message/enum references are also marked as needed.
+
+	var markMessage func(string)
+	markEnum := func(enumName string) {
+		if neededEnums[enumName] {
+			return
 		}
 
-		neededMessages[name] = true
+		ed, ok := enumByName[enumName]
+		if !ok {
+			return
+		}
+
+		neededEnums[ed.FullName] = true
 	}
 
-	var markType func(string)
-	markType = func(typeName string) {
+	markMessage = func(typeName string) {
 		if neededMessages[typeName] {
 			return
 		}
@@ -154,9 +196,29 @@ func main() {
 		for _, f := range md.Fields {
 			// only recurse into message types
 			if messageByName[f.TypeFull] != nil {
-				markType(f.TypeFull)
+				markMessage(f.TypeFull)
+			}
+
+			if enumByName[f.TypeFull] != nil {
+				markEnum(f.TypeFull)
 			}
 		}
+	}
+
+	for name := range messageByName {
+		if strings.HasPrefix(name, "google.protobuf.") {
+			continue
+		}
+
+		markMessage(name)
+	}
+
+	for name := range enumByName {
+		if strings.HasPrefix(name, "google.protobuf.") {
+			continue
+		}
+
+		markEnum(name)
 	}
 
 	renderedMsgPkg := make(map[string]bool)
@@ -184,8 +246,8 @@ func main() {
 
 					reqFull := strings.TrimPrefix(m.GetInputType(), ".")
 					respFull := strings.TrimPrefix(m.GetOutputType(), ".")
-					request := formatType(reqFull, messageByName)
-					response := formatType(respFull, messageByName)
+					request := formatType(reqFull, messageByName, enumByName)
+					response := formatType(respFull, messageByName, enumByName)
 
 					var requiredScopes string
 
@@ -195,8 +257,8 @@ func main() {
 						requiredScopes = strings.Join(scopes, ", ")
 					}
 
-					markType(reqFull)
-					markType(respFull)
+					markMessage(reqFull)
+					markMessage(respFull)
 
 					fmt.Fprintf(&b, "| `%s` | %s | %s | `%t` | %s | %s |\n", m.GetName(), request, response, authRequired, requiredScopes, commentFor(file.comments, 6, int32(sIdx), 2, int32(mIdx)))
 				}
@@ -225,13 +287,41 @@ func main() {
 					b.WriteString("| --- | --- | --- | --- | --- |\n")
 
 					for _, f := range msg.Fields {
-						fmt.Fprintf(&b, "| `%s` | %s | %s | `%t` | %s |\n", f.Name, formatType(f.TypeFull, messageByName), f.Label, f.Required, f.Description)
+						fmt.Fprintf(&b, "| `%s` | %s | %s | `%t` | %s |\n", f.Name, formatType(f.TypeFull, messageByName, enumByName), f.Label, f.Required, f.Description)
 					}
 
 					b.WriteString("\n")
 				}
 
 				renderedMsgPkg[pkg] = true
+			}
+
+			if len(data.enums) > 0 {
+				for _, enum := range data.enums {
+					if !neededEnums[enum.FullName] {
+						continue
+					}
+
+					fmt.Fprintf(&b, "### %s\n\n", enum.DisplayName)
+
+					if enum.Description != "" {
+						b.WriteString(enum.Description + "\n\n")
+					}
+
+					if len(enum.Values) == 0 {
+						b.WriteString("- (no values)\n\n")
+						continue
+					}
+
+					b.WriteString("| Name | Number | Description |\n")
+					b.WriteString("| --- | --- | --- |\n")
+
+					for _, v := range enum.Values {
+						fmt.Fprintf(&b, "| `%s` | `%d` | %s |\n", v.Name, v.Number, v.Description)
+					}
+
+					b.WriteString("\n")
+				}
 			}
 		}
 	}
@@ -244,7 +334,7 @@ func main() {
 	}
 }
 
-func collectMessages(pkg string, msgs []*descriptorpb.DescriptorProto, prefix string, comments map[string]string, pathPrefix []int32) []messageDoc {
+func collectMessages(pkg string, msgs []*descriptorpb.DescriptorProto, prefix string, comments map[string]string, pathPrefix []int32, enums *[]enumDoc) []messageDoc {
 	var docs []messageDoc
 
 	for idx, m := range msgs {
@@ -261,6 +351,12 @@ func collectMessages(pkg string, msgs []*descriptorpb.DescriptorProto, prefix st
 
 		anchor := anchorFor(displayName)
 		msgPath := append(pathPrefix, int32(idx))
+
+		if enumTypes := m.GetEnumType(); len(enumTypes) > 0 {
+			childPrefix := strings.Join(segments, ".")
+			enumDocs := collectEnums(pkg, enumTypes, childPrefix, comments, append(msgPath, 4))
+			*enums = append(*enums, enumDocs...)
+		}
 
 		var fields []fieldDoc
 		for i, f := range m.GetField() {
@@ -305,14 +401,54 @@ func collectMessages(pkg string, msgs []*descriptorpb.DescriptorProto, prefix st
 		// Recurse into nested messages
 		if nested := m.GetNestedType(); len(nested) > 0 {
 			childPrefix := strings.Join(segments, ".")
-			childDocs := collectMessages(pkg, nested, childPrefix, comments, append(msgPath, 3))
+			childDocs := collectMessages(pkg, nested, childPrefix, comments, append(msgPath, 3), enums)
 			docs = append(docs, childDocs...)
 		}
 	}
 	return docs
 }
 
-func formatType(typeFull string, messages map[string]*messageDoc) string {
+func collectEnums(pkg string, enums []*descriptorpb.EnumDescriptorProto, prefix string, comments map[string]string, pathPrefix []int32) []enumDoc {
+	var docs []enumDoc
+
+	for idx, e := range enums {
+		var segments []string
+		if prefix != "" {
+			segments = append(segments, prefix)
+		}
+		segments = append(segments, e.GetName())
+		fullName := pkg + "." + strings.Join(segments, ".")
+		displayName := e.GetName()
+		if lbl := pkgLabel(pkg); lbl != "" {
+			displayName = fmt.Sprintf("%s (%s)", e.GetName(), lbl)
+		}
+
+		enumPath := append(pathPrefix, int32(idx))
+		anchor := anchorFor(displayName)
+
+		var values []enumValueDoc
+		for vIdx, v := range e.GetValue() {
+			values = append(values, enumValueDoc{
+				Name:        v.GetName(),
+				Number:      v.GetNumber(),
+				Description: commentForPath(comments, append(enumPath, 2, int32(vIdx))),
+			})
+		}
+
+		docs = append(docs, enumDoc{
+			Name:        e.GetName(),
+			DisplayName: displayName,
+			FullName:    fullName,
+			Anchor:      anchor,
+			Description: commentForPath(comments, enumPath),
+			Values:      values,
+		})
+	}
+
+	return docs
+}
+
+func formatType(typeFull string, messages map[string]*messageDoc, enums map[string]*enumDoc) string {
 	display := typeFull
 
 	if idx := strings.LastIndex(typeFull, "."); idx != -1 {
@@ -324,6 +460,9 @@ func formatType(typeFull string, messages map[string]*messageDoc) string {
 	}
 	if md, ok := messages[typeFull]; ok {
 		return fmt.Sprintf("[%s](#%s)", display, md.Anchor)
+	}
+	if ed, ok := enums[typeFull]; ok {
+		return fmt.Sprintf("[%s](#%s)", display, ed.Anchor)
 	}
 	return display
 }

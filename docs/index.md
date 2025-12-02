@@ -137,7 +137,7 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | `name` | string |  | `true` | The user's full name |
 | `email` | string |  | `true` | The user's email address |
 | `password` | string |  | `true` | The user's password |
-| `default_role` | UserRole |  | `true` | The default role for the user |
+| `default_role` | [UserRole](#userrole-user_rolev1) |  | `true` | The default role for the user |
 
 ### SignupResponse (auth.v1)
 
@@ -184,7 +184,7 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `user` | [User](#user-userv1) |  | `false` | The logged in user |
-| `scopes` | Scope | repeated | `false` | The scopes the user has |
+| `scopes` | [Scope](#scope-authzv1) | repeated | `false` | The scopes the user has |
 
 ### LogoutRequest (auth.v1)
 
@@ -201,8 +201,8 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `name` | string |  | `true` | The name of the new machine user |
-| `default_role` | UserRole |  | `true` | The default role of the new machine user |
-| `user_type` | UserType |  | `true` | The type of the new machine user |
+| `default_role` | [UserRole](#userrole-user_rolev1) |  | `true` | The default role of the new machine user |
+| `user_type` | [UserType](#usertype-userv1) |  | `true` | The type of the new machine user |
 | `owner_user_id` | string |  | `true` | The ID of the user that owns the new machine user |
 
 ### CreateMachineUserResponse (auth.v1)
@@ -217,9 +217,9 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `false` | The unique ID of the API key |
 | `name` | string |  | `false` | The name of the API key |
-| `scopes` | Scope | repeated | `false` | The scopes the API key has |
+| `scopes` | [Scope](#scope-authzv1) | repeated | `false` | The scopes the API key has |
 | `owner_id` | string |  | `false` | The ID of the user that owns the API key |
-| `owner_type` | ApiKeyOwnerType |  | `false` | The type of user that owns the API key |
+| `owner_type` | [ApiKeyOwnerType](#apikeyownertype-authv1) |  | `false` | The type of user that owns the API key |
 | `created_at` | `Timestamp` |  | `false` | The time the API key was created |
 | `expires_at` | `Timestamp` |  | `false` | The time the API key expires |
 | `last_used_at` | `Timestamp` |  | `false` | The time the API key was last used |
@@ -230,9 +230,9 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `name` | string |  | `true` | The name of the API key |
-| `owner_type` | ApiKeyOwnerType |  | `true` | The type of the user that owns the API key |
+| `owner_type` | [ApiKeyOwnerType](#apikeyownertype-authv1) |  | `true` | The type of the user that owns the API key |
 | `owner_id` | string |  | `true` | The ID of the user that owns the API key |
-| `scopes` | Scope | repeated | `true` | The scopes the API key has |
+| `scopes` | [Scope](#scope-authzv1) | repeated | `true` | The scopes the API key has |
 | `ttl_hours` | int64 |  | `false` | Hours until the API key expires. If unset, key does not expire. |
 
 ### CreateApiKeyResponse (auth.v1)
@@ -246,7 +246,7 @@ A Terrabase application can be deployed in multiple environments, each with thei
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `owner_type` | ApiKeyOwnerType |  | `false` | The type of user that owns API keys |
+| `owner_type` | [ApiKeyOwnerType](#apikeyownertype-authv1) |  | `false` | The type of user that owns API keys |
 | `owner_id` | string |  | `false` | The unique ID of the user that owns an API key |
 
 ### ListApiKeysResponse (auth.v1)
@@ -271,7 +271,7 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `true` | The ID of the API key to rotate |
-| `scopes` | Scope | repeated | `false` | The scopes the new API key should have. If unset, inherits from the existing API key. |
+| `scopes` | [Scope](#scope-authzv1) | repeated | `false` | The scopes the new API key should have. If unset, inherits from the existing API key. |
 | `ttl_hours` | int64 |  | `false` | Hours until the new API key expires. If unset, inherits from the existing API key. |
 
 ### RotateApiKeyResponse (auth.v1)
@@ -301,6 +301,43 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `sessions` | [Session](#session-authv1) | repeated | `false` | A list of active sessions |
+
+### ApiKeyOwnerType (auth.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `API_KEY_OWNER_TYPE_UNSPECIFIED` | `0` | Default - should not use |
+| `API_KEY_OWNER_TYPE_USER` | `1` | A human user |
+| `API_KEY_OWNER_TYPE_BOT` | `2` | A bot user |
+| `API_KEY_OWNER_TYPE_SERVICE` | `3` | A service principal |
+
+## terrabase.authz.v1
+
+### Scope (authz.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `SCOPE_UNSPECIFIED` | `0` |  |
+| `SCOPE_ADMIN` | `1` |  |
+| `SCOPE_ORG_WRITE` | `2` |  |
+| `SCOPE_ORG_READ` | `3` |  |
+| `SCOPE_TEAM_WRITE` | `4` |  |
+| `SCOPE_TEAM_READ` | `5` |  |
+| `SCOPE_APPLICATION_WRITE` | `6` |  |
+| `SCOPE_APPLICATION_READ` | `7` |  |
+| `SCOPE_ENVIRONMENT_WRITE` | `8` |  |
+| `SCOPE_ENVIRONMENT_READ` | `9` |  |
+| `SCOPE_WORKSPACE_WRITE` | `10` |  |
+| `SCOPE_WORKSPACE_READ` | `11` |  |
+
+## terrabase.backend_type.v1
+
+### BackendType (backend_type.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `BACKEND_TYPE_UNSPECIFIED` | `0` |  |
+| `BACKEND_TYPE_S3` | `1` |  |
 
 ## terrabase.drift_report.v1
 
@@ -524,7 +561,7 @@ A Terrabase organization is the top level grouping of resources in a Terrabase i
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `false` | The unique ID of the organization |
 | `name` | string |  | `false` | The name of the organization |
-| `subscription` | Subscription |  | `false` | The subscription level of the organization |
+| `subscription` | [Subscription](#subscription-organizationv1) |  | `false` | The subscription level of the organization |
 | `created_at` | `Timestamp` |  | `false` | The time the organization was created |
 | `updated_at` | `Timestamp` |  | `false` | The time the organization was last updated at |
 
@@ -533,7 +570,7 @@ A Terrabase organization is the top level grouping of resources in a Terrabase i
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `name` | string |  | `true` | The name of the organization to create |
-| `subscription` | Subscription |  | `true` | The subscription level of the organization to create |
+| `subscription` | [Subscription](#subscription-organizationv1) |  | `true` | The subscription level of the organization to create |
 
 ### CreateOrganizationResponse (organization.v1)
 
@@ -573,7 +610,7 @@ A Terrabase organization is the top level grouping of resources in a Terrabase i
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `true` | The unique ID of the organization to update |
 | `name` | string |  | `false` | The new name of the organization |
-| `subscription` | Subscription |  | `false` | The new subscription level of the organization |
+| `subscription` | [Subscription](#subscription-organizationv1) |  | `false` | The new subscription level of the organization |
 
 ### UpdateOrganizationResponse (organization.v1)
 
@@ -590,6 +627,15 @@ A Terrabase organization is the top level grouping of resources in a Terrabase i
 ### DeleteOrganizationResponse (organization.v1)
 
 - (no fields)
+
+### Subscription (organization.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `SUBSCRIPTION_UNSPECIFIED` | `0` | Default - should not use |
+| `SUBSCRIPTION_FREE` | `1` | Free subscription |
+| `SUBSCRIPTION_TEAM` | `2` | Team subscription |
+| `SUBSCRIPTION_ENTERPRISE` | `3` | Enterprise subscription |
 
 ## terrabase.s3_backend_config.v1
 
@@ -835,6 +881,16 @@ A Terrabase team belongs to a single organization, and can have many users. Team
 
 - (no fields)
 
+## terrabase.team_access_type.v1
+
+### TeamAccessType (team_access_type.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `TEAM_ACCESS_TYPE_UNSPECIFIED` | `0` |  |
+| `TEAM_ACCESS_TYPE_OWNER` | `1` |  |
+| `TEAM_ACCESS_TYPE_GRANTED` | `2` |  |
+
 ## terrabase.user.v1
 
 ### UserService (user.v1)
@@ -855,10 +911,10 @@ A Terrabase user is either a human user or a machine user. A machine user is eit
 | `id` | string |  | `false` | The unique ID of the user |
 | `name` | string |  | `false` | The name of the user |
 | `email` | string |  | `false` | The email address of the user, if a human user |
-| `default_role` | UserRole |  | `false` | The default role of the user |
+| `default_role` | [UserRole](#userrole-user_rolev1) |  | `false` | The default role of the user |
 | `created_at` | `Timestamp` |  | `false` | The time the user was created |
 | `updated_at` | `Timestamp` |  | `false` | The time the user was last updated at |
-| `user_type` | UserType |  | `false` | The type of the user (user, bot, or service) |
+| `user_type` | [UserType](#usertype-userv1) |  | `false` | The type of the user (user, bot, or service) |
 | `owner_user_id` | string |  | `false` | The ID of the user that owns the machine user, if a machine user |
 
 ### UserSummary (user.v1)
@@ -870,10 +926,10 @@ UserSummary is context aware
 | `id` | string |  | `false` | The ID of the user |
 | `name` | string |  | `false` | The name of the user |
 | `email` | string |  | `false` | The email address of the user, if a human user |
-| `role` | UserRole |  | `false` | The role the user has in the context in which the RPC returning this object (or list of objects) is called from |
+| `role` | [UserRole](#userrole-user_rolev1) |  | `false` | The role the user has in the context in which the RPC returning this object (or list of objects) is called from |
 | `created_at` | `Timestamp` |  | `false` | The time the user was created |
 | `updated_at` | `Timestamp` |  | `false` | The time the user was last updated at |
-| `user_type` | UserType |  | `false` | The type of the user (user, bot, or service) |
+| `user_type` | [UserType](#usertype-userv1) |  | `false` | The type of the user (user, bot, or service) |
 | `owner_user_id` | string |  | `false` | The ID of the user that owns the machine user, if a machine user |
 
 ### GetUserRequest (user.v1)
@@ -897,7 +953,7 @@ UserSummary is context aware
 | `organization_id` | string |  | `false` | The ID of the organization to list all users who belong to the organization |
 | `team_id` | string |  | `false` | The ID of the team to list all users who belong to the team |
 | `workspace_id` | string |  | `false` | The ID of the workspace to list all users with access to the workspace |
-| `user_type` | UserType |  | `false` | The type of users to list |
+| `user_type` | [UserType](#usertype-userv1) |  | `false` | The type of users to list |
 
 ### ListUsersResponse (user.v1)
 
@@ -913,7 +969,7 @@ UserSummary is context aware
 | `id` | string |  | `true` | The unique ID of the user to update |
 | `name` | string |  | `false` | The new name of the user |
 | `email` | string |  | `false` | The new email address of the user |
-| `default_role` | UserRole |  | `false` | The new default role of the user |
+| `default_role` | [UserRole](#userrole-user_rolev1) |  | `false` | The new default role of the user |
 
 ### UpdateUserResponse (user.v1)
 
@@ -930,6 +986,15 @@ UserSummary is context aware
 ### DeleteUserResponse (user.v1)
 
 - (no fields)
+
+### UserType (user.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `USER_TYPE_UNSPECIFIED` | `0` | Default - should not use |
+| `USER_TYPE_USER` | `1` | A human user |
+| `USER_TYPE_BOT` | `2` | A bot user - perform actions in Terrabase |
+| `USER_TYPE_SERVICE` | `3` | A service principal - grant access to another application |
 
 ## terrabase.user_membership.v1
 
@@ -995,7 +1060,7 @@ UserSummary is context aware
 | --- | --- | --- | --- | --- |
 | `user_id` | string |  | `true` |  |
 | `workspace_id` | string |  | `true` |  |
-| `role` | UserRole |  | `true` |  |
+| `role` | [UserRole](#userrole-user_rolev1) |  | `true` |  |
 
 ### AddUserToWorkspaceResponse (user_membership.v1)
 
@@ -1018,11 +1083,22 @@ UserSummary is context aware
 | --- | --- | --- | --- | --- |
 | `user_id` | string |  | `true` |  |
 | `workspace_id` | string |  | `true` |  |
-| `role` | UserRole |  | `true` |  |
+| `role` | [UserRole](#userrole-user_rolev1) |  | `true` |  |
 
 ### SetUserWorkspaceRoleResponse (user_membership.v1)
 
 - (no fields)
+
+## terrabase.user_role.v1
+
+### UserRole (user_role.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `USER_ROLE_UNSPECIFIED` | `0` |  |
+| `USER_ROLE_DEVELOPER` | `2` |  |
+| `USER_ROLE_MAINTAINER` | `3` |  |
+| `USER_ROLE_OWNER` | `4` |  |
 
 ## terrabase.workspace.v1
 
@@ -1044,7 +1120,7 @@ UserSummary is context aware
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `false` |  |
 | `name` | string |  | `false` |  |
-| `backend_type` | BackendType |  | `false` |  |
+| `backend_type` | [BackendType](#backendtype-backend_typev1) |  | `false` |  |
 | `environment_id` | string |  | `false` |  |
 | `s3_backend_config_id` | string |  | `false` |  |
 | `created_at` | `Timestamp` |  | `false` |  |
@@ -1055,7 +1131,7 @@ UserSummary is context aware
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `name` | string |  | `true` |  |
-| `backend_type` | BackendType |  | `true` |  |
+| `backend_type` | [BackendType](#backendtype-backend_typev1) |  | `true` |  |
 | `environment_id` | string |  | `false` |  |
 | `team_id` | string |  | `false` |  |
 | `s3_backend_config` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) |  | `false` |  |
@@ -1100,7 +1176,7 @@ UserSummary is context aware
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `true` |  |
 | `name` | string |  | `false` |  |
-| `backend_type` | BackendType |  | `false` |  |
+| `backend_type` | [BackendType](#backendtype-backend_typev1) |  | `false` |  |
 | `environment_id` | string |  | `false` |  |
 | `team_id` | string |  | `false` |  |
 | `s3_backend_config_id` | string |  | `false` |  |

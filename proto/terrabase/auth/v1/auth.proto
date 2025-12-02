@@ -104,9 +104,16 @@ message CreateMachineUserResponse {
 }
 
 enum ApiKeyOwnerType {
+  // Default - should not use
   API_KEY_OWNER_TYPE_UNSPECIFIED = 0;
+
+  // A human user
   API_KEY_OWNER_TYPE_USER = 1;
+
+  // A bot user
   API_KEY_OWNER_TYPE_BOT = 2;
+
+  // A service principal
   API_KEY_OWNER_TYPE_SERVICE = 3;
 }
 

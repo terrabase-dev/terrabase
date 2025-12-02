@@ -710,21 +710,29 @@ export const ListSessionsResponseSchema: GenMessage<ListSessionsResponse> = /*@_
  */
 export enum ApiKeyOwnerType {
   /**
+   * Default - should not use
+   *
    * @generated from enum value: API_KEY_OWNER_TYPE_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
+   * A human user
+   *
    * @generated from enum value: API_KEY_OWNER_TYPE_USER = 1;
    */
   USER = 1,
 
   /**
+   * A bot user
+   *
    * @generated from enum value: API_KEY_OWNER_TYPE_BOT = 2;
    */
   BOT = 2,
 
   /**
+   * A service principal
+   *
    * @generated from enum value: API_KEY_OWNER_TYPE_SERVICE = 3;
    */
   SERVICE = 3,

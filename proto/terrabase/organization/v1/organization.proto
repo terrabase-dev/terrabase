@@ -9,9 +9,16 @@ import "terrabase/authz/v1/authz.proto";
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/organization/v1;organizationv1";
 
 enum Subscription {
+  // Default - should not use
   SUBSCRIPTION_UNSPECIFIED = 0;
+
+  // Free subscription
   SUBSCRIPTION_FREE = 1;
+
+  // Team subscription
   SUBSCRIPTION_TEAM = 2;
+
+  // Enterprise subscription
   SUBSCRIPTION_ENTERPRISE = 3;
 }
 

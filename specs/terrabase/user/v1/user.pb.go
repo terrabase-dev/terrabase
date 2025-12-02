@@ -28,10 +28,14 @@ const (
 type UserType int32
 
 const (
+	// Default - should not use
 	UserType_USER_TYPE_UNSPECIFIED UserType = 0
-	UserType_USER_TYPE_USER        UserType = 1
-	UserType_USER_TYPE_BOT         UserType = 2
-	UserType_USER_TYPE_SERVICE     UserType = 3
+	// A human user
+	UserType_USER_TYPE_USER UserType = 1
+	// A bot user - perform actions in Terrabase
+	UserType_USER_TYPE_BOT UserType = 2
+	// A service principal - grant access to another application
+	UserType_USER_TYPE_SERVICE UserType = 3
 )
 
 // Enum value maps for UserType.

@@ -10,9 +10,16 @@ import "terrabase/user_role/v1/user_role.proto";
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1;userv1";
 
 enum UserType {
+  // Default - should not use
   USER_TYPE_UNSPECIFIED = 0;
+
+  // A human user
   USER_TYPE_USER = 1;
+
+  // A bot user - perform actions in Terrabase
   USER_TYPE_BOT = 2;
+
+  // A service principal - grant access to another application
   USER_TYPE_SERVICE = 3;
 }
 

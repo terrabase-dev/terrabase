@@ -289,21 +289,29 @@ export const DeleteOrganizationResponseSchema: GenMessage<DeleteOrganizationResp
  */
 export enum Subscription {
   /**
+   * Default - should not use
+   *
    * @generated from enum value: SUBSCRIPTION_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
+   * Free subscription
+   *
    * @generated from enum value: SUBSCRIPTION_FREE = 1;
    */
   FREE = 1,
 
   /**
+   * Team subscription
+   *
    * @generated from enum value: SUBSCRIPTION_TEAM = 2;
    */
   TEAM = 2,
 
   /**
+   * Enterprise subscription
+   *
    * @generated from enum value: SUBSCRIPTION_ENTERPRISE = 3;
    */
   ENTERPRISE = 3,

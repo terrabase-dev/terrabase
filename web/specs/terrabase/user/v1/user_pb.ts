@@ -372,21 +372,29 @@ export const DeleteUserResponseSchema: GenMessage<DeleteUserResponse> = /*@__PUR
  */
 export enum UserType {
   /**
+   * Default - should not use
+   *
    * @generated from enum value: USER_TYPE_UNSPECIFIED = 0;
    */
   UNSPECIFIED = 0,
 
   /**
+   * A human user
+   *
    * @generated from enum value: USER_TYPE_USER = 1;
    */
   USER = 1,
 
   /**
+   * A bot user - perform actions in Terrabase
+   *
    * @generated from enum value: USER_TYPE_BOT = 2;
    */
   BOT = 2,
 
   /**
+   * A service principal - grant access to another application
+   *
    * @generated from enum value: USER_TYPE_SERVICE = 3;
    */
   SERVICE = 3,

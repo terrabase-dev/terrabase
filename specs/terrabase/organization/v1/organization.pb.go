@@ -27,10 +27,14 @@ const (
 type Subscription int32
 
 const (
+	// Default - should not use
 	Subscription_SUBSCRIPTION_UNSPECIFIED Subscription = 0
-	Subscription_SUBSCRIPTION_FREE        Subscription = 1
-	Subscription_SUBSCRIPTION_TEAM        Subscription = 2
-	Subscription_SUBSCRIPTION_ENTERPRISE  Subscription = 3
+	// Free subscription
+	Subscription_SUBSCRIPTION_FREE Subscription = 1
+	// Team subscription
+	Subscription_SUBSCRIPTION_TEAM Subscription = 2
+	// Enterprise subscription
+	Subscription_SUBSCRIPTION_ENTERPRISE Subscription = 3
 )
 
 // Enum value maps for Subscription.
