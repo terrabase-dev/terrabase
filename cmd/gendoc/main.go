@@ -85,7 +85,7 @@ func main() {
 		comments := make(map[string]string)
 
 		if info == nil {
-			return
+			continue
 		}
 
 		for _, loc := range info.Location {
@@ -180,37 +180,7 @@ func main() {
 				b.WriteString("| --- | --- | --- | --- | --- | --- |\n")
 
 				for mIdx, m := range svc.GetMethod() {
-					opts := m.GetOptions()
-
-					if opts == nil {
-						return
-					}
-
-					var (
-						authRequired bool
-						adminOrSelf  bool
-						scopes       []string
-					)
-
-					if proto.HasExtension(opts, authzv1.E_AuthRequired) {
-						if v, ok := proto.GetExtension(opts, authzv1.E_AuthRequired).(bool); ok {
-							authRequired = v
-						}
-					}
-
-					if proto.HasExtension(opts, authzv1.E_RequiredScopes) {
-						if vals, ok := proto.GetExtension(opts, authzv1.E_RequiredScopes).([]authzv1.Scope); ok {
-							for _, s := range vals {
-								scopes = append(scopes, fmt.Sprintf("`%s`", s.String()))
-							}
-						}
-					}
-
-					if proto.HasExtension(opts, authzv1.E_AdminOrSelf) {
-						if v, ok := proto.GetExtension(opts, authzv1.E_AdminOrSelf).(bool); ok {
-							adminOrSelf = v
-						}
-					}
+					authRequired, adminOrSelf, scopes := readMethodOptions(m.GetOptions())
 
 					reqFull := strings.TrimPrefix(m.GetInputType(), ".")
 					respFull := strings.TrimPrefix(m.GetOutputType(), ".")
@@ -289,27 +259,7 @@ func collectMessages(pkg string, msgs []*descriptorpb.DescriptorProto, prefix st
 			displayName = fmt.Sprintf("%s (%s)", m.GetName(), lbl)
 		}
 
-		var b strings.Builder
-		prevHyphen := false
-		for _, r := range fullName {
-			switch {
-			case r >= 'A' && r <= 'Z':
-				b.WriteRune(r + ('a' - 'A'))
-				prevHyphen = false
-			case r >= 'a' && r <= 'z', r >= '0' && r <= '9', r == '_':
-				b.WriteRune(r)
-				prevHyphen = false
-			case r == ' ' || r == '-':
-				if !prevHyphen {
-					b.WriteRune('-')
-					prevHyphen = true
-				}
-			// other punctuation (including ".") is dropped to mirror GitHub-style heading IDs
-			default:
-				// skip
-			}
-		}
-		anchor := strings.Trim(b.String(), "-")
+		anchor := anchorFor(displayName)
 		msgPath := append(pathPrefix, int32(idx))
 
 		var fields []fieldDoc
@@ -376,6 +326,63 @@ func formatType(typeFull string, messages map[string]*messageDoc) string {
 		return fmt.Sprintf("[%s](#%s)", display, md.Anchor)
 	}
 	return display
+}
+
+func anchorFor(s string) string {
+	var b strings.Builder
+	prevDash := false
+
+	for _, r := range strings.ToLower(s) {
+		switch {
+		case (r >= 'a' && r <= 'z') || (r >= '0' && r <= '9') || r == '_':
+			b.WriteRune(r)
+			prevDash = false
+		case r == ' ' || r == '-':
+			if !prevDash {
+				b.WriteRune('-')
+				prevDash = true
+			}
+		// drop all other punctuation (e.g., dots) to match markdown heading IDs
+		default:
+			// skip
+		}
+	}
+
+	return strings.Trim(b.String(), "-")
+}
+
+func readMethodOptions(opts *descriptorpb.MethodOptions) (bool, bool, []string) {
+	if opts == nil {
+		return false, false, nil
+	}
+
+	var (
+		authRequired bool
+		adminOrSelf  bool
+		scopes       []string
+	)
+
+	if proto.HasExtension(opts, authzv1.E_AuthRequired) {
+		if v, ok := proto.GetExtension(opts, authzv1.E_AuthRequired).(bool); ok {
+			authRequired = v
+		}
+	}
+
+	if proto.HasExtension(opts, authzv1.E_RequiredScopes) {
+		if vals, ok := proto.GetExtension(opts, authzv1.E_RequiredScopes).([]authzv1.Scope); ok {
+			for _, s := range vals {
+				scopes = append(scopes, fmt.Sprintf("`%s`", s.String()))
+			}
+		}
+	}
+
+	if proto.HasExtension(opts, authzv1.E_AdminOrSelf) {
+		if v, ok := proto.GetExtension(opts, authzv1.E_AdminOrSelf).(bool); ok {
+			adminOrSelf = v
+		}
+	}
+
+	return authRequired, adminOrSelf, scopes
 }
 
 func pkgLabel(pkg string) string {
