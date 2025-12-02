@@ -6,82 +6,85 @@
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateApplication` | [CreateApplicationRequest](#createapplicationrequest-applicationv1) | [CreateApplicationResponse](#createapplicationresponse-applicationv1) | `false` |  |  |
-| `GetApplication` | [GetApplicationRequest](#getapplicationrequest-applicationv1) | [GetApplicationResponse](#getapplicationresponse-applicationv1) | `false` |  |  |
-| `ListApplications` | [ListApplicationsRequest](#listapplicationsrequest-applicationv1) | [ListApplicationsResponse](#listapplicationsresponse-applicationv1) | `false` |  |  |
-| `UpdateApplication` | [UpdateApplicationRequest](#updateapplicationrequest-applicationv1) | [UpdateApplicationResponse](#updateapplicationresponse-applicationv1) | `false` |  |  |
-| `DeleteApplication` | [DeleteApplicationRequest](#deleteapplicationrequest-applicationv1) | [DeleteApplicationResponse](#deleteapplicationresponse-applicationv1) | `false` |  |  |
-| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-applicationv1) | [GrantTeamAccessResponse](#grantteamaccessresponse-applicationv1) | `false` |  |  |
-| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-applicationv1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-applicationv1) | `false` |  |  |
+| `CreateApplication` | [CreateApplicationRequest](#createapplicationrequest-applicationv1) | [CreateApplicationResponse](#createapplicationresponse-applicationv1) | `false` |  | Create a new application |
+| `GetApplication` | [GetApplicationRequest](#getapplicationrequest-applicationv1) | [GetApplicationResponse](#getapplicationresponse-applicationv1) | `false` |  | Retrieve details about a single application |
+| `ListApplications` | [ListApplicationsRequest](#listapplicationsrequest-applicationv1) | [ListApplicationsResponse](#listapplicationsresponse-applicationv1) | `false` |  | List applications owned by a specific team |
+| `UpdateApplication` | [UpdateApplicationRequest](#updateapplicationrequest-applicationv1) | [UpdateApplicationResponse](#updateapplicationresponse-applicationv1) | `false` |  | Change details about an application |
+| `DeleteApplication` | [DeleteApplicationRequest](#deleteapplicationrequest-applicationv1) | [DeleteApplicationResponse](#deleteapplicationresponse-applicationv1) | `false` |  | Delete an application |
+| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-applicationv1) | [GrantTeamAccessResponse](#grantteamaccessresponse-applicationv1) | `false` |  | Grant access to an application to a single team or multiple teams |
+| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-applicationv1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-applicationv1) | `false` |  | Revoke access to an application from a single team or multiple teams |
 
 ### Application (application.v1)
 
+A Terrabase application can be deployed in multiple environments, each with their own workspace
+
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `false` | The ID of the application |
-| `name` | string |  | `false` |  |
-| `created_at` | `Timestamp` |  | `false` |  |
-| `updated_at` | `Timestamp` |  | `false` |  |
+| `id` | string |  | `false` | The unique ID of the application |
+| `name` | string |  | `false` | The name of the application |
+| `team_id` | string |  | `false` | The ID of the team that owns the application |
+| `created_at` | `Timestamp` |  | `false` | The time the application was created |
+| `updated_at` | `Timestamp` |  | `false` | The time the application was last updated at |
 
 ### CreateApplicationRequest (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `name` | string |  | `true` |  |
-| `team_id` | string |  | `true` |  |
+| `name` | string |  | `true` | The name of the application |
+| `team_id` | string |  | `true` | The ID of the team that owns the application |
 
 ### CreateApplicationResponse (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application` | [Application](#application-applicationv1) |  | `false` |  |
+| `application` | [Application](#application-applicationv1) |  | `false` | The application that was created |
 
 ### GetApplicationRequest (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
+| `id` | string |  | `true` | The unique ID of the application |
 
 ### GetApplicationResponse (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application` | [Application](#application-applicationv1) |  | `false` |  |
+| `application` | [Application](#application-applicationv1) |  | `false` | The application |
 
 ### ListApplicationsRequest (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `team_id` | string |  | `true` |  |
-| `page_size` | int32 |  | `false` |  |
-| `page_token` | string |  | `false` |  |
+| `team_id` | string |  | `true` | The ID of a team that owns applications |
+| `page_size` | int32 |  | `false` | The number of applications on each page of results |
+| `page_token` | string |  | `false` | The token to retrieve the next page of results |
 
 ### ListApplicationsResponse (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `applications` | [Application](#application-applicationv1) | repeated | `false` |  |
-| `next_page_token` | string |  | `false` |  |
+| `applications` | [Application](#application-applicationv1) | repeated | `false` | A list of applications |
+| `next_page_token` | string |  | `false` | The token to retrieve the next page of results |
 
 ### UpdateApplicationRequest (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
-| `name` | string |  | `true` |  |
-| `team_id` | string |  | `false` |  |
+| `id` | string |  | `true` | The unique ID of the application to update |
+| `name` | string |  | `true` | The new name of the application |
+| `team_id` | string |  | `false` | The new ID of the team that owns the application |
 
 ### UpdateApplicationResponse (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application` | [Application](#application-applicationv1) |  | `false` |  |
+| `application` | [Application](#application-applicationv1) |  | `false` | The updated application |
 
 ### DeleteApplicationRequest (application.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
+| `id` | string |  | `true` | The unique ID of the application to delete |
 
 ### DeleteApplicationResponse (application.v1)
 
@@ -91,8 +94,8 @@
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application_id` | string |  | `true` |  |
-| `team_id` | string | repeated | `true` |  |
+| `application_id` | string |  | `true` | The unique ID of the application |
+| `team_id` | string | repeated | `true` | A list of team IDs who should be granted access to the application |
 
 ### GrantTeamAccessResponse (application.v1)
 
@@ -102,8 +105,8 @@
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application_id` | string |  | `true` |  |
-| `team_id` | string | repeated | `true` |  |
+| `application_id` | string |  | `true` | The unique ID of the application |
+| `team_id` | string | repeated | `true` | A list of team IDs whose access to the application should be revoked |
 
 ### RevokeTeamAccessResponse (application.v1)
 

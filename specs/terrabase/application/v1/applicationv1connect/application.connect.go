@@ -58,12 +58,19 @@ const (
 
 // ApplicationServiceClient is a client for the terrabase.application.v1.ApplicationService service.
 type ApplicationServiceClient interface {
+	// Create a new application
 	CreateApplication(context.Context, *connect.Request[v1.CreateApplicationRequest]) (*connect.Response[v1.CreateApplicationResponse], error)
+	// Retrieve details about a single application
 	GetApplication(context.Context, *connect.Request[v1.GetApplicationRequest]) (*connect.Response[v1.GetApplicationResponse], error)
+	// List applications owned by a specific team
 	ListApplications(context.Context, *connect.Request[v1.ListApplicationsRequest]) (*connect.Response[v1.ListApplicationsResponse], error)
+	// Change details about an application
 	UpdateApplication(context.Context, *connect.Request[v1.UpdateApplicationRequest]) (*connect.Response[v1.UpdateApplicationResponse], error)
+	// Delete an application
 	DeleteApplication(context.Context, *connect.Request[v1.DeleteApplicationRequest]) (*connect.Response[v1.DeleteApplicationResponse], error)
+	// Grant access to an application to a single team or multiple teams
 	GrantTeamAccess(context.Context, *connect.Request[v1.GrantTeamAccessRequest]) (*connect.Response[v1.GrantTeamAccessResponse], error)
+	// Revoke access to an application from a single team or multiple teams
 	RevokeTeamAccess(context.Context, *connect.Request[v1.RevokeTeamAccessRequest]) (*connect.Response[v1.RevokeTeamAccessResponse], error)
 }
 
@@ -173,12 +180,19 @@ func (c *applicationServiceClient) RevokeTeamAccess(ctx context.Context, req *co
 // ApplicationServiceHandler is an implementation of the terrabase.application.v1.ApplicationService
 // service.
 type ApplicationServiceHandler interface {
+	// Create a new application
 	CreateApplication(context.Context, *connect.Request[v1.CreateApplicationRequest]) (*connect.Response[v1.CreateApplicationResponse], error)
+	// Retrieve details about a single application
 	GetApplication(context.Context, *connect.Request[v1.GetApplicationRequest]) (*connect.Response[v1.GetApplicationResponse], error)
+	// List applications owned by a specific team
 	ListApplications(context.Context, *connect.Request[v1.ListApplicationsRequest]) (*connect.Response[v1.ListApplicationsResponse], error)
+	// Change details about an application
 	UpdateApplication(context.Context, *connect.Request[v1.UpdateApplicationRequest]) (*connect.Response[v1.UpdateApplicationResponse], error)
+	// Delete an application
 	DeleteApplication(context.Context, *connect.Request[v1.DeleteApplicationRequest]) (*connect.Response[v1.DeleteApplicationResponse], error)
+	// Grant access to an application to a single team or multiple teams
 	GrantTeamAccess(context.Context, *connect.Request[v1.GrantTeamAccessRequest]) (*connect.Response[v1.GrantTeamAccessResponse], error)
+	// Revoke access to an application from a single team or multiple teams
 	RevokeTeamAccess(context.Context, *connect.Request[v1.RevokeTeamAccessRequest]) (*connect.Response[v1.RevokeTeamAccessResponse], error)
 }
 

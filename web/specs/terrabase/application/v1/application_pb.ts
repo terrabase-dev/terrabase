@@ -13,31 +13,46 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file terrabase/application/v1/application.proto.
  */
 export const file_terrabase_application_v1_application: GenFile = /*@__PURE__*/
-  fileDesc("Cip0ZXJyYWJhc2UvYXBwbGljYXRpb24vdjEvYXBwbGljYXRpb24ucHJvdG8SGHRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MSKHAQoLQXBwbGljYXRpb24SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIuCgpjcmVhdGVkX2F0GAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJDChhDcmVhdGVBcHBsaWNhdGlvblJlcXVlc3QSEQoEbmFtZRgBIAEoCUID4EECEhQKB3RlYW1faWQYAiABKAlCA+BBAiJXChlDcmVhdGVBcHBsaWNhdGlvblJlc3BvbnNlEjoKC2FwcGxpY2F0aW9uGAEgASgLMiUudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkFwcGxpY2F0aW9uIigKFUdldEFwcGxpY2F0aW9uUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIlQKFkdldEFwcGxpY2F0aW9uUmVzcG9uc2USOgoLYXBwbGljYXRpb24YASABKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24ifQoXTGlzdEFwcGxpY2F0aW9uc1JlcXVlc3QSFAoHdGVhbV9pZBgBIAEoCUID4EECEhYKCXBhZ2Vfc2l6ZRgCIAEoBUgAiAEBEhcKCnBhZ2VfdG9rZW4YAyABKAlIAYgBAUIMCgpfcGFnZV9zaXplQg0KC19wYWdlX3Rva2VuIokBChhMaXN0QXBwbGljYXRpb25zUmVzcG9uc2USOwoMYXBwbGljYXRpb25zGAEgAygLMiUudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkFwcGxpY2F0aW9uEhwKD25leHRfcGFnZV90b2tlbhgCIAEoCUgAiAEBQhIKEF9uZXh0X3BhZ2VfdG9rZW4iYAoYVXBkYXRlQXBwbGljYXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISEQoEbmFtZRgCIAEoCUID4EECEhQKB3RlYW1faWQYAyABKAlIAIgBAUIKCghfdGVhbV9pZCJXChlVcGRhdGVBcHBsaWNhdGlvblJlc3BvbnNlEjoKC2FwcGxpY2F0aW9uGAEgASgLMiUudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkFwcGxpY2F0aW9uIisKGERlbGV0ZUFwcGxpY2F0aW9uUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIhsKGURlbGV0ZUFwcGxpY2F0aW9uUmVzcG9uc2UiSwoWR3JhbnRUZWFtQWNjZXNzUmVxdWVzdBIbCg5hcHBsaWNhdGlvbl9pZBgBIAEoCUID4EECEhQKB3RlYW1faWQYAiADKAlCA+BBAiIZChdHcmFudFRlYW1BY2Nlc3NSZXNwb25zZSJMChdSZXZva2VUZWFtQWNjZXNzUmVxdWVzdBIbCg5hcHBsaWNhdGlvbl9pZBgBIAEoCUID4EECEhQKB3RlYW1faWQYAiADKAlCA+BBAiIaChhSZXZva2VUZWFtQWNjZXNzUmVzcG9uc2Uy8QYKEkFwcGxpY2F0aW9uU2VydmljZRJ8ChFDcmVhdGVBcHBsaWNhdGlvbhIyLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5DcmVhdGVBcHBsaWNhdGlvblJlcXVlc3QaMy50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQ3JlYXRlQXBwbGljYXRpb25SZXNwb25zZRJzCg5HZXRBcHBsaWNhdGlvbhIvLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HZXRBcHBsaWNhdGlvblJlcXVlc3QaMC50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuR2V0QXBwbGljYXRpb25SZXNwb25zZRJ5ChBMaXN0QXBwbGljYXRpb25zEjEudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkxpc3RBcHBsaWNhdGlvbnNSZXF1ZXN0GjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkxpc3RBcHBsaWNhdGlvbnNSZXNwb25zZRJ8ChFVcGRhdGVBcHBsaWNhdGlvbhIyLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5VcGRhdGVBcHBsaWNhdGlvblJlcXVlc3QaMy50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuVXBkYXRlQXBwbGljYXRpb25SZXNwb25zZRJ8ChFEZWxldGVBcHBsaWNhdGlvbhIyLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5EZWxldGVBcHBsaWNhdGlvblJlcXVlc3QaMy50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuRGVsZXRlQXBwbGljYXRpb25SZXNwb25zZRJ2Cg9HcmFudFRlYW1BY2Nlc3MSMC50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuR3JhbnRUZWFtQWNjZXNzUmVxdWVzdBoxLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HcmFudFRlYW1BY2Nlc3NSZXNwb25zZRJ5ChBSZXZva2VUZWFtQWNjZXNzEjEudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLlJldm9rZVRlYW1BY2Nlc3NSZXF1ZXN0GjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLlJldm9rZVRlYW1BY2Nlc3NSZXNwb25zZUJRWk9naXRodWIuY29tL3RlcnJhYmFzZS1kZXYvdGVycmFiYXNlL3NwZWNzL3RlcnJhYmFzZS9hcHBsaWNhdGlvbi92MTthcHBsaWNhdGlvbnYxYgZwcm90bzM", [file_google_api_field_behavior, file_google_protobuf_timestamp]);
+  fileDesc("Cip0ZXJyYWJhc2UvYXBwbGljYXRpb24vdjEvYXBwbGljYXRpb24ucHJvdG8SGHRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MSKYAQoLQXBwbGljYXRpb24SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIPCgd0ZWFtX2lkGAMgASgJEi4KCmNyZWF0ZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIkMKGENyZWF0ZUFwcGxpY2F0aW9uUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISFAoHdGVhbV9pZBgCIAEoCUID4EECIlcKGUNyZWF0ZUFwcGxpY2F0aW9uUmVzcG9uc2USOgoLYXBwbGljYXRpb24YASABKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24iKAoVR2V0QXBwbGljYXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiVAoWR2V0QXBwbGljYXRpb25SZXNwb25zZRI6CgthcHBsaWNhdGlvbhgBIAEoCzIlLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5BcHBsaWNhdGlvbiJ9ChdMaXN0QXBwbGljYXRpb25zUmVxdWVzdBIUCgd0ZWFtX2lkGAEgASgJQgPgQQISFgoJcGFnZV9zaXplGAIgASgFSACIAQESFwoKcGFnZV90b2tlbhgDIAEoCUgBiAEBQgwKCl9wYWdlX3NpemVCDQoLX3BhZ2VfdG9rZW4iiQEKGExpc3RBcHBsaWNhdGlvbnNSZXNwb25zZRI7CgxhcHBsaWNhdGlvbnMYASADKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24SHAoPbmV4dF9wYWdlX3Rva2VuGAIgASgJSACIAQFCEgoQX25leHRfcGFnZV90b2tlbiJgChhVcGRhdGVBcHBsaWNhdGlvblJlcXVlc3QSDwoCaWQYASABKAlCA+BBAhIRCgRuYW1lGAIgASgJQgPgQQISFAoHdGVhbV9pZBgDIAEoCUgAiAEBQgoKCF90ZWFtX2lkIlcKGVVwZGF0ZUFwcGxpY2F0aW9uUmVzcG9uc2USOgoLYXBwbGljYXRpb24YASABKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24iKwoYRGVsZXRlQXBwbGljYXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiGwoZRGVsZXRlQXBwbGljYXRpb25SZXNwb25zZSJLChZHcmFudFRlYW1BY2Nlc3NSZXF1ZXN0EhsKDmFwcGxpY2F0aW9uX2lkGAEgASgJQgPgQQISFAoHdGVhbV9pZBgCIAMoCUID4EECIhkKF0dyYW50VGVhbUFjY2Vzc1Jlc3BvbnNlIkwKF1Jldm9rZVRlYW1BY2Nlc3NSZXF1ZXN0EhsKDmFwcGxpY2F0aW9uX2lkGAEgASgJQgPgQQISFAoHdGVhbV9pZBgCIAMoCUID4EECIhoKGFJldm9rZVRlYW1BY2Nlc3NSZXNwb25zZTLxBgoSQXBwbGljYXRpb25TZXJ2aWNlEnwKEUNyZWF0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkNyZWF0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5DcmVhdGVBcHBsaWNhdGlvblJlc3BvbnNlEnMKDkdldEFwcGxpY2F0aW9uEi8udGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkdldEFwcGxpY2F0aW9uUmVxdWVzdBowLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HZXRBcHBsaWNhdGlvblJlc3BvbnNlEnkKEExpc3RBcHBsaWNhdGlvbnMSMS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuTGlzdEFwcGxpY2F0aW9uc1JlcXVlc3QaMi50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuTGlzdEFwcGxpY2F0aW9uc1Jlc3BvbnNlEnwKEVVwZGF0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLlVwZGF0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5VcGRhdGVBcHBsaWNhdGlvblJlc3BvbnNlEnwKEURlbGV0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkRlbGV0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5EZWxldGVBcHBsaWNhdGlvblJlc3BvbnNlEnYKD0dyYW50VGVhbUFjY2VzcxIwLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HcmFudFRlYW1BY2Nlc3NSZXF1ZXN0GjEudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkdyYW50VGVhbUFjY2Vzc1Jlc3BvbnNlEnkKEFJldm9rZVRlYW1BY2Nlc3MSMS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuUmV2b2tlVGVhbUFjY2Vzc1JlcXVlc3QaMi50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuUmV2b2tlVGVhbUFjY2Vzc1Jlc3BvbnNlQlFaT2dpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL2FwcGxpY2F0aW9uL3YxO2FwcGxpY2F0aW9udjFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp]);
 
 /**
+ * A Terrabase application can be deployed in multiple environments, each with their own workspace
+ *
  * @generated from message terrabase.application.v1.Application
  */
 export type Application = Message<"terrabase.application.v1.Application"> & {
   /**
-   * The ID of the application
+   * The unique ID of the application
    *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the application
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 3;
+   * The ID of the team that owns the application
+   *
+   * @generated from field: string team_id = 3;
+   */
+  teamId: string;
+
+  /**
+   * The time the application was created
+   *
+   * @generated from field: google.protobuf.Timestamp created_at = 4;
    */
   createdAt?: Timestamp;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 4;
+   * The time the application was last updated at
+   *
+   * @generated from field: google.protobuf.Timestamp updated_at = 5;
    */
   updatedAt?: Timestamp;
 };
@@ -54,11 +69,15 @@ export const ApplicationSchema: GenMessage<Application> = /*@__PURE__*/
  */
 export type CreateApplicationRequest = Message<"terrabase.application.v1.CreateApplicationRequest"> & {
   /**
+   * The name of the application
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
+   * The ID of the team that owns the application
+   *
    * @generated from field: string team_id = 2;
    */
   teamId: string;
@@ -76,6 +95,8 @@ export const CreateApplicationRequestSchema: GenMessage<CreateApplicationRequest
  */
 export type CreateApplicationResponse = Message<"terrabase.application.v1.CreateApplicationResponse"> & {
   /**
+   * The application that was created
+   *
    * @generated from field: terrabase.application.v1.Application application = 1;
    */
   application?: Application;
@@ -93,6 +114,8 @@ export const CreateApplicationResponseSchema: GenMessage<CreateApplicationRespon
  */
 export type GetApplicationRequest = Message<"terrabase.application.v1.GetApplicationRequest"> & {
   /**
+   * The unique ID of the application
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -110,6 +133,8 @@ export const GetApplicationRequestSchema: GenMessage<GetApplicationRequest> = /*
  */
 export type GetApplicationResponse = Message<"terrabase.application.v1.GetApplicationResponse"> & {
   /**
+   * The application
+   *
    * @generated from field: terrabase.application.v1.Application application = 1;
    */
   application?: Application;
@@ -127,16 +152,22 @@ export const GetApplicationResponseSchema: GenMessage<GetApplicationResponse> = 
  */
 export type ListApplicationsRequest = Message<"terrabase.application.v1.ListApplicationsRequest"> & {
   /**
+   * The ID of a team that owns applications
+   *
    * @generated from field: string team_id = 1;
    */
   teamId: string;
 
   /**
+   * The number of applications on each page of results
+   *
    * @generated from field: optional int32 page_size = 2;
    */
   pageSize?: number;
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string page_token = 3;
    */
   pageToken?: string;
@@ -154,11 +185,15 @@ export const ListApplicationsRequestSchema: GenMessage<ListApplicationsRequest> 
  */
 export type ListApplicationsResponse = Message<"terrabase.application.v1.ListApplicationsResponse"> & {
   /**
+   * A list of applications
+   *
    * @generated from field: repeated terrabase.application.v1.Application applications = 1;
    */
   applications: Application[];
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string next_page_token = 2;
    */
   nextPageToken?: string;
@@ -176,16 +211,22 @@ export const ListApplicationsResponseSchema: GenMessage<ListApplicationsResponse
  */
 export type UpdateApplicationRequest = Message<"terrabase.application.v1.UpdateApplicationRequest"> & {
   /**
+   * The unique ID of the application to update
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The new name of the application
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
+   * The new ID of the team that owns the application
+   *
    * @generated from field: optional string team_id = 3;
    */
   teamId?: string;
@@ -203,6 +244,8 @@ export const UpdateApplicationRequestSchema: GenMessage<UpdateApplicationRequest
  */
 export type UpdateApplicationResponse = Message<"terrabase.application.v1.UpdateApplicationResponse"> & {
   /**
+   * The updated application
+   *
    * @generated from field: terrabase.application.v1.Application application = 1;
    */
   application?: Application;
@@ -220,6 +263,8 @@ export const UpdateApplicationResponseSchema: GenMessage<UpdateApplicationRespon
  */
 export type DeleteApplicationRequest = Message<"terrabase.application.v1.DeleteApplicationRequest"> & {
   /**
+   * The unique ID of the application to delete
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -250,11 +295,15 @@ export const DeleteApplicationResponseSchema: GenMessage<DeleteApplicationRespon
  */
 export type GrantTeamAccessRequest = Message<"terrabase.application.v1.GrantTeamAccessRequest"> & {
   /**
+   * The unique ID of the application
+   *
    * @generated from field: string application_id = 1;
    */
   applicationId: string;
 
   /**
+   * A list of team IDs who should be granted access to the application
+   *
    * @generated from field: repeated string team_id = 2;
    */
   teamId: string[];
@@ -285,11 +334,15 @@ export const GrantTeamAccessResponseSchema: GenMessage<GrantTeamAccessResponse> 
  */
 export type RevokeTeamAccessRequest = Message<"terrabase.application.v1.RevokeTeamAccessRequest"> & {
   /**
+   * The unique ID of the application
+   *
    * @generated from field: string application_id = 1;
    */
   applicationId: string;
 
   /**
+   * A list of team IDs whose access to the application should be revoked
+   *
    * @generated from field: repeated string team_id = 2;
    */
   teamId: string[];
@@ -320,6 +373,8 @@ export const RevokeTeamAccessResponseSchema: GenMessage<RevokeTeamAccessResponse
  */
 export const ApplicationService: GenService<{
   /**
+   * Create a new application
+   *
    * @generated from rpc terrabase.application.v1.ApplicationService.CreateApplication
    */
   createApplication: {
@@ -328,6 +383,8 @@ export const ApplicationService: GenService<{
     output: typeof CreateApplicationResponseSchema;
   },
   /**
+   * Retrieve details about a single application
+   *
    * @generated from rpc terrabase.application.v1.ApplicationService.GetApplication
    */
   getApplication: {
@@ -336,6 +393,8 @@ export const ApplicationService: GenService<{
     output: typeof GetApplicationResponseSchema;
   },
   /**
+   * List applications owned by a specific team
+   *
    * @generated from rpc terrabase.application.v1.ApplicationService.ListApplications
    */
   listApplications: {
@@ -344,6 +403,8 @@ export const ApplicationService: GenService<{
     output: typeof ListApplicationsResponseSchema;
   },
   /**
+   * Change details about an application
+   *
    * @generated from rpc terrabase.application.v1.ApplicationService.UpdateApplication
    */
   updateApplication: {
@@ -352,6 +413,8 @@ export const ApplicationService: GenService<{
     output: typeof UpdateApplicationResponseSchema;
   },
   /**
+   * Delete an application
+   *
    * @generated from rpc terrabase.application.v1.ApplicationService.DeleteApplication
    */
   deleteApplication: {
@@ -360,6 +423,8 @@ export const ApplicationService: GenService<{
     output: typeof DeleteApplicationResponseSchema;
   },
   /**
+   * Grant access to an application to a single team or multiple teams
+   *
    * @generated from rpc terrabase.application.v1.ApplicationService.GrantTeamAccess
    */
   grantTeamAccess: {
@@ -368,6 +433,8 @@ export const ApplicationService: GenService<{
     output: typeof GrantTeamAccessResponseSchema;
   },
   /**
+   * Revoke access to an application from a single team or multiple teams
+   *
    * @generated from rpc terrabase.application.v1.ApplicationService.RevokeTeamAccess
    */
   revokeTeamAccess: {

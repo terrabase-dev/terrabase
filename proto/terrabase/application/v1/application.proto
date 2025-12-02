@@ -7,79 +7,128 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/application/v1;applicationv1";
 
+// A Terrabase application can be deployed in multiple environments, each with their own workspace
 message Application {
-  // The ID of the application
+  // The unique ID of the application
   string id = 1;
+
+  // The name of the application
   string name = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
+
+  // The ID of the team that owns the application
+  string team_id = 3;
+
+  // The time the application was created
+  google.protobuf.Timestamp created_at = 4;
+
+  // The time the application was last updated at
+  google.protobuf.Timestamp updated_at = 5;
 }
 
 message CreateApplicationRequest {
+  // The name of the application
   string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the team that owns the application
   string team_id = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message CreateApplicationResponse {
+  // The application that was created
   Application application = 1;
 }
 
 message GetApplicationRequest {
+  // The unique ID of the application
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GetApplicationResponse {
+  // The application
   Application application = 1;
 }
 
 message ListApplicationsRequest {
+  // The ID of a team that owns applications
   string team_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The number of applications on each page of results
   optional int32 page_size = 2;
+
+  // The token to retrieve the next page of results
   optional string page_token = 3;
 }
 
 message ListApplicationsResponse {
+  // A list of applications
   repeated Application applications = 1;
+
+  // The token to retrieve the next page of results
   optional string next_page_token = 2;
 }
 
 message UpdateApplicationRequest {
+  // The unique ID of the application to update
   string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new name of the application
   string name = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The new ID of the team that owns the application
   optional string team_id = 3;
 }
 
 message UpdateApplicationResponse {
+  // The updated application
   Application application = 1;
 }
 
 message DeleteApplicationRequest {
+  // The unique ID of the application to delete
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message DeleteApplicationResponse {}
 
 message GrantTeamAccessRequest {
+  // The unique ID of the application
   string application_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // A list of team IDs who should be granted access to the application
   repeated string team_id = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GrantTeamAccessResponse {}
 
 message RevokeTeamAccessRequest {
+  // The unique ID of the application
   string application_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // A list of team IDs whose access to the application should be revoked
   repeated string team_id = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message RevokeTeamAccessResponse {}
 
 service ApplicationService {
+  // Create a new application
   rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse);
+
+  // Retrieve details about a single application
   rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse);
+
+  // List applications owned by a specific team
   rpc ListApplications(ListApplicationsRequest) returns (ListApplicationsResponse);
+
+  // Change details about an application
   rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse);
+
+  // Delete an application
   rpc DeleteApplication(DeleteApplicationRequest) returns (DeleteApplicationResponse);
 
+  // Grant access to an application to a single team or multiple teams
   rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse);
+
+  // Revoke access to an application from a single team or multiple teams
   rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse);
 }
