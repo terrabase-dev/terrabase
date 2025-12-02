@@ -16,87 +16,146 @@ enum UserType {
   USER_TYPE_SERVICE = 3;
 }
 
+// A Terrabase user is either a human user or a machine user. A machine user is either a bot or a service principal
 message User {
+  // The unique ID of the user
   string id = 1;
+
+  // The name of the user
   string name = 2;
+
+  // The email address of the user, if a human user
   string email = 3;
+
+  // The default role of the user
   terrabase.user_role.v1.UserRole default_role = 4;
+
+  // The time the user was created
   google.protobuf.Timestamp created_at = 5;
+
+  // The time the user was last updated at
   google.protobuf.Timestamp updated_at = 6;
+
+  // The type of the user (user, bot, or service)
   UserType user_type = 7;
+
+  // The ID of the user that owns the machine user, if a machine user
   optional string owner_user_id = 8;
 }
 
-// UserSummary is context aware- i.e. the role will be the user's effective role in the context (organization, team, workspace) of which the ListUsers rpc is called
+// UserSummary is context aware
 message UserSummary {
+  // The ID of the user
   string id = 1;
+
+  // The name of the user
   string name = 2;
+
+  // The email address of the user, if a human user
   optional string email = 3;
+
+  // The role the user has in the context in which the RPC returning this object (or list of objects) is called from
   terrabase.user_role.v1.UserRole role = 4;
+
+  // The time the user was created
   google.protobuf.Timestamp created_at = 5;
+
+  // The time the user was last updated at
   google.protobuf.Timestamp updated_at = 6;
+
+  // The type of the user (user, bot, or service)
   UserType user_type = 7;
+
+  // The ID of the user that owns the machine user, if a machine user
   optional string owner_user_id = 8;
 }
 
 message GetUserRequest {
+  // The ID of the user
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GetUserResponse {
+  // The user
   User user = 1;
 }
 
 message ListUsersRequest {
+  // The number of users on each page of results
   optional int32 page_size = 1;
+
+  // The token to retrieve the next page of results
   optional string page_token = 2;
 
+  // The ID of the organization to list all users who belong to the organization
   optional string organization_id = 3;
+
+  // The ID of the team to list all users who belong to the team
   optional string team_id = 4;
+
+  // The ID of the workspace to list all users with access to the workspace
   optional string workspace_id = 5;
+
+  // The type of users to list
   optional UserType user_type = 6;
 }
 
 message ListUsersResponse {
+  // A list of users
   repeated UserSummary users = 1;
+
+  // The token to retrieve the next page of results
   optional string next_page_token = 2;
 }
 
 message UpdateUserRequest {
+  // The unique ID of the user to update
   string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new name of the user
   optional string name = 2;
+
+  // The new email address of the user
   optional string email = 3;
+
+  // The new default role of the user
   optional terrabase.user_role.v1.UserRole default_role = 4;
 }
 
 message UpdateUserResponse {
+  // The updated user
   User user = 1;
 }
 
 message DeleteUserRequest {
+  // The unique ID of the user to delete
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message DeleteUserResponse {}
 
 service UserService {
+  // Retrieve details about a single user
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.admin_or_self) = true;
     option (terrabase.authz.v1.owner_id_field) = "id";
   }
 
+  // List users who belong to an organization or team, or who have access to a specific workspace
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
   }
 
+  // Change details about a user
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.admin_or_self) = true;
     option (terrabase.authz.v1.owner_id_field) = "id";
   }
 
+  // Delete a user
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;

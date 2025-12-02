@@ -77,16 +77,25 @@ func (UserType) EnumDescriptor() ([]byte, []int) {
 	return file_terrabase_user_v1_user_proto_rawDescGZIP(), []int{0}
 }
 
+// A Terrabase user is either a human user or a machine user. A machine user is either a bot or a service principal
 type User struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	DefaultRole   v1.UserRole            `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	UserType      UserType               `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
-	OwnerUserId   *string                `protobuf:"bytes,8,opt,name=owner_user_id,json=ownerUserId,proto3,oneof" json:"owner_user_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the user
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The name of the user
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// The email address of the user, if a human user
+	Email string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	// The default role of the user
+	DefaultRole v1.UserRole `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
+	// The time the user was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the user was last updated at
+	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// The type of the user (user, bot, or service)
+	UserType UserType `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
+	// The ID of the user that owns the machine user, if a machine user
+	OwnerUserId   *string `protobuf:"bytes,8,opt,name=owner_user_id,json=ownerUserId,proto3,oneof" json:"owner_user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -177,17 +186,25 @@ func (x *User) GetOwnerUserId() string {
 	return ""
 }
 
-// UserSummary is context aware- i.e. the role will be the user's effective role in the context (organization, team, workspace) of which the ListUsers rpc is called
+// UserSummary is context aware
 type UserSummary struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Email         *string                `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	Role          v1.UserRole            `protobuf:"varint,4,opt,name=role,proto3,enum=terrabase.user_role.v1.UserRole" json:"role,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	UserType      UserType               `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
-	OwnerUserId   *string                `protobuf:"bytes,8,opt,name=owner_user_id,json=ownerUserId,proto3,oneof" json:"owner_user_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The ID of the user
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The name of the user
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// The email address of the user, if a human user
+	Email *string `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	// The role the user has in the context in which the RPC returning this object (or list of objects) is called from
+	Role v1.UserRole `protobuf:"varint,4,opt,name=role,proto3,enum=terrabase.user_role.v1.UserRole" json:"role,omitempty"`
+	// The time the user was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the user was last updated at
+	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// The type of the user (user, bot, or service)
+	UserType UserType `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
+	// The ID of the user that owns the machine user, if a machine user
+	OwnerUserId   *string `protobuf:"bytes,8,opt,name=owner_user_id,json=ownerUserId,proto3,oneof" json:"owner_user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -279,8 +296,9 @@ func (x *UserSummary) GetOwnerUserId() string {
 }
 
 type GetUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The ID of the user
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -323,8 +341,9 @@ func (x *GetUserRequest) GetId() string {
 }
 
 type GetUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user
+	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -367,15 +386,21 @@ func (x *GetUserResponse) GetUser() *User {
 }
 
 type ListUsersRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	PageSize       *int32                 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken      *string                `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
-	OrganizationId *string                `protobuf:"bytes,3,opt,name=organization_id,json=organizationId,proto3,oneof" json:"organization_id,omitempty"`
-	TeamId         *string                `protobuf:"bytes,4,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
-	WorkspaceId    *string                `protobuf:"bytes,5,opt,name=workspace_id,json=workspaceId,proto3,oneof" json:"workspace_id,omitempty"`
-	UserType       *UserType              `protobuf:"varint,6,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType,oneof" json:"user_type,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The number of users on each page of results
+	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// The token to retrieve the next page of results
+	PageToken *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	// The ID of the organization to list all users who belong to the organization
+	OrganizationId *string `protobuf:"bytes,3,opt,name=organization_id,json=organizationId,proto3,oneof" json:"organization_id,omitempty"`
+	// The ID of the team to list all users who belong to the team
+	TeamId *string `protobuf:"bytes,4,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
+	// The ID of the workspace to list all users with access to the workspace
+	WorkspaceId *string `protobuf:"bytes,5,opt,name=workspace_id,json=workspaceId,proto3,oneof" json:"workspace_id,omitempty"`
+	// The type of users to list
+	UserType      *UserType `protobuf:"varint,6,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType,oneof" json:"user_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListUsersRequest) Reset() {
@@ -451,9 +476,11 @@ func (x *ListUsersRequest) GetUserType() UserType {
 }
 
 type ListUsersResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Users         []*UserSummary         `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
-	NextPageToken *string                `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of users
+	Users []*UserSummary `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	// The token to retrieve the next page of results
+	NextPageToken *string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -503,11 +530,15 @@ func (x *ListUsersResponse) GetNextPageToken() string {
 }
 
 type UpdateUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Email         *string                `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	DefaultRole   *v1.UserRole           `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole,oneof" json:"default_role,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the user to update
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The new name of the user
+	Name *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	// The new email address of the user
+	Email *string `protobuf:"bytes,3,opt,name=email,proto3,oneof" json:"email,omitempty"`
+	// The new default role of the user
+	DefaultRole   *v1.UserRole `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole,oneof" json:"default_role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -571,8 +602,9 @@ func (x *UpdateUserRequest) GetDefaultRole() v1.UserRole {
 }
 
 type UpdateUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The updated user
+	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -615,8 +647,9 @@ func (x *UpdateUserResponse) GetUser() *User {
 }
 
 type DeleteUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the user to delete
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

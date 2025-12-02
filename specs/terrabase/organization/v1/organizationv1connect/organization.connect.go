@@ -53,10 +53,15 @@ const (
 // OrganizationServiceClient is a client for the terrabase.organization.v1.OrganizationService
 // service.
 type OrganizationServiceClient interface {
+	// Create a new organization
 	CreateOrganization(context.Context, *connect.Request[v1.CreateOrganizationRequest]) (*connect.Response[v1.CreateOrganizationResponse], error)
+	// Retrieve details about a single organization
 	GetOrganization(context.Context, *connect.Request[v1.GetOrganizationRequest]) (*connect.Response[v1.GetOrganizationResponse], error)
+	// List all organizations
 	ListOrganizations(context.Context, *connect.Request[v1.ListOrganizationsRequest]) (*connect.Response[v1.ListOrganizationsResponse], error)
+	// Change details about an organization
 	UpdateOrganization(context.Context, *connect.Request[v1.UpdateOrganizationRequest]) (*connect.Response[v1.UpdateOrganizationResponse], error)
+	// Delete an organization
 	DeleteOrganization(context.Context, *connect.Request[v1.DeleteOrganizationRequest]) (*connect.Response[v1.DeleteOrganizationResponse], error)
 }
 
@@ -142,10 +147,15 @@ func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, req 
 // OrganizationServiceHandler is an implementation of the
 // terrabase.organization.v1.OrganizationService service.
 type OrganizationServiceHandler interface {
+	// Create a new organization
 	CreateOrganization(context.Context, *connect.Request[v1.CreateOrganizationRequest]) (*connect.Response[v1.CreateOrganizationResponse], error)
+	// Retrieve details about a single organization
 	GetOrganization(context.Context, *connect.Request[v1.GetOrganizationRequest]) (*connect.Response[v1.GetOrganizationResponse], error)
+	// List all organizations
 	ListOrganizations(context.Context, *connect.Request[v1.ListOrganizationsRequest]) (*connect.Response[v1.ListOrganizationsResponse], error)
+	// Change details about an organization
 	UpdateOrganization(context.Context, *connect.Request[v1.UpdateOrganizationRequest]) (*connect.Response[v1.UpdateOrganizationResponse], error)
+	// Delete an organization
 	DeleteOrganization(context.Context, *connect.Request[v1.DeleteOrganizationRequest]) (*connect.Response[v1.DeleteOrganizationResponse], error)
 }
 

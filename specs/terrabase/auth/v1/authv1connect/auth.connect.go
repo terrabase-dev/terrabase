@@ -64,16 +64,27 @@ const (
 
 // AuthServiceClient is a client for the terrabase.auth.v1.AuthService service.
 type AuthServiceClient interface {
+	// Signup for a new user account in a Terrabase instance
 	Signup(context.Context, *connect.Request[v1.SignupRequest]) (*connect.Response[v1.SignupResponse], error)
+	// Login to a Terrabase instance with a user account
 	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
+	// Refresh a user's access token
 	Refresh(context.Context, *connect.Request[v1.RefreshRequest]) (*connect.Response[v1.RefreshResponse], error)
+	// Retrieve details about the logged in user
 	WhoAmI(context.Context, *connect.Request[v1.WhoAmIRequest]) (*connect.Response[v1.WhoAmIResponse], error)
+	// Logout of a Terrabase instance
 	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
+	// List currently active sessions
 	ListSessions(context.Context, *connect.Request[v1.ListSessionsRequest]) (*connect.Response[v1.ListSessionsResponse], error)
+	// Create a machine user (bot or service principal)
 	CreateMachineUser(context.Context, *connect.Request[v1.CreateMachineUserRequest]) (*connect.Response[v1.CreateMachineUserResponse], error)
+	// Create an API key. API keys can be owned by human users or machine users
 	CreateApiKey(context.Context, *connect.Request[v1.CreateApiKeyRequest]) (*connect.Response[v1.CreateApiKeyResponse], error)
+	// List API keys owned by a user
 	ListApiKeys(context.Context, *connect.Request[v1.ListApiKeysRequest]) (*connect.Response[v1.ListApiKeysResponse], error)
+	// Revoke an API key
 	RevokeApiKey(context.Context, *connect.Request[v1.RevokeApiKeyRequest]) (*connect.Response[v1.RevokeApiKeyResponse], error)
+	// Rotate an API key
 	RotateApiKey(context.Context, *connect.Request[v1.RotateApiKeyRequest]) (*connect.Response[v1.RotateApiKeyResponse], error)
 }
 
@@ -229,16 +240,27 @@ func (c *authServiceClient) RotateApiKey(ctx context.Context, req *connect.Reque
 
 // AuthServiceHandler is an implementation of the terrabase.auth.v1.AuthService service.
 type AuthServiceHandler interface {
+	// Signup for a new user account in a Terrabase instance
 	Signup(context.Context, *connect.Request[v1.SignupRequest]) (*connect.Response[v1.SignupResponse], error)
+	// Login to a Terrabase instance with a user account
 	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
+	// Refresh a user's access token
 	Refresh(context.Context, *connect.Request[v1.RefreshRequest]) (*connect.Response[v1.RefreshResponse], error)
+	// Retrieve details about the logged in user
 	WhoAmI(context.Context, *connect.Request[v1.WhoAmIRequest]) (*connect.Response[v1.WhoAmIResponse], error)
+	// Logout of a Terrabase instance
 	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
+	// List currently active sessions
 	ListSessions(context.Context, *connect.Request[v1.ListSessionsRequest]) (*connect.Response[v1.ListSessionsResponse], error)
+	// Create a machine user (bot or service principal)
 	CreateMachineUser(context.Context, *connect.Request[v1.CreateMachineUserRequest]) (*connect.Response[v1.CreateMachineUserResponse], error)
+	// Create an API key. API keys can be owned by human users or machine users
 	CreateApiKey(context.Context, *connect.Request[v1.CreateApiKeyRequest]) (*connect.Response[v1.CreateApiKeyResponse], error)
+	// List API keys owned by a user
 	ListApiKeys(context.Context, *connect.Request[v1.ListApiKeysRequest]) (*connect.Response[v1.ListApiKeysResponse], error)
+	// Revoke an API key
 	RevokeApiKey(context.Context, *connect.Request[v1.RevokeApiKeyRequest]) (*connect.Response[v1.RevokeApiKeyResponse], error)
+	// Rotate an API key
 	RotateApiKey(context.Context, *connect.Request[v1.RotateApiKeyRequest]) (*connect.Response[v1.RotateApiKeyResponse], error)
 }
 

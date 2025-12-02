@@ -47,10 +47,15 @@ const (
 
 // TeamServiceClient is a client for the terrabase.team.v1.TeamService service.
 type TeamServiceClient interface {
+	// Create a new team
 	CreateTeam(context.Context, *connect.Request[v1.CreateTeamRequest]) (*connect.Response[v1.CreateTeamResponse], error)
+	// Retrieve details about a single team
 	GetTeam(context.Context, *connect.Request[v1.GetTeamRequest]) (*connect.Response[v1.GetTeamResponse], error)
+	// List all teams
 	ListTeams(context.Context, *connect.Request[v1.ListTeamsRequest]) (*connect.Response[v1.ListTeamsResponse], error)
+	// Change details about a team
 	UpdateTeam(context.Context, *connect.Request[v1.UpdateTeamRequest]) (*connect.Response[v1.UpdateTeamResponse], error)
+	// Delete a team
 	DeleteTeam(context.Context, *connect.Request[v1.DeleteTeamRequest]) (*connect.Response[v1.DeleteTeamResponse], error)
 }
 
@@ -134,10 +139,15 @@ func (c *teamServiceClient) DeleteTeam(ctx context.Context, req *connect.Request
 
 // TeamServiceHandler is an implementation of the terrabase.team.v1.TeamService service.
 type TeamServiceHandler interface {
+	// Create a new team
 	CreateTeam(context.Context, *connect.Request[v1.CreateTeamRequest]) (*connect.Response[v1.CreateTeamResponse], error)
+	// Retrieve details about a single team
 	GetTeam(context.Context, *connect.Request[v1.GetTeamRequest]) (*connect.Response[v1.GetTeamResponse], error)
+	// List all teams
 	ListTeams(context.Context, *connect.Request[v1.ListTeamsRequest]) (*connect.Response[v1.ListTeamsResponse], error)
+	// Change details about a team
 	UpdateTeam(context.Context, *connect.Request[v1.UpdateTeamRequest]) (*connect.Response[v1.UpdateTeamResponse], error)
+	// Delete a team
 	DeleteTeam(context.Context, *connect.Request[v1.DeleteTeamRequest]) (*connect.Response[v1.DeleteTeamResponse], error)
 }
 

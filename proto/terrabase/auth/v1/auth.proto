@@ -11,59 +11,95 @@ import "terrabase/user_role/v1/user_role.proto";
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1;authv1";
 
 message SignupRequest {
+  // The user's full name
   string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The user's email address
   string email = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The user's password
   string password = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // The default role for the user
   terrabase.user_role.v1.UserRole default_role = 4 [(google.api.field_behavior) = REQUIRED];
 }
 
 message SignupResponse {
+  // The user that was created
   terrabase.user.v1.User user = 1;
+
+  // The user's access token
   string access_token = 2;
+
+  // The user's token to refresh their access token when it expires
   string refresh_token = 3;
 }
 
 message LoginRequest {
+  // The user's email address
   string email = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The user's password
   string password = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message LoginResponse {
+  // The logged in user
   terrabase.user.v1.User user = 1;
+
+  // The logged in user's access token
   string access_token = 2;
+
+  // The logged in user's token to refresh their access token when it expires
   string refresh_token = 3;
 }
 
 message RefreshRequest {
+  // The user's token to refresh their access token
   string refresh_token = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message RefreshResponse {
+  // A new access token for the user
   string access_token = 1;
+
+  // The user's token to refresh their new access token
   string refresh_token = 2;
 }
 
 message WhoAmIRequest {}
 
 message WhoAmIResponse {
+  // The logged in user
   terrabase.user.v1.User user = 1;
+
+  // The scopes the user has
   repeated terrabase.authz.v1.Scope scopes = 2;
 }
 
 message LogoutRequest {
-  string session_id = 1; // if empty, use current access token jti
+  // The session to logout of
+  string session_id = 1;
 }
 
 message LogoutResponse {}
 
 message CreateMachineUserRequest {
+  // The name of the new machine user
   string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The default role of the new machine user
   terrabase.user_role.v1.UserRole default_role = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The type of the new machine user
   terrabase.user.v1.UserType user_type = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the user that owns the new machine user
   string owner_user_id = 4 [(google.api.field_behavior) = REQUIRED];
 }
 
 message CreateMachineUserResponse {
+  // The machine user that was created
   terrabase.user.v1.User machine_user = 1;
 }
 
@@ -75,121 +111,186 @@ enum ApiKeyOwnerType {
 }
 
 message ApiKey {
+  // The unique ID of the API key
   string id = 1;
+
+  // The name of the API key
   string name = 2;
+
+  // The scopes the API key has
   repeated terrabase.authz.v1.Scope scopes = 3;
+
+  // The ID of the user that owns the API key
   string owner_id = 4;
+
+  // The type of user that owns the API key
   ApiKeyOwnerType owner_type = 5;
+
+  // The time the API key was created
   google.protobuf.Timestamp created_at = 6;
+
+  // The time the API key expires
   google.protobuf.Timestamp expires_at = 7;
+
+  // The time the API key was last used
   google.protobuf.Timestamp last_used_at = 8;
+
+  // The time the API key was revoked
   google.protobuf.Timestamp revoked_at = 9;
 }
 
 message CreateApiKeyRequest {
+  // The name of the API key
   string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The type of the user that owns the API key
   ApiKeyOwnerType owner_type = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the user that owns the API key
   string owner_id = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // The scopes the API key has
   repeated terrabase.authz.v1.Scope scopes = 4 [(google.api.field_behavior) = REQUIRED];
-  // Hours until expiry; if unset, key does not expire.
+
+  // Hours until the API key expires. If unset, key does not expire.
   optional int64 ttl_hours = 5;
 }
 
 message CreateApiKeyResponse {
+  // The access token for the API key
   string api_key_token = 1;
+
+  // The API key that was created
   ApiKey api_key = 2;
 }
 
 message ListApiKeysRequest {
+  // The type of user that owns API keys
   ApiKeyOwnerType owner_type = 1;
+
+  // The unique ID of the user that owns an API key
   string owner_id = 2;
 }
 
 message ListApiKeysResponse {
+  // A list of API keys
   repeated ApiKey api_keys = 1;
 }
 
 message RevokeApiKeyRequest {
+  // The ID of the API key to revoke
   string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The reason for revoking the API key
   string reason = 2;
 }
 
 message RevokeApiKeyResponse {}
 
 message RotateApiKeyRequest {
+  // The ID of the API key to rotate
   string id = 1 [(google.api.field_behavior) = REQUIRED];
-  // Optional: inherit existing scopes and ttl when unset.
+
+  // The scopes the new API key should have. If unset, inherits from the existing API key.
   repeated terrabase.authz.v1.Scope scopes = 2;
+
+  // Hours until the new API key expires. If unset, inherits from the existing API key.
   optional int64 ttl_hours = 3;
 }
 
 message RotateApiKeyResponse {
+  // The new access token for the API key
   string api_key_token = 1;
+
+  // The new API key
   ApiKey api_key = 2;
 }
 
 message Session {
+  // The unique ID of the session
   string id = 1;
+
+  // The user agent the session originated from
   string user_agent = 2;
+
+  // The IP address the session originated from
   string ip = 3;
+
+  // The time the session expires at
   google.protobuf.Timestamp expires_at = 4;
+
+  // The time the session was last used at
   google.protobuf.Timestamp last_used_at = 5;
+
+  // The time the session was created
   google.protobuf.Timestamp created_at = 6;
 }
 
 message ListSessionsRequest {}
 
 message ListSessionsResponse {
+  // A list of active sessions
   repeated Session sessions = 1;
 }
 
 service AuthService {
+  // Signup for a new user account in a Terrabase instance
   rpc Signup(SignupRequest) returns (SignupResponse) {
     option (terrabase.authz.v1.auth_required) = false;
   }
 
+  // Login to a Terrabase instance with a user account
   rpc Login(LoginRequest) returns (LoginResponse) {
     option (terrabase.authz.v1.auth_required) = false;
   }
 
+  // Refresh a user's access token
   rpc Refresh(RefreshRequest) returns (RefreshResponse) {
     option (terrabase.authz.v1.auth_required) = true;
   }
 
+  // Retrieve details about the logged in user
   rpc WhoAmI(WhoAmIRequest) returns (WhoAmIResponse) {
     option (terrabase.authz.v1.auth_required) = true;
   }
 
+  // Logout of a Terrabase instance
   rpc Logout(LogoutRequest) returns (LogoutResponse) {
     option (terrabase.authz.v1.auth_required) = true;
   }
 
+  // List currently active sessions
   rpc ListSessions(ListSessionsRequest) returns (ListSessionsResponse) {
     option (terrabase.authz.v1.auth_required) = true;
   }
 
+  // Create a machine user (bot or service principal)
   rpc CreateMachineUser(CreateMachineUserRequest) returns (CreateMachineUserResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
   }
 
+  // Create an API key. API keys can be owned by human users or machine users
   rpc CreateApiKey(CreateApiKeyRequest) returns (CreateApiKeyResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.admin_or_self) = true;
     option (terrabase.authz.v1.owner_id_field) = "owner_id";
   }
 
+  // List API keys owned by a user
   rpc ListApiKeys(ListApiKeysRequest) returns (ListApiKeysResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.admin_or_self) = true;
     option (terrabase.authz.v1.owner_id_field) = "owner_id";
   }
 
+  // Revoke an API key
   rpc RevokeApiKey(RevokeApiKeyRequest) returns (RevokeApiKeyResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.admin_or_self) = true;
   }
 
+  // Rotate an API key
   rpc RotateApiKey(RotateApiKeyRequest) returns (RotateApiKeyResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.admin_or_self) = true;

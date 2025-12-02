@@ -76,12 +76,18 @@ func (Subscription) EnumDescriptor() ([]byte, []int) {
 	return file_terrabase_organization_v1_organization_proto_rawDescGZIP(), []int{0}
 }
 
+// A Terrabase organization is the top level grouping of resources in a Terrabase instance
 type Organization struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Subscription  Subscription           `protobuf:"varint,3,opt,name=subscription,proto3,enum=terrabase.organization.v1.Subscription" json:"subscription,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the organization
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The name of the organization
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// The subscription level of the organization
+	Subscription Subscription `protobuf:"varint,3,opt,name=subscription,proto3,enum=terrabase.organization.v1.Subscription" json:"subscription,omitempty"`
+	// The time the organization was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the organization was last updated at
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -153,9 +159,11 @@ func (x *Organization) GetUpdatedAt() *timestamppb.Timestamp {
 }
 
 type CreateOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Subscription  Subscription           `protobuf:"varint,2,opt,name=subscription,proto3,enum=terrabase.organization.v1.Subscription" json:"subscription,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The name of the organization to create
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The subscription level of the organization to create
+	Subscription  Subscription `protobuf:"varint,2,opt,name=subscription,proto3,enum=terrabase.organization.v1.Subscription" json:"subscription,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -205,8 +213,9 @@ func (x *CreateOrganizationRequest) GetSubscription() Subscription {
 }
 
 type CreateOrganizationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Organization  *Organization          `protobuf:"bytes,1,opt,name=organization,proto3" json:"organization,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The organization that was created
+	Organization  *Organization `protobuf:"bytes,1,opt,name=organization,proto3" json:"organization,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -249,8 +258,9 @@ func (x *CreateOrganizationResponse) GetOrganization() *Organization {
 }
 
 type GetOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the organization
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -293,8 +303,9 @@ func (x *GetOrganizationRequest) GetId() string {
 }
 
 type GetOrganizationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Organization  *Organization          `protobuf:"bytes,1,opt,name=organization,proto3" json:"organization,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The organization
+	Organization  *Organization `protobuf:"bytes,1,opt,name=organization,proto3" json:"organization,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -337,9 +348,11 @@ func (x *GetOrganizationResponse) GetOrganization() *Organization {
 }
 
 type ListOrganizationsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageSize      *int32                 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The number of organizations on each page of results
+	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// The token to retrieve the next page of results
+	PageToken     *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -389,9 +402,11 @@ func (x *ListOrganizationsRequest) GetPageToken() string {
 }
 
 type ListOrganizationsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Organizations []*Organization        `protobuf:"bytes,1,rep,name=organizations,proto3" json:"organizations,omitempty"`
-	NextPageToken *string                `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of organizations
+	Organizations []*Organization `protobuf:"bytes,1,rep,name=organizations,proto3" json:"organizations,omitempty"`
+	// The token to retrieve the next page of results
+	NextPageToken *string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -441,10 +456,13 @@ func (x *ListOrganizationsResponse) GetNextPageToken() string {
 }
 
 type UpdateOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Subscription  *Subscription          `protobuf:"varint,3,opt,name=subscription,proto3,enum=terrabase.organization.v1.Subscription,oneof" json:"subscription,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the organization to update
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The new name of the organization
+	Name *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	// The new subscription level of the organization
+	Subscription  *Subscription `protobuf:"varint,3,opt,name=subscription,proto3,enum=terrabase.organization.v1.Subscription,oneof" json:"subscription,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -501,8 +519,9 @@ func (x *UpdateOrganizationRequest) GetSubscription() Subscription {
 }
 
 type UpdateOrganizationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Organization  *Organization          `protobuf:"bytes,1,opt,name=organization,proto3" json:"organization,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The updated organization
+	Organization  *Organization `protobuf:"bytes,1,opt,name=organization,proto3" json:"organization,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -545,8 +564,9 @@ func (x *UpdateOrganizationResponse) GetOrganization() *Organization {
 }
 
 type DeleteOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the organization to delete
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

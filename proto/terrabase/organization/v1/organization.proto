@@ -15,58 +15,88 @@ enum Subscription {
   SUBSCRIPTION_ENTERPRISE = 3;
 }
 
+// A Terrabase organization is the top level grouping of resources in a Terrabase instance
 message Organization {
+  // The unique ID of the organization
   string id = 1;
+
+  // The name of the organization
   string name = 2;
+
+  // The subscription level of the organization
   Subscription subscription = 3;
+
+  // The time the organization was created
   google.protobuf.Timestamp created_at = 4;
+
+  // The time the organization was last updated at
   google.protobuf.Timestamp updated_at = 5;
 }
 
 message CreateOrganizationRequest {
+  // The name of the organization to create
   string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The subscription level of the organization to create
   Subscription subscription = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message CreateOrganizationResponse {
+  // The organization that was created
   Organization organization = 1;
 }
 
 message GetOrganizationRequest {
+  // The unique ID of the organization
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GetOrganizationResponse {
+  // The organization
   Organization organization = 1;
 }
 
 message ListOrganizationsRequest {
+  // The number of organizations on each page of results
   optional int32 page_size = 1;
+
+  // The token to retrieve the next page of results
   optional string page_token = 2;
 }
 
 message ListOrganizationsResponse {
+  // A list of organizations
   repeated Organization organizations = 1;
+
+  // The token to retrieve the next page of results
   optional string next_page_token = 2;
 }
 
 message UpdateOrganizationRequest {
+  // The unique ID of the organization to update
   string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new name of the organization
   optional string name = 2;
+
+  // The new subscription level of the organization
   optional Subscription subscription = 3;
 }
 
 message UpdateOrganizationResponse {
+  // The updated organization
   Organization organization = 1;
 }
 
 message DeleteOrganizationRequest {
+  // The unique ID of the organization to delete
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message DeleteOrganizationResponse {}
 
 service OrganizationService {
+  // Create a new organization
   rpc CreateOrganization(CreateOrganizationRequest) returns (CreateOrganizationResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
@@ -75,6 +105,7 @@ service OrganizationService {
     option (terrabase.authz.v1.error_codes) = "PermissionDenied";
   }
 
+  // Retrieve details about a single organization
   rpc GetOrganization(GetOrganizationRequest) returns (GetOrganizationResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
@@ -84,6 +115,7 @@ service OrganizationService {
     option (terrabase.authz.v1.error_codes) = "PermissionDenied";
   }
 
+  // List all organizations
   rpc ListOrganizations(ListOrganizationsRequest) returns (ListOrganizationsResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
@@ -93,6 +125,7 @@ service OrganizationService {
     option (terrabase.authz.v1.error_codes) = "PermissionDenied";
   }
 
+  // Change details about an organization
   rpc UpdateOrganization(UpdateOrganizationRequest) returns (UpdateOrganizationResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
@@ -101,6 +134,7 @@ service OrganizationService {
     option (terrabase.authz.v1.error_codes) = "PermissionDenied";
   }
 
+  // Delete an organization
   rpc DeleteOrganization(DeleteOrganizationRequest) returns (DeleteOrganizationResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;

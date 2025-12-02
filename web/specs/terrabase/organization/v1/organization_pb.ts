@@ -17,30 +17,42 @@ export const file_terrabase_organization_v1_organization: GenFile = /*@__PURE__*
   fileDesc("Cix0ZXJyYWJhc2Uvb3JnYW5pemF0aW9uL3YxL29yZ2FuaXphdGlvbi5wcm90bxIZdGVycmFiYXNlLm9yZ2FuaXphdGlvbi52MSLHAQoMT3JnYW5pemF0aW9uEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSPQoMc3Vic2NyaXB0aW9uGAMgASgOMicudGVycmFiYXNlLm9yZ2FuaXphdGlvbi52MS5TdWJzY3JpcHRpb24SLgoKY3JlYXRlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAicgoZQ3JlYXRlT3JnYW5pemF0aW9uUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISQgoMc3Vic2NyaXB0aW9uGAIgASgOMicudGVycmFiYXNlLm9yZ2FuaXphdGlvbi52MS5TdWJzY3JpcHRpb25CA+BBAiJbChpDcmVhdGVPcmdhbml6YXRpb25SZXNwb25zZRI9Cgxvcmdhbml6YXRpb24YASABKAsyJy50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLk9yZ2FuaXphdGlvbiIpChZHZXRPcmdhbml6YXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiWAoXR2V0T3JnYW5pemF0aW9uUmVzcG9uc2USPQoMb3JnYW5pemF0aW9uGAEgASgLMicudGVycmFiYXNlLm9yZ2FuaXphdGlvbi52MS5Pcmdhbml6YXRpb24iaAoYTGlzdE9yZ2FuaXphdGlvbnNSZXF1ZXN0EhYKCXBhZ2Vfc2l6ZRgBIAEoBUgAiAEBEhcKCnBhZ2VfdG9rZW4YAiABKAlIAYgBAUIMCgpfcGFnZV9zaXplQg0KC19wYWdlX3Rva2VuIo0BChlMaXN0T3JnYW5pemF0aW9uc1Jlc3BvbnNlEj4KDW9yZ2FuaXphdGlvbnMYASADKAsyJy50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLk9yZ2FuaXphdGlvbhIcCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAlIAIgBAUISChBfbmV4dF9wYWdlX3Rva2VuIp0BChlVcGRhdGVPcmdhbml6YXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISEQoEbmFtZRgCIAEoCUgAiAEBEkIKDHN1YnNjcmlwdGlvbhgDIAEoDjInLnRlcnJhYmFzZS5vcmdhbml6YXRpb24udjEuU3Vic2NyaXB0aW9uSAGIAQFCBwoFX25hbWVCDwoNX3N1YnNjcmlwdGlvbiJbChpVcGRhdGVPcmdhbml6YXRpb25SZXNwb25zZRI9Cgxvcmdhbml6YXRpb24YASABKAsyJy50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLk9yZ2FuaXphdGlvbiIsChlEZWxldGVPcmdhbml6YXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiHAoaRGVsZXRlT3JnYW5pemF0aW9uUmVzcG9uc2UqdwoMU3Vic2NyaXB0aW9uEhwKGFNVQlNDUklQVElPTl9VTlNQRUNJRklFRBAAEhUKEVNVQlNDUklQVElPTl9GUkVFEAESFQoRU1VCU0NSSVBUSU9OX1RFQU0QAhIbChdTVUJTQ1JJUFRJT05fRU5URVJQUklTRRADMp4HChNPcmdhbml6YXRpb25TZXJ2aWNlErQBChJDcmVhdGVPcmdhbml6YXRpb24SNC50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLkNyZWF0ZU9yZ2FuaXphdGlvblJlcXVlc3QaNS50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLkNyZWF0ZU9yZ2FuaXphdGlvblJlc3BvbnNlIjGItRgBkrUYAgECmrUYD1VuYXV0aGVudGljYXRlZJq1GBBQZXJtaXNzaW9uRGVuaWVkEqwBCg9HZXRPcmdhbml6YXRpb24SMS50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLkdldE9yZ2FuaXphdGlvblJlcXVlc3QaMi50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLkdldE9yZ2FuaXphdGlvblJlc3BvbnNlIjKItRgBkrUYAwEDApq1GA9VbmF1dGhlbnRpY2F0ZWSatRgQUGVybWlzc2lvbkRlbmllZBKyAQoRTGlzdE9yZ2FuaXphdGlvbnMSMy50ZXJyYWJhc2Uub3JnYW5pemF0aW9uLnYxLkxpc3RPcmdhbml6YXRpb25zUmVxdWVzdBo0LnRlcnJhYmFzZS5vcmdhbml6YXRpb24udjEuTGlzdE9yZ2FuaXphdGlvbnNSZXNwb25zZSIyiLUYAZK1GAMBAwKatRgPVW5hdXRoZW50aWNhdGVkmrUYEFBlcm1pc3Npb25EZW5pZWQStAEKElVwZGF0ZU9yZ2FuaXphdGlvbhI0LnRlcnJhYmFzZS5vcmdhbml6YXRpb24udjEuVXBkYXRlT3JnYW5pemF0aW9uUmVxdWVzdBo1LnRlcnJhYmFzZS5vcmdhbml6YXRpb24udjEuVXBkYXRlT3JnYW5pemF0aW9uUmVzcG9uc2UiMYi1GAGStRgCAQKatRgPVW5hdXRoZW50aWNhdGVkmrUYEFBlcm1pc3Npb25EZW5pZWQStAEKEkRlbGV0ZU9yZ2FuaXphdGlvbhI0LnRlcnJhYmFzZS5vcmdhbml6YXRpb24udjEuRGVsZXRlT3JnYW5pemF0aW9uUmVxdWVzdBo1LnRlcnJhYmFzZS5vcmdhbml6YXRpb24udjEuRGVsZXRlT3JnYW5pemF0aW9uUmVzcG9uc2UiMYi1GAGStRgCAQKatRgPVW5hdXRoZW50aWNhdGVkmrUYEFBlcm1pc3Npb25EZW5pZWRCU1pRZ2l0aHViLmNvbS90ZXJyYWJhc2UtZGV2L3RlcnJhYmFzZS9zcGVjcy90ZXJyYWJhc2Uvb3JnYW5pemF0aW9uL3YxO29yZ2FuaXphdGlvbnYxYgZwcm90bzM", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_authz_v1_authz]);
 
 /**
+ * A Terrabase organization is the top level grouping of resources in a Terrabase instance
+ *
  * @generated from message terrabase.organization.v1.Organization
  */
 export type Organization = Message<"terrabase.organization.v1.Organization"> & {
   /**
+   * The unique ID of the organization
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the organization
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
+   * The subscription level of the organization
+   *
    * @generated from field: terrabase.organization.v1.Subscription subscription = 3;
    */
   subscription: Subscription;
 
   /**
+   * The time the organization was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 4;
    */
   createdAt?: Timestamp;
 
   /**
+   * The time the organization was last updated at
+   *
    * @generated from field: google.protobuf.Timestamp updated_at = 5;
    */
   updatedAt?: Timestamp;
@@ -58,11 +70,15 @@ export const OrganizationSchema: GenMessage<Organization> = /*@__PURE__*/
  */
 export type CreateOrganizationRequest = Message<"terrabase.organization.v1.CreateOrganizationRequest"> & {
   /**
+   * The name of the organization to create
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
+   * The subscription level of the organization to create
+   *
    * @generated from field: terrabase.organization.v1.Subscription subscription = 2;
    */
   subscription: Subscription;
@@ -80,6 +96,8 @@ export const CreateOrganizationRequestSchema: GenMessage<CreateOrganizationReque
  */
 export type CreateOrganizationResponse = Message<"terrabase.organization.v1.CreateOrganizationResponse"> & {
   /**
+   * The organization that was created
+   *
    * @generated from field: terrabase.organization.v1.Organization organization = 1;
    */
   organization?: Organization;
@@ -97,6 +115,8 @@ export const CreateOrganizationResponseSchema: GenMessage<CreateOrganizationResp
  */
 export type GetOrganizationRequest = Message<"terrabase.organization.v1.GetOrganizationRequest"> & {
   /**
+   * The unique ID of the organization
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -114,6 +134,8 @@ export const GetOrganizationRequestSchema: GenMessage<GetOrganizationRequest> = 
  */
 export type GetOrganizationResponse = Message<"terrabase.organization.v1.GetOrganizationResponse"> & {
   /**
+   * The organization
+   *
    * @generated from field: terrabase.organization.v1.Organization organization = 1;
    */
   organization?: Organization;
@@ -131,11 +153,15 @@ export const GetOrganizationResponseSchema: GenMessage<GetOrganizationResponse> 
  */
 export type ListOrganizationsRequest = Message<"terrabase.organization.v1.ListOrganizationsRequest"> & {
   /**
+   * The number of organizations on each page of results
+   *
    * @generated from field: optional int32 page_size = 1;
    */
   pageSize?: number;
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string page_token = 2;
    */
   pageToken?: string;
@@ -153,11 +179,15 @@ export const ListOrganizationsRequestSchema: GenMessage<ListOrganizationsRequest
  */
 export type ListOrganizationsResponse = Message<"terrabase.organization.v1.ListOrganizationsResponse"> & {
   /**
+   * A list of organizations
+   *
    * @generated from field: repeated terrabase.organization.v1.Organization organizations = 1;
    */
   organizations: Organization[];
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string next_page_token = 2;
    */
   nextPageToken?: string;
@@ -175,16 +205,22 @@ export const ListOrganizationsResponseSchema: GenMessage<ListOrganizationsRespon
  */
 export type UpdateOrganizationRequest = Message<"terrabase.organization.v1.UpdateOrganizationRequest"> & {
   /**
+   * The unique ID of the organization to update
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The new name of the organization
+   *
    * @generated from field: optional string name = 2;
    */
   name?: string;
 
   /**
+   * The new subscription level of the organization
+   *
    * @generated from field: optional terrabase.organization.v1.Subscription subscription = 3;
    */
   subscription?: Subscription;
@@ -202,6 +238,8 @@ export const UpdateOrganizationRequestSchema: GenMessage<UpdateOrganizationReque
  */
 export type UpdateOrganizationResponse = Message<"terrabase.organization.v1.UpdateOrganizationResponse"> & {
   /**
+   * The updated organization
+   *
    * @generated from field: terrabase.organization.v1.Organization organization = 1;
    */
   organization?: Organization;
@@ -219,6 +257,8 @@ export const UpdateOrganizationResponseSchema: GenMessage<UpdateOrganizationResp
  */
 export type DeleteOrganizationRequest = Message<"terrabase.organization.v1.DeleteOrganizationRequest"> & {
   /**
+   * The unique ID of the organization to delete
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -280,6 +320,8 @@ export const SubscriptionSchema: GenEnum<Subscription> = /*@__PURE__*/
  */
 export const OrganizationService: GenService<{
   /**
+   * Create a new organization
+   *
    * @generated from rpc terrabase.organization.v1.OrganizationService.CreateOrganization
    */
   createOrganization: {
@@ -288,6 +330,8 @@ export const OrganizationService: GenService<{
     output: typeof CreateOrganizationResponseSchema;
   },
   /**
+   * Retrieve details about a single organization
+   *
    * @generated from rpc terrabase.organization.v1.OrganizationService.GetOrganization
    */
   getOrganization: {
@@ -296,6 +340,8 @@ export const OrganizationService: GenService<{
     output: typeof GetOrganizationResponseSchema;
   },
   /**
+   * List all organizations
+   *
    * @generated from rpc terrabase.organization.v1.OrganizationService.ListOrganizations
    */
   listOrganizations: {
@@ -304,6 +350,8 @@ export const OrganizationService: GenService<{
     output: typeof ListOrganizationsResponseSchema;
   },
   /**
+   * Change details about an organization
+   *
    * @generated from rpc terrabase.organization.v1.OrganizationService.UpdateOrganization
    */
   updateOrganization: {
@@ -312,6 +360,8 @@ export const OrganizationService: GenService<{
     output: typeof UpdateOrganizationResponseSchema;
   },
   /**
+   * Delete an organization
+   *
    * @generated from rpc terrabase.organization.v1.OrganizationService.DeleteOrganization
    */
   deleteOrganization: {

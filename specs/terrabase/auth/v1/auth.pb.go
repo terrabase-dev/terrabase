@@ -79,11 +79,15 @@ func (ApiKeyOwnerType) EnumDescriptor() ([]byte, []int) {
 }
 
 type SignupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
-	DefaultRole   v1.UserRole            `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user's full name
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The user's email address
+	Email string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	// The user's password
+	Password string `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	// The default role for the user
+	DefaultRole   v1.UserRole `protobuf:"varint,4,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -147,10 +151,13 @@ func (x *SignupRequest) GetDefaultRole() v1.UserRole {
 }
 
 type SignupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *v11.User              `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	RefreshToken  string                 `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user that was created
+	User *v11.User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	// The user's access token
+	AccessToken string `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	// The user's token to refresh their access token when it expires
+	RefreshToken  string `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -207,9 +214,11 @@ func (x *SignupResponse) GetRefreshToken() string {
 }
 
 type LoginRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user's email address
+	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	// The user's password
+	Password      string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -259,10 +268,13 @@ func (x *LoginRequest) GetPassword() string {
 }
 
 type LoginResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *v11.User              `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	RefreshToken  string                 `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The logged in user
+	User *v11.User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	// The logged in user's access token
+	AccessToken string `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	// The logged in user's token to refresh their access token when it expires
+	RefreshToken  string `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -319,8 +331,9 @@ func (x *LoginResponse) GetRefreshToken() string {
 }
 
 type RefreshRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The user's token to refresh their access token
+	RefreshToken  string `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -363,9 +376,11 @@ func (x *RefreshRequest) GetRefreshToken() string {
 }
 
 type RefreshResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A new access token for the user
+	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	// The user's token to refresh their new access token
+	RefreshToken  string `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -451,9 +466,11 @@ func (*WhoAmIRequest) Descriptor() ([]byte, []int) {
 }
 
 type WhoAmIResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *v11.User              `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	Scopes        []v12.Scope            `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The logged in user
+	User *v11.User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	// The scopes the user has
+	Scopes        []v12.Scope `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -503,8 +520,9 @@ func (x *WhoAmIResponse) GetScopes() []v12.Scope {
 }
 
 type LogoutRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"` // if empty, use current access token jti
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The session to logout of
+	SessionId     string `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -583,11 +601,15 @@ func (*LogoutResponse) Descriptor() ([]byte, []int) {
 }
 
 type CreateMachineUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	DefaultRole   v1.UserRole            `protobuf:"varint,2,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
-	UserType      v11.UserType           `protobuf:"varint,3,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
-	OwnerUserId   string                 `protobuf:"bytes,4,opt,name=owner_user_id,json=ownerUserId,proto3" json:"owner_user_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The name of the new machine user
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The default role of the new machine user
+	DefaultRole v1.UserRole `protobuf:"varint,2,opt,name=default_role,json=defaultRole,proto3,enum=terrabase.user_role.v1.UserRole" json:"default_role,omitempty"`
+	// The type of the new machine user
+	UserType v11.UserType `protobuf:"varint,3,opt,name=user_type,json=userType,proto3,enum=terrabase.user.v1.UserType" json:"user_type,omitempty"`
+	// The ID of the user that owns the new machine user
+	OwnerUserId   string `protobuf:"bytes,4,opt,name=owner_user_id,json=ownerUserId,proto3" json:"owner_user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -651,8 +673,9 @@ func (x *CreateMachineUserRequest) GetOwnerUserId() string {
 }
 
 type CreateMachineUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	MachineUser   *v11.User              `protobuf:"bytes,1,opt,name=machine_user,json=machineUser,proto3" json:"machine_user,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The machine user that was created
+	MachineUser   *v11.User `protobuf:"bytes,1,opt,name=machine_user,json=machineUser,proto3" json:"machine_user,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -695,15 +718,24 @@ func (x *CreateMachineUserResponse) GetMachineUser() *v11.User {
 }
 
 type ApiKey struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Scopes        []v12.Scope            `protobuf:"varint,3,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
-	OwnerId       string                 `protobuf:"bytes,4,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
-	OwnerType     ApiKeyOwnerType        `protobuf:"varint,5,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	LastUsedAt    *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=last_used_at,json=lastUsedAt,proto3" json:"last_used_at,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the API key
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The name of the API key
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// The scopes the API key has
+	Scopes []v12.Scope `protobuf:"varint,3,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
+	// The ID of the user that owns the API key
+	OwnerId string `protobuf:"bytes,4,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
+	// The type of user that owns the API key
+	OwnerType ApiKeyOwnerType `protobuf:"varint,5,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
+	// The time the API key was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the API key expires
+	ExpiresAt *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	// The time the API key was last used
+	LastUsedAt *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=last_used_at,json=lastUsedAt,proto3" json:"last_used_at,omitempty"`
+	// The time the API key was revoked
 	RevokedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=revoked_at,json=revokedAt,proto3" json:"revoked_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -803,12 +835,16 @@ func (x *ApiKey) GetRevokedAt() *timestamppb.Timestamp {
 }
 
 type CreateApiKeyRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Name      string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	OwnerType ApiKeyOwnerType        `protobuf:"varint,2,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
-	OwnerId   string                 `protobuf:"bytes,3,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
-	Scopes    []v12.Scope            `protobuf:"varint,4,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
-	// Hours until expiry; if unset, key does not expire.
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The name of the API key
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The type of the user that owns the API key
+	OwnerType ApiKeyOwnerType `protobuf:"varint,2,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
+	// The ID of the user that owns the API key
+	OwnerId string `protobuf:"bytes,3,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
+	// The scopes the API key has
+	Scopes []v12.Scope `protobuf:"varint,4,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
+	// Hours until the API key expires. If unset, key does not expire.
 	TtlHours      *int64 `protobuf:"varint,5,opt,name=ttl_hours,json=ttlHours,proto3,oneof" json:"ttl_hours,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -880,9 +916,11 @@ func (x *CreateApiKeyRequest) GetTtlHours() int64 {
 }
 
 type CreateApiKeyResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ApiKeyToken   string                 `protobuf:"bytes,1,opt,name=api_key_token,json=apiKeyToken,proto3" json:"api_key_token,omitempty"`
-	ApiKey        *ApiKey                `protobuf:"bytes,2,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The access token for the API key
+	ApiKeyToken string `protobuf:"bytes,1,opt,name=api_key_token,json=apiKeyToken,proto3" json:"api_key_token,omitempty"`
+	// The API key that was created
+	ApiKey        *ApiKey `protobuf:"bytes,2,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -932,9 +970,11 @@ func (x *CreateApiKeyResponse) GetApiKey() *ApiKey {
 }
 
 type ListApiKeysRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OwnerType     ApiKeyOwnerType        `protobuf:"varint,1,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
-	OwnerId       string                 `protobuf:"bytes,2,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The type of user that owns API keys
+	OwnerType ApiKeyOwnerType `protobuf:"varint,1,opt,name=owner_type,json=ownerType,proto3,enum=terrabase.auth.v1.ApiKeyOwnerType" json:"owner_type,omitempty"`
+	// The unique ID of the user that owns an API key
+	OwnerId       string `protobuf:"bytes,2,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -984,8 +1024,9 @@ func (x *ListApiKeysRequest) GetOwnerId() string {
 }
 
 type ListApiKeysResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ApiKeys       []*ApiKey              `protobuf:"bytes,1,rep,name=api_keys,json=apiKeys,proto3" json:"api_keys,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of API keys
+	ApiKeys       []*ApiKey `protobuf:"bytes,1,rep,name=api_keys,json=apiKeys,proto3" json:"api_keys,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1028,9 +1069,11 @@ func (x *ListApiKeysResponse) GetApiKeys() []*ApiKey {
 }
 
 type RevokeApiKeyRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The ID of the API key to revoke
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The reason for revoking the API key
+	Reason        string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1117,10 +1160,12 @@ func (*RevokeApiKeyResponse) Descriptor() ([]byte, []int) {
 
 type RotateApiKeyRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	// Optional: inherit existing scopes and ttl when unset.
-	Scopes        []v12.Scope `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
-	TtlHours      *int64      `protobuf:"varint,3,opt,name=ttl_hours,json=ttlHours,proto3,oneof" json:"ttl_hours,omitempty"`
+	// The ID of the API key to rotate
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The scopes the new API key should have. If unset, inherits from the existing API key.
+	Scopes []v12.Scope `protobuf:"varint,2,rep,packed,name=scopes,proto3,enum=terrabase.authz.v1.Scope" json:"scopes,omitempty"`
+	// Hours until the new API key expires. If unset, inherits from the existing API key.
+	TtlHours      *int64 `protobuf:"varint,3,opt,name=ttl_hours,json=ttlHours,proto3,oneof" json:"ttl_hours,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1177,9 +1222,11 @@ func (x *RotateApiKeyRequest) GetTtlHours() int64 {
 }
 
 type RotateApiKeyResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ApiKeyToken   string                 `protobuf:"bytes,1,opt,name=api_key_token,json=apiKeyToken,proto3" json:"api_key_token,omitempty"`
-	ApiKey        *ApiKey                `protobuf:"bytes,2,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The new access token for the API key
+	ApiKeyToken string `protobuf:"bytes,1,opt,name=api_key_token,json=apiKeyToken,proto3" json:"api_key_token,omitempty"`
+	// The new API key
+	ApiKey        *ApiKey `protobuf:"bytes,2,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1229,12 +1276,18 @@ func (x *RotateApiKeyResponse) GetApiKey() *ApiKey {
 }
 
 type Session struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserAgent     string                 `protobuf:"bytes,2,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
-	Ip            string                 `protobuf:"bytes,3,opt,name=ip,proto3" json:"ip,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	LastUsedAt    *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_used_at,json=lastUsedAt,proto3" json:"last_used_at,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the session
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The user agent the session originated from
+	UserAgent string `protobuf:"bytes,2,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
+	// The IP address the session originated from
+	Ip string `protobuf:"bytes,3,opt,name=ip,proto3" json:"ip,omitempty"`
+	// The time the session expires at
+	ExpiresAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	// The time the session was last used at
+	LastUsedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_used_at,json=lastUsedAt,proto3" json:"last_used_at,omitempty"`
+	// The time the session was created
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1402,9 @@ func (*ListSessionsRequest) Descriptor() ([]byte, []int) {
 }
 
 type ListSessionsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Sessions      []*Session             `protobuf:"bytes,1,rep,name=sessions,proto3" json:"sessions,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of active sessions
+	Sessions      []*Session `protobuf:"bytes,1,rep,name=sessions,proto3" json:"sessions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

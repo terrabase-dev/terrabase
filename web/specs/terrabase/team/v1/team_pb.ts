@@ -17,30 +17,42 @@ export const file_terrabase_team_v1_team: GenFile = /*@__PURE__*/
   fileDesc("Chx0ZXJyYWJhc2UvdGVhbS92MS90ZWFtLnByb3RvEhF0ZXJyYWJhc2UudGVhbS52MSKZAQoEVGVhbRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhcKD29yZ2FuaXphdGlvbl9pZBgDIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIaCgdUZWFtSWRzEg8KB3RlYW1faWQYASADKAkiRAoRQ3JlYXRlVGVhbVJlcXVlc3QSEQoEbmFtZRgBIAEoCUID4EECEhwKD29yZ2FuaXphdGlvbl9pZBgCIAEoCUID4EECIjsKEkNyZWF0ZVRlYW1SZXNwb25zZRIlCgR0ZWFtGAEgASgLMhcudGVycmFiYXNlLnRlYW0udjEuVGVhbSIhCg5HZXRUZWFtUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIjgKD0dldFRlYW1SZXNwb25zZRIlCgR0ZWFtGAEgASgLMhcudGVycmFiYXNlLnRlYW0udjEuVGVhbSJgChBMaXN0VGVhbXNSZXF1ZXN0EhYKCXBhZ2Vfc2l6ZRgBIAEoBUgAiAEBEhcKCnBhZ2VfdG9rZW4YAiABKAlIAYgBAUIMCgpfcGFnZV9zaXplQg0KC19wYWdlX3Rva2VuIm0KEUxpc3RUZWFtc1Jlc3BvbnNlEiYKBXRlYW1zGAEgAygLMhcudGVycmFiYXNlLnRlYW0udjEuVGVhbRIcCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAlIAIgBAUISChBfbmV4dF9wYWdlX3Rva2VuIkAKEVVwZGF0ZVRlYW1SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISEQoEbmFtZRgCIAEoCUgAiAEBQgcKBV9uYW1lIjsKElVwZGF0ZVRlYW1SZXNwb25zZRIlCgR0ZWFtGAEgASgLMhcudGVycmFiYXNlLnRlYW0udjEuVGVhbSIkChFEZWxldGVUZWFtUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIhQKEkRlbGV0ZVRlYW1SZXNwb25zZTKGBAoLVGVhbVNlcnZpY2USZQoKQ3JlYXRlVGVhbRIkLnRlcnJhYmFzZS50ZWFtLnYxLkNyZWF0ZVRlYW1SZXF1ZXN0GiUudGVycmFiYXNlLnRlYW0udjEuQ3JlYXRlVGVhbVJlc3BvbnNlIgqItRgBkrUYAgEEEl0KB0dldFRlYW0SIS50ZXJyYWJhc2UudGVhbS52MS5HZXRUZWFtUmVxdWVzdBoiLnRlcnJhYmFzZS50ZWFtLnYxLkdldFRlYW1SZXNwb25zZSILiLUYAZK1GAMBBQQSYwoJTGlzdFRlYW1zEiMudGVycmFiYXNlLnRlYW0udjEuTGlzdFRlYW1zUmVxdWVzdBokLnRlcnJhYmFzZS50ZWFtLnYxLkxpc3RUZWFtc1Jlc3BvbnNlIguItRgBkrUYAwEFBBJlCgpVcGRhdGVUZWFtEiQudGVycmFiYXNlLnRlYW0udjEuVXBkYXRlVGVhbVJlcXVlc3QaJS50ZXJyYWJhc2UudGVhbS52MS5VcGRhdGVUZWFtUmVzcG9uc2UiCoi1GAGStRgCAQQSZQoKRGVsZXRlVGVhbRIkLnRlcnJhYmFzZS50ZWFtLnYxLkRlbGV0ZVRlYW1SZXF1ZXN0GiUudGVycmFiYXNlLnRlYW0udjEuRGVsZXRlVGVhbVJlc3BvbnNlIgqItRgBkrUYAgEEQkNaQWdpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL3RlYW0vdjE7dGVhbXYxYgZwcm90bzM", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_authz_v1_authz]);
 
 /**
+ * A Terrabase team belongs to a single organization, and can have many users. Teams should likely strongly correlate with actual business units
+ *
  * @generated from message terrabase.team.v1.Team
  */
 export type Team = Message<"terrabase.team.v1.Team"> & {
   /**
+   * The unique ID of the team
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the team
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
+   * The ID of the organization the team belongs to
+   *
    * @generated from field: string organization_id = 3;
    */
   organizationId: string;
 
   /**
+   * The time the team was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 4;
    */
   createdAt?: Timestamp;
 
   /**
+   * The time the team was last updated
+   *
    * @generated from field: google.protobuf.Timestamp updated_at = 5;
    */
   updatedAt?: Timestamp;
@@ -75,11 +87,15 @@ export const TeamIdsSchema: GenMessage<TeamIds> = /*@__PURE__*/
  */
 export type CreateTeamRequest = Message<"terrabase.team.v1.CreateTeamRequest"> & {
   /**
+   * The name of the team
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
+   * The ID of the organization the team belongs to
+   *
    * @generated from field: string organization_id = 2;
    */
   organizationId: string;
@@ -97,6 +113,8 @@ export const CreateTeamRequestSchema: GenMessage<CreateTeamRequest> = /*@__PURE_
  */
 export type CreateTeamResponse = Message<"terrabase.team.v1.CreateTeamResponse"> & {
   /**
+   * The team that was created
+   *
    * @generated from field: terrabase.team.v1.Team team = 1;
    */
   team?: Team;
@@ -114,6 +132,8 @@ export const CreateTeamResponseSchema: GenMessage<CreateTeamResponse> = /*@__PUR
  */
 export type GetTeamRequest = Message<"terrabase.team.v1.GetTeamRequest"> & {
   /**
+   * The unique ID of the team
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -131,6 +151,8 @@ export const GetTeamRequestSchema: GenMessage<GetTeamRequest> = /*@__PURE__*/
  */
 export type GetTeamResponse = Message<"terrabase.team.v1.GetTeamResponse"> & {
   /**
+   * The team
+   *
    * @generated from field: terrabase.team.v1.Team team = 1;
    */
   team?: Team;
@@ -148,11 +170,15 @@ export const GetTeamResponseSchema: GenMessage<GetTeamResponse> = /*@__PURE__*/
  */
 export type ListTeamsRequest = Message<"terrabase.team.v1.ListTeamsRequest"> & {
   /**
+   * The number of teams on each page of results
+   *
    * @generated from field: optional int32 page_size = 1;
    */
   pageSize?: number;
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string page_token = 2;
    */
   pageToken?: string;
@@ -170,11 +196,15 @@ export const ListTeamsRequestSchema: GenMessage<ListTeamsRequest> = /*@__PURE__*
  */
 export type ListTeamsResponse = Message<"terrabase.team.v1.ListTeamsResponse"> & {
   /**
+   * A list of teams
+   *
    * @generated from field: repeated terrabase.team.v1.Team teams = 1;
    */
   teams: Team[];
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string next_page_token = 2;
    */
   nextPageToken?: string;
@@ -192,11 +222,15 @@ export const ListTeamsResponseSchema: GenMessage<ListTeamsResponse> = /*@__PURE_
  */
 export type UpdateTeamRequest = Message<"terrabase.team.v1.UpdateTeamRequest"> & {
   /**
+   * The unique ID of the team to update
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The new name of the team
+   *
    * @generated from field: optional string name = 2;
    */
   name?: string;
@@ -214,6 +248,8 @@ export const UpdateTeamRequestSchema: GenMessage<UpdateTeamRequest> = /*@__PURE_
  */
 export type UpdateTeamResponse = Message<"terrabase.team.v1.UpdateTeamResponse"> & {
   /**
+   * The updated team
+   *
    * @generated from field: terrabase.team.v1.Team team = 1;
    */
   team?: Team;
@@ -231,6 +267,8 @@ export const UpdateTeamResponseSchema: GenMessage<UpdateTeamResponse> = /*@__PUR
  */
 export type DeleteTeamRequest = Message<"terrabase.team.v1.DeleteTeamRequest"> & {
   /**
+   * The unique ID of the team to delete
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -261,6 +299,8 @@ export const DeleteTeamResponseSchema: GenMessage<DeleteTeamResponse> = /*@__PUR
  */
 export const TeamService: GenService<{
   /**
+   * Create a new team
+   *
    * @generated from rpc terrabase.team.v1.TeamService.CreateTeam
    */
   createTeam: {
@@ -269,6 +309,8 @@ export const TeamService: GenService<{
     output: typeof CreateTeamResponseSchema;
   },
   /**
+   * Retrieve details about a single team
+   *
    * @generated from rpc terrabase.team.v1.TeamService.GetTeam
    */
   getTeam: {
@@ -277,6 +319,8 @@ export const TeamService: GenService<{
     output: typeof GetTeamResponseSchema;
   },
   /**
+   * List all teams
+   *
    * @generated from rpc terrabase.team.v1.TeamService.ListTeams
    */
   listTeams: {
@@ -285,6 +329,8 @@ export const TeamService: GenService<{
     output: typeof ListTeamsResponseSchema;
   },
   /**
+   * Change details about a team
+   *
    * @generated from rpc terrabase.team.v1.TeamService.UpdateTeam
    */
   updateTeam: {
@@ -293,6 +339,8 @@ export const TeamService: GenService<{
     output: typeof UpdateTeamResponseSchema;
   },
   /**
+   * Delete a team
+   *
    * @generated from rpc terrabase.team.v1.TeamService.DeleteTeam
    */
   deleteTeam: {

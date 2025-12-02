@@ -8,11 +8,21 @@ import "terrabase/authz/v1/authz.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1;teamv1";
 
+// A Terrabase team belongs to a single organization, and can have many users. Teams should likely strongly correlate with actual business units
 message Team {
+  // The unique ID of the team
   string id = 1;
+
+  // The name of the team
   string name = 2;
+
+  // The ID of the organization the team belongs to
   string organization_id = 3;
+
+  // The time the team was created
   google.protobuf.Timestamp created_at = 4;
+
+  // The time the team was last updated
   google.protobuf.Timestamp updated_at = 5;
 }
 
@@ -21,54 +31,73 @@ message TeamIds {
 }
 
 message CreateTeamRequest {
+  // The name of the team
   string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the organization the team belongs to
   string organization_id = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message CreateTeamResponse {
+  // The team that was created
   Team team = 1;
 }
 
 message GetTeamRequest {
+  // The unique ID of the team
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GetTeamResponse {
+  // The team
   Team team = 1;
 }
 
 message ListTeamsRequest {
+  // The number of teams on each page of results
   optional int32 page_size = 1;
+
+  // The token to retrieve the next page of results
   optional string page_token = 2;
 }
 
 message ListTeamsResponse {
+  // A list of teams
   repeated Team teams = 1;
+
+  // The token to retrieve the next page of results
   optional string next_page_token = 2;
 }
 
 message UpdateTeamRequest {
+  // The unique ID of the team to update
   string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new name of the team
   optional string name = 2;
 }
 
 message UpdateTeamResponse {
+  // The updated team
   Team team = 1;
 }
 
 message DeleteTeamRequest {
+  // The unique ID of the team to delete
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message DeleteTeamResponse {}
 
 service TeamService {
+  // Create a new team
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
     option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
   }
 
+  // Retrieve details about a single team
   rpc GetTeam(GetTeamRequest) returns (GetTeamResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
@@ -76,6 +105,7 @@ service TeamService {
     option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
   }
 
+  // List all teams
   rpc ListTeams(ListTeamsRequest) returns (ListTeamsResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
@@ -83,12 +113,14 @@ service TeamService {
     option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
   }
 
+  // Change details about a team
   rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
     option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
   }
 
+  // Delete a team
   rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse) {
     option (terrabase.authz.v1.auth_required) = true;
     option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;

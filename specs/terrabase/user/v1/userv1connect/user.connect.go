@@ -45,9 +45,13 @@ const (
 
 // UserServiceClient is a client for the terrabase.user.v1.UserService service.
 type UserServiceClient interface {
+	// Retrieve details about a single user
 	GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error)
+	// List users who belong to an organization or team, or who have access to a specific workspace
 	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
+	// Change details about a user
 	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
+	// Delete a user
 	DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error)
 }
 
@@ -119,9 +123,13 @@ func (c *userServiceClient) DeleteUser(ctx context.Context, req *connect.Request
 
 // UserServiceHandler is an implementation of the terrabase.user.v1.UserService service.
 type UserServiceHandler interface {
+	// Retrieve details about a single user
 	GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error)
+	// List users who belong to an organization or team, or who have access to a specific workspace
 	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
+	// Change details about a user
 	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
+	// Delete a user
 	DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error)
 }
 

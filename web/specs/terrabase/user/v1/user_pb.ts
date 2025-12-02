@@ -19,45 +19,63 @@ export const file_terrabase_user_v1_user: GenFile = /*@__PURE__*/
   fileDesc("Chx0ZXJyYWJhc2UvdXNlci92MS91c2VyLnByb3RvEhF0ZXJyYWJhc2UudXNlci52MSKlAgoEVXNlchIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEg0KBWVtYWlsGAMgASgJEjYKDGRlZmF1bHRfcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGUSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoJdXNlcl90eXBlGAcgASgOMhsudGVycmFiYXNlLnVzZXIudjEuVXNlclR5cGUSGgoNb3duZXJfdXNlcl9pZBgIIAEoCUgAiAEBQhAKDl9vd25lcl91c2VyX2lkIrMCCgtVc2VyU3VtbWFyeRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBWVtYWlsGAMgASgJSACIAQESLgoEcm9sZRgEIAEoDjIgLnRlcnJhYmFzZS51c2VyX3JvbGUudjEuVXNlclJvbGUSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoJdXNlcl90eXBlGAcgASgOMhsudGVycmFiYXNlLnVzZXIudjEuVXNlclR5cGUSGgoNb3duZXJfdXNlcl9pZBgIIAEoCUgBiAEBQggKBl9lbWFpbEIQCg5fb3duZXJfdXNlcl9pZCIhCg5HZXRVc2VyUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIjgKD0dldFVzZXJSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlciKjAgoQTGlzdFVzZXJzUmVxdWVzdBIWCglwYWdlX3NpemUYASABKAVIAIgBARIXCgpwYWdlX3Rva2VuGAIgASgJSAGIAQESHAoPb3JnYW5pemF0aW9uX2lkGAMgASgJSAKIAQESFAoHdGVhbV9pZBgEIAEoCUgDiAEBEhkKDHdvcmtzcGFjZV9pZBgFIAEoCUgEiAEBEjMKCXVzZXJfdHlwZRgGIAEoDjIbLnRlcnJhYmFzZS51c2VyLnYxLlVzZXJUeXBlSAWIAQFCDAoKX3BhZ2Vfc2l6ZUINCgtfcGFnZV90b2tlbkISChBfb3JnYW5pemF0aW9uX2lkQgoKCF90ZWFtX2lkQg8KDV93b3Jrc3BhY2VfaWRCDAoKX3VzZXJfdHlwZSJ0ChFMaXN0VXNlcnNSZXNwb25zZRItCgV1c2VycxgBIAMoCzIeLnRlcnJhYmFzZS51c2VyLnYxLlVzZXJTdW1tYXJ5EhwKD25leHRfcGFnZV90b2tlbhgCIAEoCUgAiAEBQhIKEF9uZXh0X3BhZ2VfdG9rZW4irAEKEVVwZGF0ZVVzZXJSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISEQoEbmFtZRgCIAEoCUgAiAEBEhIKBWVtYWlsGAMgASgJSAGIAQESOwoMZGVmYXVsdF9yb2xlGAQgASgOMiAudGVycmFiYXNlLnVzZXJfcm9sZS52MS5Vc2VyUm9sZUgCiAEBQgcKBV9uYW1lQggKBl9lbWFpbEIPCg1fZGVmYXVsdF9yb2xlIjsKElVwZGF0ZVVzZXJSZXNwb25zZRIlCgR1c2VyGAEgASgLMhcudGVycmFiYXNlLnVzZXIudjEuVXNlciIkChFEZWxldGVVc2VyUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIhQKEkRlbGV0ZVVzZXJSZXNwb25zZSpjCghVc2VyVHlwZRIZChVVU0VSX1RZUEVfVU5TUEVDSUZJRUQQABISCg5VU0VSX1RZUEVfVVNFUhABEhEKDVVTRVJfVFlQRV9CT1QQAhIVChFVU0VSX1RZUEVfU0VSVklDRRADMqMDCgtVc2VyU2VydmljZRJgCgdHZXRVc2VyEiEudGVycmFiYXNlLnVzZXIudjEuR2V0VXNlclJlcXVlc3QaIi50ZXJyYWJhc2UudXNlci52MS5HZXRVc2VyUmVzcG9uc2UiDoi1GAGgtRgBqrUYAmlkEmEKCUxpc3RVc2VycxIjLnRlcnJhYmFzZS51c2VyLnYxLkxpc3RVc2Vyc1JlcXVlc3QaJC50ZXJyYWJhc2UudXNlci52MS5MaXN0VXNlcnNSZXNwb25zZSIJiLUYAZK1GAEBEmkKClVwZGF0ZVVzZXISJC50ZXJyYWJhc2UudXNlci52MS5VcGRhdGVVc2VyUmVxdWVzdBolLnRlcnJhYmFzZS51c2VyLnYxLlVwZGF0ZVVzZXJSZXNwb25zZSIOiLUYAaC1GAGqtRgCaWQSZAoKRGVsZXRlVXNlchIkLnRlcnJhYmFzZS51c2VyLnYxLkRlbGV0ZVVzZXJSZXF1ZXN0GiUudGVycmFiYXNlLnVzZXIudjEuRGVsZXRlVXNlclJlc3BvbnNlIgmItRgBkrUYAQFCQ1pBZ2l0aHViLmNvbS90ZXJyYWJhc2UtZGV2L3RlcnJhYmFzZS9zcGVjcy90ZXJyYWJhc2UvdXNlci92MTt1c2VydjFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_authz_v1_authz, file_terrabase_user_role_v1_user_role]);
 
 /**
+ * A Terrabase user is either a human user or a machine user. A machine user is either a bot or a service principal
+ *
  * @generated from message terrabase.user.v1.User
  */
 export type User = Message<"terrabase.user.v1.User"> & {
   /**
+   * The unique ID of the user
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the user
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
+   * The email address of the user, if a human user
+   *
    * @generated from field: string email = 3;
    */
   email: string;
 
   /**
+   * The default role of the user
+   *
    * @generated from field: terrabase.user_role.v1.UserRole default_role = 4;
    */
   defaultRole: UserRole;
 
   /**
+   * The time the user was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 5;
    */
   createdAt?: Timestamp;
 
   /**
+   * The time the user was last updated at
+   *
    * @generated from field: google.protobuf.Timestamp updated_at = 6;
    */
   updatedAt?: Timestamp;
 
   /**
+   * The type of the user (user, bot, or service)
+   *
    * @generated from field: terrabase.user.v1.UserType user_type = 7;
    */
   userType: UserType;
 
   /**
+   * The ID of the user that owns the machine user, if a machine user
+   *
    * @generated from field: optional string owner_user_id = 8;
    */
   ownerUserId?: string;
@@ -71,47 +89,63 @@ export const UserSchema: GenMessage<User> = /*@__PURE__*/
   messageDesc(file_terrabase_user_v1_user, 0);
 
 /**
- * UserSummary is context aware- i.e. the role will be the user's effective role in the context (organization, team, workspace) of which the ListUsers rpc is called
+ * UserSummary is context aware
  *
  * @generated from message terrabase.user.v1.UserSummary
  */
 export type UserSummary = Message<"terrabase.user.v1.UserSummary"> & {
   /**
+   * The ID of the user
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the user
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
+   * The email address of the user, if a human user
+   *
    * @generated from field: optional string email = 3;
    */
   email?: string;
 
   /**
+   * The role the user has in the context in which the RPC returning this object (or list of objects) is called from
+   *
    * @generated from field: terrabase.user_role.v1.UserRole role = 4;
    */
   role: UserRole;
 
   /**
+   * The time the user was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 5;
    */
   createdAt?: Timestamp;
 
   /**
+   * The time the user was last updated at
+   *
    * @generated from field: google.protobuf.Timestamp updated_at = 6;
    */
   updatedAt?: Timestamp;
 
   /**
+   * The type of the user (user, bot, or service)
+   *
    * @generated from field: terrabase.user.v1.UserType user_type = 7;
    */
   userType: UserType;
 
   /**
+   * The ID of the user that owns the machine user, if a machine user
+   *
    * @generated from field: optional string owner_user_id = 8;
    */
   ownerUserId?: string;
@@ -129,6 +163,8 @@ export const UserSummarySchema: GenMessage<UserSummary> = /*@__PURE__*/
  */
 export type GetUserRequest = Message<"terrabase.user.v1.GetUserRequest"> & {
   /**
+   * The ID of the user
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -146,6 +182,8 @@ export const GetUserRequestSchema: GenMessage<GetUserRequest> = /*@__PURE__*/
  */
 export type GetUserResponse = Message<"terrabase.user.v1.GetUserResponse"> & {
   /**
+   * The user
+   *
    * @generated from field: terrabase.user.v1.User user = 1;
    */
   user?: User;
@@ -163,31 +201,43 @@ export const GetUserResponseSchema: GenMessage<GetUserResponse> = /*@__PURE__*/
  */
 export type ListUsersRequest = Message<"terrabase.user.v1.ListUsersRequest"> & {
   /**
+   * The number of users on each page of results
+   *
    * @generated from field: optional int32 page_size = 1;
    */
   pageSize?: number;
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string page_token = 2;
    */
   pageToken?: string;
 
   /**
+   * The ID of the organization to list all users who belong to the organization
+   *
    * @generated from field: optional string organization_id = 3;
    */
   organizationId?: string;
 
   /**
+   * The ID of the team to list all users who belong to the team
+   *
    * @generated from field: optional string team_id = 4;
    */
   teamId?: string;
 
   /**
+   * The ID of the workspace to list all users with access to the workspace
+   *
    * @generated from field: optional string workspace_id = 5;
    */
   workspaceId?: string;
 
   /**
+   * The type of users to list
+   *
    * @generated from field: optional terrabase.user.v1.UserType user_type = 6;
    */
   userType?: UserType;
@@ -205,11 +255,15 @@ export const ListUsersRequestSchema: GenMessage<ListUsersRequest> = /*@__PURE__*
  */
 export type ListUsersResponse = Message<"terrabase.user.v1.ListUsersResponse"> & {
   /**
+   * A list of users
+   *
    * @generated from field: repeated terrabase.user.v1.UserSummary users = 1;
    */
   users: UserSummary[];
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string next_page_token = 2;
    */
   nextPageToken?: string;
@@ -227,21 +281,29 @@ export const ListUsersResponseSchema: GenMessage<ListUsersResponse> = /*@__PURE_
  */
 export type UpdateUserRequest = Message<"terrabase.user.v1.UpdateUserRequest"> & {
   /**
+   * The unique ID of the user to update
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The new name of the user
+   *
    * @generated from field: optional string name = 2;
    */
   name?: string;
 
   /**
+   * The new email address of the user
+   *
    * @generated from field: optional string email = 3;
    */
   email?: string;
 
   /**
+   * The new default role of the user
+   *
    * @generated from field: optional terrabase.user_role.v1.UserRole default_role = 4;
    */
   defaultRole?: UserRole;
@@ -259,6 +321,8 @@ export const UpdateUserRequestSchema: GenMessage<UpdateUserRequest> = /*@__PURE_
  */
 export type UpdateUserResponse = Message<"terrabase.user.v1.UpdateUserResponse"> & {
   /**
+   * The updated user
+   *
    * @generated from field: terrabase.user.v1.User user = 1;
    */
   user?: User;
@@ -276,6 +340,8 @@ export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> = /*@__PUR
  */
 export type DeleteUserRequest = Message<"terrabase.user.v1.DeleteUserRequest"> & {
   /**
+   * The unique ID of the user to delete
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -337,6 +403,8 @@ export const UserTypeSchema: GenEnum<UserType> = /*@__PURE__*/
  */
 export const UserService: GenService<{
   /**
+   * Retrieve details about a single user
+   *
    * @generated from rpc terrabase.user.v1.UserService.GetUser
    */
   getUser: {
@@ -345,6 +413,8 @@ export const UserService: GenService<{
     output: typeof GetUserResponseSchema;
   },
   /**
+   * List users who belong to an organization or team, or who have access to a specific workspace
+   *
    * @generated from rpc terrabase.user.v1.UserService.ListUsers
    */
   listUsers: {
@@ -353,6 +423,8 @@ export const UserService: GenService<{
     output: typeof ListUsersResponseSchema;
   },
   /**
+   * Change details about a user
+   *
    * @generated from rpc terrabase.user.v1.UserService.UpdateUser
    */
   updateUser: {
@@ -361,6 +433,8 @@ export const UserService: GenService<{
     output: typeof UpdateUserResponseSchema;
   },
   /**
+   * Delete a user
+   *
    * @generated from rpc terrabase.user.v1.UserService.DeleteUser
    */
   deleteUser: {

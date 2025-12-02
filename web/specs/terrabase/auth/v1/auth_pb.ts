@@ -26,21 +26,29 @@ export const file_terrabase_auth_v1_auth: GenFile = /*@__PURE__*/
  */
 export type SignupRequest = Message<"terrabase.auth.v1.SignupRequest"> & {
   /**
+   * The user's full name
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
+   * The user's email address
+   *
    * @generated from field: string email = 2;
    */
   email: string;
 
   /**
+   * The user's password
+   *
    * @generated from field: string password = 3;
    */
   password: string;
 
   /**
+   * The default role for the user
+   *
    * @generated from field: terrabase.user_role.v1.UserRole default_role = 4;
    */
   defaultRole: UserRole;
@@ -58,16 +66,22 @@ export const SignupRequestSchema: GenMessage<SignupRequest> = /*@__PURE__*/
  */
 export type SignupResponse = Message<"terrabase.auth.v1.SignupResponse"> & {
   /**
+   * The user that was created
+   *
    * @generated from field: terrabase.user.v1.User user = 1;
    */
   user?: User;
 
   /**
+   * The user's access token
+   *
    * @generated from field: string access_token = 2;
    */
   accessToken: string;
 
   /**
+   * The user's token to refresh their access token when it expires
+   *
    * @generated from field: string refresh_token = 3;
    */
   refreshToken: string;
@@ -85,11 +99,15 @@ export const SignupResponseSchema: GenMessage<SignupResponse> = /*@__PURE__*/
  */
 export type LoginRequest = Message<"terrabase.auth.v1.LoginRequest"> & {
   /**
+   * The user's email address
+   *
    * @generated from field: string email = 1;
    */
   email: string;
 
   /**
+   * The user's password
+   *
    * @generated from field: string password = 2;
    */
   password: string;
@@ -107,16 +125,22 @@ export const LoginRequestSchema: GenMessage<LoginRequest> = /*@__PURE__*/
  */
 export type LoginResponse = Message<"terrabase.auth.v1.LoginResponse"> & {
   /**
+   * The logged in user
+   *
    * @generated from field: terrabase.user.v1.User user = 1;
    */
   user?: User;
 
   /**
+   * The logged in user's access token
+   *
    * @generated from field: string access_token = 2;
    */
   accessToken: string;
 
   /**
+   * The logged in user's token to refresh their access token when it expires
+   *
    * @generated from field: string refresh_token = 3;
    */
   refreshToken: string;
@@ -134,6 +158,8 @@ export const LoginResponseSchema: GenMessage<LoginResponse> = /*@__PURE__*/
  */
 export type RefreshRequest = Message<"terrabase.auth.v1.RefreshRequest"> & {
   /**
+   * The user's token to refresh their access token
+   *
    * @generated from field: string refresh_token = 1;
    */
   refreshToken: string;
@@ -151,11 +177,15 @@ export const RefreshRequestSchema: GenMessage<RefreshRequest> = /*@__PURE__*/
  */
 export type RefreshResponse = Message<"terrabase.auth.v1.RefreshResponse"> & {
   /**
+   * A new access token for the user
+   *
    * @generated from field: string access_token = 1;
    */
   accessToken: string;
 
   /**
+   * The user's token to refresh their new access token
+   *
    * @generated from field: string refresh_token = 2;
    */
   refreshToken: string;
@@ -186,11 +216,15 @@ export const WhoAmIRequestSchema: GenMessage<WhoAmIRequest> = /*@__PURE__*/
  */
 export type WhoAmIResponse = Message<"terrabase.auth.v1.WhoAmIResponse"> & {
   /**
+   * The logged in user
+   *
    * @generated from field: terrabase.user.v1.User user = 1;
    */
   user?: User;
 
   /**
+   * The scopes the user has
+   *
    * @generated from field: repeated terrabase.authz.v1.Scope scopes = 2;
    */
   scopes: Scope[];
@@ -208,7 +242,7 @@ export const WhoAmIResponseSchema: GenMessage<WhoAmIResponse> = /*@__PURE__*/
  */
 export type LogoutRequest = Message<"terrabase.auth.v1.LogoutRequest"> & {
   /**
-   * if empty, use current access token jti
+   * The session to logout of
    *
    * @generated from field: string session_id = 1;
    */
@@ -240,21 +274,29 @@ export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
  */
 export type CreateMachineUserRequest = Message<"terrabase.auth.v1.CreateMachineUserRequest"> & {
   /**
+   * The name of the new machine user
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
+   * The default role of the new machine user
+   *
    * @generated from field: terrabase.user_role.v1.UserRole default_role = 2;
    */
   defaultRole: UserRole;
 
   /**
+   * The type of the new machine user
+   *
    * @generated from field: terrabase.user.v1.UserType user_type = 3;
    */
   userType: UserType;
 
   /**
+   * The ID of the user that owns the new machine user
+   *
    * @generated from field: string owner_user_id = 4;
    */
   ownerUserId: string;
@@ -272,6 +314,8 @@ export const CreateMachineUserRequestSchema: GenMessage<CreateMachineUserRequest
  */
 export type CreateMachineUserResponse = Message<"terrabase.auth.v1.CreateMachineUserResponse"> & {
   /**
+   * The machine user that was created
+   *
    * @generated from field: terrabase.user.v1.User machine_user = 1;
    */
   machineUser?: User;
@@ -289,46 +333,64 @@ export const CreateMachineUserResponseSchema: GenMessage<CreateMachineUserRespon
  */
 export type ApiKey = Message<"terrabase.auth.v1.ApiKey"> & {
   /**
+   * The unique ID of the API key
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the API key
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
+   * The scopes the API key has
+   *
    * @generated from field: repeated terrabase.authz.v1.Scope scopes = 3;
    */
   scopes: Scope[];
 
   /**
+   * The ID of the user that owns the API key
+   *
    * @generated from field: string owner_id = 4;
    */
   ownerId: string;
 
   /**
+   * The type of user that owns the API key
+   *
    * @generated from field: terrabase.auth.v1.ApiKeyOwnerType owner_type = 5;
    */
   ownerType: ApiKeyOwnerType;
 
   /**
+   * The time the API key was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 6;
    */
   createdAt?: Timestamp;
 
   /**
+   * The time the API key expires
+   *
    * @generated from field: google.protobuf.Timestamp expires_at = 7;
    */
   expiresAt?: Timestamp;
 
   /**
+   * The time the API key was last used
+   *
    * @generated from field: google.protobuf.Timestamp last_used_at = 8;
    */
   lastUsedAt?: Timestamp;
 
   /**
+   * The time the API key was revoked
+   *
    * @generated from field: google.protobuf.Timestamp revoked_at = 9;
    */
   revokedAt?: Timestamp;
@@ -346,27 +408,35 @@ export const ApiKeySchema: GenMessage<ApiKey> = /*@__PURE__*/
  */
 export type CreateApiKeyRequest = Message<"terrabase.auth.v1.CreateApiKeyRequest"> & {
   /**
+   * The name of the API key
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
+   * The type of the user that owns the API key
+   *
    * @generated from field: terrabase.auth.v1.ApiKeyOwnerType owner_type = 2;
    */
   ownerType: ApiKeyOwnerType;
 
   /**
+   * The ID of the user that owns the API key
+   *
    * @generated from field: string owner_id = 3;
    */
   ownerId: string;
 
   /**
+   * The scopes the API key has
+   *
    * @generated from field: repeated terrabase.authz.v1.Scope scopes = 4;
    */
   scopes: Scope[];
 
   /**
-   * Hours until expiry; if unset, key does not expire.
+   * Hours until the API key expires. If unset, key does not expire.
    *
    * @generated from field: optional int64 ttl_hours = 5;
    */
@@ -385,11 +455,15 @@ export const CreateApiKeyRequestSchema: GenMessage<CreateApiKeyRequest> = /*@__P
  */
 export type CreateApiKeyResponse = Message<"terrabase.auth.v1.CreateApiKeyResponse"> & {
   /**
+   * The access token for the API key
+   *
    * @generated from field: string api_key_token = 1;
    */
   apiKeyToken: string;
 
   /**
+   * The API key that was created
+   *
    * @generated from field: terrabase.auth.v1.ApiKey api_key = 2;
    */
   apiKey?: ApiKey;
@@ -407,11 +481,15 @@ export const CreateApiKeyResponseSchema: GenMessage<CreateApiKeyResponse> = /*@_
  */
 export type ListApiKeysRequest = Message<"terrabase.auth.v1.ListApiKeysRequest"> & {
   /**
+   * The type of user that owns API keys
+   *
    * @generated from field: terrabase.auth.v1.ApiKeyOwnerType owner_type = 1;
    */
   ownerType: ApiKeyOwnerType;
 
   /**
+   * The unique ID of the user that owns an API key
+   *
    * @generated from field: string owner_id = 2;
    */
   ownerId: string;
@@ -429,6 +507,8 @@ export const ListApiKeysRequestSchema: GenMessage<ListApiKeysRequest> = /*@__PUR
  */
 export type ListApiKeysResponse = Message<"terrabase.auth.v1.ListApiKeysResponse"> & {
   /**
+   * A list of API keys
+   *
    * @generated from field: repeated terrabase.auth.v1.ApiKey api_keys = 1;
    */
   apiKeys: ApiKey[];
@@ -446,11 +526,15 @@ export const ListApiKeysResponseSchema: GenMessage<ListApiKeysResponse> = /*@__P
  */
 export type RevokeApiKeyRequest = Message<"terrabase.auth.v1.RevokeApiKeyRequest"> & {
   /**
+   * The ID of the API key to revoke
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The reason for revoking the API key
+   *
    * @generated from field: string reason = 2;
    */
   reason: string;
@@ -481,18 +565,22 @@ export const RevokeApiKeyResponseSchema: GenMessage<RevokeApiKeyResponse> = /*@_
  */
 export type RotateApiKeyRequest = Message<"terrabase.auth.v1.RotateApiKeyRequest"> & {
   /**
+   * The ID of the API key to rotate
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
-   * Optional: inherit existing scopes and ttl when unset.
+   * The scopes the new API key should have. If unset, inherits from the existing API key.
    *
    * @generated from field: repeated terrabase.authz.v1.Scope scopes = 2;
    */
   scopes: Scope[];
 
   /**
+   * Hours until the new API key expires. If unset, inherits from the existing API key.
+   *
    * @generated from field: optional int64 ttl_hours = 3;
    */
   ttlHours?: bigint;
@@ -510,11 +598,15 @@ export const RotateApiKeyRequestSchema: GenMessage<RotateApiKeyRequest> = /*@__P
  */
 export type RotateApiKeyResponse = Message<"terrabase.auth.v1.RotateApiKeyResponse"> & {
   /**
+   * The new access token for the API key
+   *
    * @generated from field: string api_key_token = 1;
    */
   apiKeyToken: string;
 
   /**
+   * The new API key
+   *
    * @generated from field: terrabase.auth.v1.ApiKey api_key = 2;
    */
   apiKey?: ApiKey;
@@ -532,31 +624,43 @@ export const RotateApiKeyResponseSchema: GenMessage<RotateApiKeyResponse> = /*@_
  */
 export type Session = Message<"terrabase.auth.v1.Session"> & {
   /**
+   * The unique ID of the session
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The user agent the session originated from
+   *
    * @generated from field: string user_agent = 2;
    */
   userAgent: string;
 
   /**
+   * The IP address the session originated from
+   *
    * @generated from field: string ip = 3;
    */
   ip: string;
 
   /**
+   * The time the session expires at
+   *
    * @generated from field: google.protobuf.Timestamp expires_at = 4;
    */
   expiresAt?: Timestamp;
 
   /**
+   * The time the session was last used at
+   *
    * @generated from field: google.protobuf.Timestamp last_used_at = 5;
    */
   lastUsedAt?: Timestamp;
 
   /**
+   * The time the session was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 6;
    */
   createdAt?: Timestamp;
@@ -587,6 +691,8 @@ export const ListSessionsRequestSchema: GenMessage<ListSessionsRequest> = /*@__P
  */
 export type ListSessionsResponse = Message<"terrabase.auth.v1.ListSessionsResponse"> & {
   /**
+   * A list of active sessions
+   *
    * @generated from field: repeated terrabase.auth.v1.Session sessions = 1;
    */
   sessions: Session[];
@@ -635,6 +741,8 @@ export const ApiKeyOwnerTypeSchema: GenEnum<ApiKeyOwnerType> = /*@__PURE__*/
  */
 export const AuthService: GenService<{
   /**
+   * Signup for a new user account in a Terrabase instance
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.Signup
    */
   signup: {
@@ -643,6 +751,8 @@ export const AuthService: GenService<{
     output: typeof SignupResponseSchema;
   },
   /**
+   * Login to a Terrabase instance with a user account
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.Login
    */
   login: {
@@ -651,6 +761,8 @@ export const AuthService: GenService<{
     output: typeof LoginResponseSchema;
   },
   /**
+   * Refresh a user's access token
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.Refresh
    */
   refresh: {
@@ -659,6 +771,8 @@ export const AuthService: GenService<{
     output: typeof RefreshResponseSchema;
   },
   /**
+   * Retrieve details about the logged in user
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.WhoAmI
    */
   whoAmI: {
@@ -667,6 +781,8 @@ export const AuthService: GenService<{
     output: typeof WhoAmIResponseSchema;
   },
   /**
+   * Logout of a Terrabase instance
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.Logout
    */
   logout: {
@@ -675,6 +791,8 @@ export const AuthService: GenService<{
     output: typeof LogoutResponseSchema;
   },
   /**
+   * List currently active sessions
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.ListSessions
    */
   listSessions: {
@@ -683,6 +801,8 @@ export const AuthService: GenService<{
     output: typeof ListSessionsResponseSchema;
   },
   /**
+   * Create a machine user (bot or service principal)
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.CreateMachineUser
    */
   createMachineUser: {
@@ -691,6 +811,8 @@ export const AuthService: GenService<{
     output: typeof CreateMachineUserResponseSchema;
   },
   /**
+   * Create an API key. API keys can be owned by human users or machine users
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.CreateApiKey
    */
   createApiKey: {
@@ -699,6 +821,8 @@ export const AuthService: GenService<{
     output: typeof CreateApiKeyResponseSchema;
   },
   /**
+   * List API keys owned by a user
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.ListApiKeys
    */
   listApiKeys: {
@@ -707,6 +831,8 @@ export const AuthService: GenService<{
     output: typeof ListApiKeysResponseSchema;
   },
   /**
+   * Revoke an API key
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.RevokeApiKey
    */
   revokeApiKey: {
@@ -715,6 +841,8 @@ export const AuthService: GenService<{
     output: typeof RevokeApiKeyResponseSchema;
   },
   /**
+   * Rotate an API key
+   *
    * @generated from rpc terrabase.auth.v1.AuthService.RotateApiKey
    */
   rotateApiKey: {

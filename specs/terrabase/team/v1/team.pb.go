@@ -24,15 +24,21 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// A Terrabase team belongs to a single organization, and can have many users. Teams should likely strongly correlate with actual business units
 type Team struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	OrganizationId string                 `protobuf:"bytes,3,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
-	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the team
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The name of the team
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// The ID of the organization the team belongs to
+	OrganizationId string `protobuf:"bytes,3,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
+	// The time the team was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the team was last updated
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Team) Reset() {
@@ -145,9 +151,11 @@ func (x *TeamIds) GetTeamId() []string {
 }
 
 type CreateTeamRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	OrganizationId string                 `protobuf:"bytes,2,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The name of the team
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The ID of the organization the team belongs to
+	OrganizationId string `protobuf:"bytes,2,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -197,8 +205,9 @@ func (x *CreateTeamRequest) GetOrganizationId() string {
 }
 
 type CreateTeamResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Team          *Team                  `protobuf:"bytes,1,opt,name=team,proto3" json:"team,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The team that was created
+	Team          *Team `protobuf:"bytes,1,opt,name=team,proto3" json:"team,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -241,8 +250,9 @@ func (x *CreateTeamResponse) GetTeam() *Team {
 }
 
 type GetTeamRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the team
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -285,8 +295,9 @@ func (x *GetTeamRequest) GetId() string {
 }
 
 type GetTeamResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Team          *Team                  `protobuf:"bytes,1,opt,name=team,proto3" json:"team,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The team
+	Team          *Team `protobuf:"bytes,1,opt,name=team,proto3" json:"team,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -329,9 +340,11 @@ func (x *GetTeamResponse) GetTeam() *Team {
 }
 
 type ListTeamsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageSize      *int32                 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The number of teams on each page of results
+	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// The token to retrieve the next page of results
+	PageToken     *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -381,9 +394,11 @@ func (x *ListTeamsRequest) GetPageToken() string {
 }
 
 type ListTeamsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Teams         []*Team                `protobuf:"bytes,1,rep,name=teams,proto3" json:"teams,omitempty"`
-	NextPageToken *string                `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of teams
+	Teams []*Team `protobuf:"bytes,1,rep,name=teams,proto3" json:"teams,omitempty"`
+	// The token to retrieve the next page of results
+	NextPageToken *string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -433,9 +448,11 @@ func (x *ListTeamsResponse) GetNextPageToken() string {
 }
 
 type UpdateTeamRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the team to update
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The new name of the team
+	Name          *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -485,8 +502,9 @@ func (x *UpdateTeamRequest) GetName() string {
 }
 
 type UpdateTeamResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Team          *Team                  `protobuf:"bytes,1,opt,name=team,proto3" json:"team,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The updated team
+	Team          *Team `protobuf:"bytes,1,opt,name=team,proto3" json:"team,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -529,8 +547,9 @@ func (x *UpdateTeamResponse) GetTeam() *Team {
 }
 
 type DeleteTeamRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the team to delete
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
