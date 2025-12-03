@@ -41,3 +41,11 @@ func (a *Application) ToProto() *applicationv1.Application {
 		UpdatedAt: timestamppb.New(a.UpdatedAt.UTC()),
 	}
 }
+
+func (a *Application) SetUpdatedAt(updatedAt time.Time) {
+	a.UpdatedAt = updatedAt
+}
+
+func (a *Application) ModelName() string {
+	return "application"
+}

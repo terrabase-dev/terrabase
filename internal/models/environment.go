@@ -41,3 +41,11 @@ func (e *Environment) ToProto() *environmentv1.Environment {
 		UpdatedAt:     timestamppb.New(e.UpdatedAt.UTC()),
 	}
 }
+
+func (a *Environment) SetUpdatedAt(updatedAt time.Time) {
+	a.UpdatedAt = updatedAt
+}
+
+func (a *Environment) ModelName() string {
+	return "environment"
+}

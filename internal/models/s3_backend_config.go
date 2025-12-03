@@ -88,3 +88,11 @@ func (s *S3BackendConfig) ToProto() (*s3backendconfigv1.S3BackendConfig, error) 
 
 	return res, nil
 }
+
+func (a *S3BackendConfig) SetUpdatedAt(updatedAt time.Time) {
+	a.UpdatedAt = updatedAt
+}
+
+func (a *S3BackendConfig) ModelName() string {
+	return "s3_backend_config"
+}
