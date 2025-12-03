@@ -30,14 +30,14 @@ func OrganizationFromProto(org *organizationv1.Organization) *Organization {
 	}
 }
 
-func (o *Organization) ToProto() *organizationv1.Organization {
+func (o *Organization) ToProto() (*organizationv1.Organization, error) {
 	return &organizationv1.Organization{
 		Id:           o.ID,
 		Name:         o.Name,
 		Subscription: organizationv1.Subscription(o.Subscription),
 		CreatedAt:    timestamppb.New(o.CreatedAt.UTC()),
 		UpdatedAt:    timestamppb.New(o.UpdatedAt.UTC()),
-	}
+	}, nil
 }
 
 func (o *Organization) SetUpdatedAt(updatedAt time.Time) {

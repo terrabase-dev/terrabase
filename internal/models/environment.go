@@ -32,14 +32,14 @@ func EnvironmentFromProto(environment *environmentv1.Environment) *Environment {
 	}
 }
 
-func (e *Environment) ToProto() *environmentv1.Environment {
+func (e *Environment) ToProto() (*environmentv1.Environment, error) {
 	return &environmentv1.Environment{
 		Id:            e.ID,
 		Name:          e.Name,
 		ApplicationId: e.ApplicationID,
 		CreatedAt:     timestamppb.New(e.CreatedAt.UTC()),
 		UpdatedAt:     timestamppb.New(e.UpdatedAt.UTC()),
-	}
+	}, nil
 }
 
 func (a *Environment) SetUpdatedAt(updatedAt time.Time) {

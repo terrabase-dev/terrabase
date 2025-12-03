@@ -108,13 +108,18 @@ func (s *AuthService) Login(ctx context.Context, req *connect.Request[authv1.Log
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid credentials"))
 	}
 
-	accessToken, refreshToken, err := s.issueTokens(ctx, user.ToProto(), req)
+	userProto, err := user.ToProto()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeUnknown, err)
+	}
+
+	accessToken, refreshToken, err := s.issueTokens(ctx, userProto, req)
 	if err != nil {
 		return nil, err
 	}
 
 	return connect.NewResponse(&authv1.LoginResponse{
-		User:         user.ToProto(),
+		User:         userProto,
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}), nil
@@ -138,7 +143,12 @@ func (s *AuthService) Refresh(ctx context.Context, req *connect.Request[authv1.R
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid refresh token"))
 	}
 
-	accessToken, newRefreshToken, err := s.issueTokens(ctx, user.ToProto(), req)
+	userProto, err := user.ToProto()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeUnknown, err)
+	}
+
+	accessToken, newRefreshToken, err := s.issueTokens(ctx, userProto, req)
 	if err != nil {
 		return nil, err
 	}
@@ -163,8 +173,13 @@ func (s *AuthService) WhoAmI(ctx context.Context, _ *connect.Request[authv1.WhoA
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
 	}
 
+	userProto, err := user.ToProto()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeUnknown, err)
+	}
+
 	return connect.NewResponse(&authv1.WhoAmIResponse{
-		User:   user.ToProto(),
+		User:   userProto,
 		Scopes: authCtx.Scopes,
 	}), nil
 }

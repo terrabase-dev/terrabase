@@ -42,7 +42,7 @@ func UserFromProto(user *userv1.User) *User {
 	}
 }
 
-func (u *User) ToProto() *userv1.User {
+func (u *User) ToProto() (*userv1.User, error) {
 	res := &userv1.User{
 		Id:          u.ID,
 		Name:        u.Name,
@@ -57,5 +57,5 @@ func (u *User) ToProto() *userv1.User {
 		res.OwnerUserId = &u.OwnerUserID
 	}
 
-	return res
+	return res, nil
 }

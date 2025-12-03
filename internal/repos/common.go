@@ -38,7 +38,7 @@ func create[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db
 		return zero, err
 	}
 
-	return model.ToProto(), nil
+	return model.ToProto()
 }
 
 func get[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, query *bun.SelectQuery, model T, id string) (P, error) {
@@ -53,7 +53,7 @@ func get[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, query
 		return zero, err
 	}
 
-	return model.ToProto(), nil
+	return model.ToProto()
 }
 
 func paginate[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, query *bun.SelectQuery, queryResults *[]T, pageSize int32, pageToken string) ([]P, string, error) {
@@ -79,7 +79,12 @@ func paginate[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, 
 	results := make([]P, 0, len(*queryResults))
 
 	for i := range *queryResults {
-		results = append(results, (*queryResults)[i].ToProto())
+		proto, err := (*queryResults)[i].ToProto()
+		if err != nil {
+			return nil, "", err
+		}
+
+		results = append(results, proto)
 	}
 
 	nextToken := ""
@@ -107,7 +112,7 @@ func update[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db
 		return zero, err
 	}
 
-	return model.ToProto(), nil
+	return model.ToProto()
 }
 
 func delete[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db *bun.DB, model T, id string) error {

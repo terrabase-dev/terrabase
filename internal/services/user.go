@@ -33,7 +33,12 @@ func (s *UserService) GetUser(ctx context.Context, req *connect.Request[userv1.G
 		return nil, mapError(err)
 	}
 
-	return connect.NewResponse(&userv1.GetUserResponse{User: user.ToProto()}), nil
+	userProto, err := user.ToProto()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeUnknown, err)
+	}
+
+	return connect.NewResponse(&userv1.GetUserResponse{User: userProto}), nil
 }
 
 func (s *UserService) ListUsers(ctx context.Context, req *connect.Request[userv1.ListUsersRequest]) (*connect.Response[userv1.ListUsersResponse], error) {

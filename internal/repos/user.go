@@ -43,7 +43,7 @@ func (r *UserRepo) Create(ctx context.Context, user *userv1.User) (*userv1.User,
 		return nil, err
 	}
 
-	return model.ToProto(), nil
+	return model.ToProto()
 }
 
 func (r *UserRepo) Get(ctx context.Context, id string) (*models.User, error) {
@@ -149,7 +149,7 @@ func (r *UserRepo) Update(ctx context.Context, id string, name *string, email *s
 		return nil, err
 	}
 
-	return user.ToProto(), nil
+	return user.ToProto()
 }
 
 func (r *UserRepo) Delete(ctx context.Context, id string) error {

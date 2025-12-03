@@ -32,14 +32,14 @@ func ApplicationFromProto(application *applicationv1.Application) *Application {
 	}
 }
 
-func (a *Application) ToProto() *applicationv1.Application {
+func (a *Application) ToProto() (*applicationv1.Application, error) {
 	return &applicationv1.Application{
 		Id:        a.ID,
 		Name:      a.Name,
 		TeamId:    a.TeamID,
 		CreatedAt: timestamppb.New(a.CreatedAt.UTC()),
 		UpdatedAt: timestamppb.New(a.UpdatedAt.UTC()),
-	}
+	}, nil
 }
 
 func (a *Application) SetUpdatedAt(updatedAt time.Time) {
