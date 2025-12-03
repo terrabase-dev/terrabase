@@ -71,7 +71,7 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `true` | The unique ID of the application to update |
-| `name` | string |  | `true` | The new name of the application |
+| `name` | string |  | `false` | The new name of the application |
 | `team_id` | string |  | `false` | The new ID of the team that owns the application |
 
 ### UpdateApplicationResponse (application.v1)

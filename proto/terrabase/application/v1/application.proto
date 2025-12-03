@@ -72,7 +72,7 @@ message UpdateApplicationRequest {
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 
   // The new name of the application
-  string name = 2 [(google.api.field_behavior) = REQUIRED];
+  optional string name = 2;
 
   // The new ID of the team that owns the application
   optional string team_id = 3;

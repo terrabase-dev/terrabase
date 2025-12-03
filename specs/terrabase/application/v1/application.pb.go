@@ -416,7 +416,7 @@ type UpdateApplicationRequest struct {
 	// The unique ID of the application to update
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The new name of the application
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Name *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	// The new ID of the team that owns the application
 	TeamId        *string `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -461,8 +461,8 @@ func (x *UpdateApplicationRequest) GetId() string {
 }
 
 func (x *UpdateApplicationRequest) GetName() string {
-	if x != nil {
-		return x.Name
+	if x != nil && x.Name != nil {
+		return *x.Name
 	}
 	return ""
 }
@@ -813,11 +813,12 @@ const file_terrabase_application_v1_application_proto_rawDesc = "" +
 	"\x18ListApplicationsResponse\x12I\n" +
 	"\fapplications\x18\x01 \x03(\v2%.terrabase.application.v1.ApplicationR\fapplications\x12+\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01B\x12\n" +
-	"\x10_next_page_token\"r\n" +
+	"\x10_next_page_token\"{\n" +
 	"\x18UpdateApplicationRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
-	"\x04name\x18\x02 \x01(\tB\x03\xe0A\x02R\x04name\x12\x1c\n" +
-	"\ateam_id\x18\x03 \x01(\tH\x00R\x06teamId\x88\x01\x01B\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1c\n" +
+	"\ateam_id\x18\x03 \x01(\tH\x01R\x06teamId\x88\x01\x01B\a\n" +
+	"\x05_nameB\n" +
 	"\n" +
 	"\b_team_id\"d\n" +
 	"\x19UpdateApplicationResponse\x12G\n" +
