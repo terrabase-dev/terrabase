@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/terrabase-dev/terrabase/internal/models"
 	"github.com/uptrace/bun"
 )
@@ -93,10 +92,6 @@ func (r *SessionRepo) ListByUser(ctx context.Context, userID string) ([]models.S
 		Scan(ctx)
 
 	return sessions, err
-}
-
-func uuidString() string {
-	return uuid.NewString()
 }
 
 func sessionIDOrNew(id string) string {

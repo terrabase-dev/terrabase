@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/terrabase-dev/terrabase/internal/models"
 	userv1 "github.com/terrabase-dev/terrabase/specs/terrabase/user/v1"
 	"github.com/uptrace/bun"
@@ -23,7 +22,7 @@ func (r *UserRepo) Create(ctx context.Context, user *userv1.User) (*userv1.User,
 	model := models.UserFromProto(user)
 
 	if model.ID == "" {
-		model.ID = uuid.NewString()
+		model.ID = uuidString()
 	}
 
 	if model.UserType == 0 {

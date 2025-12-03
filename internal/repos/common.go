@@ -12,6 +12,10 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+func uuidString() string {
+	return uuidString()
+}
+
 func rowCount(res sql.Result) int64 {
 	if res == nil {
 		return 0

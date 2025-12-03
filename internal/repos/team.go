@@ -3,7 +3,6 @@ package repos
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/terrabase-dev/terrabase/internal/models"
 	teamv1 "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1"
 	"github.com/uptrace/bun"
@@ -23,7 +22,7 @@ func (r *TeamRepo) Create(ctx context.Context, team *teamv1.Team) (*teamv1.Team,
 	model := models.TeamFromProto(team)
 
 	if model.ID == "" {
-		model.ID = uuid.NewString()
+		model.ID = uuidString()
 	}
 
 	return create(ctx, r.db, model)

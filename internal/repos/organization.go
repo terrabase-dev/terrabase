@@ -3,7 +3,6 @@ package repos
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/terrabase-dev/terrabase/internal/models"
 	organizationv1 "github.com/terrabase-dev/terrabase/specs/terrabase/organization/v1"
 	"github.com/uptrace/bun"
@@ -23,7 +22,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, org *organizationv1.Organ
 	model := models.OrganizationFromProto(org)
 
 	if model.ID == "" {
-		model.ID = uuid.NewString()
+		model.ID = uuidString()
 	}
 
 	return create(ctx, r.db, model)
