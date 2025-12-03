@@ -8,62 +8,93 @@ import "terrabase/workspace/v1/workspace.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/environment/v1;environmentv1";
 
+// A Terrabase environment is a business environment that an application is deployed in
 message Environment {
+  // The unique ID of the environment
   string id = 1;
+
+  // The name of the environment
   string name = 2;
+
+  // The ID of the application this environment belongs to
   string application_id = 3;
+
+  // The time the environment was created
   google.protobuf.Timestamp created_at = 4;
+
+  // The time the environment was last updated at
   google.protobuf.Timestamp updated_at = 5;
 }
 
 message CreateEnvironmentRequest {
+  // The name of the environment
   string name = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the application the environment belongs to
   string application_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The configuration for the workspace that belongs to this environment
   terrabase.workspace.v1.CreateWorkspaceRequest new_workspace = 3;
 }
 
 message CreateEnvironmentResponse {
+  // The environment that was created
   Environment environment = 1;
 }
 
 message GetEnvironmentRequest {
+  // The unique ID of the environment
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GetEnvironmentResponse {
+  // The environment
   Environment environment = 1;
 }
 
 message ListEnvironmentsRequest {
+  // The ID of the application to list environments for
   string application_id = 1 [(google.api.field_behavior) = REQUIRED];
-  optional int32 page_size = 2;
-  optional string page_token = 3;
 }
 
 message ListEnvironmentsResponse {
+  // A list of environments
   repeated Environment environments = 1;
-  optional string next_page_token = 2;
 }
 
 message UpdateEnvironmentRequest {
+  // The unique ID of the environment to update
   string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new name of the environment
   optional string name = 2;
 }
 
 message UpdateEnvironmentResponse {
+  // The updated environment
   Environment environment = 1;
 }
 
 message DeleteEnvironmentRequest {
+  // The unique ID of the environment to delete
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message DeleteEnvironmentResponse {}
 
 service EnvironmentService {
+  // Create a new environment
   rpc CreateEnvironment(CreateEnvironmentRequest) returns (CreateEnvironmentResponse);
+
+  // Retrieve details about a specific environment
   rpc GetEnvironment(GetEnvironmentRequest) returns (GetEnvironmentResponse);
+
+  // List environments that belong to an application
   rpc ListEnvironments(ListEnvironmentsRequest) returns (ListEnvironmentsResponse);
+
+  // Change details about an environment
   rpc UpdateEnvironment(UpdateEnvironmentRequest) returns (UpdateEnvironmentResponse);
+
+  // Delete an environment
   rpc DeleteEnvironment(DeleteEnvironmentRequest) returns (DeleteEnvironmentResponse);
 }

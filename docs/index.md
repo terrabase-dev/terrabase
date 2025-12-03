@@ -330,15 +330,6 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | `SCOPE_WORKSPACE_WRITE` | `10` |  |
 | `SCOPE_WORKSPACE_READ` | `11` |  |
 
-## terrabase.backend_type.v1
-
-### BackendType (backend_type.v1)
-
-| Name | Number | Description |
-| --- | --- | --- |
-| `BACKEND_TYPE_UNSPECIFIED` | `0` |  |
-| `BACKEND_TYPE_S3` | `1` |  |
-
 ## terrabase.drift_report.v1
 
 ### DriftReportService (drift_report.v1)
@@ -404,81 +395,80 @@ A Terrabase application can be deployed in multiple environments, each with thei
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateEnvironment` | [CreateEnvironmentRequest](#createenvironmentrequest-environmentv1) | [CreateEnvironmentResponse](#createenvironmentresponse-environmentv1) | `false` |  |  |
-| `GetEnvironment` | [GetEnvironmentRequest](#getenvironmentrequest-environmentv1) | [GetEnvironmentResponse](#getenvironmentresponse-environmentv1) | `false` |  |  |
-| `ListEnvironments` | [ListEnvironmentsRequest](#listenvironmentsrequest-environmentv1) | [ListEnvironmentsResponse](#listenvironmentsresponse-environmentv1) | `false` |  |  |
-| `UpdateEnvironment` | [UpdateEnvironmentRequest](#updateenvironmentrequest-environmentv1) | [UpdateEnvironmentResponse](#updateenvironmentresponse-environmentv1) | `false` |  |  |
-| `DeleteEnvironment` | [DeleteEnvironmentRequest](#deleteenvironmentrequest-environmentv1) | [DeleteEnvironmentResponse](#deleteenvironmentresponse-environmentv1) | `false` |  |  |
+| `CreateEnvironment` | [CreateEnvironmentRequest](#createenvironmentrequest-environmentv1) | [CreateEnvironmentResponse](#createenvironmentresponse-environmentv1) | `false` |  | Create a new environment |
+| `GetEnvironment` | [GetEnvironmentRequest](#getenvironmentrequest-environmentv1) | [GetEnvironmentResponse](#getenvironmentresponse-environmentv1) | `false` |  | Retrieve details about a specific environment |
+| `ListEnvironments` | [ListEnvironmentsRequest](#listenvironmentsrequest-environmentv1) | [ListEnvironmentsResponse](#listenvironmentsresponse-environmentv1) | `false` |  | List environments that belong to an application |
+| `UpdateEnvironment` | [UpdateEnvironmentRequest](#updateenvironmentrequest-environmentv1) | [UpdateEnvironmentResponse](#updateenvironmentresponse-environmentv1) | `false` |  | Change details about an environment |
+| `DeleteEnvironment` | [DeleteEnvironmentRequest](#deleteenvironmentrequest-environmentv1) | [DeleteEnvironmentResponse](#deleteenvironmentresponse-environmentv1) | `false` |  | Delete an environment |
 
 ### Environment (environment.v1)
 
+A Terrabase environment is a business environment that an application is deployed in
+
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `false` |  |
-| `name` | string |  | `false` |  |
-| `application_id` | string |  | `false` |  |
-| `created_at` | `Timestamp` |  | `false` |  |
-| `updated_at` | `Timestamp` |  | `false` |  |
+| `id` | string |  | `false` | The unique ID of the environment |
+| `name` | string |  | `false` | The name of the environment |
+| `application_id` | string |  | `false` | The ID of the application this environment belongs to |
+| `created_at` | `Timestamp` |  | `false` | The time the environment was created |
+| `updated_at` | `Timestamp` |  | `false` | The time the environment was last updated at |
 
 ### CreateEnvironmentRequest (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `name` | string |  | `true` |  |
-| `application_id` | string |  | `true` |  |
-| `new_workspace` | [CreateWorkspaceRequest](#createworkspacerequest-workspacev1) |  | `false` |  |
+| `name` | string |  | `true` | The name of the environment |
+| `application_id` | string |  | `true` | The ID of the application the environment belongs to |
+| `new_workspace` | [CreateWorkspaceRequest](#createworkspacerequest-workspacev1) |  | `false` | The configuration for the workspace that belongs to this environment |
 
 ### CreateEnvironmentResponse (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `environment` | [Environment](#environment-environmentv1) |  | `false` |  |
+| `environment` | [Environment](#environment-environmentv1) |  | `false` | The environment that was created |
 
 ### GetEnvironmentRequest (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
+| `id` | string |  | `true` | The unique ID of the environment |
 
 ### GetEnvironmentResponse (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `environment` | [Environment](#environment-environmentv1) |  | `false` |  |
+| `environment` | [Environment](#environment-environmentv1) |  | `false` | The environment |
 
 ### ListEnvironmentsRequest (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application_id` | string |  | `true` |  |
-| `page_size` | int32 |  | `false` |  |
-| `page_token` | string |  | `false` |  |
+| `application_id` | string |  | `true` | The ID of the application to list environments for |
 
 ### ListEnvironmentsResponse (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `environments` | [Environment](#environment-environmentv1) | repeated | `false` |  |
-| `next_page_token` | string |  | `false` |  |
+| `environments` | [Environment](#environment-environmentv1) | repeated | `false` | A list of environments |
 
 ### UpdateEnvironmentRequest (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
-| `name` | string |  | `false` |  |
+| `id` | string |  | `true` | The unique ID of the environment to update |
+| `name` | string |  | `false` | The new name of the environment |
 
 ### UpdateEnvironmentResponse (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `environment` | [Environment](#environment-environmentv1) |  | `false` |  |
+| `environment` | [Environment](#environment-environmentv1) |  | `false` | The updated environment |
 
 ### DeleteEnvironmentRequest (environment.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
+| `id` | string |  | `true` | The unique ID of the environment to delete |
 
 ### DeleteEnvironmentResponse (environment.v1)
 
@@ -643,74 +633,84 @@ A Terrabase organization is the top level grouping of resources in a Terrabase i
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateS3BackendConfig` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) | [CreateS3BackendConfigResponse](#creates3backendconfigresponse-s3_backend_configv1) | `false` |  |  |
-| `GetS3BackendConfig` | [GetS3BackendConfigRequest](#gets3backendconfigrequest-s3_backend_configv1) | [GetS3BackendConfigResponse](#gets3backendconfigresponse-s3_backend_configv1) | `false` |  |  |
-| `UpdateS3BackendConfig` | [UpdateS3BackendConfigRequest](#updates3backendconfigrequest-s3_backend_configv1) | [UpdateS3BackendConfigResponse](#updates3backendconfigresponse-s3_backend_configv1) | `false` |  |  |
-| `DeleteS3BackendConfig` | [DeleteS3BackendConfigRequest](#deletes3backendconfigrequest-s3_backend_configv1) | [DeleteS3BackendConfigResponse](#deletes3backendconfigresponse-s3_backend_configv1) | `false` |  |  |
+| `CreateS3BackendConfig` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) | [CreateS3BackendConfigResponse](#creates3backendconfigresponse-s3_backend_configv1) | `false` |  | Create a new S3 backend configuration |
+| `GetS3BackendConfig` | [GetS3BackendConfigRequest](#gets3backendconfigrequest-s3_backend_configv1) | [GetS3BackendConfigResponse](#gets3backendconfigresponse-s3_backend_configv1) | `false` |  | Retrieve details about a single S3 backend configuration |
+| `UpdateS3BackendConfig` | [UpdateS3BackendConfigRequest](#updates3backendconfigrequest-s3_backend_configv1) | [UpdateS3BackendConfigResponse](#updates3backendconfigresponse-s3_backend_configv1) | `false` |  | Change details about an S3 backend configuration |
+| `DeleteS3BackendConfig` | [DeleteS3BackendConfigRequest](#deletes3backendconfigrequest-s3_backend_configv1) | [DeleteS3BackendConfigResponse](#deletes3backendconfigresponse-s3_backend_configv1) | `false` |  | Delete an S3 backend configuration |
 
 ### S3BackendConfig (s3_backend_config.v1)
 
+Configuration for an S3 backend for a Terraform state file. See [Terraform documentation](https://developer.hashicorp.com/terraform/language/backend/s3) for more details.
+
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `false` |  |
-| `bucket` | string |  | `false` |  |
-| `key` | string |  | `false` |  |
-| `region` | string |  | `false` |  |
-| `dynamodb_lock` | string |  | `false` |  |
-| `encrypt` | bool |  | `false` |  |
-| `created_at` | `Timestamp` |  | `false` |  |
-| `updated_at` | `Timestamp` |  | `false` |  |
+| `id` | string |  | `false` | The unique ID of the S3 backend configuration |
+| `workspace_id` | string |  | `false` | The ID of the workspace the S3 backend configuration belongs to |
+| `bucket` | string |  | `false` | The name of the S3 Bucket where the state file is stored |
+| `key` | string |  | `false` | The path to the state file inside the S3 Bucket |
+| `region` | string |  | `false` | The AWS region of the S3 Bucket and DynamoDB Table (if used) |
+| `dynamodb_lock` | bool |  | `false` | Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`. |
+| `s3_lock` | bool |  | `false` | Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`. |
+| `encrypt` | bool |  | `false` | Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files |
+| `created_at` | `Timestamp` |  | `false` | The time the S3 backend configuration was created |
+| `updated_at` | `Timestamp` |  | `false` | The time the S3 backend configuration was last updated at |
+| `dynamodb_table` | string |  | `false` | The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise. |
 
 ### CreateS3BackendConfigRequest (s3_backend_config.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `bucket` | string |  | `true` |  |
-| `key` | string |  | `true` |  |
-| `region` | string |  | `true` |  |
-| `dynamodb_lock` | string |  | `false` |  |
-| `encrypt` | bool |  | `true` |  |
+| `bucket` | string |  | `true` | The name of the S3 Bucket where the state file is stored |
+| `key` | string |  | `true` | The path to the state file inside the S3 Bucket |
+| `region` | string |  | `true` | The AWS region of the S3 Bucket and DynamoDB Table (if used) |
+| `dynamodb_lock` | bool |  | `false` | Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`. |
+| `s3_lock` | bool |  | `false` | Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`. |
+| `encrypt` | bool |  | `true` | Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files |
+| `dynamodb_table` | string |  | `false` | The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise. |
 
 ### CreateS3BackendConfigResponse (s3_backend_config.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `s3_backend_config` | [S3BackendConfig](#s3backendconfig-s3_backend_configv1) |  | `false` |  |
+| `s3_backend_config` | [S3BackendConfig](#s3backendconfig-s3_backend_configv1) |  | `false` | The S3 backend configuration that was created |
 
 ### GetS3BackendConfigRequest (s3_backend_config.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `false` |  |
+| `id` | string |  | `false` | The unique ID of the S3 backend configuration |
 
 ### GetS3BackendConfigResponse (s3_backend_config.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `s3_backend_config` | [S3BackendConfig](#s3backendconfig-s3_backend_configv1) |  | `false` |  |
+| `s3_backend_config` | [S3BackendConfig](#s3backendconfig-s3_backend_configv1) |  | `false` | The S3 backend configuration |
 
 ### UpdateS3BackendConfigRequest (s3_backend_config.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
-| `bucket` | string |  | `false` |  |
-| `key` | string |  | `false` |  |
-| `region` | string |  | `false` |  |
-| `dynamodb_lock` | string |  | `false` |  |
-| `encrypt` | bool |  | `false` |  |
+| `id` | string |  | `true` | The unique ID of the S3 backend configuration to update |
+| `workspace_id` | string |  | `false` | The ID of the new workspace the S3 backend configuration belongs to |
+| `bucket` | string |  | `false` | The new name of the S3 Bucket where the state file is stored |
+| `key` | string |  | `false` | The new path to the state file inside the S3 Bucket |
+| `region` | string |  | `false` | The new AWS region of the S3 Bucket and DynamoDB Table (if used) |
+| `dynamodb_lock` | bool |  | `false` | Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`. |
+| `s3_lock` | bool |  | `false` | Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`. |
+| `encrypt` | bool |  | `false` | Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files |
+| `dynamodb_table` | string |  | `false` | The name of the new DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise. |
 
 ### UpdateS3BackendConfigResponse (s3_backend_config.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `s3_backend_config` | [S3BackendConfig](#s3backendconfig-s3_backend_configv1) |  | `false` |  |
+| `s3_backend_config` | [S3BackendConfig](#s3backendconfig-s3_backend_configv1) |  | `false` | The updated S3 backend configuration |
 
 ### DeleteS3BackendConfigRequest (s3_backend_config.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `false` |  |
+| `id` | string |  | `false` | The unique ID of the S3 backend configuration to delete |
 
 ### DeleteS3BackendConfigResponse (s3_backend_config.v1)
 
@@ -1106,93 +1106,94 @@ UserSummary is context aware
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateWorkspace` | [CreateWorkspaceRequest](#createworkspacerequest-workspacev1) | [CreateWorkspaceResponse](#createworkspaceresponse-workspacev1) | `false` |  |  |
-| `GetWorkspace` | [GetWorkspaceRequest](#getworkspacerequest-workspacev1) | [GetWorkspaceResponse](#getworkspaceresponse-workspacev1) | `false` |  |  |
-| `ListWorkspaces` | [ListWorkspacesRequest](#listworkspacesrequest-workspacev1) | [ListWorkspacesResponse](#listworkspacesresponse-workspacev1) | `false` |  |  |
-| `UpdateWorkspace` | [UpdateWorkspaceRequest](#updateworkspacerequest-workspacev1) | [UpdateWorkspaceResponse](#updateworkspaceresponse-workspacev1) | `false` |  |  |
-| `DeleteWorkspace` | [DeleteWorkspaceRequest](#deleteworkspacerequest-workspacev1) | [DeleteWorkspaceResponse](#deleteworkspaceresponse-workspacev1) | `false` |  |  |
-| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-workspacev1) | [GrantTeamAccessResponse](#grantteamaccessresponse-workspacev1) | `false` |  |  |
-| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-workspacev1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-workspacev1) | `false` |  |  |
+| `CreateWorkspace` | [CreateWorkspaceRequest](#createworkspacerequest-workspacev1) | [CreateWorkspaceResponse](#createworkspaceresponse-workspacev1) | `false` |  | Create a new workspace |
+| `GetWorkspace` | [GetWorkspaceRequest](#getworkspacerequest-workspacev1) | [GetWorkspaceResponse](#getworkspaceresponse-workspacev1) | `false` |  | Retrieve details about a single workspace |
+| `ListWorkspaces` | [ListWorkspacesRequest](#listworkspacesrequest-workspacev1) | [ListWorkspacesResponse](#listworkspacesresponse-workspacev1) | `false` |  | List workspaces owned by a specific team, or belong to a specific application |
+| `UpdateWorkspace` | [UpdateWorkspaceRequest](#updateworkspacerequest-workspacev1) | [UpdateWorkspaceResponse](#updateworkspaceresponse-workspacev1) | `false` |  | Change details about a workspace |
+| `DeleteWorkspace` | [DeleteWorkspaceRequest](#deleteworkspacerequest-workspacev1) | [DeleteWorkspaceResponse](#deleteworkspaceresponse-workspacev1) | `false` |  | Delete a workspace |
+| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-workspacev1) | [GrantTeamAccessResponse](#grantteamaccessresponse-workspacev1) | `false` |  | Grant access to a workspace to a single team or multiple teams |
+| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-workspacev1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-workspacev1) | `false` |  | Revoke access to a workspace from a single team or multiple teams |
 
 ### Workspace (workspace.v1)
 
+A Terrabase workspace represents a single Terraform state file
+
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `false` |  |
-| `name` | string |  | `false` |  |
-| `backend_type` | [BackendType](#backendtype-backend_typev1) |  | `false` |  |
-| `environment_id` | string |  | `false` |  |
-| `s3_backend_config_id` | string |  | `false` |  |
-| `created_at` | `Timestamp` |  | `false` |  |
-| `updated_at` | `Timestamp` |  | `false` |  |
+| `id` | string |  | `false` | The unique ID of the workspace |
+| `name` | string |  | `false` | The name of the workspace |
+| `backend_type` | [BackendType](#backendtype-workspacev1) |  | `false` | The type of the backend configuration of the workspace |
+| `environment_id` | string |  | `false` | The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team. |
+| `team_id` | string |  | `false` | The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment. |
+| `created_at` | `Timestamp` |  | `false` | The time the workspace was created |
+| `updated_at` | `Timestamp` |  | `false` | The time the workspace was last updated at |
 
 ### CreateWorkspaceRequest (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `name` | string |  | `true` |  |
-| `backend_type` | [BackendType](#backendtype-backend_typev1) |  | `true` |  |
-| `environment_id` | string |  | `false` |  |
-| `team_id` | string |  | `false` |  |
-| `s3_backend_config` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) |  | `false` |  |
+| `name` | string |  | `true` | The name of the workspace |
+| `backend_type` | [BackendType](#backendtype-workspacev1) |  | `true` | The type of the backend configuration of the workspace |
+| `environment_id` | string |  | `false` | The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team. |
+| `team_id` | string |  | `false` | The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment. |
+| `s3_backend_config` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) |  | `false` | The S3 backend configuration, if the backend type is S3 |
 
 ### CreateWorkspaceResponse (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `workspace` | [Workspace](#workspace-workspacev1) |  | `false` |  |
+| `workspace` | [Workspace](#workspace-workspacev1) |  | `false` | The workspace that was created |
 
 ### GetWorkspaceRequest (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
+| `id` | string |  | `true` | The unique ID of the workspace |
 
 ### GetWorkspaceResponse (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `workspace` | [Workspace](#workspace-workspacev1) |  | `false` |  |
+| `workspace` | [Workspace](#workspace-workspacev1) |  | `false` | The workspace |
 
 ### ListWorkspacesRequest (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `page_size` | int32 |  | `false` |  |
-| `page_token` | string |  | `false` |  |
-| `team_id` | string |  | `false` |  |
-| `environment_id` | string |  | `false` |  |
+| `page_size` | int32 |  | `false` | The number of workspaces on each page of results |
+| `page_token` | string |  | `false` | The token to retrieve the next page of results |
+| `team_id` | string |  | `false` | The ID of the team to list all workspaces who are owned by the team |
+| `application_id` | string |  | `false` | The ID of the application to list all workspaces who belong to the application |
 
 ### ListWorkspacesResponse (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `workspaces` | [Workspace](#workspace-workspacev1) | repeated | `false` |  |
-| `next_page_token` | string |  | `false` |  |
+| `workspaces` | [Workspace](#workspace-workspacev1) | repeated | `false` | A list of workspaces |
+| `next_page_token` | string |  | `false` | The token to retrieve the next page of results |
 
 ### UpdateWorkspaceRequest (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
-| `name` | string |  | `false` |  |
-| `backend_type` | [BackendType](#backendtype-backend_typev1) |  | `false` |  |
-| `environment_id` | string |  | `false` |  |
-| `team_id` | string |  | `false` |  |
-| `s3_backend_config_id` | string |  | `false` |  |
-| `s3_backend_config` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) |  | `false` |  |
+| `id` | string |  | `true` | The unique ID of the workspace to update |
+| `name` | string |  | `false` | The new name of the workspace |
+| `backend_type` | [BackendType](#backendtype-workspacev1) |  | `false` | The new backend type of the workspace |
+| `environment_id` | string |  | `false` | The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team. |
+| `team_id` | string |  | `false` | The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment. |
+| `s3_backend_config` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) |  | `false` | The new S3 backend configuration, if the backend type is S3 and a new configuration needs to be created |
 
 ### UpdateWorkspaceResponse (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `workspace` | [Workspace](#workspace-workspacev1) |  | `false` |  |
+| `workspace` | [Workspace](#workspace-workspacev1) |  | `false` | The updated workspace |
 
 ### DeleteWorkspaceRequest (workspace.v1)
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` |  |
+| `id` | string |  | `true` | The unique ID of the workspace to delete |
 
 ### DeleteWorkspaceResponse (workspace.v1)
 
@@ -1202,8 +1203,8 @@ UserSummary is context aware
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `workspace_id` | string |  | `true` |  |
-| `team_ids` | [TeamIds](#teamids-teamv1) |  | `true` |  |
+| `workspace_id` | string |  | `true` | The unique ID of the workspace |
+| `team_ids` | [TeamIds](#teamids-teamv1) |  | `true` | A list of team IDs who should be granted access to the workspace |
 
 ### GrantTeamAccessResponse (workspace.v1)
 
@@ -1213,9 +1214,16 @@ UserSummary is context aware
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `workspace_id` | string |  | `true` |  |
-| `team_ids` | [TeamIds](#teamids-teamv1) |  | `true` |  |
+| `workspace_id` | string |  | `true` | The unique ID of the workspace |
+| `team_ids` | [TeamIds](#teamids-teamv1) |  | `true` | A list of team IDs whose access to the workspace should be revoked |
 
 ### RevokeTeamAccessResponse (workspace.v1)
 
 - (no fields)
+
+### BackendType (workspace.v1)
+
+| Name | Number | Description |
+| --- | --- | --- |
+| `BACKEND_TYPE_UNSPECIFIED` | `0` | Default - should not be used |
+| `BACKEND_TYPE_S3` | `1` | S3 backend |

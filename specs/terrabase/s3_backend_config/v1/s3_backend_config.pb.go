@@ -23,16 +23,31 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Configuration for an S3 backend for a Terraform state file. See [Terraform documentation](https://developer.hashicorp.com/terraform/language/backend/s3) for more details.
 type S3BackendConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Bucket        string                 `protobuf:"bytes,2,opt,name=bucket,proto3" json:"bucket,omitempty"`
-	Key           string                 `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
-	Region        string                 `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
-	DynamodbLock  string                 `protobuf:"bytes,5,opt,name=dynamodb_lock,json=dynamodbLock,proto3" json:"dynamodb_lock,omitempty"`
-	Encrypt       bool                   `protobuf:"varint,6,opt,name=encrypt,proto3" json:"encrypt,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the S3 backend configuration
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The ID of the workspace the S3 backend configuration belongs to
+	WorkspaceId string `protobuf:"bytes,2,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
+	// The name of the S3 Bucket where the state file is stored
+	Bucket string `protobuf:"bytes,3,opt,name=bucket,proto3" json:"bucket,omitempty"`
+	// The path to the state file inside the S3 Bucket
+	Key string `protobuf:"bytes,4,opt,name=key,proto3" json:"key,omitempty"`
+	// The AWS region of the S3 Bucket and DynamoDB Table (if used)
+	Region string `protobuf:"bytes,5,opt,name=region,proto3" json:"region,omitempty"`
+	// Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+	DynamodbLock bool `protobuf:"varint,6,opt,name=dynamodb_lock,json=dynamodbLock,proto3" json:"dynamodb_lock,omitempty"`
+	// Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+	S3Lock bool `protobuf:"varint,7,opt,name=s3_lock,json=s3Lock,proto3" json:"s3_lock,omitempty"`
+	// Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+	Encrypt bool `protobuf:"varint,8,opt,name=encrypt,proto3" json:"encrypt,omitempty"`
+	// The time the S3 backend configuration was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the S3 backend configuration was last updated at
+	UpdatedAt *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+	DynamodbTable *string `protobuf:"bytes,11,opt,name=dynamodb_table,json=dynamodbTable,proto3,oneof" json:"dynamodb_table,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -74,6 +89,13 @@ func (x *S3BackendConfig) GetId() string {
 	return ""
 }
 
+func (x *S3BackendConfig) GetWorkspaceId() string {
+	if x != nil {
+		return x.WorkspaceId
+	}
+	return ""
+}
+
 func (x *S3BackendConfig) GetBucket() string {
 	if x != nil {
 		return x.Bucket
@@ -95,11 +117,18 @@ func (x *S3BackendConfig) GetRegion() string {
 	return ""
 }
 
-func (x *S3BackendConfig) GetDynamodbLock() string {
+func (x *S3BackendConfig) GetDynamodbLock() bool {
 	if x != nil {
 		return x.DynamodbLock
 	}
-	return ""
+	return false
+}
+
+func (x *S3BackendConfig) GetS3Lock() bool {
+	if x != nil {
+		return x.S3Lock
+	}
+	return false
 }
 
 func (x *S3BackendConfig) GetEncrypt() bool {
@@ -123,13 +152,29 @@ func (x *S3BackendConfig) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *S3BackendConfig) GetDynamodbTable() string {
+	if x != nil && x.DynamodbTable != nil {
+		return *x.DynamodbTable
+	}
+	return ""
+}
+
 type CreateS3BackendConfigRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Bucket        string                 `protobuf:"bytes,1,opt,name=bucket,proto3" json:"bucket,omitempty"`
-	Key           string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
-	Region        string                 `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
-	DynamodbLock  *string                `protobuf:"bytes,4,opt,name=dynamodb_lock,json=dynamodbLock,proto3,oneof" json:"dynamodb_lock,omitempty"`
-	Encrypt       bool                   `protobuf:"varint,5,opt,name=encrypt,proto3" json:"encrypt,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The name of the S3 Bucket where the state file is stored
+	Bucket string `protobuf:"bytes,1,opt,name=bucket,proto3" json:"bucket,omitempty"`
+	// The path to the state file inside the S3 Bucket
+	Key string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
+	// The AWS region of the S3 Bucket and DynamoDB Table (if used)
+	Region string `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
+	// Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+	DynamodbLock bool `protobuf:"varint,4,opt,name=dynamodb_lock,json=dynamodbLock,proto3" json:"dynamodb_lock,omitempty"`
+	// Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+	S3Lock bool `protobuf:"varint,5,opt,name=s3_lock,json=s3Lock,proto3" json:"s3_lock,omitempty"`
+	// Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+	Encrypt bool `protobuf:"varint,6,opt,name=encrypt,proto3" json:"encrypt,omitempty"`
+	// The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+	DynamodbTable *string `protobuf:"bytes,7,opt,name=dynamodb_table,json=dynamodbTable,proto3,oneof" json:"dynamodb_table,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -185,11 +230,18 @@ func (x *CreateS3BackendConfigRequest) GetRegion() string {
 	return ""
 }
 
-func (x *CreateS3BackendConfigRequest) GetDynamodbLock() string {
-	if x != nil && x.DynamodbLock != nil {
-		return *x.DynamodbLock
+func (x *CreateS3BackendConfigRequest) GetDynamodbLock() bool {
+	if x != nil {
+		return x.DynamodbLock
 	}
-	return ""
+	return false
+}
+
+func (x *CreateS3BackendConfigRequest) GetS3Lock() bool {
+	if x != nil {
+		return x.S3Lock
+	}
+	return false
 }
 
 func (x *CreateS3BackendConfigRequest) GetEncrypt() bool {
@@ -199,9 +251,17 @@ func (x *CreateS3BackendConfigRequest) GetEncrypt() bool {
 	return false
 }
 
+func (x *CreateS3BackendConfigRequest) GetDynamodbTable() string {
+	if x != nil && x.DynamodbTable != nil {
+		return *x.DynamodbTable
+	}
+	return ""
+}
+
 type CreateS3BackendConfigResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	S3BackendConfig *S3BackendConfig       `protobuf:"bytes,1,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The S3 backend configuration that was created
+	S3BackendConfig *S3BackendConfig `protobuf:"bytes,1,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -244,8 +304,9 @@ func (x *CreateS3BackendConfigResponse) GetS3BackendConfig() *S3BackendConfig {
 }
 
 type GetS3BackendConfigRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the S3 backend configuration
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -288,8 +349,9 @@ func (x *GetS3BackendConfigRequest) GetId() string {
 }
 
 type GetS3BackendConfigResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	S3BackendConfig *S3BackendConfig       `protobuf:"bytes,1,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The S3 backend configuration
+	S3BackendConfig *S3BackendConfig `protobuf:"bytes,1,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -332,13 +394,25 @@ func (x *GetS3BackendConfigResponse) GetS3BackendConfig() *S3BackendConfig {
 }
 
 type UpdateS3BackendConfigRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Bucket        *string                `protobuf:"bytes,2,opt,name=bucket,proto3,oneof" json:"bucket,omitempty"`
-	Key           *string                `protobuf:"bytes,3,opt,name=key,proto3,oneof" json:"key,omitempty"`
-	Region        *string                `protobuf:"bytes,4,opt,name=region,proto3,oneof" json:"region,omitempty"`
-	DynamodbLock  *string                `protobuf:"bytes,5,opt,name=dynamodb_lock,json=dynamodbLock,proto3,oneof" json:"dynamodb_lock,omitempty"`
-	Encrypt       *bool                  `protobuf:"varint,6,opt,name=encrypt,proto3,oneof" json:"encrypt,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the S3 backend configuration to update
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The ID of the new workspace the S3 backend configuration belongs to
+	WorkspaceId string `protobuf:"bytes,2,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
+	// The new name of the S3 Bucket where the state file is stored
+	Bucket *string `protobuf:"bytes,3,opt,name=bucket,proto3,oneof" json:"bucket,omitempty"`
+	// The new path to the state file inside the S3 Bucket
+	Key *string `protobuf:"bytes,4,opt,name=key,proto3,oneof" json:"key,omitempty"`
+	// The new AWS region of the S3 Bucket and DynamoDB Table (if used)
+	Region *string `protobuf:"bytes,5,opt,name=region,proto3,oneof" json:"region,omitempty"`
+	// Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+	DynamodbLock *bool `protobuf:"varint,6,opt,name=dynamodb_lock,json=dynamodbLock,proto3,oneof" json:"dynamodb_lock,omitempty"`
+	// Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+	S3Lock *bool `protobuf:"varint,7,opt,name=s3_lock,json=s3Lock,proto3,oneof" json:"s3_lock,omitempty"`
+	// Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+	Encrypt *bool `protobuf:"varint,8,opt,name=encrypt,proto3,oneof" json:"encrypt,omitempty"`
+	// The name of the new DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+	DynamodbTable *string `protobuf:"bytes,9,opt,name=dynamodb_table,json=dynamodbTable,proto3,oneof" json:"dynamodb_table,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -380,6 +454,13 @@ func (x *UpdateS3BackendConfigRequest) GetId() string {
 	return ""
 }
 
+func (x *UpdateS3BackendConfigRequest) GetWorkspaceId() string {
+	if x != nil {
+		return x.WorkspaceId
+	}
+	return ""
+}
+
 func (x *UpdateS3BackendConfigRequest) GetBucket() string {
 	if x != nil && x.Bucket != nil {
 		return *x.Bucket
@@ -401,11 +482,18 @@ func (x *UpdateS3BackendConfigRequest) GetRegion() string {
 	return ""
 }
 
-func (x *UpdateS3BackendConfigRequest) GetDynamodbLock() string {
+func (x *UpdateS3BackendConfigRequest) GetDynamodbLock() bool {
 	if x != nil && x.DynamodbLock != nil {
 		return *x.DynamodbLock
 	}
-	return ""
+	return false
+}
+
+func (x *UpdateS3BackendConfigRequest) GetS3Lock() bool {
+	if x != nil && x.S3Lock != nil {
+		return *x.S3Lock
+	}
+	return false
 }
 
 func (x *UpdateS3BackendConfigRequest) GetEncrypt() bool {
@@ -415,9 +503,17 @@ func (x *UpdateS3BackendConfigRequest) GetEncrypt() bool {
 	return false
 }
 
+func (x *UpdateS3BackendConfigRequest) GetDynamodbTable() string {
+	if x != nil && x.DynamodbTable != nil {
+		return *x.DynamodbTable
+	}
+	return ""
+}
+
 type UpdateS3BackendConfigResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	S3BackendConfig *S3BackendConfig       `protobuf:"bytes,1,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The updated S3 backend configuration
+	S3BackendConfig *S3BackendConfig `protobuf:"bytes,1,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -460,8 +556,9 @@ func (x *UpdateS3BackendConfigResponse) GetS3BackendConfig() *S3BackendConfig {
 }
 
 type DeleteS3BackendConfigRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the S3 backend configuration to delete
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -543,44 +640,57 @@ var File_terrabase_s3_backend_config_v1_s3_backend_config_proto protoreflect.Fil
 
 const file_terrabase_s3_backend_config_v1_s3_backend_config_proto_rawDesc = "" +
 	"\n" +
-	"6terrabase/s3_backend_config/v1/s3_backend_config.proto\x12\x1eterrabase.s3_backend_config.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x98\x02\n" +
+	"6terrabase/s3_backend_config/v1/s3_backend_config.proto\x12\x1eterrabase.s3_backend_config.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x03\n" +
 	"\x0fS3BackendConfig\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
-	"\x06bucket\x18\x02 \x01(\tR\x06bucket\x12\x10\n" +
-	"\x03key\x18\x03 \x01(\tR\x03key\x12\x16\n" +
-	"\x06region\x18\x04 \x01(\tR\x06region\x12#\n" +
-	"\rdynamodb_lock\x18\x05 \x01(\tR\fdynamodbLock\x12\x18\n" +
-	"\aencrypt\x18\x06 \x01(\bR\aencrypt\x129\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
+	"\fworkspace_id\x18\x02 \x01(\tR\vworkspaceId\x12\x16\n" +
+	"\x06bucket\x18\x03 \x01(\tR\x06bucket\x12\x10\n" +
+	"\x03key\x18\x04 \x01(\tR\x03key\x12\x16\n" +
+	"\x06region\x18\x05 \x01(\tR\x06region\x12#\n" +
+	"\rdynamodb_lock\x18\x06 \x01(\bR\fdynamodbLock\x12\x17\n" +
+	"\as3_lock\x18\a \x01(\bR\x06s3Lock\x12\x18\n" +
+	"\aencrypt\x18\b \x01(\bR\aencrypt\x129\n" +
 	"\n" +
-	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xca\x01\n" +
+	"updated_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12*\n" +
+	"\x0edynamodb_table\x18\v \x01(\tH\x00R\rdynamodbTable\x88\x01\x01B\x11\n" +
+	"\x0f_dynamodb_table\"\x8b\x02\n" +
 	"\x1cCreateS3BackendConfigRequest\x12\x1b\n" +
 	"\x06bucket\x18\x01 \x01(\tB\x03\xe0A\x02R\x06bucket\x12\x15\n" +
 	"\x03key\x18\x02 \x01(\tB\x03\xe0A\x02R\x03key\x12\x1b\n" +
-	"\x06region\x18\x03 \x01(\tB\x03\xe0A\x02R\x06region\x12(\n" +
-	"\rdynamodb_lock\x18\x04 \x01(\tH\x00R\fdynamodbLock\x88\x01\x01\x12\x1d\n" +
-	"\aencrypt\x18\x05 \x01(\bB\x03\xe0A\x02R\aencryptB\x10\n" +
-	"\x0e_dynamodb_lock\"|\n" +
+	"\x06region\x18\x03 \x01(\tB\x03\xe0A\x02R\x06region\x12#\n" +
+	"\rdynamodb_lock\x18\x04 \x01(\bR\fdynamodbLock\x12\x17\n" +
+	"\as3_lock\x18\x05 \x01(\bR\x06s3Lock\x12\x1d\n" +
+	"\aencrypt\x18\x06 \x01(\bB\x03\xe0A\x02R\aencrypt\x12*\n" +
+	"\x0edynamodb_table\x18\a \x01(\tH\x00R\rdynamodbTable\x88\x01\x01B\x11\n" +
+	"\x0f_dynamodb_table\"|\n" +
 	"\x1dCreateS3BackendConfigResponse\x12[\n" +
 	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\"+\n" +
 	"\x19GetS3BackendConfigRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"y\n" +
 	"\x1aGetS3BackendConfigResponse\x12[\n" +
-	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\"\x89\x02\n" +
+	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\"\x95\x03\n" +
 	"\x1cUpdateS3BackendConfigRequest\x12\x13\n" +
-	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x1b\n" +
-	"\x06bucket\x18\x02 \x01(\tH\x00R\x06bucket\x88\x01\x01\x12\x15\n" +
-	"\x03key\x18\x03 \x01(\tH\x01R\x03key\x88\x01\x01\x12\x1b\n" +
-	"\x06region\x18\x04 \x01(\tH\x02R\x06region\x88\x01\x01\x12(\n" +
-	"\rdynamodb_lock\x18\x05 \x01(\tH\x03R\fdynamodbLock\x88\x01\x01\x12\x1d\n" +
-	"\aencrypt\x18\x06 \x01(\bH\x04R\aencrypt\x88\x01\x01B\t\n" +
+	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12!\n" +
+	"\fworkspace_id\x18\x02 \x01(\tR\vworkspaceId\x12\x1b\n" +
+	"\x06bucket\x18\x03 \x01(\tH\x00R\x06bucket\x88\x01\x01\x12\x15\n" +
+	"\x03key\x18\x04 \x01(\tH\x01R\x03key\x88\x01\x01\x12\x1b\n" +
+	"\x06region\x18\x05 \x01(\tH\x02R\x06region\x88\x01\x01\x12(\n" +
+	"\rdynamodb_lock\x18\x06 \x01(\bH\x03R\fdynamodbLock\x88\x01\x01\x12\x1c\n" +
+	"\as3_lock\x18\a \x01(\bH\x04R\x06s3Lock\x88\x01\x01\x12\x1d\n" +
+	"\aencrypt\x18\b \x01(\bH\x05R\aencrypt\x88\x01\x01\x12*\n" +
+	"\x0edynamodb_table\x18\t \x01(\tH\x06R\rdynamodbTable\x88\x01\x01B\t\n" +
 	"\a_bucketB\x06\n" +
 	"\x04_keyB\t\n" +
 	"\a_regionB\x10\n" +
 	"\x0e_dynamodb_lockB\n" +
 	"\n" +
-	"\b_encrypt\"|\n" +
+	"\b_s3_lockB\n" +
+	"\n" +
+	"\b_encryptB\x11\n" +
+	"\x0f_dynamodb_table\"|\n" +
 	"\x1dUpdateS3BackendConfigResponse\x12[\n" +
 	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\".\n" +
 	"\x1cDeleteS3BackendConfigRequest\x12\x0e\n" +
@@ -643,6 +753,7 @@ func file_terrabase_s3_backend_config_v1_s3_backend_config_proto_init() {
 	if File_terrabase_s3_backend_config_v1_s3_backend_config_proto != nil {
 		return
 	}
+	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_msgTypes[0].OneofWrappers = []any{}
 	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_msgTypes[1].OneofWrappers = []any{}
 	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}

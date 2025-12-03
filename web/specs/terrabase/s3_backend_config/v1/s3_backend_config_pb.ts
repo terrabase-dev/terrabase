@@ -13,51 +13,90 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file terrabase/s3_backend_config/v1/s3_backend_config.proto.
  */
 export const file_terrabase_s3_backend_config_v1_s3_backend_config: GenFile = /*@__PURE__*/
-  fileDesc("CjZ0ZXJyYWJhc2UvczNfYmFja2VuZF9jb25maWcvdjEvczNfYmFja2VuZF9jb25maWcucHJvdG8SHnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MSLSAQoPUzNCYWNrZW5kQ29uZmlnEgoKAmlkGAEgASgJEg4KBmJ1Y2tldBgCIAEoCRILCgNrZXkYAyABKAkSDgoGcmVnaW9uGAQgASgJEhUKDWR5bmFtb2RiX2xvY2sYBSABKAkSDwoHZW5jcnlwdBgGIAEoCBIuCgpjcmVhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKeAQocQ3JlYXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdBITCgZidWNrZXQYASABKAlCA+BBAhIQCgNrZXkYAiABKAlCA+BBAhITCgZyZWdpb24YAyABKAlCA+BBAhIaCg1keW5hbW9kYl9sb2NrGAQgASgJSACIAQESFAoHZW5jcnlwdBgFIAEoCEID4EECQhAKDl9keW5hbW9kYl9sb2NrImsKHUNyZWF0ZVMzQmFja2VuZENvbmZpZ1Jlc3BvbnNlEkoKEXMzX2JhY2tlbmRfY29uZmlnGAEgASgLMi8udGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLlMzQmFja2VuZENvbmZpZyInChlHZXRTM0JhY2tlbmRDb25maWdSZXF1ZXN0EgoKAmlkGAEgASgJImgKGkdldFMzQmFja2VuZENvbmZpZ1Jlc3BvbnNlEkoKEXMzX2JhY2tlbmRfY29uZmlnGAEgASgLMi8udGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLlMzQmFja2VuZENvbmZpZyLZAQocVXBkYXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECEhMKBmJ1Y2tldBgCIAEoCUgAiAEBEhAKA2tleRgDIAEoCUgBiAEBEhMKBnJlZ2lvbhgEIAEoCUgCiAEBEhoKDWR5bmFtb2RiX2xvY2sYBSABKAlIA4gBARIUCgdlbmNyeXB0GAYgASgISASIAQFCCQoHX2J1Y2tldEIGCgRfa2V5QgkKB19yZWdpb25CEAoOX2R5bmFtb2RiX2xvY2tCCgoIX2VuY3J5cHQiawodVXBkYXRlUzNCYWNrZW5kQ29uZmlnUmVzcG9uc2USSgoRczNfYmFja2VuZF9jb25maWcYASABKAsyLy50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuUzNCYWNrZW5kQ29uZmlnIioKHERlbGV0ZVMzQmFja2VuZENvbmZpZ1JlcXVlc3QSCgoCaWQYASABKAkiHwodRGVsZXRlUzNCYWNrZW5kQ29uZmlnUmVzcG9uc2Uy6wQKFlMzQmFja2VuZENvbmZpZ1NlcnZpY2USlAEKFUNyZWF0ZVMzQmFja2VuZENvbmZpZxI8LnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MS5DcmVhdGVTM0JhY2tlbmRDb25maWdSZXF1ZXN0Gj0udGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLkNyZWF0ZVMzQmFja2VuZENvbmZpZ1Jlc3BvbnNlEosBChJHZXRTM0JhY2tlbmRDb25maWcSOS50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuR2V0UzNCYWNrZW5kQ29uZmlnUmVxdWVzdBo6LnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MS5HZXRTM0JhY2tlbmRDb25maWdSZXNwb25zZRKUAQoVVXBkYXRlUzNCYWNrZW5kQ29uZmlnEjwudGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLlVwZGF0ZVMzQmFja2VuZENvbmZpZ1JlcXVlc3QaPS50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuVXBkYXRlUzNCYWNrZW5kQ29uZmlnUmVzcG9uc2USlAEKFURlbGV0ZVMzQmFja2VuZENvbmZpZxI8LnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MS5EZWxldGVTM0JhY2tlbmRDb25maWdSZXF1ZXN0Gj0udGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLkRlbGV0ZVMzQmFja2VuZENvbmZpZ1Jlc3BvbnNlQltaWWdpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL3MzX2JhY2tlbmRfY29uZmlnL3YxO3MzQmFja2VuZENvbmZpZ3YxYgZwcm90bzM", [file_google_api_field_behavior, file_google_protobuf_timestamp]);
+  fileDesc("CjZ0ZXJyYWJhc2UvczNfYmFja2VuZF9jb25maWcvdjEvczNfYmFja2VuZF9jb25maWcucHJvdG8SHnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MSKpAgoPUzNCYWNrZW5kQ29uZmlnEgoKAmlkGAEgASgJEhQKDHdvcmtzcGFjZV9pZBgCIAEoCRIOCgZidWNrZXQYAyABKAkSCwoDa2V5GAQgASgJEg4KBnJlZ2lvbhgFIAEoCRIVCg1keW5hbW9kYl9sb2NrGAYgASgIEg8KB3MzX2xvY2sYByABKAgSDwoHZW5jcnlwdBgIIAEoCBIuCgpjcmVhdGVkX2F0GAkgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAogASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIbCg5keW5hbW9kYl90YWJsZRgLIAEoCUgAiAEBQhEKD19keW5hbW9kYl90YWJsZSLIAQocQ3JlYXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdBITCgZidWNrZXQYASABKAlCA+BBAhIQCgNrZXkYAiABKAlCA+BBAhITCgZyZWdpb24YAyABKAlCA+BBAhIVCg1keW5hbW9kYl9sb2NrGAQgASgIEg8KB3MzX2xvY2sYBSABKAgSFAoHZW5jcnlwdBgGIAEoCEID4EECEhsKDmR5bmFtb2RiX3RhYmxlGAcgASgJSACIAQFCEQoPX2R5bmFtb2RiX3RhYmxlImsKHUNyZWF0ZVMzQmFja2VuZENvbmZpZ1Jlc3BvbnNlEkoKEXMzX2JhY2tlbmRfY29uZmlnGAEgASgLMi8udGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLlMzQmFja2VuZENvbmZpZyInChlHZXRTM0JhY2tlbmRDb25maWdSZXF1ZXN0EgoKAmlkGAEgASgJImgKGkdldFMzQmFja2VuZENvbmZpZ1Jlc3BvbnNlEkoKEXMzX2JhY2tlbmRfY29uZmlnGAEgASgLMi8udGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLlMzQmFja2VuZENvbmZpZyLBAgocVXBkYXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECEhQKDHdvcmtzcGFjZV9pZBgCIAEoCRITCgZidWNrZXQYAyABKAlIAIgBARIQCgNrZXkYBCABKAlIAYgBARITCgZyZWdpb24YBSABKAlIAogBARIaCg1keW5hbW9kYl9sb2NrGAYgASgISAOIAQESFAoHczNfbG9jaxgHIAEoCEgEiAEBEhQKB2VuY3J5cHQYCCABKAhIBYgBARIbCg5keW5hbW9kYl90YWJsZRgJIAEoCUgGiAEBQgkKB19idWNrZXRCBgoEX2tleUIJCgdfcmVnaW9uQhAKDl9keW5hbW9kYl9sb2NrQgoKCF9zM19sb2NrQgoKCF9lbmNyeXB0QhEKD19keW5hbW9kYl90YWJsZSJrCh1VcGRhdGVTM0JhY2tlbmRDb25maWdSZXNwb25zZRJKChFzM19iYWNrZW5kX2NvbmZpZxgBIAEoCzIvLnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MS5TM0JhY2tlbmRDb25maWciKgocRGVsZXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdBIKCgJpZBgBIAEoCSIfCh1EZWxldGVTM0JhY2tlbmRDb25maWdSZXNwb25zZTLrBAoWUzNCYWNrZW5kQ29uZmlnU2VydmljZRKUAQoVQ3JlYXRlUzNCYWNrZW5kQ29uZmlnEjwudGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLkNyZWF0ZVMzQmFja2VuZENvbmZpZ1JlcXVlc3QaPS50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuQ3JlYXRlUzNCYWNrZW5kQ29uZmlnUmVzcG9uc2USiwEKEkdldFMzQmFja2VuZENvbmZpZxI5LnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MS5HZXRTM0JhY2tlbmRDb25maWdSZXF1ZXN0GjoudGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLkdldFMzQmFja2VuZENvbmZpZ1Jlc3BvbnNlEpQBChVVcGRhdGVTM0JhY2tlbmRDb25maWcSPC50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuVXBkYXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdBo9LnRlcnJhYmFzZS5zM19iYWNrZW5kX2NvbmZpZy52MS5VcGRhdGVTM0JhY2tlbmRDb25maWdSZXNwb25zZRKUAQoVRGVsZXRlUzNCYWNrZW5kQ29uZmlnEjwudGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLkRlbGV0ZVMzQmFja2VuZENvbmZpZ1JlcXVlc3QaPS50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuRGVsZXRlUzNCYWNrZW5kQ29uZmlnUmVzcG9uc2VCW1pZZ2l0aHViLmNvbS90ZXJyYWJhc2UtZGV2L3RlcnJhYmFzZS9zcGVjcy90ZXJyYWJhc2UvczNfYmFja2VuZF9jb25maWcvdjE7czNCYWNrZW5kQ29uZmlndjFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp]);
 
 /**
+ * Configuration for an S3 backend for a Terraform state file. See [Terraform documentation](https://developer.hashicorp.com/terraform/language/backend/s3) for more details.
+ *
  * @generated from message terrabase.s3_backend_config.v1.S3BackendConfig
  */
 export type S3BackendConfig = Message<"terrabase.s3_backend_config.v1.S3BackendConfig"> & {
   /**
+   * The unique ID of the S3 backend configuration
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
-   * @generated from field: string bucket = 2;
+   * The ID of the workspace the S3 backend configuration belongs to
+   *
+   * @generated from field: string workspace_id = 2;
+   */
+  workspaceId: string;
+
+  /**
+   * The name of the S3 Bucket where the state file is stored
+   *
+   * @generated from field: string bucket = 3;
    */
   bucket: string;
 
   /**
-   * @generated from field: string key = 3;
+   * The path to the state file inside the S3 Bucket
+   *
+   * @generated from field: string key = 4;
    */
   key: string;
 
   /**
-   * @generated from field: string region = 4;
+   * The AWS region of the S3 Bucket and DynamoDB Table (if used)
+   *
+   * @generated from field: string region = 5;
    */
   region: string;
 
   /**
-   * @generated from field: string dynamodb_lock = 5;
+   * Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+   *
+   * @generated from field: bool dynamodb_lock = 6;
    */
-  dynamodbLock: string;
+  dynamodbLock: boolean;
 
   /**
-   * @generated from field: bool encrypt = 6;
+   * Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+   *
+   * @generated from field: bool s3_lock = 7;
+   */
+  s3Lock: boolean;
+
+  /**
+   * Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+   *
+   * @generated from field: bool encrypt = 8;
    */
   encrypt: boolean;
 
   /**
-   * @generated from field: google.protobuf.Timestamp created_at = 7;
+   * The time the S3 backend configuration was created
+   *
+   * @generated from field: google.protobuf.Timestamp created_at = 9;
    */
   createdAt?: Timestamp;
 
   /**
-   * @generated from field: google.protobuf.Timestamp updated_at = 8;
+   * The time the S3 backend configuration was last updated at
+   *
+   * @generated from field: google.protobuf.Timestamp updated_at = 10;
    */
   updatedAt?: Timestamp;
+
+  /**
+   * The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+   *
+   * @generated from field: optional string dynamodb_table = 11;
+   */
+  dynamodbTable?: string;
 };
 
 /**
@@ -72,29 +111,53 @@ export const S3BackendConfigSchema: GenMessage<S3BackendConfig> = /*@__PURE__*/
  */
 export type CreateS3BackendConfigRequest = Message<"terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest"> & {
   /**
+   * The name of the S3 Bucket where the state file is stored
+   *
    * @generated from field: string bucket = 1;
    */
   bucket: string;
 
   /**
+   * The path to the state file inside the S3 Bucket
+   *
    * @generated from field: string key = 2;
    */
   key: string;
 
   /**
+   * The AWS region of the S3 Bucket and DynamoDB Table (if used)
+   *
    * @generated from field: string region = 3;
    */
   region: string;
 
   /**
-   * @generated from field: optional string dynamodb_lock = 4;
+   * Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+   *
+   * @generated from field: bool dynamodb_lock = 4;
    */
-  dynamodbLock?: string;
+  dynamodbLock: boolean;
 
   /**
-   * @generated from field: bool encrypt = 5;
+   * Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+   *
+   * @generated from field: bool s3_lock = 5;
+   */
+  s3Lock: boolean;
+
+  /**
+   * Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+   *
+   * @generated from field: bool encrypt = 6;
    */
   encrypt: boolean;
+
+  /**
+   * The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+   *
+   * @generated from field: optional string dynamodb_table = 7;
+   */
+  dynamodbTable?: string;
 };
 
 /**
@@ -109,6 +172,8 @@ export const CreateS3BackendConfigRequestSchema: GenMessage<CreateS3BackendConfi
  */
 export type CreateS3BackendConfigResponse = Message<"terrabase.s3_backend_config.v1.CreateS3BackendConfigResponse"> & {
   /**
+   * The S3 backend configuration that was created
+   *
    * @generated from field: terrabase.s3_backend_config.v1.S3BackendConfig s3_backend_config = 1;
    */
   s3BackendConfig?: S3BackendConfig;
@@ -126,6 +191,8 @@ export const CreateS3BackendConfigResponseSchema: GenMessage<CreateS3BackendConf
  */
 export type GetS3BackendConfigRequest = Message<"terrabase.s3_backend_config.v1.GetS3BackendConfigRequest"> & {
   /**
+   * The unique ID of the S3 backend configuration
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -143,6 +210,8 @@ export const GetS3BackendConfigRequestSchema: GenMessage<GetS3BackendConfigReque
  */
 export type GetS3BackendConfigResponse = Message<"terrabase.s3_backend_config.v1.GetS3BackendConfigResponse"> & {
   /**
+   * The S3 backend configuration
+   *
    * @generated from field: terrabase.s3_backend_config.v1.S3BackendConfig s3_backend_config = 1;
    */
   s3BackendConfig?: S3BackendConfig;
@@ -160,34 +229,67 @@ export const GetS3BackendConfigResponseSchema: GenMessage<GetS3BackendConfigResp
  */
 export type UpdateS3BackendConfigRequest = Message<"terrabase.s3_backend_config.v1.UpdateS3BackendConfigRequest"> & {
   /**
+   * The unique ID of the S3 backend configuration to update
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
-   * @generated from field: optional string bucket = 2;
+   * The ID of the new workspace the S3 backend configuration belongs to
+   *
+   * @generated from field: string workspace_id = 2;
+   */
+  workspaceId: string;
+
+  /**
+   * The new name of the S3 Bucket where the state file is stored
+   *
+   * @generated from field: optional string bucket = 3;
    */
   bucket?: string;
 
   /**
-   * @generated from field: optional string key = 3;
+   * The new path to the state file inside the S3 Bucket
+   *
+   * @generated from field: optional string key = 4;
    */
   key?: string;
 
   /**
-   * @generated from field: optional string region = 4;
+   * The new AWS region of the S3 Bucket and DynamoDB Table (if used)
+   *
+   * @generated from field: optional string region = 5;
    */
   region?: string;
 
   /**
-   * @generated from field: optional string dynamodb_lock = 5;
+   * Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+   *
+   * @generated from field: optional bool dynamodb_lock = 6;
    */
-  dynamodbLock?: string;
+  dynamodbLock?: boolean;
 
   /**
-   * @generated from field: optional bool encrypt = 6;
+   * Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+   *
+   * @generated from field: optional bool s3_lock = 7;
+   */
+  s3Lock?: boolean;
+
+  /**
+   * Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+   *
+   * @generated from field: optional bool encrypt = 8;
    */
   encrypt?: boolean;
+
+  /**
+   * The name of the new DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+   *
+   * @generated from field: optional string dynamodb_table = 9;
+   */
+  dynamodbTable?: string;
 };
 
 /**
@@ -202,6 +304,8 @@ export const UpdateS3BackendConfigRequestSchema: GenMessage<UpdateS3BackendConfi
  */
 export type UpdateS3BackendConfigResponse = Message<"terrabase.s3_backend_config.v1.UpdateS3BackendConfigResponse"> & {
   /**
+   * The updated S3 backend configuration
+   *
    * @generated from field: terrabase.s3_backend_config.v1.S3BackendConfig s3_backend_config = 1;
    */
   s3BackendConfig?: S3BackendConfig;
@@ -219,6 +323,8 @@ export const UpdateS3BackendConfigResponseSchema: GenMessage<UpdateS3BackendConf
  */
 export type DeleteS3BackendConfigRequest = Message<"terrabase.s3_backend_config.v1.DeleteS3BackendConfigRequest"> & {
   /**
+   * The unique ID of the S3 backend configuration to delete
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -249,6 +355,8 @@ export const DeleteS3BackendConfigResponseSchema: GenMessage<DeleteS3BackendConf
  */
 export const S3BackendConfigService: GenService<{
   /**
+   * Create a new S3 backend configuration
+   *
    * @generated from rpc terrabase.s3_backend_config.v1.S3BackendConfigService.CreateS3BackendConfig
    */
   createS3BackendConfig: {
@@ -257,6 +365,8 @@ export const S3BackendConfigService: GenService<{
     output: typeof CreateS3BackendConfigResponseSchema;
   },
   /**
+   * Retrieve details about a single S3 backend configuration
+   *
    * @generated from rpc terrabase.s3_backend_config.v1.S3BackendConfigService.GetS3BackendConfig
    */
   getS3BackendConfig: {
@@ -265,6 +375,8 @@ export const S3BackendConfigService: GenService<{
     output: typeof GetS3BackendConfigResponseSchema;
   },
   /**
+   * Change details about an S3 backend configuration
+   *
    * @generated from rpc terrabase.s3_backend_config.v1.S3BackendConfigService.UpdateS3BackendConfig
    */
   updateS3BackendConfig: {
@@ -273,6 +385,8 @@ export const S3BackendConfigService: GenService<{
     output: typeof UpdateS3BackendConfigResponseSchema;
   },
   /**
+   * Delete an S3 backend configuration
+   *
    * @generated from rpc terrabase.s3_backend_config.v1.S3BackendConfigService.DeleteS3BackendConfig
    */
   deleteS3BackendConfig: {

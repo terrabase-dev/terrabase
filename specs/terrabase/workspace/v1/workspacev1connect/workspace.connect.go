@@ -58,12 +58,19 @@ const (
 
 // WorkspaceServiceClient is a client for the terrabase.workspace.v1.WorkspaceService service.
 type WorkspaceServiceClient interface {
+	// Create a new workspace
 	CreateWorkspace(context.Context, *connect.Request[v1.CreateWorkspaceRequest]) (*connect.Response[v1.CreateWorkspaceResponse], error)
+	// Retrieve details about a single workspace
 	GetWorkspace(context.Context, *connect.Request[v1.GetWorkspaceRequest]) (*connect.Response[v1.GetWorkspaceResponse], error)
+	// List workspaces owned by a specific team, or belong to a specific application
 	ListWorkspaces(context.Context, *connect.Request[v1.ListWorkspacesRequest]) (*connect.Response[v1.ListWorkspacesResponse], error)
+	// Change details about a workspace
 	UpdateWorkspace(context.Context, *connect.Request[v1.UpdateWorkspaceRequest]) (*connect.Response[v1.UpdateWorkspaceResponse], error)
+	// Delete a workspace
 	DeleteWorkspace(context.Context, *connect.Request[v1.DeleteWorkspaceRequest]) (*connect.Response[v1.DeleteWorkspaceResponse], error)
+	// Grant access to a workspace to a single team or multiple teams
 	GrantTeamAccess(context.Context, *connect.Request[v1.GrantTeamAccessRequest]) (*connect.Response[v1.GrantTeamAccessResponse], error)
+	// Revoke access to a workspace from a single team or multiple teams
 	RevokeTeamAccess(context.Context, *connect.Request[v1.RevokeTeamAccessRequest]) (*connect.Response[v1.RevokeTeamAccessResponse], error)
 }
 
@@ -172,12 +179,19 @@ func (c *workspaceServiceClient) RevokeTeamAccess(ctx context.Context, req *conn
 // WorkspaceServiceHandler is an implementation of the terrabase.workspace.v1.WorkspaceService
 // service.
 type WorkspaceServiceHandler interface {
+	// Create a new workspace
 	CreateWorkspace(context.Context, *connect.Request[v1.CreateWorkspaceRequest]) (*connect.Response[v1.CreateWorkspaceResponse], error)
+	// Retrieve details about a single workspace
 	GetWorkspace(context.Context, *connect.Request[v1.GetWorkspaceRequest]) (*connect.Response[v1.GetWorkspaceResponse], error)
+	// List workspaces owned by a specific team, or belong to a specific application
 	ListWorkspaces(context.Context, *connect.Request[v1.ListWorkspacesRequest]) (*connect.Response[v1.ListWorkspacesResponse], error)
+	// Change details about a workspace
 	UpdateWorkspace(context.Context, *connect.Request[v1.UpdateWorkspaceRequest]) (*connect.Response[v1.UpdateWorkspaceResponse], error)
+	// Delete a workspace
 	DeleteWorkspace(context.Context, *connect.Request[v1.DeleteWorkspaceRequest]) (*connect.Response[v1.DeleteWorkspaceResponse], error)
+	// Grant access to a workspace to a single team or multiple teams
 	GrantTeamAccess(context.Context, *connect.Request[v1.GrantTeamAccessRequest]) (*connect.Response[v1.GrantTeamAccessResponse], error)
+	// Revoke access to a workspace from a single team or multiple teams
 	RevokeTeamAccess(context.Context, *connect.Request[v1.RevokeTeamAccessRequest]) (*connect.Response[v1.RevokeTeamAccessResponse], error)
 }
 

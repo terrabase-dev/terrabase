@@ -15,33 +15,45 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file terrabase/environment/v1/environment.proto.
  */
 export const file_terrabase_environment_v1_environment: GenFile = /*@__PURE__*/
-  fileDesc("Cip0ZXJyYWJhc2UvZW52aXJvbm1lbnQvdjEvZW52aXJvbm1lbnQucHJvdG8SGHRlcnJhYmFzZS5lbnZpcm9ubWVudC52MSKfAQoLRW52aXJvbm1lbnQSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIWCg5hcHBsaWNhdGlvbl9pZBgDIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKRAQoYQ3JlYXRlRW52aXJvbm1lbnRSZXF1ZXN0EhEKBG5hbWUYASABKAlCA+BBAhIbCg5hcHBsaWNhdGlvbl9pZBgCIAEoCUID4EECEkUKDW5ld193b3Jrc3BhY2UYAyABKAsyLi50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkNyZWF0ZVdvcmtzcGFjZVJlcXVlc3QiVwoZQ3JlYXRlRW52aXJvbm1lbnRSZXNwb25zZRI6CgtlbnZpcm9ubWVudBgBIAEoCzIlLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5FbnZpcm9ubWVudCIoChVHZXRFbnZpcm9ubWVudFJlcXVlc3QSDwoCaWQYASABKAlCA+BBAiJUChZHZXRFbnZpcm9ubWVudFJlc3BvbnNlEjoKC2Vudmlyb25tZW50GAEgASgLMiUudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkVudmlyb25tZW50IoQBChdMaXN0RW52aXJvbm1lbnRzUmVxdWVzdBIbCg5hcHBsaWNhdGlvbl9pZBgBIAEoCUID4EECEhYKCXBhZ2Vfc2l6ZRgCIAEoBUgAiAEBEhcKCnBhZ2VfdG9rZW4YAyABKAlIAYgBAUIMCgpfcGFnZV9zaXplQg0KC19wYWdlX3Rva2VuIokBChhMaXN0RW52aXJvbm1lbnRzUmVzcG9uc2USOwoMZW52aXJvbm1lbnRzGAEgAygLMiUudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkVudmlyb25tZW50EhwKD25leHRfcGFnZV90b2tlbhgCIAEoCUgAiAEBQhIKEF9uZXh0X3BhZ2VfdG9rZW4iRwoYVXBkYXRlRW52aXJvbm1lbnRSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISEQoEbmFtZRgCIAEoCUgAiAEBQgcKBV9uYW1lIlcKGVVwZGF0ZUVudmlyb25tZW50UmVzcG9uc2USOgoLZW52aXJvbm1lbnQYASABKAsyJS50ZXJyYWJhc2UuZW52aXJvbm1lbnQudjEuRW52aXJvbm1lbnQiKwoYRGVsZXRlRW52aXJvbm1lbnRSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiGwoZRGVsZXRlRW52aXJvbm1lbnRSZXNwb25zZTL+BAoSRW52aXJvbm1lbnRTZXJ2aWNlEnwKEUNyZWF0ZUVudmlyb25tZW50EjIudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkNyZWF0ZUVudmlyb25tZW50UmVxdWVzdBozLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5DcmVhdGVFbnZpcm9ubWVudFJlc3BvbnNlEnMKDkdldEVudmlyb25tZW50Ei8udGVycmFiYXNlLmVudmlyb25tZW50LnYxLkdldEVudmlyb25tZW50UmVxdWVzdBowLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5HZXRFbnZpcm9ubWVudFJlc3BvbnNlEnkKEExpc3RFbnZpcm9ubWVudHMSMS50ZXJyYWJhc2UuZW52aXJvbm1lbnQudjEuTGlzdEVudmlyb25tZW50c1JlcXVlc3QaMi50ZXJyYWJhc2UuZW52aXJvbm1lbnQudjEuTGlzdEVudmlyb25tZW50c1Jlc3BvbnNlEnwKEVVwZGF0ZUVudmlyb25tZW50EjIudGVycmFiYXNlLmVudmlyb25tZW50LnYxLlVwZGF0ZUVudmlyb25tZW50UmVxdWVzdBozLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5VcGRhdGVFbnZpcm9ubWVudFJlc3BvbnNlEnwKEURlbGV0ZUVudmlyb25tZW50EjIudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkRlbGV0ZUVudmlyb25tZW50UmVxdWVzdBozLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5EZWxldGVFbnZpcm9ubWVudFJlc3BvbnNlQlFaT2dpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL2Vudmlyb25tZW50L3YxO2Vudmlyb25tZW50djFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_workspace_v1_workspace]);
+  fileDesc("Cip0ZXJyYWJhc2UvZW52aXJvbm1lbnQvdjEvZW52aXJvbm1lbnQucHJvdG8SGHRlcnJhYmFzZS5lbnZpcm9ubWVudC52MSKfAQoLRW52aXJvbm1lbnQSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIWCg5hcHBsaWNhdGlvbl9pZBgDIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKRAQoYQ3JlYXRlRW52aXJvbm1lbnRSZXF1ZXN0EhEKBG5hbWUYASABKAlCA+BBAhIbCg5hcHBsaWNhdGlvbl9pZBgCIAEoCUID4EECEkUKDW5ld193b3Jrc3BhY2UYAyABKAsyLi50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkNyZWF0ZVdvcmtzcGFjZVJlcXVlc3QiVwoZQ3JlYXRlRW52aXJvbm1lbnRSZXNwb25zZRI6CgtlbnZpcm9ubWVudBgBIAEoCzIlLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5FbnZpcm9ubWVudCIoChVHZXRFbnZpcm9ubWVudFJlcXVlc3QSDwoCaWQYASABKAlCA+BBAiJUChZHZXRFbnZpcm9ubWVudFJlc3BvbnNlEjoKC2Vudmlyb25tZW50GAEgASgLMiUudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkVudmlyb25tZW50IjYKF0xpc3RFbnZpcm9ubWVudHNSZXF1ZXN0EhsKDmFwcGxpY2F0aW9uX2lkGAEgASgJQgPgQQIiVwoYTGlzdEVudmlyb25tZW50c1Jlc3BvbnNlEjsKDGVudmlyb25tZW50cxgBIAMoCzIlLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5FbnZpcm9ubWVudCJHChhVcGRhdGVFbnZpcm9ubWVudFJlcXVlc3QSDwoCaWQYASABKAlCA+BBAhIRCgRuYW1lGAIgASgJSACIAQFCBwoFX25hbWUiVwoZVXBkYXRlRW52aXJvbm1lbnRSZXNwb25zZRI6CgtlbnZpcm9ubWVudBgBIAEoCzIlLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5FbnZpcm9ubWVudCIrChhEZWxldGVFbnZpcm9ubWVudFJlcXVlc3QSDwoCaWQYASABKAlCA+BBAiIbChlEZWxldGVFbnZpcm9ubWVudFJlc3BvbnNlMv4EChJFbnZpcm9ubWVudFNlcnZpY2USfAoRQ3JlYXRlRW52aXJvbm1lbnQSMi50ZXJyYWJhc2UuZW52aXJvbm1lbnQudjEuQ3JlYXRlRW52aXJvbm1lbnRSZXF1ZXN0GjMudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkNyZWF0ZUVudmlyb25tZW50UmVzcG9uc2UScwoOR2V0RW52aXJvbm1lbnQSLy50ZXJyYWJhc2UuZW52aXJvbm1lbnQudjEuR2V0RW52aXJvbm1lbnRSZXF1ZXN0GjAudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkdldEVudmlyb25tZW50UmVzcG9uc2USeQoQTGlzdEVudmlyb25tZW50cxIxLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5MaXN0RW52aXJvbm1lbnRzUmVxdWVzdBoyLnRlcnJhYmFzZS5lbnZpcm9ubWVudC52MS5MaXN0RW52aXJvbm1lbnRzUmVzcG9uc2USfAoRVXBkYXRlRW52aXJvbm1lbnQSMi50ZXJyYWJhc2UuZW52aXJvbm1lbnQudjEuVXBkYXRlRW52aXJvbm1lbnRSZXF1ZXN0GjMudGVycmFiYXNlLmVudmlyb25tZW50LnYxLlVwZGF0ZUVudmlyb25tZW50UmVzcG9uc2USfAoRRGVsZXRlRW52aXJvbm1lbnQSMi50ZXJyYWJhc2UuZW52aXJvbm1lbnQudjEuRGVsZXRlRW52aXJvbm1lbnRSZXF1ZXN0GjMudGVycmFiYXNlLmVudmlyb25tZW50LnYxLkRlbGV0ZUVudmlyb25tZW50UmVzcG9uc2VCUVpPZ2l0aHViLmNvbS90ZXJyYWJhc2UtZGV2L3RlcnJhYmFzZS9zcGVjcy90ZXJyYWJhc2UvZW52aXJvbm1lbnQvdjE7ZW52aXJvbm1lbnR2MWIGcHJvdG8z", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_workspace_v1_workspace]);
 
 /**
+ * A Terrabase environment is a business environment that an application is deployed in
+ *
  * @generated from message terrabase.environment.v1.Environment
  */
 export type Environment = Message<"terrabase.environment.v1.Environment"> & {
   /**
+   * The unique ID of the environment
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the environment
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
+   * The ID of the application this environment belongs to
+   *
    * @generated from field: string application_id = 3;
    */
   applicationId: string;
 
   /**
+   * The time the environment was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 4;
    */
   createdAt?: Timestamp;
 
   /**
+   * The time the environment was last updated at
+   *
    * @generated from field: google.protobuf.Timestamp updated_at = 5;
    */
   updatedAt?: Timestamp;
@@ -59,16 +71,22 @@ export const EnvironmentSchema: GenMessage<Environment> = /*@__PURE__*/
  */
 export type CreateEnvironmentRequest = Message<"terrabase.environment.v1.CreateEnvironmentRequest"> & {
   /**
+   * The name of the environment
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
+   * The ID of the application the environment belongs to
+   *
    * @generated from field: string application_id = 2;
    */
   applicationId: string;
 
   /**
+   * The configuration for the workspace that belongs to this environment
+   *
    * @generated from field: terrabase.workspace.v1.CreateWorkspaceRequest new_workspace = 3;
    */
   newWorkspace?: CreateWorkspaceRequest;
@@ -86,6 +104,8 @@ export const CreateEnvironmentRequestSchema: GenMessage<CreateEnvironmentRequest
  */
 export type CreateEnvironmentResponse = Message<"terrabase.environment.v1.CreateEnvironmentResponse"> & {
   /**
+   * The environment that was created
+   *
    * @generated from field: terrabase.environment.v1.Environment environment = 1;
    */
   environment?: Environment;
@@ -103,6 +123,8 @@ export const CreateEnvironmentResponseSchema: GenMessage<CreateEnvironmentRespon
  */
 export type GetEnvironmentRequest = Message<"terrabase.environment.v1.GetEnvironmentRequest"> & {
   /**
+   * The unique ID of the environment
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -120,6 +142,8 @@ export const GetEnvironmentRequestSchema: GenMessage<GetEnvironmentRequest> = /*
  */
 export type GetEnvironmentResponse = Message<"terrabase.environment.v1.GetEnvironmentResponse"> & {
   /**
+   * The environment
+   *
    * @generated from field: terrabase.environment.v1.Environment environment = 1;
    */
   environment?: Environment;
@@ -137,19 +161,11 @@ export const GetEnvironmentResponseSchema: GenMessage<GetEnvironmentResponse> = 
  */
 export type ListEnvironmentsRequest = Message<"terrabase.environment.v1.ListEnvironmentsRequest"> & {
   /**
+   * The ID of the application to list environments for
+   *
    * @generated from field: string application_id = 1;
    */
   applicationId: string;
-
-  /**
-   * @generated from field: optional int32 page_size = 2;
-   */
-  pageSize?: number;
-
-  /**
-   * @generated from field: optional string page_token = 3;
-   */
-  pageToken?: string;
 };
 
 /**
@@ -164,14 +180,11 @@ export const ListEnvironmentsRequestSchema: GenMessage<ListEnvironmentsRequest> 
  */
 export type ListEnvironmentsResponse = Message<"terrabase.environment.v1.ListEnvironmentsResponse"> & {
   /**
+   * A list of environments
+   *
    * @generated from field: repeated terrabase.environment.v1.Environment environments = 1;
    */
   environments: Environment[];
-
-  /**
-   * @generated from field: optional string next_page_token = 2;
-   */
-  nextPageToken?: string;
 };
 
 /**
@@ -186,11 +199,15 @@ export const ListEnvironmentsResponseSchema: GenMessage<ListEnvironmentsResponse
  */
 export type UpdateEnvironmentRequest = Message<"terrabase.environment.v1.UpdateEnvironmentRequest"> & {
   /**
+   * The unique ID of the environment to update
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The new name of the environment
+   *
    * @generated from field: optional string name = 2;
    */
   name?: string;
@@ -208,6 +225,8 @@ export const UpdateEnvironmentRequestSchema: GenMessage<UpdateEnvironmentRequest
  */
 export type UpdateEnvironmentResponse = Message<"terrabase.environment.v1.UpdateEnvironmentResponse"> & {
   /**
+   * The updated environment
+   *
    * @generated from field: terrabase.environment.v1.Environment environment = 1;
    */
   environment?: Environment;
@@ -225,6 +244,8 @@ export const UpdateEnvironmentResponseSchema: GenMessage<UpdateEnvironmentRespon
  */
 export type DeleteEnvironmentRequest = Message<"terrabase.environment.v1.DeleteEnvironmentRequest"> & {
   /**
+   * The unique ID of the environment to delete
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -255,6 +276,8 @@ export const DeleteEnvironmentResponseSchema: GenMessage<DeleteEnvironmentRespon
  */
 export const EnvironmentService: GenService<{
   /**
+   * Create a new environment
+   *
    * @generated from rpc terrabase.environment.v1.EnvironmentService.CreateEnvironment
    */
   createEnvironment: {
@@ -263,6 +286,8 @@ export const EnvironmentService: GenService<{
     output: typeof CreateEnvironmentResponseSchema;
   },
   /**
+   * Retrieve details about a specific environment
+   *
    * @generated from rpc terrabase.environment.v1.EnvironmentService.GetEnvironment
    */
   getEnvironment: {
@@ -271,6 +296,8 @@ export const EnvironmentService: GenService<{
     output: typeof GetEnvironmentResponseSchema;
   },
   /**
+   * List environments that belong to an application
+   *
    * @generated from rpc terrabase.environment.v1.EnvironmentService.ListEnvironments
    */
   listEnvironments: {
@@ -279,6 +306,8 @@ export const EnvironmentService: GenService<{
     output: typeof ListEnvironmentsResponseSchema;
   },
   /**
+   * Change details about an environment
+   *
    * @generated from rpc terrabase.environment.v1.EnvironmentService.UpdateEnvironment
    */
   updateEnvironment: {
@@ -287,6 +316,8 @@ export const EnvironmentService: GenService<{
     output: typeof UpdateEnvironmentResponseSchema;
   },
   /**
+   * Delete an environment
+   *
    * @generated from rpc terrabase.environment.v1.EnvironmentService.DeleteEnvironment
    */
   deleteEnvironment: {

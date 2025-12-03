@@ -2,13 +2,11 @@
 // @generated from file terrabase/workspace/v1/workspace.proto (package terrabase.workspace.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_google_api_field_behavior } from "../../../google/api/field_behavior_pb";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
-import type { BackendType } from "../../backend_type/v1/backend_type_pb";
-import { file_terrabase_backend_type_v1_backend_type } from "../../backend_type/v1/backend_type_pb";
 import type { CreateS3BackendConfigRequest } from "../../s3_backend_config/v1/s3_backend_config_pb";
 import { file_terrabase_s3_backend_config_v1_s3_backend_config } from "../../s3_backend_config/v1/s3_backend_config_pb";
 import type { TeamIds } from "../../team/v1/team_pb";
@@ -19,43 +17,66 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file terrabase/workspace/v1/workspace.proto.
  */
 export const file_terrabase_workspace_v1_workspace: GenFile = /*@__PURE__*/
-  fileDesc("CiZ0ZXJyYWJhc2Uvd29ya3NwYWNlL3YxL3dvcmtzcGFjZS5wcm90bxIWdGVycmFiYXNlLndvcmtzcGFjZS52MSKvAgoJV29ya3NwYWNlEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSPAoMYmFja2VuZF90eXBlGAMgASgOMiYudGVycmFiYXNlLmJhY2tlbmRfdHlwZS52MS5CYWNrZW5kVHlwZRIbCg5lbnZpcm9ubWVudF9pZBgEIAEoCUgAiAEBEiEKFHMzX2JhY2tlbmRfY29uZmlnX2lkGAUgASgJSAGIAQESLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCEQoPX2Vudmlyb25tZW50X2lkQhcKFV9zM19iYWNrZW5kX2NvbmZpZ19pZCKZAgoWQ3JlYXRlV29ya3NwYWNlUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISQQoMYmFja2VuZF90eXBlGAIgASgOMiYudGVycmFiYXNlLmJhY2tlbmRfdHlwZS52MS5CYWNrZW5kVHlwZUID4EECEhsKDmVudmlyb25tZW50X2lkGAMgASgJSACIAQESFAoHdGVhbV9pZBgEIAEoCUgBiAEBElcKEXMzX2JhY2tlbmRfY29uZmlnGAUgASgLMjwudGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLkNyZWF0ZVMzQmFja2VuZENvbmZpZ1JlcXVlc3RCEQoPX2Vudmlyb25tZW50X2lkQgoKCF90ZWFtX2lkIk8KF0NyZWF0ZVdvcmtzcGFjZVJlc3BvbnNlEjQKCXdvcmtzcGFjZRgBIAEoCzIhLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuV29ya3NwYWNlIiYKE0dldFdvcmtzcGFjZVJlcXVlc3QSDwoCaWQYASABKAlCA+BBAiJMChRHZXRXb3Jrc3BhY2VSZXNwb25zZRI0Cgl3b3Jrc3BhY2UYASABKAsyIS50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLldvcmtzcGFjZSK3AQoVTGlzdFdvcmtzcGFjZXNSZXF1ZXN0EhYKCXBhZ2Vfc2l6ZRgBIAEoBUgAiAEBEhcKCnBhZ2VfdG9rZW4YAiABKAlIAYgBARIUCgd0ZWFtX2lkGAMgASgJSAKIAQESGwoOZW52aXJvbm1lbnRfaWQYBCABKAlIA4gBAUIMCgpfcGFnZV9zaXplQg0KC19wYWdlX3Rva2VuQgoKCF90ZWFtX2lkQhEKD19lbnZpcm9ubWVudF9pZCKBAQoWTGlzdFdvcmtzcGFjZXNSZXNwb25zZRI1Cgp3b3Jrc3BhY2VzGAEgAygLMiEudGVycmFiYXNlLndvcmtzcGFjZS52MS5Xb3Jrc3BhY2USHAoPbmV4dF9wYWdlX3Rva2VuGAIgASgJSACIAQFCEgoQX25leHRfcGFnZV90b2tlbiLqAgoWVXBkYXRlV29ya3NwYWNlUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECEhEKBG5hbWUYAiABKAlIAIgBARI8CgxiYWNrZW5kX3R5cGUYAyABKA4yJi50ZXJyYWJhc2UuYmFja2VuZF90eXBlLnYxLkJhY2tlbmRUeXBlEhsKDmVudmlyb25tZW50X2lkGAQgASgJSAGIAQESFAoHdGVhbV9pZBgFIAEoCUgCiAEBEiEKFHMzX2JhY2tlbmRfY29uZmlnX2lkGAYgASgJSAOIAQESVwoRczNfYmFja2VuZF9jb25maWcYByABKAsyPC50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuQ3JlYXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdEIHCgVfbmFtZUIRCg9fZW52aXJvbm1lbnRfaWRCCgoIX3RlYW1faWRCFwoVX3MzX2JhY2tlbmRfY29uZmlnX2lkIk8KF1VwZGF0ZVdvcmtzcGFjZVJlc3BvbnNlEjQKCXdvcmtzcGFjZRgBIAEoCzIhLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuV29ya3NwYWNlIikKFkRlbGV0ZVdvcmtzcGFjZVJlcXVlc3QSDwoCaWQYASABKAlCA+BBAiIZChdEZWxldGVXb3Jrc3BhY2VSZXNwb25zZSJmChZHcmFudFRlYW1BY2Nlc3NSZXF1ZXN0EhkKDHdvcmtzcGFjZV9pZBgBIAEoCUID4EECEjEKCHRlYW1faWRzGAIgASgLMhoudGVycmFiYXNlLnRlYW0udjEuVGVhbUlkc0ID4EECIhkKF0dyYW50VGVhbUFjY2Vzc1Jlc3BvbnNlImcKF1Jldm9rZVRlYW1BY2Nlc3NSZXF1ZXN0EhkKDHdvcmtzcGFjZV9pZBgBIAEoCUID4EECEjEKCHRlYW1faWRzGAIgASgLMhoudGVycmFiYXNlLnRlYW0udjEuVGVhbUlkc0ID4EECIhoKGFJldm9rZVRlYW1BY2Nlc3NSZXNwb25zZTK1BgoQV29ya3NwYWNlU2VydmljZRJyCg9DcmVhdGVXb3Jrc3BhY2USLi50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkNyZWF0ZVdvcmtzcGFjZVJlcXVlc3QaLy50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkNyZWF0ZVdvcmtzcGFjZVJlc3BvbnNlEmkKDEdldFdvcmtzcGFjZRIrLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuR2V0V29ya3NwYWNlUmVxdWVzdBosLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuR2V0V29ya3NwYWNlUmVzcG9uc2USbwoOTGlzdFdvcmtzcGFjZXMSLS50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkxpc3RXb3Jrc3BhY2VzUmVxdWVzdBouLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuTGlzdFdvcmtzcGFjZXNSZXNwb25zZRJyCg9VcGRhdGVXb3Jrc3BhY2USLi50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLlVwZGF0ZVdvcmtzcGFjZVJlcXVlc3QaLy50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLlVwZGF0ZVdvcmtzcGFjZVJlc3BvbnNlEnIKD0RlbGV0ZVdvcmtzcGFjZRIuLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuRGVsZXRlV29ya3NwYWNlUmVxdWVzdBovLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuRGVsZXRlV29ya3NwYWNlUmVzcG9uc2UScgoPR3JhbnRUZWFtQWNjZXNzEi4udGVycmFiYXNlLndvcmtzcGFjZS52MS5HcmFudFRlYW1BY2Nlc3NSZXF1ZXN0Gi8udGVycmFiYXNlLndvcmtzcGFjZS52MS5HcmFudFRlYW1BY2Nlc3NSZXNwb25zZRJ1ChBSZXZva2VUZWFtQWNjZXNzEi8udGVycmFiYXNlLndvcmtzcGFjZS52MS5SZXZva2VUZWFtQWNjZXNzUmVxdWVzdBowLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuUmV2b2tlVGVhbUFjY2Vzc1Jlc3BvbnNlQk1aS2dpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL3dvcmtzcGFjZS92MTt3b3Jrc3BhY2V2MWIGcHJvdG8z", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_backend_type_v1_backend_type, file_terrabase_s3_backend_config_v1_s3_backend_config, file_terrabase_team_v1_team]);
+  fileDesc("CiZ0ZXJyYWJhc2Uvd29ya3NwYWNlL3YxL3dvcmtzcGFjZS5wcm90bxIWdGVycmFiYXNlLndvcmtzcGFjZS52MSL2AQoJV29ya3NwYWNlEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSOQoMYmFja2VuZF90eXBlGAMgASgOMiMudGVycmFiYXNlLndvcmtzcGFjZS52MS5CYWNrZW5kVHlwZRIYCg5lbnZpcm9ubWVudF9pZBgEIAEoCUgAEhEKB3RlYW1faWQYBSABKAlIABIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEIHCgVvd25lciL6AQoWQ3JlYXRlV29ya3NwYWNlUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISPgoMYmFja2VuZF90eXBlGAIgASgOMiMudGVycmFiYXNlLndvcmtzcGFjZS52MS5CYWNrZW5kVHlwZUID4EECEhgKDmVudmlyb25tZW50X2lkGAMgASgJSAASEQoHdGVhbV9pZBgEIAEoCUgAElcKEXMzX2JhY2tlbmRfY29uZmlnGAUgASgLMjwudGVycmFiYXNlLnMzX2JhY2tlbmRfY29uZmlnLnYxLkNyZWF0ZVMzQmFja2VuZENvbmZpZ1JlcXVlc3RCBwoFb3duZXIiTwoXQ3JlYXRlV29ya3NwYWNlUmVzcG9uc2USNAoJd29ya3NwYWNlGAEgASgLMiEudGVycmFiYXNlLndvcmtzcGFjZS52MS5Xb3Jrc3BhY2UiJgoTR2V0V29ya3NwYWNlUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIkwKFEdldFdvcmtzcGFjZVJlc3BvbnNlEjQKCXdvcmtzcGFjZRgBIAEoCzIhLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuV29ya3NwYWNlIrcBChVMaXN0V29ya3NwYWNlc1JlcXVlc3QSFgoJcGFnZV9zaXplGAEgASgFSACIAQESFwoKcGFnZV90b2tlbhgCIAEoCUgBiAEBEhQKB3RlYW1faWQYAyABKAlIAogBARIbCg5hcHBsaWNhdGlvbl9pZBgEIAEoCUgDiAEBQgwKCl9wYWdlX3NpemVCDQoLX3BhZ2VfdG9rZW5CCgoIX3RlYW1faWRCEQoPX2FwcGxpY2F0aW9uX2lkIoEBChZMaXN0V29ya3NwYWNlc1Jlc3BvbnNlEjUKCndvcmtzcGFjZXMYASADKAsyIS50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLldvcmtzcGFjZRIcCg9uZXh0X3BhZ2VfdG9rZW4YAiABKAlIAIgBAUISChBfbmV4dF9wYWdlX3Rva2VuIo8CChZVcGRhdGVXb3Jrc3BhY2VSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISEQoEbmFtZRgCIAEoCUgBiAEBEjkKDGJhY2tlbmRfdHlwZRgDIAEoDjIjLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuQmFja2VuZFR5cGUSGAoOZW52aXJvbm1lbnRfaWQYBCABKAlIABIRCgd0ZWFtX2lkGAUgASgJSAASVwoRczNfYmFja2VuZF9jb25maWcYBiABKAsyPC50ZXJyYWJhc2UuczNfYmFja2VuZF9jb25maWcudjEuQ3JlYXRlUzNCYWNrZW5kQ29uZmlnUmVxdWVzdEIHCgVvd25lckIHCgVfbmFtZSJPChdVcGRhdGVXb3Jrc3BhY2VSZXNwb25zZRI0Cgl3b3Jrc3BhY2UYASABKAsyIS50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLldvcmtzcGFjZSIpChZEZWxldGVXb3Jrc3BhY2VSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiGQoXRGVsZXRlV29ya3NwYWNlUmVzcG9uc2UiZgoWR3JhbnRUZWFtQWNjZXNzUmVxdWVzdBIZCgx3b3Jrc3BhY2VfaWQYASABKAlCA+BBAhIxCgh0ZWFtX2lkcxgCIAEoCzIaLnRlcnJhYmFzZS50ZWFtLnYxLlRlYW1JZHNCA+BBAiIZChdHcmFudFRlYW1BY2Nlc3NSZXNwb25zZSJnChdSZXZva2VUZWFtQWNjZXNzUmVxdWVzdBIZCgx3b3Jrc3BhY2VfaWQYASABKAlCA+BBAhIxCgh0ZWFtX2lkcxgCIAEoCzIaLnRlcnJhYmFzZS50ZWFtLnYxLlRlYW1JZHNCA+BBAiIaChhSZXZva2VUZWFtQWNjZXNzUmVzcG9uc2UqQAoLQmFja2VuZFR5cGUSHAoYQkFDS0VORF9UWVBFX1VOU1BFQ0lGSUVEEAASEwoPQkFDS0VORF9UWVBFX1MzEAEytQYKEFdvcmtzcGFjZVNlcnZpY2UScgoPQ3JlYXRlV29ya3NwYWNlEi4udGVycmFiYXNlLndvcmtzcGFjZS52MS5DcmVhdGVXb3Jrc3BhY2VSZXF1ZXN0Gi8udGVycmFiYXNlLndvcmtzcGFjZS52MS5DcmVhdGVXb3Jrc3BhY2VSZXNwb25zZRJpCgxHZXRXb3Jrc3BhY2USKy50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkdldFdvcmtzcGFjZVJlcXVlc3QaLC50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkdldFdvcmtzcGFjZVJlc3BvbnNlEm8KDkxpc3RXb3Jrc3BhY2VzEi0udGVycmFiYXNlLndvcmtzcGFjZS52MS5MaXN0V29ya3NwYWNlc1JlcXVlc3QaLi50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkxpc3RXb3Jrc3BhY2VzUmVzcG9uc2UScgoPVXBkYXRlV29ya3NwYWNlEi4udGVycmFiYXNlLndvcmtzcGFjZS52MS5VcGRhdGVXb3Jrc3BhY2VSZXF1ZXN0Gi8udGVycmFiYXNlLndvcmtzcGFjZS52MS5VcGRhdGVXb3Jrc3BhY2VSZXNwb25zZRJyCg9EZWxldGVXb3Jrc3BhY2USLi50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkRlbGV0ZVdvcmtzcGFjZVJlcXVlc3QaLy50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLkRlbGV0ZVdvcmtzcGFjZVJlc3BvbnNlEnIKD0dyYW50VGVhbUFjY2VzcxIuLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuR3JhbnRUZWFtQWNjZXNzUmVxdWVzdBovLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuR3JhbnRUZWFtQWNjZXNzUmVzcG9uc2USdQoQUmV2b2tlVGVhbUFjY2VzcxIvLnRlcnJhYmFzZS53b3Jrc3BhY2UudjEuUmV2b2tlVGVhbUFjY2Vzc1JlcXVlc3QaMC50ZXJyYWJhc2Uud29ya3NwYWNlLnYxLlJldm9rZVRlYW1BY2Nlc3NSZXNwb25zZUJNWktnaXRodWIuY29tL3RlcnJhYmFzZS1kZXYvdGVycmFiYXNlL3NwZWNzL3RlcnJhYmFzZS93b3Jrc3BhY2UvdjE7d29ya3NwYWNldjFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_s3_backend_config_v1_s3_backend_config, file_terrabase_team_v1_team]);
 
 /**
+ * A Terrabase workspace represents a single Terraform state file
+ *
  * @generated from message terrabase.workspace.v1.Workspace
  */
 export type Workspace = Message<"terrabase.workspace.v1.Workspace"> & {
   /**
+   * The unique ID of the workspace
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The name of the workspace
+   *
    * @generated from field: string name = 2;
    */
   name: string;
 
   /**
-   * @generated from field: terrabase.backend_type.v1.BackendType backend_type = 3;
+   * The type of the backend configuration of the workspace
+   *
+   * @generated from field: terrabase.workspace.v1.BackendType backend_type = 3;
    */
   backendType: BackendType;
 
   /**
-   * @generated from field: optional string environment_id = 4;
+   * @generated from oneof terrabase.workspace.v1.Workspace.owner
    */
-  environmentId?: string;
+  owner: {
+    /**
+     * The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+     *
+     * @generated from field: string environment_id = 4;
+     */
+    value: string;
+    case: "environmentId";
+  } | {
+    /**
+     * The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+     *
+     * @generated from field: string team_id = 5;
+     */
+    value: string;
+    case: "teamId";
+  } | { case: undefined; value?: undefined };
 
   /**
-   * @generated from field: optional string s3_backend_config_id = 5;
-   */
-  s3BackendConfigId?: string;
-
-  /**
+   * The time the workspace was created
+   *
    * @generated from field: google.protobuf.Timestamp created_at = 6;
    */
   createdAt?: Timestamp;
 
   /**
+   * The time the workspace was last updated at
+   *
    * @generated from field: google.protobuf.Timestamp updated_at = 7;
    */
   updatedAt?: Timestamp;
@@ -73,26 +94,43 @@ export const WorkspaceSchema: GenMessage<Workspace> = /*@__PURE__*/
  */
 export type CreateWorkspaceRequest = Message<"terrabase.workspace.v1.CreateWorkspaceRequest"> & {
   /**
+   * The name of the workspace
+   *
    * @generated from field: string name = 1;
    */
   name: string;
 
   /**
-   * @generated from field: terrabase.backend_type.v1.BackendType backend_type = 2;
+   * The type of the backend configuration of the workspace
+   *
+   * @generated from field: terrabase.workspace.v1.BackendType backend_type = 2;
    */
   backendType: BackendType;
 
   /**
-   * @generated from field: optional string environment_id = 3;
+   * @generated from oneof terrabase.workspace.v1.CreateWorkspaceRequest.owner
    */
-  environmentId?: string;
+  owner: {
+    /**
+     * The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+     *
+     * @generated from field: string environment_id = 3;
+     */
+    value: string;
+    case: "environmentId";
+  } | {
+    /**
+     * The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+     *
+     * @generated from field: string team_id = 4;
+     */
+    value: string;
+    case: "teamId";
+  } | { case: undefined; value?: undefined };
 
   /**
-   * @generated from field: optional string team_id = 4;
-   */
-  teamId?: string;
-
-  /**
+   * The S3 backend configuration, if the backend type is S3
+   *
    * @generated from field: terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 5;
    */
   s3BackendConfig?: CreateS3BackendConfigRequest;
@@ -110,6 +148,8 @@ export const CreateWorkspaceRequestSchema: GenMessage<CreateWorkspaceRequest> = 
  */
 export type CreateWorkspaceResponse = Message<"terrabase.workspace.v1.CreateWorkspaceResponse"> & {
   /**
+   * The workspace that was created
+   *
    * @generated from field: terrabase.workspace.v1.Workspace workspace = 1;
    */
   workspace?: Workspace;
@@ -127,6 +167,8 @@ export const CreateWorkspaceResponseSchema: GenMessage<CreateWorkspaceResponse> 
  */
 export type GetWorkspaceRequest = Message<"terrabase.workspace.v1.GetWorkspaceRequest"> & {
   /**
+   * The unique ID of the workspace
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -144,6 +186,8 @@ export const GetWorkspaceRequestSchema: GenMessage<GetWorkspaceRequest> = /*@__P
  */
 export type GetWorkspaceResponse = Message<"terrabase.workspace.v1.GetWorkspaceResponse"> & {
   /**
+   * The workspace
+   *
    * @generated from field: terrabase.workspace.v1.Workspace workspace = 1;
    */
   workspace?: Workspace;
@@ -161,24 +205,32 @@ export const GetWorkspaceResponseSchema: GenMessage<GetWorkspaceResponse> = /*@_
  */
 export type ListWorkspacesRequest = Message<"terrabase.workspace.v1.ListWorkspacesRequest"> & {
   /**
+   * The number of workspaces on each page of results
+   *
    * @generated from field: optional int32 page_size = 1;
    */
   pageSize?: number;
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string page_token = 2;
    */
   pageToken?: string;
 
   /**
+   * The ID of the team to list all workspaces who are owned by the team
+   *
    * @generated from field: optional string team_id = 3;
    */
   teamId?: string;
 
   /**
-   * @generated from field: optional string environment_id = 4;
+   * The ID of the application to list all workspaces who belong to the application
+   *
+   * @generated from field: optional string application_id = 4;
    */
-  environmentId?: string;
+  applicationId?: string;
 };
 
 /**
@@ -193,11 +245,15 @@ export const ListWorkspacesRequestSchema: GenMessage<ListWorkspacesRequest> = /*
  */
 export type ListWorkspacesResponse = Message<"terrabase.workspace.v1.ListWorkspacesResponse"> & {
   /**
+   * A list of workspaces
+   *
    * @generated from field: repeated terrabase.workspace.v1.Workspace workspaces = 1;
    */
   workspaces: Workspace[];
 
   /**
+   * The token to retrieve the next page of results
+   *
    * @generated from field: optional string next_page_token = 2;
    */
   nextPageToken?: string;
@@ -215,37 +271,51 @@ export const ListWorkspacesResponseSchema: GenMessage<ListWorkspacesResponse> = 
  */
 export type UpdateWorkspaceRequest = Message<"terrabase.workspace.v1.UpdateWorkspaceRequest"> & {
   /**
+   * The unique ID of the workspace to update
+   *
    * @generated from field: string id = 1;
    */
   id: string;
 
   /**
+   * The new name of the workspace
+   *
    * @generated from field: optional string name = 2;
    */
   name?: string;
 
   /**
-   * @generated from field: terrabase.backend_type.v1.BackendType backend_type = 3;
+   * The new backend type of the workspace
+   *
+   * @generated from field: terrabase.workspace.v1.BackendType backend_type = 3;
    */
   backendType: BackendType;
 
   /**
-   * @generated from field: optional string environment_id = 4;
+   * @generated from oneof terrabase.workspace.v1.UpdateWorkspaceRequest.owner
    */
-  environmentId?: string;
+  owner: {
+    /**
+     * The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+     *
+     * @generated from field: string environment_id = 4;
+     */
+    value: string;
+    case: "environmentId";
+  } | {
+    /**
+     * The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+     *
+     * @generated from field: string team_id = 5;
+     */
+    value: string;
+    case: "teamId";
+  } | { case: undefined; value?: undefined };
 
   /**
-   * @generated from field: optional string team_id = 5;
-   */
-  teamId?: string;
-
-  /**
-   * @generated from field: optional string s3_backend_config_id = 6;
-   */
-  s3BackendConfigId?: string;
-
-  /**
-   * @generated from field: terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 7;
+   * The new S3 backend configuration, if the backend type is S3 and a new configuration needs to be created
+   *
+   * @generated from field: terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 6;
    */
   s3BackendConfig?: CreateS3BackendConfigRequest;
 };
@@ -262,6 +332,8 @@ export const UpdateWorkspaceRequestSchema: GenMessage<UpdateWorkspaceRequest> = 
  */
 export type UpdateWorkspaceResponse = Message<"terrabase.workspace.v1.UpdateWorkspaceResponse"> & {
   /**
+   * The updated workspace
+   *
    * @generated from field: terrabase.workspace.v1.Workspace workspace = 1;
    */
   workspace?: Workspace;
@@ -279,6 +351,8 @@ export const UpdateWorkspaceResponseSchema: GenMessage<UpdateWorkspaceResponse> 
  */
 export type DeleteWorkspaceRequest = Message<"terrabase.workspace.v1.DeleteWorkspaceRequest"> & {
   /**
+   * The unique ID of the workspace to delete
+   *
    * @generated from field: string id = 1;
    */
   id: string;
@@ -309,11 +383,15 @@ export const DeleteWorkspaceResponseSchema: GenMessage<DeleteWorkspaceResponse> 
  */
 export type GrantTeamAccessRequest = Message<"terrabase.workspace.v1.GrantTeamAccessRequest"> & {
   /**
+   * The unique ID of the workspace
+   *
    * @generated from field: string workspace_id = 1;
    */
   workspaceId: string;
 
   /**
+   * A list of team IDs who should be granted access to the workspace
+   *
    * @generated from field: terrabase.team.v1.TeamIds team_ids = 2;
    */
   teamIds?: TeamIds;
@@ -344,11 +422,15 @@ export const GrantTeamAccessResponseSchema: GenMessage<GrantTeamAccessResponse> 
  */
 export type RevokeTeamAccessRequest = Message<"terrabase.workspace.v1.RevokeTeamAccessRequest"> & {
   /**
+   * The unique ID of the workspace
+   *
    * @generated from field: string workspace_id = 1;
    */
   workspaceId: string;
 
   /**
+   * A list of team IDs whose access to the workspace should be revoked
+   *
    * @generated from field: terrabase.team.v1.TeamIds team_ids = 2;
    */
   teamIds?: TeamIds;
@@ -375,10 +457,37 @@ export const RevokeTeamAccessResponseSchema: GenMessage<RevokeTeamAccessResponse
   messageDesc(file_terrabase_workspace_v1_workspace, 14);
 
 /**
+ * @generated from enum terrabase.workspace.v1.BackendType
+ */
+export enum BackendType {
+  /**
+   * Default - should not be used
+   *
+   * @generated from enum value: BACKEND_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * S3 backend
+   *
+   * @generated from enum value: BACKEND_TYPE_S3 = 1;
+   */
+  S3 = 1,
+}
+
+/**
+ * Describes the enum terrabase.workspace.v1.BackendType.
+ */
+export const BackendTypeSchema: GenEnum<BackendType> = /*@__PURE__*/
+  enumDesc(file_terrabase_workspace_v1_workspace, 0);
+
+/**
  * @generated from service terrabase.workspace.v1.WorkspaceService
  */
 export const WorkspaceService: GenService<{
   /**
+   * Create a new workspace
+   *
    * @generated from rpc terrabase.workspace.v1.WorkspaceService.CreateWorkspace
    */
   createWorkspace: {
@@ -387,6 +496,8 @@ export const WorkspaceService: GenService<{
     output: typeof CreateWorkspaceResponseSchema;
   },
   /**
+   * Retrieve details about a single workspace
+   *
    * @generated from rpc terrabase.workspace.v1.WorkspaceService.GetWorkspace
    */
   getWorkspace: {
@@ -395,6 +506,8 @@ export const WorkspaceService: GenService<{
     output: typeof GetWorkspaceResponseSchema;
   },
   /**
+   * List workspaces owned by a specific team, or belong to a specific application
+   *
    * @generated from rpc terrabase.workspace.v1.WorkspaceService.ListWorkspaces
    */
   listWorkspaces: {
@@ -403,6 +516,8 @@ export const WorkspaceService: GenService<{
     output: typeof ListWorkspacesResponseSchema;
   },
   /**
+   * Change details about a workspace
+   *
    * @generated from rpc terrabase.workspace.v1.WorkspaceService.UpdateWorkspace
    */
   updateWorkspace: {
@@ -411,6 +526,8 @@ export const WorkspaceService: GenService<{
     output: typeof UpdateWorkspaceResponseSchema;
   },
   /**
+   * Delete a workspace
+   *
    * @generated from rpc terrabase.workspace.v1.WorkspaceService.DeleteWorkspace
    */
   deleteWorkspace: {
@@ -419,6 +536,8 @@ export const WorkspaceService: GenService<{
     output: typeof DeleteWorkspaceResponseSchema;
   },
   /**
+   * Grant access to a workspace to a single team or multiple teams
+   *
    * @generated from rpc terrabase.workspace.v1.WorkspaceService.GrantTeamAccess
    */
   grantTeamAccess: {
@@ -427,6 +546,8 @@ export const WorkspaceService: GenService<{
     output: typeof GrantTeamAccessResponseSchema;
   },
   /**
+   * Revoke access to a workspace from a single team or multiple teams
+   *
    * @generated from rpc terrabase.workspace.v1.WorkspaceService.RevokeTeamAccess
    */
   revokeTeamAccess: {

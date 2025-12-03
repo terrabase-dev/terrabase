@@ -7,9 +7,8 @@
 package workspacev1
 
 import (
-	v1 "github.com/terrabase-dev/terrabase/specs/terrabase/backend_type/v1"
-	v11 "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1"
-	v12 "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1"
+	v1 "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1"
+	v11 "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -26,17 +25,74 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type BackendType int32
+
+const (
+	// Default - should not be used
+	BackendType_BACKEND_TYPE_UNSPECIFIED BackendType = 0
+	// S3 backend
+	BackendType_BACKEND_TYPE_S3 BackendType = 1
+)
+
+// Enum value maps for BackendType.
+var (
+	BackendType_name = map[int32]string{
+		0: "BACKEND_TYPE_UNSPECIFIED",
+		1: "BACKEND_TYPE_S3",
+	}
+	BackendType_value = map[string]int32{
+		"BACKEND_TYPE_UNSPECIFIED": 0,
+		"BACKEND_TYPE_S3":          1,
+	}
+)
+
+func (x BackendType) Enum() *BackendType {
+	p := new(BackendType)
+	*p = x
+	return p
+}
+
+func (x BackendType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (BackendType) Descriptor() protoreflect.EnumDescriptor {
+	return file_terrabase_workspace_v1_workspace_proto_enumTypes[0].Descriptor()
+}
+
+func (BackendType) Type() protoreflect.EnumType {
+	return &file_terrabase_workspace_v1_workspace_proto_enumTypes[0]
+}
+
+func (x BackendType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use BackendType.Descriptor instead.
+func (BackendType) EnumDescriptor() ([]byte, []int) {
+	return file_terrabase_workspace_v1_workspace_proto_rawDescGZIP(), []int{0}
+}
+
+// A Terrabase workspace represents a single Terraform state file
 type Workspace struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	BackendType       v1.BackendType         `protobuf:"varint,3,opt,name=backend_type,json=backendType,proto3,enum=terrabase.backend_type.v1.BackendType" json:"backend_type,omitempty"`
-	EnvironmentId     *string                `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof" json:"environment_id,omitempty"`
-	S3BackendConfigId *string                `protobuf:"bytes,5,opt,name=s3_backend_config_id,json=s3BackendConfigId,proto3,oneof" json:"s3_backend_config_id,omitempty"`
-	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the workspace
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The name of the workspace
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// The type of the backend configuration of the workspace
+	BackendType BackendType `protobuf:"varint,3,opt,name=backend_type,json=backendType,proto3,enum=terrabase.workspace.v1.BackendType" json:"backend_type,omitempty"`
+	// Types that are valid to be assigned to Owner:
+	//
+	//	*Workspace_EnvironmentId
+	//	*Workspace_TeamId
+	Owner isWorkspace_Owner `protobuf_oneof:"owner"`
+	// The time the workspace was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the workspace was last updated at
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Workspace) Reset() {
@@ -83,23 +139,34 @@ func (x *Workspace) GetName() string {
 	return ""
 }
 
-func (x *Workspace) GetBackendType() v1.BackendType {
+func (x *Workspace) GetBackendType() BackendType {
 	if x != nil {
 		return x.BackendType
 	}
-	return v1.BackendType(0)
+	return BackendType_BACKEND_TYPE_UNSPECIFIED
+}
+
+func (x *Workspace) GetOwner() isWorkspace_Owner {
+	if x != nil {
+		return x.Owner
+	}
+	return nil
 }
 
 func (x *Workspace) GetEnvironmentId() string {
-	if x != nil && x.EnvironmentId != nil {
-		return *x.EnvironmentId
+	if x != nil {
+		if x, ok := x.Owner.(*Workspace_EnvironmentId); ok {
+			return x.EnvironmentId
+		}
 	}
 	return ""
 }
 
-func (x *Workspace) GetS3BackendConfigId() string {
-	if x != nil && x.S3BackendConfigId != nil {
-		return *x.S3BackendConfigId
+func (x *Workspace) GetTeamId() string {
+	if x != nil {
+		if x, ok := x.Owner.(*Workspace_TeamId); ok {
+			return x.TeamId
+		}
 	}
 	return ""
 }
@@ -118,13 +185,37 @@ func (x *Workspace) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type isWorkspace_Owner interface {
+	isWorkspace_Owner()
+}
+
+type Workspace_EnvironmentId struct {
+	// The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+	EnvironmentId string `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof"`
+}
+
+type Workspace_TeamId struct {
+	// The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+	TeamId string `protobuf:"bytes,5,opt,name=team_id,json=teamId,proto3,oneof"`
+}
+
+func (*Workspace_EnvironmentId) isWorkspace_Owner() {}
+
+func (*Workspace_TeamId) isWorkspace_Owner() {}
+
 type CreateWorkspaceRequest struct {
-	state           protoimpl.MessageState            `protogen:"open.v1"`
-	Name            string                            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	BackendType     v1.BackendType                    `protobuf:"varint,2,opt,name=backend_type,json=backendType,proto3,enum=terrabase.backend_type.v1.BackendType" json:"backend_type,omitempty"`
-	EnvironmentId   *string                           `protobuf:"bytes,3,opt,name=environment_id,json=environmentId,proto3,oneof" json:"environment_id,omitempty"`
-	TeamId          *string                           `protobuf:"bytes,4,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
-	S3BackendConfig *v11.CreateS3BackendConfigRequest `protobuf:"bytes,5,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The name of the workspace
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The type of the backend configuration of the workspace
+	BackendType BackendType `protobuf:"varint,2,opt,name=backend_type,json=backendType,proto3,enum=terrabase.workspace.v1.BackendType" json:"backend_type,omitempty"`
+	// Types that are valid to be assigned to Owner:
+	//
+	//	*CreateWorkspaceRequest_EnvironmentId
+	//	*CreateWorkspaceRequest_TeamId
+	Owner isCreateWorkspaceRequest_Owner `protobuf_oneof:"owner"`
+	// The S3 backend configuration, if the backend type is S3
+	S3BackendConfig *v1.CreateS3BackendConfigRequest `protobuf:"bytes,5,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -166,37 +257,67 @@ func (x *CreateWorkspaceRequest) GetName() string {
 	return ""
 }
 
-func (x *CreateWorkspaceRequest) GetBackendType() v1.BackendType {
+func (x *CreateWorkspaceRequest) GetBackendType() BackendType {
 	if x != nil {
 		return x.BackendType
 	}
-	return v1.BackendType(0)
+	return BackendType_BACKEND_TYPE_UNSPECIFIED
+}
+
+func (x *CreateWorkspaceRequest) GetOwner() isCreateWorkspaceRequest_Owner {
+	if x != nil {
+		return x.Owner
+	}
+	return nil
 }
 
 func (x *CreateWorkspaceRequest) GetEnvironmentId() string {
-	if x != nil && x.EnvironmentId != nil {
-		return *x.EnvironmentId
+	if x != nil {
+		if x, ok := x.Owner.(*CreateWorkspaceRequest_EnvironmentId); ok {
+			return x.EnvironmentId
+		}
 	}
 	return ""
 }
 
 func (x *CreateWorkspaceRequest) GetTeamId() string {
-	if x != nil && x.TeamId != nil {
-		return *x.TeamId
+	if x != nil {
+		if x, ok := x.Owner.(*CreateWorkspaceRequest_TeamId); ok {
+			return x.TeamId
+		}
 	}
 	return ""
 }
 
-func (x *CreateWorkspaceRequest) GetS3BackendConfig() *v11.CreateS3BackendConfigRequest {
+func (x *CreateWorkspaceRequest) GetS3BackendConfig() *v1.CreateS3BackendConfigRequest {
 	if x != nil {
 		return x.S3BackendConfig
 	}
 	return nil
 }
 
+type isCreateWorkspaceRequest_Owner interface {
+	isCreateWorkspaceRequest_Owner()
+}
+
+type CreateWorkspaceRequest_EnvironmentId struct {
+	// The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+	EnvironmentId string `protobuf:"bytes,3,opt,name=environment_id,json=environmentId,proto3,oneof"`
+}
+
+type CreateWorkspaceRequest_TeamId struct {
+	// The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+	TeamId string `protobuf:"bytes,4,opt,name=team_id,json=teamId,proto3,oneof"`
+}
+
+func (*CreateWorkspaceRequest_EnvironmentId) isCreateWorkspaceRequest_Owner() {}
+
+func (*CreateWorkspaceRequest_TeamId) isCreateWorkspaceRequest_Owner() {}
+
 type CreateWorkspaceResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Workspace     *Workspace             `protobuf:"bytes,1,opt,name=workspace,proto3" json:"workspace,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The workspace that was created
+	Workspace     *Workspace `protobuf:"bytes,1,opt,name=workspace,proto3" json:"workspace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -239,8 +360,9 @@ func (x *CreateWorkspaceResponse) GetWorkspace() *Workspace {
 }
 
 type GetWorkspaceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the workspace
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -283,8 +405,9 @@ func (x *GetWorkspaceRequest) GetId() string {
 }
 
 type GetWorkspaceResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Workspace     *Workspace             `protobuf:"bytes,1,opt,name=workspace,proto3" json:"workspace,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The workspace
+	Workspace     *Workspace `protobuf:"bytes,1,opt,name=workspace,proto3" json:"workspace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -327,11 +450,15 @@ func (x *GetWorkspaceResponse) GetWorkspace() *Workspace {
 }
 
 type ListWorkspacesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	PageSize      *int32                 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
-	TeamId        *string                `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
-	EnvironmentId *string                `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof" json:"environment_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The number of workspaces on each page of results
+	PageSize *int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
+	// The token to retrieve the next page of results
+	PageToken *string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	// The ID of the team to list all workspaces who are owned by the team
+	TeamId *string `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
+	// The ID of the application to list all workspaces who belong to the application
+	ApplicationId *string `protobuf:"bytes,4,opt,name=application_id,json=applicationId,proto3,oneof" json:"application_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -387,17 +514,19 @@ func (x *ListWorkspacesRequest) GetTeamId() string {
 	return ""
 }
 
-func (x *ListWorkspacesRequest) GetEnvironmentId() string {
-	if x != nil && x.EnvironmentId != nil {
-		return *x.EnvironmentId
+func (x *ListWorkspacesRequest) GetApplicationId() string {
+	if x != nil && x.ApplicationId != nil {
+		return *x.ApplicationId
 	}
 	return ""
 }
 
 type ListWorkspacesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Workspaces    []*Workspace           `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty"`
-	NextPageToken *string                `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of workspaces
+	Workspaces []*Workspace `protobuf:"bytes,1,rep,name=workspaces,proto3" json:"workspaces,omitempty"`
+	// The token to retrieve the next page of results
+	NextPageToken *string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -447,16 +576,22 @@ func (x *ListWorkspacesResponse) GetNextPageToken() string {
 }
 
 type UpdateWorkspaceRequest struct {
-	state             protoimpl.MessageState            `protogen:"open.v1"`
-	Id                string                            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name              *string                           `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	BackendType       v1.BackendType                    `protobuf:"varint,3,opt,name=backend_type,json=backendType,proto3,enum=terrabase.backend_type.v1.BackendType" json:"backend_type,omitempty"`
-	EnvironmentId     *string                           `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof" json:"environment_id,omitempty"`
-	TeamId            *string                           `protobuf:"bytes,5,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
-	S3BackendConfigId *string                           `protobuf:"bytes,6,opt,name=s3_backend_config_id,json=s3BackendConfigId,proto3,oneof" json:"s3_backend_config_id,omitempty"`
-	S3BackendConfig   *v11.CreateS3BackendConfigRequest `protobuf:"bytes,7,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the workspace to update
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The new name of the workspace
+	Name *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	// The new backend type of the workspace
+	BackendType BackendType `protobuf:"varint,3,opt,name=backend_type,json=backendType,proto3,enum=terrabase.workspace.v1.BackendType" json:"backend_type,omitempty"`
+	// Types that are valid to be assigned to Owner:
+	//
+	//	*UpdateWorkspaceRequest_EnvironmentId
+	//	*UpdateWorkspaceRequest_TeamId
+	Owner isUpdateWorkspaceRequest_Owner `protobuf_oneof:"owner"`
+	// The new S3 backend configuration, if the backend type is S3 and a new configuration needs to be created
+	S3BackendConfig *v1.CreateS3BackendConfigRequest `protobuf:"bytes,6,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateWorkspaceRequest) Reset() {
@@ -503,44 +638,67 @@ func (x *UpdateWorkspaceRequest) GetName() string {
 	return ""
 }
 
-func (x *UpdateWorkspaceRequest) GetBackendType() v1.BackendType {
+func (x *UpdateWorkspaceRequest) GetBackendType() BackendType {
 	if x != nil {
 		return x.BackendType
 	}
-	return v1.BackendType(0)
+	return BackendType_BACKEND_TYPE_UNSPECIFIED
+}
+
+func (x *UpdateWorkspaceRequest) GetOwner() isUpdateWorkspaceRequest_Owner {
+	if x != nil {
+		return x.Owner
+	}
+	return nil
 }
 
 func (x *UpdateWorkspaceRequest) GetEnvironmentId() string {
-	if x != nil && x.EnvironmentId != nil {
-		return *x.EnvironmentId
+	if x != nil {
+		if x, ok := x.Owner.(*UpdateWorkspaceRequest_EnvironmentId); ok {
+			return x.EnvironmentId
+		}
 	}
 	return ""
 }
 
 func (x *UpdateWorkspaceRequest) GetTeamId() string {
-	if x != nil && x.TeamId != nil {
-		return *x.TeamId
+	if x != nil {
+		if x, ok := x.Owner.(*UpdateWorkspaceRequest_TeamId); ok {
+			return x.TeamId
+		}
 	}
 	return ""
 }
 
-func (x *UpdateWorkspaceRequest) GetS3BackendConfigId() string {
-	if x != nil && x.S3BackendConfigId != nil {
-		return *x.S3BackendConfigId
-	}
-	return ""
-}
-
-func (x *UpdateWorkspaceRequest) GetS3BackendConfig() *v11.CreateS3BackendConfigRequest {
+func (x *UpdateWorkspaceRequest) GetS3BackendConfig() *v1.CreateS3BackendConfigRequest {
 	if x != nil {
 		return x.S3BackendConfig
 	}
 	return nil
 }
 
+type isUpdateWorkspaceRequest_Owner interface {
+	isUpdateWorkspaceRequest_Owner()
+}
+
+type UpdateWorkspaceRequest_EnvironmentId struct {
+	// The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+	EnvironmentId string `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof"`
+}
+
+type UpdateWorkspaceRequest_TeamId struct {
+	// The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+	TeamId string `protobuf:"bytes,5,opt,name=team_id,json=teamId,proto3,oneof"`
+}
+
+func (*UpdateWorkspaceRequest_EnvironmentId) isUpdateWorkspaceRequest_Owner() {}
+
+func (*UpdateWorkspaceRequest_TeamId) isUpdateWorkspaceRequest_Owner() {}
+
 type UpdateWorkspaceResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Workspace     *Workspace             `protobuf:"bytes,1,opt,name=workspace,proto3" json:"workspace,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The updated workspace
+	Workspace     *Workspace `protobuf:"bytes,1,opt,name=workspace,proto3" json:"workspace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -583,8 +741,9 @@ func (x *UpdateWorkspaceResponse) GetWorkspace() *Workspace {
 }
 
 type DeleteWorkspaceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the workspace to delete
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -663,9 +822,11 @@ func (*DeleteWorkspaceResponse) Descriptor() ([]byte, []int) {
 }
 
 type GrantTeamAccessRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WorkspaceId   string                 `protobuf:"bytes,1,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
-	TeamIds       *v12.TeamIds           `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the workspace
+	WorkspaceId string `protobuf:"bytes,1,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
+	// A list of team IDs who should be granted access to the workspace
+	TeamIds       *v11.TeamIds `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -707,7 +868,7 @@ func (x *GrantTeamAccessRequest) GetWorkspaceId() string {
 	return ""
 }
 
-func (x *GrantTeamAccessRequest) GetTeamIds() *v12.TeamIds {
+func (x *GrantTeamAccessRequest) GetTeamIds() *v11.TeamIds {
 	if x != nil {
 		return x.TeamIds
 	}
@@ -751,9 +912,11 @@ func (*GrantTeamAccessResponse) Descriptor() ([]byte, []int) {
 }
 
 type RevokeTeamAccessRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WorkspaceId   string                 `protobuf:"bytes,1,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
-	TeamIds       *v12.TeamIds           `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the workspace
+	WorkspaceId string `protobuf:"bytes,1,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
+	// A list of team IDs whose access to the workspace should be revoked
+	TeamIds       *v11.TeamIds `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -795,7 +958,7 @@ func (x *RevokeTeamAccessRequest) GetWorkspaceId() string {
 	return ""
 }
 
-func (x *RevokeTeamAccessRequest) GetTeamIds() *v12.TeamIds {
+func (x *RevokeTeamAccessRequest) GetTeamIds() *v11.TeamIds {
 	if x != nil {
 		return x.TeamIds
 	}
@@ -842,28 +1005,25 @@ var File_terrabase_workspace_v1_workspace_proto protoreflect.FileDescriptor
 
 const file_terrabase_workspace_v1_workspace_proto_rawDesc = "" +
 	"\n" +
-	"&terrabase/workspace/v1/workspace.proto\x12\x16terrabase.workspace.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a,terrabase/backend_type/v1/backend_type.proto\x1a6terrabase/s3_backend_config/v1/s3_backend_config.proto\x1a\x1cterrabase/team/v1/team.proto\"\xfe\x02\n" +
+	"&terrabase/workspace/v1/workspace.proto\x12\x16terrabase.workspace.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a6terrabase/s3_backend_config/v1/s3_backend_config.proto\x1a\x1cterrabase/team/v1/team.proto\"\xba\x02\n" +
 	"\tWorkspace\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12I\n" +
-	"\fbackend_type\x18\x03 \x01(\x0e2&.terrabase.backend_type.v1.BackendTypeR\vbackendType\x12*\n" +
-	"\x0eenvironment_id\x18\x04 \x01(\tH\x00R\renvironmentId\x88\x01\x01\x124\n" +
-	"\x14s3_backend_config_id\x18\x05 \x01(\tH\x01R\x11s3BackendConfigId\x88\x01\x01\x129\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12F\n" +
+	"\fbackend_type\x18\x03 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeR\vbackendType\x12'\n" +
+	"\x0eenvironment_id\x18\x04 \x01(\tH\x00R\renvironmentId\x12\x19\n" +
+	"\ateam_id\x18\x05 \x01(\tH\x00R\x06teamId\x129\n" +
 	"\n" +
 	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\x11\n" +
-	"\x0f_environment_idB\x17\n" +
-	"\x15_s3_backend_config_id\"\xd4\x02\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\a\n" +
+	"\x05owner\"\xb5\x02\n" +
 	"\x16CreateWorkspaceRequest\x12\x17\n" +
-	"\x04name\x18\x01 \x01(\tB\x03\xe0A\x02R\x04name\x12N\n" +
-	"\fbackend_type\x18\x02 \x01(\x0e2&.terrabase.backend_type.v1.BackendTypeB\x03\xe0A\x02R\vbackendType\x12*\n" +
-	"\x0eenvironment_id\x18\x03 \x01(\tH\x00R\renvironmentId\x88\x01\x01\x12\x1c\n" +
-	"\ateam_id\x18\x04 \x01(\tH\x01R\x06teamId\x88\x01\x01\x12h\n" +
-	"\x11s3_backend_config\x18\x05 \x01(\v2<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequestR\x0fs3BackendConfigB\x11\n" +
-	"\x0f_environment_idB\n" +
-	"\n" +
-	"\b_team_id\"Z\n" +
+	"\x04name\x18\x01 \x01(\tB\x03\xe0A\x02R\x04name\x12K\n" +
+	"\fbackend_type\x18\x02 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeB\x03\xe0A\x02R\vbackendType\x12'\n" +
+	"\x0eenvironment_id\x18\x03 \x01(\tH\x00R\renvironmentId\x12\x19\n" +
+	"\ateam_id\x18\x04 \x01(\tH\x00R\x06teamId\x12h\n" +
+	"\x11s3_backend_config\x18\x05 \x01(\v2<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequestR\x0fs3BackendConfigB\a\n" +
+	"\x05owner\"Z\n" +
 	"\x17CreateWorkspaceResponse\x12?\n" +
 	"\tworkspace\x18\x01 \x01(\v2!.terrabase.workspace.v1.WorkspaceR\tworkspace\"*\n" +
 	"\x13GetWorkspaceRequest\x12\x13\n" +
@@ -875,32 +1035,28 @@ const file_terrabase_workspace_v1_workspace_proto_rawDesc = "" +
 	"\n" +
 	"page_token\x18\x02 \x01(\tH\x01R\tpageToken\x88\x01\x01\x12\x1c\n" +
 	"\ateam_id\x18\x03 \x01(\tH\x02R\x06teamId\x88\x01\x01\x12*\n" +
-	"\x0eenvironment_id\x18\x04 \x01(\tH\x03R\renvironmentId\x88\x01\x01B\f\n" +
+	"\x0eapplication_id\x18\x04 \x01(\tH\x03R\rapplicationId\x88\x01\x01B\f\n" +
 	"\n" +
 	"_page_sizeB\r\n" +
 	"\v_page_tokenB\n" +
 	"\n" +
 	"\b_team_idB\x11\n" +
-	"\x0f_environment_id\"\x9c\x01\n" +
+	"\x0f_application_id\"\x9c\x01\n" +
 	"\x16ListWorkspacesResponse\x12A\n" +
 	"\n" +
 	"workspaces\x18\x01 \x03(\v2!.terrabase.workspace.v1.WorkspaceR\n" +
 	"workspaces\x12+\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01B\x12\n" +
-	"\x10_next_page_token\"\xbc\x03\n" +
+	"\x10_next_page_token\"\xce\x02\n" +
 	"\x16UpdateWorkspaceRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
-	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12I\n" +
-	"\fbackend_type\x18\x03 \x01(\x0e2&.terrabase.backend_type.v1.BackendTypeR\vbackendType\x12*\n" +
-	"\x0eenvironment_id\x18\x04 \x01(\tH\x01R\renvironmentId\x88\x01\x01\x12\x1c\n" +
-	"\ateam_id\x18\x05 \x01(\tH\x02R\x06teamId\x88\x01\x01\x124\n" +
-	"\x14s3_backend_config_id\x18\x06 \x01(\tH\x03R\x11s3BackendConfigId\x88\x01\x01\x12h\n" +
-	"\x11s3_backend_config\x18\a \x01(\v2<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequestR\x0fs3BackendConfigB\a\n" +
-	"\x05_nameB\x11\n" +
-	"\x0f_environment_idB\n" +
-	"\n" +
-	"\b_team_idB\x17\n" +
-	"\x15_s3_backend_config_id\"Z\n" +
+	"\x04name\x18\x02 \x01(\tH\x01R\x04name\x88\x01\x01\x12F\n" +
+	"\fbackend_type\x18\x03 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeR\vbackendType\x12'\n" +
+	"\x0eenvironment_id\x18\x04 \x01(\tH\x00R\renvironmentId\x12\x19\n" +
+	"\ateam_id\x18\x05 \x01(\tH\x00R\x06teamId\x12h\n" +
+	"\x11s3_backend_config\x18\x06 \x01(\v2<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequestR\x0fs3BackendConfigB\a\n" +
+	"\x05ownerB\a\n" +
+	"\x05_name\"Z\n" +
 	"\x17UpdateWorkspaceResponse\x12?\n" +
 	"\tworkspace\x18\x01 \x01(\v2!.terrabase.workspace.v1.WorkspaceR\tworkspace\"-\n" +
 	"\x16DeleteWorkspaceRequest\x12\x13\n" +
@@ -913,7 +1069,10 @@ const file_terrabase_workspace_v1_workspace_proto_rawDesc = "" +
 	"\x17RevokeTeamAccessRequest\x12&\n" +
 	"\fworkspace_id\x18\x01 \x01(\tB\x03\xe0A\x02R\vworkspaceId\x12:\n" +
 	"\bteam_ids\x18\x02 \x01(\v2\x1a.terrabase.team.v1.TeamIdsB\x03\xe0A\x02R\ateamIds\"\x1a\n" +
-	"\x18RevokeTeamAccessResponse2\xb5\x06\n" +
+	"\x18RevokeTeamAccessResponse*@\n" +
+	"\vBackendType\x12\x1c\n" +
+	"\x18BACKEND_TYPE_UNSPECIFIED\x10\x00\x12\x13\n" +
+	"\x0fBACKEND_TYPE_S3\x10\x012\xb5\x06\n" +
 	"\x10WorkspaceService\x12r\n" +
 	"\x0fCreateWorkspace\x12..terrabase.workspace.v1.CreateWorkspaceRequest\x1a/.terrabase.workspace.v1.CreateWorkspaceResponse\x12i\n" +
 	"\fGetWorkspace\x12+.terrabase.workspace.v1.GetWorkspaceRequest\x1a,.terrabase.workspace.v1.GetWorkspaceResponse\x12o\n" +
@@ -935,56 +1094,57 @@ func file_terrabase_workspace_v1_workspace_proto_rawDescGZIP() []byte {
 	return file_terrabase_workspace_v1_workspace_proto_rawDescData
 }
 
+var file_terrabase_workspace_v1_workspace_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_terrabase_workspace_v1_workspace_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_terrabase_workspace_v1_workspace_proto_goTypes = []any{
-	(*Workspace)(nil),                        // 0: terrabase.workspace.v1.Workspace
-	(*CreateWorkspaceRequest)(nil),           // 1: terrabase.workspace.v1.CreateWorkspaceRequest
-	(*CreateWorkspaceResponse)(nil),          // 2: terrabase.workspace.v1.CreateWorkspaceResponse
-	(*GetWorkspaceRequest)(nil),              // 3: terrabase.workspace.v1.GetWorkspaceRequest
-	(*GetWorkspaceResponse)(nil),             // 4: terrabase.workspace.v1.GetWorkspaceResponse
-	(*ListWorkspacesRequest)(nil),            // 5: terrabase.workspace.v1.ListWorkspacesRequest
-	(*ListWorkspacesResponse)(nil),           // 6: terrabase.workspace.v1.ListWorkspacesResponse
-	(*UpdateWorkspaceRequest)(nil),           // 7: terrabase.workspace.v1.UpdateWorkspaceRequest
-	(*UpdateWorkspaceResponse)(nil),          // 8: terrabase.workspace.v1.UpdateWorkspaceResponse
-	(*DeleteWorkspaceRequest)(nil),           // 9: terrabase.workspace.v1.DeleteWorkspaceRequest
-	(*DeleteWorkspaceResponse)(nil),          // 10: terrabase.workspace.v1.DeleteWorkspaceResponse
-	(*GrantTeamAccessRequest)(nil),           // 11: terrabase.workspace.v1.GrantTeamAccessRequest
-	(*GrantTeamAccessResponse)(nil),          // 12: terrabase.workspace.v1.GrantTeamAccessResponse
-	(*RevokeTeamAccessRequest)(nil),          // 13: terrabase.workspace.v1.RevokeTeamAccessRequest
-	(*RevokeTeamAccessResponse)(nil),         // 14: terrabase.workspace.v1.RevokeTeamAccessResponse
-	(v1.BackendType)(0),                      // 15: terrabase.backend_type.v1.BackendType
-	(*timestamppb.Timestamp)(nil),            // 16: google.protobuf.Timestamp
-	(*v11.CreateS3BackendConfigRequest)(nil), // 17: terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest
-	(*v12.TeamIds)(nil),                      // 18: terrabase.team.v1.TeamIds
+	(BackendType)(0),                        // 0: terrabase.workspace.v1.BackendType
+	(*Workspace)(nil),                       // 1: terrabase.workspace.v1.Workspace
+	(*CreateWorkspaceRequest)(nil),          // 2: terrabase.workspace.v1.CreateWorkspaceRequest
+	(*CreateWorkspaceResponse)(nil),         // 3: terrabase.workspace.v1.CreateWorkspaceResponse
+	(*GetWorkspaceRequest)(nil),             // 4: terrabase.workspace.v1.GetWorkspaceRequest
+	(*GetWorkspaceResponse)(nil),            // 5: terrabase.workspace.v1.GetWorkspaceResponse
+	(*ListWorkspacesRequest)(nil),           // 6: terrabase.workspace.v1.ListWorkspacesRequest
+	(*ListWorkspacesResponse)(nil),          // 7: terrabase.workspace.v1.ListWorkspacesResponse
+	(*UpdateWorkspaceRequest)(nil),          // 8: terrabase.workspace.v1.UpdateWorkspaceRequest
+	(*UpdateWorkspaceResponse)(nil),         // 9: terrabase.workspace.v1.UpdateWorkspaceResponse
+	(*DeleteWorkspaceRequest)(nil),          // 10: terrabase.workspace.v1.DeleteWorkspaceRequest
+	(*DeleteWorkspaceResponse)(nil),         // 11: terrabase.workspace.v1.DeleteWorkspaceResponse
+	(*GrantTeamAccessRequest)(nil),          // 12: terrabase.workspace.v1.GrantTeamAccessRequest
+	(*GrantTeamAccessResponse)(nil),         // 13: terrabase.workspace.v1.GrantTeamAccessResponse
+	(*RevokeTeamAccessRequest)(nil),         // 14: terrabase.workspace.v1.RevokeTeamAccessRequest
+	(*RevokeTeamAccessResponse)(nil),        // 15: terrabase.workspace.v1.RevokeTeamAccessResponse
+	(*timestamppb.Timestamp)(nil),           // 16: google.protobuf.Timestamp
+	(*v1.CreateS3BackendConfigRequest)(nil), // 17: terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest
+	(*v11.TeamIds)(nil),                     // 18: terrabase.team.v1.TeamIds
 }
 var file_terrabase_workspace_v1_workspace_proto_depIdxs = []int32{
-	15, // 0: terrabase.workspace.v1.Workspace.backend_type:type_name -> terrabase.backend_type.v1.BackendType
+	0,  // 0: terrabase.workspace.v1.Workspace.backend_type:type_name -> terrabase.workspace.v1.BackendType
 	16, // 1: terrabase.workspace.v1.Workspace.created_at:type_name -> google.protobuf.Timestamp
 	16, // 2: terrabase.workspace.v1.Workspace.updated_at:type_name -> google.protobuf.Timestamp
-	15, // 3: terrabase.workspace.v1.CreateWorkspaceRequest.backend_type:type_name -> terrabase.backend_type.v1.BackendType
+	0,  // 3: terrabase.workspace.v1.CreateWorkspaceRequest.backend_type:type_name -> terrabase.workspace.v1.BackendType
 	17, // 4: terrabase.workspace.v1.CreateWorkspaceRequest.s3_backend_config:type_name -> terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest
-	0,  // 5: terrabase.workspace.v1.CreateWorkspaceResponse.workspace:type_name -> terrabase.workspace.v1.Workspace
-	0,  // 6: terrabase.workspace.v1.GetWorkspaceResponse.workspace:type_name -> terrabase.workspace.v1.Workspace
-	0,  // 7: terrabase.workspace.v1.ListWorkspacesResponse.workspaces:type_name -> terrabase.workspace.v1.Workspace
-	15, // 8: terrabase.workspace.v1.UpdateWorkspaceRequest.backend_type:type_name -> terrabase.backend_type.v1.BackendType
+	1,  // 5: terrabase.workspace.v1.CreateWorkspaceResponse.workspace:type_name -> terrabase.workspace.v1.Workspace
+	1,  // 6: terrabase.workspace.v1.GetWorkspaceResponse.workspace:type_name -> terrabase.workspace.v1.Workspace
+	1,  // 7: terrabase.workspace.v1.ListWorkspacesResponse.workspaces:type_name -> terrabase.workspace.v1.Workspace
+	0,  // 8: terrabase.workspace.v1.UpdateWorkspaceRequest.backend_type:type_name -> terrabase.workspace.v1.BackendType
 	17, // 9: terrabase.workspace.v1.UpdateWorkspaceRequest.s3_backend_config:type_name -> terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest
-	0,  // 10: terrabase.workspace.v1.UpdateWorkspaceResponse.workspace:type_name -> terrabase.workspace.v1.Workspace
+	1,  // 10: terrabase.workspace.v1.UpdateWorkspaceResponse.workspace:type_name -> terrabase.workspace.v1.Workspace
 	18, // 11: terrabase.workspace.v1.GrantTeamAccessRequest.team_ids:type_name -> terrabase.team.v1.TeamIds
 	18, // 12: terrabase.workspace.v1.RevokeTeamAccessRequest.team_ids:type_name -> terrabase.team.v1.TeamIds
-	1,  // 13: terrabase.workspace.v1.WorkspaceService.CreateWorkspace:input_type -> terrabase.workspace.v1.CreateWorkspaceRequest
-	3,  // 14: terrabase.workspace.v1.WorkspaceService.GetWorkspace:input_type -> terrabase.workspace.v1.GetWorkspaceRequest
-	5,  // 15: terrabase.workspace.v1.WorkspaceService.ListWorkspaces:input_type -> terrabase.workspace.v1.ListWorkspacesRequest
-	7,  // 16: terrabase.workspace.v1.WorkspaceService.UpdateWorkspace:input_type -> terrabase.workspace.v1.UpdateWorkspaceRequest
-	9,  // 17: terrabase.workspace.v1.WorkspaceService.DeleteWorkspace:input_type -> terrabase.workspace.v1.DeleteWorkspaceRequest
-	11, // 18: terrabase.workspace.v1.WorkspaceService.GrantTeamAccess:input_type -> terrabase.workspace.v1.GrantTeamAccessRequest
-	13, // 19: terrabase.workspace.v1.WorkspaceService.RevokeTeamAccess:input_type -> terrabase.workspace.v1.RevokeTeamAccessRequest
-	2,  // 20: terrabase.workspace.v1.WorkspaceService.CreateWorkspace:output_type -> terrabase.workspace.v1.CreateWorkspaceResponse
-	4,  // 21: terrabase.workspace.v1.WorkspaceService.GetWorkspace:output_type -> terrabase.workspace.v1.GetWorkspaceResponse
-	6,  // 22: terrabase.workspace.v1.WorkspaceService.ListWorkspaces:output_type -> terrabase.workspace.v1.ListWorkspacesResponse
-	8,  // 23: terrabase.workspace.v1.WorkspaceService.UpdateWorkspace:output_type -> terrabase.workspace.v1.UpdateWorkspaceResponse
-	10, // 24: terrabase.workspace.v1.WorkspaceService.DeleteWorkspace:output_type -> terrabase.workspace.v1.DeleteWorkspaceResponse
-	12, // 25: terrabase.workspace.v1.WorkspaceService.GrantTeamAccess:output_type -> terrabase.workspace.v1.GrantTeamAccessResponse
-	14, // 26: terrabase.workspace.v1.WorkspaceService.RevokeTeamAccess:output_type -> terrabase.workspace.v1.RevokeTeamAccessResponse
+	2,  // 13: terrabase.workspace.v1.WorkspaceService.CreateWorkspace:input_type -> terrabase.workspace.v1.CreateWorkspaceRequest
+	4,  // 14: terrabase.workspace.v1.WorkspaceService.GetWorkspace:input_type -> terrabase.workspace.v1.GetWorkspaceRequest
+	6,  // 15: terrabase.workspace.v1.WorkspaceService.ListWorkspaces:input_type -> terrabase.workspace.v1.ListWorkspacesRequest
+	8,  // 16: terrabase.workspace.v1.WorkspaceService.UpdateWorkspace:input_type -> terrabase.workspace.v1.UpdateWorkspaceRequest
+	10, // 17: terrabase.workspace.v1.WorkspaceService.DeleteWorkspace:input_type -> terrabase.workspace.v1.DeleteWorkspaceRequest
+	12, // 18: terrabase.workspace.v1.WorkspaceService.GrantTeamAccess:input_type -> terrabase.workspace.v1.GrantTeamAccessRequest
+	14, // 19: terrabase.workspace.v1.WorkspaceService.RevokeTeamAccess:input_type -> terrabase.workspace.v1.RevokeTeamAccessRequest
+	3,  // 20: terrabase.workspace.v1.WorkspaceService.CreateWorkspace:output_type -> terrabase.workspace.v1.CreateWorkspaceResponse
+	5,  // 21: terrabase.workspace.v1.WorkspaceService.GetWorkspace:output_type -> terrabase.workspace.v1.GetWorkspaceResponse
+	7,  // 22: terrabase.workspace.v1.WorkspaceService.ListWorkspaces:output_type -> terrabase.workspace.v1.ListWorkspacesResponse
+	9,  // 23: terrabase.workspace.v1.WorkspaceService.UpdateWorkspace:output_type -> terrabase.workspace.v1.UpdateWorkspaceResponse
+	11, // 24: terrabase.workspace.v1.WorkspaceService.DeleteWorkspace:output_type -> terrabase.workspace.v1.DeleteWorkspaceResponse
+	13, // 25: terrabase.workspace.v1.WorkspaceService.GrantTeamAccess:output_type -> terrabase.workspace.v1.GrantTeamAccessResponse
+	15, // 26: terrabase.workspace.v1.WorkspaceService.RevokeTeamAccess:output_type -> terrabase.workspace.v1.RevokeTeamAccessResponse
 	20, // [20:27] is the sub-list for method output_type
 	13, // [13:20] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
@@ -997,23 +1157,33 @@ func file_terrabase_workspace_v1_workspace_proto_init() {
 	if File_terrabase_workspace_v1_workspace_proto != nil {
 		return
 	}
-	file_terrabase_workspace_v1_workspace_proto_msgTypes[0].OneofWrappers = []any{}
-	file_terrabase_workspace_v1_workspace_proto_msgTypes[1].OneofWrappers = []any{}
+	file_terrabase_workspace_v1_workspace_proto_msgTypes[0].OneofWrappers = []any{
+		(*Workspace_EnvironmentId)(nil),
+		(*Workspace_TeamId)(nil),
+	}
+	file_terrabase_workspace_v1_workspace_proto_msgTypes[1].OneofWrappers = []any{
+		(*CreateWorkspaceRequest_EnvironmentId)(nil),
+		(*CreateWorkspaceRequest_TeamId)(nil),
+	}
 	file_terrabase_workspace_v1_workspace_proto_msgTypes[5].OneofWrappers = []any{}
 	file_terrabase_workspace_v1_workspace_proto_msgTypes[6].OneofWrappers = []any{}
-	file_terrabase_workspace_v1_workspace_proto_msgTypes[7].OneofWrappers = []any{}
+	file_terrabase_workspace_v1_workspace_proto_msgTypes[7].OneofWrappers = []any{
+		(*UpdateWorkspaceRequest_EnvironmentId)(nil),
+		(*UpdateWorkspaceRequest_TeamId)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_terrabase_workspace_v1_workspace_proto_rawDesc), len(file_terrabase_workspace_v1_workspace_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_terrabase_workspace_v1_workspace_proto_goTypes,
 		DependencyIndexes: file_terrabase_workspace_v1_workspace_proto_depIdxs,
+		EnumInfos:         file_terrabase_workspace_v1_workspace_proto_enumTypes,
 		MessageInfos:      file_terrabase_workspace_v1_workspace_proto_msgTypes,
 	}.Build()
 	File_terrabase_workspace_v1_workspace_proto = out.File

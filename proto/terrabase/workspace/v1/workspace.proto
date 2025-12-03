@@ -4,96 +4,174 @@ package terrabase.workspace.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
-import "terrabase/backend_type/v1/backend_type.proto";
 import "terrabase/s3_backend_config/v1/s3_backend_config.proto";
 import "terrabase/team/v1/team.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1;workspacev1";
 
+enum BackendType {
+  // Default - should not be used
+  BACKEND_TYPE_UNSPECIFIED = 0;
+
+  // S3 backend
+  BACKEND_TYPE_S3 = 1;
+}
+
+// A Terrabase workspace represents a single Terraform state file
 message Workspace {
+  // The unique ID of the workspace
   string id = 1;
+
+  // The name of the workspace
   string name = 2;
-  terrabase.backend_type.v1.BackendType backend_type = 3;
-  optional string environment_id = 4;
-  optional string s3_backend_config_id = 5;
+
+  // The type of the backend configuration of the workspace
+  BackendType backend_type = 3;
+
+  oneof owner {
+    // The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+    string environment_id = 4;
+
+    // The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+    string team_id = 5;
+  }
+
+  // The time the workspace was created
   google.protobuf.Timestamp created_at = 6;
+
+  // The time the workspace was last updated at
   google.protobuf.Timestamp updated_at = 7;
 }
 
 message CreateWorkspaceRequest {
+  // The name of the workspace
   string name = 1 [(google.api.field_behavior) = REQUIRED];
-  terrabase.backend_type.v1.BackendType backend_type = 2 [(google.api.field_behavior) = REQUIRED];
-  optional string environment_id = 3;
-  optional string team_id = 4;
+
+  // The type of the backend configuration of the workspace
+  BackendType backend_type = 2 [(google.api.field_behavior) = REQUIRED];
+
+  oneof owner {
+    // The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+    string environment_id = 3;
+
+    // The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+    string team_id = 4;
+  }
+
+  // The S3 backend configuration, if the backend type is S3
   terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 5;
 }
 
 message CreateWorkspaceResponse {
+  // The workspace that was created
   Workspace workspace = 1;
 }
 
 message GetWorkspaceRequest {
+  // The unique ID of the workspace
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GetWorkspaceResponse {
+  // The workspace
   Workspace workspace = 1;
 }
 
 message ListWorkspacesRequest {
+  // The number of workspaces on each page of results
   optional int32 page_size = 1;
+
+  // The token to retrieve the next page of results
   optional string page_token = 2;
 
+  // The ID of the team to list all workspaces who are owned by the team
   optional string team_id = 3;
-  optional string environment_id = 4;
+
+  // The ID of the application to list all workspaces who belong to the application
+  optional string application_id = 4;
 }
 
 message ListWorkspacesResponse {
+  // A list of workspaces
   repeated Workspace workspaces = 1;
+
+  // The token to retrieve the next page of results
   optional string next_page_token = 2;
 }
 
 message UpdateWorkspaceRequest {
+  // The unique ID of the workspace to update
   string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new name of the workspace
   optional string name = 2;
-  terrabase.backend_type.v1.BackendType backend_type = 3;
-  optional string environment_id = 4;
-  optional string team_id = 5;
-  optional string s3_backend_config_id = 6;
-  terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 7;
+
+  // The new backend type of the workspace
+  BackendType backend_type = 3;
+
+  oneof owner {
+    // The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+    string environment_id = 4;
+
+    // The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+    string team_id = 5;
+  }
+
+  // The new S3 backend configuration, if the backend type is S3 and a new configuration needs to be created
+  terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 6;
 }
 
 message UpdateWorkspaceResponse {
+  // The updated workspace
   Workspace workspace = 1;
 }
 
 message DeleteWorkspaceRequest {
+  // The unique ID of the workspace to delete
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message DeleteWorkspaceResponse {}
 
 message GrantTeamAccessRequest {
+  // The unique ID of the workspace
   string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // A list of team IDs who should be granted access to the workspace
   terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GrantTeamAccessResponse {}
 
 message RevokeTeamAccessRequest {
+  // The unique ID of the workspace
   string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // A list of team IDs whose access to the workspace should be revoked
   terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message RevokeTeamAccessResponse {}
 
 service WorkspaceService {
+  // Create a new workspace
   rpc CreateWorkspace(CreateWorkspaceRequest) returns (CreateWorkspaceResponse);
+
+  // Retrieve details about a single workspace
   rpc GetWorkspace(GetWorkspaceRequest) returns (GetWorkspaceResponse);
+
+  // List workspaces owned by a specific team, or belong to a specific application
   rpc ListWorkspaces(ListWorkspacesRequest) returns (ListWorkspacesResponse);
+
+  // Change details about a workspace
   rpc UpdateWorkspace(UpdateWorkspaceRequest) returns (UpdateWorkspaceResponse);
+
+  // Delete a workspace
   rpc DeleteWorkspace(DeleteWorkspaceRequest) returns (DeleteWorkspaceResponse);
 
+  // Grant access to a workspace to a single team or multiple teams
   rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse);
+
+  // Revoke access to a workspace from a single team or multiple teams
   rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse);
 }

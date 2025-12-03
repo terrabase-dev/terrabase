@@ -50,9 +50,13 @@ const (
 // S3BackendConfigServiceClient is a client for the
 // terrabase.s3_backend_config.v1.S3BackendConfigService service.
 type S3BackendConfigServiceClient interface {
+	// Create a new S3 backend configuration
 	CreateS3BackendConfig(context.Context, *connect.Request[v1.CreateS3BackendConfigRequest]) (*connect.Response[v1.CreateS3BackendConfigResponse], error)
+	// Retrieve details about a single S3 backend configuration
 	GetS3BackendConfig(context.Context, *connect.Request[v1.GetS3BackendConfigRequest]) (*connect.Response[v1.GetS3BackendConfigResponse], error)
+	// Change details about an S3 backend configuration
 	UpdateS3BackendConfig(context.Context, *connect.Request[v1.UpdateS3BackendConfigRequest]) (*connect.Response[v1.UpdateS3BackendConfigResponse], error)
+	// Delete an S3 backend configuration
 	DeleteS3BackendConfig(context.Context, *connect.Request[v1.DeleteS3BackendConfigRequest]) (*connect.Response[v1.DeleteS3BackendConfigResponse], error)
 }
 
@@ -130,9 +134,13 @@ func (c *s3BackendConfigServiceClient) DeleteS3BackendConfig(ctx context.Context
 // S3BackendConfigServiceHandler is an implementation of the
 // terrabase.s3_backend_config.v1.S3BackendConfigService service.
 type S3BackendConfigServiceHandler interface {
+	// Create a new S3 backend configuration
 	CreateS3BackendConfig(context.Context, *connect.Request[v1.CreateS3BackendConfigRequest]) (*connect.Response[v1.CreateS3BackendConfigResponse], error)
+	// Retrieve details about a single S3 backend configuration
 	GetS3BackendConfig(context.Context, *connect.Request[v1.GetS3BackendConfigRequest]) (*connect.Response[v1.GetS3BackendConfigResponse], error)
+	// Change details about an S3 backend configuration
 	UpdateS3BackendConfig(context.Context, *connect.Request[v1.UpdateS3BackendConfigRequest]) (*connect.Response[v1.UpdateS3BackendConfigResponse], error)
+	// Delete an S3 backend configuration
 	DeleteS3BackendConfig(context.Context, *connect.Request[v1.DeleteS3BackendConfigRequest]) (*connect.Response[v1.DeleteS3BackendConfigResponse], error)
 }
 

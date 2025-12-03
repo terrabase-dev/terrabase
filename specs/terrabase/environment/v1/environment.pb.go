@@ -24,12 +24,18 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// A Terrabase environment is a business environment that an application is deployed in
 type Environment struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	ApplicationId string                 `protobuf:"bytes,3,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the environment
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The name of the environment
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	// The ID of the application this environment belongs to
+	ApplicationId string `protobuf:"bytes,3,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	// The time the environment was created
+	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// The time the environment was last updated at
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -101,9 +107,12 @@ func (x *Environment) GetUpdatedAt() *timestamppb.Timestamp {
 }
 
 type CreateEnvironmentRequest struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Name          string                     `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	ApplicationId string                     `protobuf:"bytes,2,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The name of the environment
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// The ID of the application the environment belongs to
+	ApplicationId string `protobuf:"bytes,2,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	// The configuration for the workspace that belongs to this environment
 	NewWorkspace  *v1.CreateWorkspaceRequest `protobuf:"bytes,3,opt,name=new_workspace,json=newWorkspace,proto3" json:"new_workspace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -161,8 +170,9 @@ func (x *CreateEnvironmentRequest) GetNewWorkspace() *v1.CreateWorkspaceRequest 
 }
 
 type CreateEnvironmentResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Environment   *Environment           `protobuf:"bytes,1,opt,name=environment,proto3" json:"environment,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The environment that was created
+	Environment   *Environment `protobuf:"bytes,1,opt,name=environment,proto3" json:"environment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -205,8 +215,9 @@ func (x *CreateEnvironmentResponse) GetEnvironment() *Environment {
 }
 
 type GetEnvironmentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the environment
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -249,8 +260,9 @@ func (x *GetEnvironmentRequest) GetId() string {
 }
 
 type GetEnvironmentResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Environment   *Environment           `protobuf:"bytes,1,opt,name=environment,proto3" json:"environment,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The environment
+	Environment   *Environment `protobuf:"bytes,1,opt,name=environment,proto3" json:"environment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -293,10 +305,9 @@ func (x *GetEnvironmentResponse) GetEnvironment() *Environment {
 }
 
 type ListEnvironmentsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ApplicationId string                 `protobuf:"bytes,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
-	PageSize      *int32                 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3,oneof" json:"page_size,omitempty"`
-	PageToken     *string                `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3,oneof" json:"page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The ID of the application to list environments for
+	ApplicationId string `protobuf:"bytes,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -338,24 +349,10 @@ func (x *ListEnvironmentsRequest) GetApplicationId() string {
 	return ""
 }
 
-func (x *ListEnvironmentsRequest) GetPageSize() int32 {
-	if x != nil && x.PageSize != nil {
-		return *x.PageSize
-	}
-	return 0
-}
-
-func (x *ListEnvironmentsRequest) GetPageToken() string {
-	if x != nil && x.PageToken != nil {
-		return *x.PageToken
-	}
-	return ""
-}
-
 type ListEnvironmentsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Environments  []*Environment         `protobuf:"bytes,1,rep,name=environments,proto3" json:"environments,omitempty"`
-	NextPageToken *string                `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3,oneof" json:"next_page_token,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of environments
+	Environments  []*Environment `protobuf:"bytes,1,rep,name=environments,proto3" json:"environments,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -397,17 +394,12 @@ func (x *ListEnvironmentsResponse) GetEnvironments() []*Environment {
 	return nil
 }
 
-func (x *ListEnvironmentsResponse) GetNextPageToken() string {
-	if x != nil && x.NextPageToken != nil {
-		return *x.NextPageToken
-	}
-	return ""
-}
-
 type UpdateEnvironmentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the environment to update
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// The new name of the environment
+	Name          *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -457,8 +449,9 @@ func (x *UpdateEnvironmentRequest) GetName() string {
 }
 
 type UpdateEnvironmentResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Environment   *Environment           `protobuf:"bytes,1,opt,name=environment,proto3" json:"environment,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The updated environment
+	Environment   *Environment `protobuf:"bytes,1,opt,name=environment,proto3" json:"environment,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -501,8 +494,9 @@ func (x *UpdateEnvironmentResponse) GetEnvironment() *Environment {
 }
 
 type DeleteEnvironmentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The unique ID of the environment to delete
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -602,19 +596,11 @@ const file_terrabase_environment_v1_environment_proto_rawDesc = "" +
 	"\x15GetEnvironmentRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\"a\n" +
 	"\x16GetEnvironmentResponse\x12G\n" +
-	"\venvironment\x18\x01 \x01(\v2%.terrabase.environment.v1.EnvironmentR\venvironment\"\xa8\x01\n" +
+	"\venvironment\x18\x01 \x01(\v2%.terrabase.environment.v1.EnvironmentR\venvironment\"E\n" +
 	"\x17ListEnvironmentsRequest\x12*\n" +
-	"\x0eapplication_id\x18\x01 \x01(\tB\x03\xe0A\x02R\rapplicationId\x12 \n" +
-	"\tpage_size\x18\x02 \x01(\x05H\x00R\bpageSize\x88\x01\x01\x12\"\n" +
-	"\n" +
-	"page_token\x18\x03 \x01(\tH\x01R\tpageToken\x88\x01\x01B\f\n" +
-	"\n" +
-	"_page_sizeB\r\n" +
-	"\v_page_token\"\xa6\x01\n" +
+	"\x0eapplication_id\x18\x01 \x01(\tB\x03\xe0A\x02R\rapplicationId\"e\n" +
 	"\x18ListEnvironmentsResponse\x12I\n" +
-	"\fenvironments\x18\x01 \x03(\v2%.terrabase.environment.v1.EnvironmentR\fenvironments\x12+\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01B\x12\n" +
-	"\x10_next_page_token\"Q\n" +
+	"\fenvironments\x18\x01 \x03(\v2%.terrabase.environment.v1.EnvironmentR\fenvironments\"Q\n" +
 	"\x18UpdateEnvironmentRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01B\a\n" +
@@ -689,8 +675,6 @@ func file_terrabase_environment_v1_environment_proto_init() {
 	if File_terrabase_environment_v1_environment_proto != nil {
 		return
 	}
-	file_terrabase_environment_v1_environment_proto_msgTypes[5].OneofWrappers = []any{}
-	file_terrabase_environment_v1_environment_proto_msgTypes[6].OneofWrappers = []any{}
 	file_terrabase_environment_v1_environment_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

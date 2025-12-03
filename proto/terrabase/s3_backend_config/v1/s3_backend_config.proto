@@ -7,59 +7,131 @@ import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1;s3BackendConfigv1";
 
+// Configuration for an S3 backend for a Terraform state file. See [Terraform documentation](https://developer.hashicorp.com/terraform/language/backend/s3) for more details.
 message S3BackendConfig {
+  // The unique ID of the S3 backend configuration
   string id = 1;
-  string bucket = 2;
-  string key = 3;
-  string region = 4;
-  string dynamodb_lock = 5;
-  bool encrypt = 6;
-  google.protobuf.Timestamp created_at = 7;
-  google.protobuf.Timestamp updated_at = 8;
+
+  // The ID of the workspace the S3 backend configuration belongs to
+  string workspace_id = 2;
+
+  // The name of the S3 Bucket where the state file is stored
+  string bucket = 3;
+
+  // The path to the state file inside the S3 Bucket
+  string key = 4;
+
+  // The AWS region of the S3 Bucket and DynamoDB Table (if used)
+  string region = 5;
+
+  // Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+  bool dynamodb_lock = 6;
+
+  // Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+  bool s3_lock = 7;
+
+  // Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+  bool encrypt = 8;
+
+  // The time the S3 backend configuration was created
+  google.protobuf.Timestamp created_at = 9;
+
+  // The time the S3 backend configuration was last updated at
+  google.protobuf.Timestamp updated_at = 10;
+
+  // The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+  optional string dynamodb_table = 11;
 }
 
 message CreateS3BackendConfigRequest {
+  // The name of the S3 Bucket where the state file is stored
   string bucket = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The path to the state file inside the S3 Bucket
   string key = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The AWS region of the S3 Bucket and DynamoDB Table (if used)
   string region = 3 [(google.api.field_behavior) = REQUIRED];
-  optional string dynamodb_lock = 4;
-  bool encrypt = 5 [(google.api.field_behavior) = REQUIRED];
+
+  // Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+  bool dynamodb_lock = 4;
+
+  // Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+  bool s3_lock = 5;
+
+  // Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+  bool encrypt = 6 [(google.api.field_behavior) = REQUIRED];
+
+  // The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+  optional string dynamodb_table = 7;
 }
 
 message CreateS3BackendConfigResponse {
+  // The S3 backend configuration that was created
   S3BackendConfig s3_backend_config = 1;
 }
 
 message GetS3BackendConfigRequest {
+  // The unique ID of the S3 backend configuration
   string id = 1;
 }
 
 message GetS3BackendConfigResponse {
+  // The S3 backend configuration
   S3BackendConfig s3_backend_config = 1;
 }
 
 message UpdateS3BackendConfigRequest {
+  // The unique ID of the S3 backend configuration to update
   string id = 1 [(google.api.field_behavior) = REQUIRED];
-  optional string bucket = 2;
-  optional string key = 3;
-  optional string region = 4;
-  optional string dynamodb_lock = 5;
-  optional bool encrypt = 6;
+
+  // The ID of the new workspace the S3 backend configuration belongs to
+  string workspace_id = 2;
+
+  // The new name of the S3 Bucket where the state file is stored
+  optional string bucket = 3;
+
+  // The new path to the state file inside the S3 Bucket
+  optional string key = 4;
+
+  // The new AWS region of the S3 Bucket and DynamoDB Table (if used)
+  optional string region = 5;
+
+  // Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+  optional bool dynamodb_lock = 6;
+
+  // Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+  optional bool s3_lock = 7;
+
+  // Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
+  optional bool encrypt = 8;
+
+  // The name of the new DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
+  optional string dynamodb_table = 9;
 }
 
 message UpdateS3BackendConfigResponse {
+  // The updated S3 backend configuration
   S3BackendConfig s3_backend_config = 1;
 }
 
 message DeleteS3BackendConfigRequest {
+  // The unique ID of the S3 backend configuration to delete
   string id = 1;
 }
 
 message DeleteS3BackendConfigResponse {}
 
 service S3BackendConfigService {
+  // Create a new S3 backend configuration
   rpc CreateS3BackendConfig(CreateS3BackendConfigRequest) returns (CreateS3BackendConfigResponse);
+
+  // Retrieve details about a single S3 backend configuration
   rpc GetS3BackendConfig(GetS3BackendConfigRequest) returns (GetS3BackendConfigResponse);
+
+  // Change details about an S3 backend configuration
   rpc UpdateS3BackendConfig(UpdateS3BackendConfigRequest) returns (UpdateS3BackendConfigResponse);
+
+  // Delete an S3 backend configuration
   rpc DeleteS3BackendConfig(DeleteS3BackendConfigRequest) returns (DeleteS3BackendConfigResponse);
 }
