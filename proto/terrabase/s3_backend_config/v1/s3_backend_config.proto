@@ -86,7 +86,7 @@ message UpdateS3BackendConfigRequest {
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 
   // The ID of the new workspace the S3 backend configuration belongs to
-  string workspace_id = 2;
+  optional string workspace_id = 2;
 
   // The new name of the S3 Bucket where the state file is stored
   optional string bucket = 3;

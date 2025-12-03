@@ -398,7 +398,7 @@ type UpdateS3BackendConfigRequest struct {
 	// The unique ID of the S3 backend configuration to update
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The ID of the new workspace the S3 backend configuration belongs to
-	WorkspaceId string `protobuf:"bytes,2,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
+	WorkspaceId *string `protobuf:"bytes,2,opt,name=workspace_id,json=workspaceId,proto3,oneof" json:"workspace_id,omitempty"`
 	// The new name of the S3 Bucket where the state file is stored
 	Bucket *string `protobuf:"bytes,3,opt,name=bucket,proto3,oneof" json:"bucket,omitempty"`
 	// The new path to the state file inside the S3 Bucket
@@ -455,8 +455,8 @@ func (x *UpdateS3BackendConfigRequest) GetId() string {
 }
 
 func (x *UpdateS3BackendConfigRequest) GetWorkspaceId() string {
-	if x != nil {
-		return x.WorkspaceId
+	if x != nil && x.WorkspaceId != nil {
+		return *x.WorkspaceId
 	}
 	return ""
 }
@@ -671,17 +671,18 @@ const file_terrabase_s3_backend_config_v1_s3_backend_config_proto_rawDesc = "" +
 	"\x19GetS3BackendConfigRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"y\n" +
 	"\x1aGetS3BackendConfigResponse\x12[\n" +
-	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\"\x95\x03\n" +
+	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\"\xab\x03\n" +
 	"\x1cUpdateS3BackendConfigRequest\x12\x13\n" +
-	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12!\n" +
-	"\fworkspace_id\x18\x02 \x01(\tR\vworkspaceId\x12\x1b\n" +
-	"\x06bucket\x18\x03 \x01(\tH\x00R\x06bucket\x88\x01\x01\x12\x15\n" +
-	"\x03key\x18\x04 \x01(\tH\x01R\x03key\x88\x01\x01\x12\x1b\n" +
-	"\x06region\x18\x05 \x01(\tH\x02R\x06region\x88\x01\x01\x12(\n" +
-	"\rdynamodb_lock\x18\x06 \x01(\bH\x03R\fdynamodbLock\x88\x01\x01\x12\x1c\n" +
-	"\as3_lock\x18\a \x01(\bH\x04R\x06s3Lock\x88\x01\x01\x12\x1d\n" +
-	"\aencrypt\x18\b \x01(\bH\x05R\aencrypt\x88\x01\x01\x12*\n" +
-	"\x0edynamodb_table\x18\t \x01(\tH\x06R\rdynamodbTable\x88\x01\x01B\t\n" +
+	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12&\n" +
+	"\fworkspace_id\x18\x02 \x01(\tH\x00R\vworkspaceId\x88\x01\x01\x12\x1b\n" +
+	"\x06bucket\x18\x03 \x01(\tH\x01R\x06bucket\x88\x01\x01\x12\x15\n" +
+	"\x03key\x18\x04 \x01(\tH\x02R\x03key\x88\x01\x01\x12\x1b\n" +
+	"\x06region\x18\x05 \x01(\tH\x03R\x06region\x88\x01\x01\x12(\n" +
+	"\rdynamodb_lock\x18\x06 \x01(\bH\x04R\fdynamodbLock\x88\x01\x01\x12\x1c\n" +
+	"\as3_lock\x18\a \x01(\bH\x05R\x06s3Lock\x88\x01\x01\x12\x1d\n" +
+	"\aencrypt\x18\b \x01(\bH\x06R\aencrypt\x88\x01\x01\x12*\n" +
+	"\x0edynamodb_table\x18\t \x01(\tH\aR\rdynamodbTable\x88\x01\x01B\x0f\n" +
+	"\r_workspace_idB\t\n" +
 	"\a_bucketB\x06\n" +
 	"\x04_keyB\t\n" +
 	"\a_regionB\x10\n" +
