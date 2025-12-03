@@ -36,7 +36,7 @@ func UserFromProto(user *userv1.User) *User {
 		Name:        user.GetName(),
 		Email:       user.GetEmail(),
 		DefaultRole: int32(user.GetDefaultRole()),
-		UserType:    normalizeUserType(user.GetUserType()),
+		UserType:    user.GetUserType(),
 		OwnerUserID: user.GetOwnerUserId(),
 		Metadata:    nil,
 	}
@@ -58,13 +58,4 @@ func (u *User) ToProto() *userv1.User {
 	}
 
 	return res
-}
-
-func normalizeUserType(t userv1.UserType) userv1.UserType {
-	switch t {
-	case userv1.UserType_USER_TYPE_BOT, userv1.UserType_USER_TYPE_SERVICE:
-		return t
-	default:
-		return userv1.UserType_USER_TYPE_USER
-	}
 }
