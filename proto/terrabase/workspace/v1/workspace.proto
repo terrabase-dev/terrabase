@@ -4,8 +4,10 @@ package terrabase.workspace.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
 import "terrabase/s3_backend_config/v1/s3_backend_config.proto";
 import "terrabase/team/v1/team.proto";
+import "terrabase/team_workspace_access_grant/v1/team_workspace_access_grant.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1;workspacev1";
 
@@ -28,13 +30,8 @@ message Workspace {
   // The type of the backend configuration of the workspace
   BackendType backend_type = 3;
 
-  oneof owner {
-    // The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
-    string environment_id = 4;
-
-    // The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
-    string team_id = 5;
-  }
+  // The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+  optional string environment_id = 4;
 
   // The time the workspace was created
   google.protobuf.Timestamp created_at = 6;
@@ -134,11 +131,8 @@ message DeleteWorkspaceRequest {
 message DeleteWorkspaceResponse {}
 
 message GrantTeamAccessRequest {
-  // The unique ID of the workspace
-  string workspace_id = 1 [(google.api.field_behavior) = REQUIRED];
-
-  // A list of team IDs who should be granted access to the workspace
-  terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];
+  // A list of team access grants
+  repeated terrabase.team_workspace_access_grant.v1.CreateTeamWorkspaceAccessGrantRequest team_access_grants = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GrantTeamAccessResponse {}
@@ -155,23 +149,53 @@ message RevokeTeamAccessResponse {}
 
 service WorkspaceService {
   // Create a new workspace
-  rpc CreateWorkspace(CreateWorkspaceRequest) returns (CreateWorkspaceResponse);
+  rpc CreateWorkspace(CreateWorkspaceRequest) returns (CreateWorkspaceResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Retrieve details about a single workspace
-  rpc GetWorkspace(GetWorkspaceRequest) returns (GetWorkspaceResponse);
+  rpc GetWorkspace(GetWorkspaceRequest) returns (GetWorkspaceResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // List workspaces owned by a specific team, or belong to a specific application
-  rpc ListWorkspaces(ListWorkspacesRequest) returns (ListWorkspacesResponse);
+  rpc ListWorkspaces(ListWorkspacesRequest) returns (ListWorkspacesResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Change details about a workspace
-  rpc UpdateWorkspace(UpdateWorkspaceRequest) returns (UpdateWorkspaceResponse);
+  rpc UpdateWorkspace(UpdateWorkspaceRequest) returns (UpdateWorkspaceResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Delete a workspace
-  rpc DeleteWorkspace(DeleteWorkspaceRequest) returns (DeleteWorkspaceResponse);
+  rpc DeleteWorkspace(DeleteWorkspaceRequest) returns (DeleteWorkspaceResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Grant access to a workspace to a single team or multiple teams
-  rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse);
+  rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Revoke access to a workspace from a single team or multiple teams
-  rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse);
+  rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 }

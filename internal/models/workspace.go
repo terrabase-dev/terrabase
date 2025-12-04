@@ -1,8 +1,6 @@
 package models
 
 import (
-	"errors"
-	"fmt"
 	"time"
 
 	workspacev1 "github.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1"
@@ -17,12 +15,10 @@ type Workspace struct {
 	Name          string                  `bun:",unique,notnull"`
 	BackendType   workspacev1.BackendType `bun:",notnull"`
 	EnvironmentID string                  `bun:",nullzero,on_delete:CASCADE"`
-	TeamID        string                  `bun:",nullzero,on_delete:RESTRICT"`
 	CreatedAt     time.Time               `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt     time.Time               `bun:",nullzero,notnull,default:current_timestamp"`
 
 	EnvironmentRef     *Environment     `bun:"rel:belongs-to;join:environment_id:id"`
-	TeamRef            *Team            `bun:"rel:belongs-to;join:team_id:id"`
 	S3BackendConfigRef *S3BackendConfig `bun:"rel:has-one,join:id=workspace_id"`
 }
 
@@ -37,13 +33,8 @@ func WorkspaceFromProto(workspace *workspacev1.Workspace) (*Workspace, error) {
 		BackendType: workspace.GetBackendType(),
 	}
 
-	switch o := workspace.Owner.(type) {
-	case *workspacev1.Workspace_EnvironmentId:
-		res.EnvironmentID = o.EnvironmentId
-	case *workspacev1.Workspace_TeamId:
-		res.TeamID = o.TeamId
-	default:
-		return nil, fmt.Errorf("unknown workspace owner type %T", o)
+	if workspace.EnvironmentId != nil {
+		res.EnvironmentID = *workspace.EnvironmentId
 	}
 
 	return res, nil
@@ -58,18 +49,17 @@ func (w *Workspace) ToProto() (*workspacev1.Workspace, error) {
 		UpdatedAt:   timestamppb.New(w.UpdatedAt.UTC()),
 	}
 
-	if w.EnvironmentID != "" && w.TeamID != "" {
-		return nil, errors.New("cannot provide both environment_id and team_id")
-	}
-
-	switch {
-	case w.EnvironmentID != "":
-		res.Owner = &workspacev1.Workspace_EnvironmentId{EnvironmentId: w.EnvironmentID}
-	case w.TeamID != "":
-		res.Owner = &workspacev1.Workspace_TeamId{TeamId: w.TeamID}
-	default:
-		return nil, errors.New("must provide one of environment_id or team_id")
+	if w.EnvironmentID != "" {
+		res.EnvironmentId = &w.EnvironmentID
 	}
 
 	return res, nil
+}
+
+func (w *Workspace) SetUpdatedAt(updatedAt time.Time) {
+	w.UpdatedAt = updatedAt
+}
+
+func (w *Workspace) ModelName() string {
+	return "workspace"
 }

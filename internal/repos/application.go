@@ -45,7 +45,7 @@ func (r *ApplicationRepo) List(ctx context.Context, teamId string, pageSize int3
 
 	query := r.db.NewSelect().
 		Model(&applications).
-		Relation("TeamApplicationAccessGrantRef").
+		Relation("TeamApplicationAccessGrantsRef").
 		Join(`JOIN "TeamApplication" ta ON ta.application_id = application.id`).
 		Where("ta.team_id = ?", teamId).
 		OrderExpr("application.updated_at DESC")

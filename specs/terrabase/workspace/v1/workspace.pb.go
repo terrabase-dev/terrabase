@@ -7,8 +7,10 @@
 package workspacev1
 
 import (
+	_ "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 	v1 "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1"
-	v11 "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1"
+	v12 "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1"
+	v11 "github.com/terrabase-dev/terrabase/specs/terrabase/team_workspace_access_grant/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -82,11 +84,8 @@ type Workspace struct {
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// The type of the backend configuration of the workspace
 	BackendType BackendType `protobuf:"varint,3,opt,name=backend_type,json=backendType,proto3,enum=terrabase.workspace.v1.BackendType" json:"backend_type,omitempty"`
-	// Types that are valid to be assigned to Owner:
-	//
-	//	*Workspace_EnvironmentId
-	//	*Workspace_TeamId
-	Owner isWorkspace_Owner `protobuf_oneof:"owner"`
+	// The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+	EnvironmentId *string `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof" json:"environment_id,omitempty"`
 	// The time the workspace was created
 	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	// The time the workspace was last updated at
@@ -146,27 +145,9 @@ func (x *Workspace) GetBackendType() BackendType {
 	return BackendType_BACKEND_TYPE_UNSPECIFIED
 }
 
-func (x *Workspace) GetOwner() isWorkspace_Owner {
-	if x != nil {
-		return x.Owner
-	}
-	return nil
-}
-
 func (x *Workspace) GetEnvironmentId() string {
-	if x != nil {
-		if x, ok := x.Owner.(*Workspace_EnvironmentId); ok {
-			return x.EnvironmentId
-		}
-	}
-	return ""
-}
-
-func (x *Workspace) GetTeamId() string {
-	if x != nil {
-		if x, ok := x.Owner.(*Workspace_TeamId); ok {
-			return x.TeamId
-		}
+	if x != nil && x.EnvironmentId != nil {
+		return *x.EnvironmentId
 	}
 	return ""
 }
@@ -184,24 +165,6 @@ func (x *Workspace) GetUpdatedAt() *timestamppb.Timestamp {
 	}
 	return nil
 }
-
-type isWorkspace_Owner interface {
-	isWorkspace_Owner()
-}
-
-type Workspace_EnvironmentId struct {
-	// The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
-	EnvironmentId string `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof"`
-}
-
-type Workspace_TeamId struct {
-	// The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
-	TeamId string `protobuf:"bytes,5,opt,name=team_id,json=teamId,proto3,oneof"`
-}
-
-func (*Workspace_EnvironmentId) isWorkspace_Owner() {}
-
-func (*Workspace_TeamId) isWorkspace_Owner() {}
 
 type CreateWorkspaceRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -823,12 +786,10 @@ func (*DeleteWorkspaceResponse) Descriptor() ([]byte, []int) {
 
 type GrantTeamAccessRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique ID of the workspace
-	WorkspaceId string `protobuf:"bytes,1,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
-	// A list of team IDs who should be granted access to the workspace
-	TeamIds       *v11.TeamIds `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// A list of team access grants
+	TeamAccessGrants []*v11.CreateTeamWorkspaceAccessGrantRequest `protobuf:"bytes,1,rep,name=team_access_grants,json=teamAccessGrants,proto3" json:"team_access_grants,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GrantTeamAccessRequest) Reset() {
@@ -861,16 +822,9 @@ func (*GrantTeamAccessRequest) Descriptor() ([]byte, []int) {
 	return file_terrabase_workspace_v1_workspace_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GrantTeamAccessRequest) GetWorkspaceId() string {
+func (x *GrantTeamAccessRequest) GetTeamAccessGrants() []*v11.CreateTeamWorkspaceAccessGrantRequest {
 	if x != nil {
-		return x.WorkspaceId
-	}
-	return ""
-}
-
-func (x *GrantTeamAccessRequest) GetTeamIds() *v11.TeamIds {
-	if x != nil {
-		return x.TeamIds
+		return x.TeamAccessGrants
 	}
 	return nil
 }
@@ -916,7 +870,7 @@ type RevokeTeamAccessRequest struct {
 	// The unique ID of the workspace
 	WorkspaceId string `protobuf:"bytes,1,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
 	// A list of team IDs whose access to the workspace should be revoked
-	TeamIds       *v11.TeamIds `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
+	TeamIds       *v12.TeamIds `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -958,7 +912,7 @@ func (x *RevokeTeamAccessRequest) GetWorkspaceId() string {
 	return ""
 }
 
-func (x *RevokeTeamAccessRequest) GetTeamIds() *v11.TeamIds {
+func (x *RevokeTeamAccessRequest) GetTeamIds() *v12.TeamIds {
 	if x != nil {
 		return x.TeamIds
 	}
@@ -1005,18 +959,17 @@ var File_terrabase_workspace_v1_workspace_proto protoreflect.FileDescriptor
 
 const file_terrabase_workspace_v1_workspace_proto_rawDesc = "" +
 	"\n" +
-	"&terrabase/workspace/v1/workspace.proto\x12\x16terrabase.workspace.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a6terrabase/s3_backend_config/v1/s3_backend_config.proto\x1a\x1cterrabase/team/v1/team.proto\"\xba\x02\n" +
+	"&terrabase/workspace/v1/workspace.proto\x12\x16terrabase.workspace.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\x1a6terrabase/s3_backend_config/v1/s3_backend_config.proto\x1a\x1cterrabase/team/v1/team.proto\x1aJterrabase/team_workspace_access_grant/v1/team_workspace_access_grant.proto\"\xac\x02\n" +
 	"\tWorkspace\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12F\n" +
-	"\fbackend_type\x18\x03 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeR\vbackendType\x12'\n" +
-	"\x0eenvironment_id\x18\x04 \x01(\tH\x00R\renvironmentId\x12\x19\n" +
-	"\ateam_id\x18\x05 \x01(\tH\x00R\x06teamId\x129\n" +
+	"\fbackend_type\x18\x03 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeR\vbackendType\x12*\n" +
+	"\x0eenvironment_id\x18\x04 \x01(\tH\x00R\renvironmentId\x88\x01\x01\x129\n" +
 	"\n" +
 	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\a\n" +
-	"\x05owner\"\xb5\x02\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\x11\n" +
+	"\x0f_environment_id\"\xb5\x02\n" +
 	"\x16CreateWorkspaceRequest\x12\x17\n" +
 	"\x04name\x18\x01 \x01(\tB\x03\xe0A\x02R\x04name\x12K\n" +
 	"\fbackend_type\x18\x02 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeB\x03\xe0A\x02R\vbackendType\x12'\n" +
@@ -1061,10 +1014,9 @@ const file_terrabase_workspace_v1_workspace_proto_rawDesc = "" +
 	"\tworkspace\x18\x01 \x01(\v2!.terrabase.workspace.v1.WorkspaceR\tworkspace\"-\n" +
 	"\x16DeleteWorkspaceRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\"\x19\n" +
-	"\x17DeleteWorkspaceResponse\"|\n" +
-	"\x16GrantTeamAccessRequest\x12&\n" +
-	"\fworkspace_id\x18\x01 \x01(\tB\x03\xe0A\x02R\vworkspaceId\x12:\n" +
-	"\bteam_ids\x18\x02 \x01(\v2\x1a.terrabase.team.v1.TeamIdsB\x03\xe0A\x02R\ateamIds\"\x19\n" +
+	"\x17DeleteWorkspaceResponse\"\x9d\x01\n" +
+	"\x16GrantTeamAccessRequest\x12\x82\x01\n" +
+	"\x12team_access_grants\x18\x01 \x03(\v2O.terrabase.team_workspace_access_grant.v1.CreateTeamWorkspaceAccessGrantRequestB\x03\xe0A\x02R\x10teamAccessGrants\"\x19\n" +
 	"\x17GrantTeamAccessResponse\"}\n" +
 	"\x17RevokeTeamAccessRequest\x12&\n" +
 	"\fworkspace_id\x18\x01 \x01(\tB\x03\xe0A\x02R\vworkspaceId\x12:\n" +
@@ -1072,15 +1024,27 @@ const file_terrabase_workspace_v1_workspace_proto_rawDesc = "" +
 	"\x18RevokeTeamAccessResponse*@\n" +
 	"\vBackendType\x12\x1c\n" +
 	"\x18BACKEND_TYPE_UNSPECIFIED\x10\x00\x12\x13\n" +
-	"\x0fBACKEND_TYPE_S3\x10\x012\xb5\x06\n" +
-	"\x10WorkspaceService\x12r\n" +
-	"\x0fCreateWorkspace\x12..terrabase.workspace.v1.CreateWorkspaceRequest\x1a/.terrabase.workspace.v1.CreateWorkspaceResponse\x12i\n" +
-	"\fGetWorkspace\x12+.terrabase.workspace.v1.GetWorkspaceRequest\x1a,.terrabase.workspace.v1.GetWorkspaceResponse\x12o\n" +
-	"\x0eListWorkspaces\x12-.terrabase.workspace.v1.ListWorkspacesRequest\x1a..terrabase.workspace.v1.ListWorkspacesResponse\x12r\n" +
-	"\x0fUpdateWorkspace\x12..terrabase.workspace.v1.UpdateWorkspaceRequest\x1a/.terrabase.workspace.v1.UpdateWorkspaceResponse\x12r\n" +
-	"\x0fDeleteWorkspace\x12..terrabase.workspace.v1.DeleteWorkspaceRequest\x1a/.terrabase.workspace.v1.DeleteWorkspaceResponse\x12r\n" +
-	"\x0fGrantTeamAccess\x12..terrabase.workspace.v1.GrantTeamAccessRequest\x1a/.terrabase.workspace.v1.GrantTeamAccessResponse\x12u\n" +
-	"\x10RevokeTeamAccess\x12/.terrabase.workspace.v1.RevokeTeamAccessRequest\x1a0.terrabase.workspace.v1.RevokeTeamAccessResponseBMZKgithub.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1;workspacev1b\x06proto3"
+	"\x0fBACKEND_TYPE_S3\x10\x012\x8c\a\n" +
+	"\x10WorkspaceService\x12~\n" +
+	"\x0fCreateWorkspace\x12..terrabase.workspace.v1.CreateWorkspaceRequest\x1a/.terrabase.workspace.v1.CreateWorkspaceResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"\x12v\n" +
+	"\fGetWorkspace\x12+.terrabase.workspace.v1.GetWorkspaceRequest\x1a,.terrabase.workspace.v1.GetWorkspaceResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\v\n" +
+	"\x12|\n" +
+	"\x0eListWorkspaces\x12-.terrabase.workspace.v1.ListWorkspacesRequest\x1a..terrabase.workspace.v1.ListWorkspacesResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\v\n" +
+	"\x12~\n" +
+	"\x0fUpdateWorkspace\x12..terrabase.workspace.v1.UpdateWorkspaceRequest\x1a/.terrabase.workspace.v1.UpdateWorkspaceResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"\x12~\n" +
+	"\x0fDeleteWorkspace\x12..terrabase.workspace.v1.DeleteWorkspaceRequest\x1a/.terrabase.workspace.v1.DeleteWorkspaceResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"\x12~\n" +
+	"\x0fGrantTeamAccess\x12..terrabase.workspace.v1.GrantTeamAccessRequest\x1a/.terrabase.workspace.v1.GrantTeamAccessResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"\x12\x81\x01\n" +
+	"\x10RevokeTeamAccess\x12/.terrabase.workspace.v1.RevokeTeamAccessRequest\x1a0.terrabase.workspace.v1.RevokeTeamAccessResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"BMZKgithub.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1;workspacev1b\x06proto3"
 
 var (
 	file_terrabase_workspace_v1_workspace_proto_rawDescOnce sync.Once
@@ -1097,25 +1061,26 @@ func file_terrabase_workspace_v1_workspace_proto_rawDescGZIP() []byte {
 var file_terrabase_workspace_v1_workspace_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_terrabase_workspace_v1_workspace_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_terrabase_workspace_v1_workspace_proto_goTypes = []any{
-	(BackendType)(0),                        // 0: terrabase.workspace.v1.BackendType
-	(*Workspace)(nil),                       // 1: terrabase.workspace.v1.Workspace
-	(*CreateWorkspaceRequest)(nil),          // 2: terrabase.workspace.v1.CreateWorkspaceRequest
-	(*CreateWorkspaceResponse)(nil),         // 3: terrabase.workspace.v1.CreateWorkspaceResponse
-	(*GetWorkspaceRequest)(nil),             // 4: terrabase.workspace.v1.GetWorkspaceRequest
-	(*GetWorkspaceResponse)(nil),            // 5: terrabase.workspace.v1.GetWorkspaceResponse
-	(*ListWorkspacesRequest)(nil),           // 6: terrabase.workspace.v1.ListWorkspacesRequest
-	(*ListWorkspacesResponse)(nil),          // 7: terrabase.workspace.v1.ListWorkspacesResponse
-	(*UpdateWorkspaceRequest)(nil),          // 8: terrabase.workspace.v1.UpdateWorkspaceRequest
-	(*UpdateWorkspaceResponse)(nil),         // 9: terrabase.workspace.v1.UpdateWorkspaceResponse
-	(*DeleteWorkspaceRequest)(nil),          // 10: terrabase.workspace.v1.DeleteWorkspaceRequest
-	(*DeleteWorkspaceResponse)(nil),         // 11: terrabase.workspace.v1.DeleteWorkspaceResponse
-	(*GrantTeamAccessRequest)(nil),          // 12: terrabase.workspace.v1.GrantTeamAccessRequest
-	(*GrantTeamAccessResponse)(nil),         // 13: terrabase.workspace.v1.GrantTeamAccessResponse
-	(*RevokeTeamAccessRequest)(nil),         // 14: terrabase.workspace.v1.RevokeTeamAccessRequest
-	(*RevokeTeamAccessResponse)(nil),        // 15: terrabase.workspace.v1.RevokeTeamAccessResponse
-	(*timestamppb.Timestamp)(nil),           // 16: google.protobuf.Timestamp
-	(*v1.CreateS3BackendConfigRequest)(nil), // 17: terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest
-	(*v11.TeamIds)(nil),                     // 18: terrabase.team.v1.TeamIds
+	(BackendType)(0),                                  // 0: terrabase.workspace.v1.BackendType
+	(*Workspace)(nil),                                 // 1: terrabase.workspace.v1.Workspace
+	(*CreateWorkspaceRequest)(nil),                    // 2: terrabase.workspace.v1.CreateWorkspaceRequest
+	(*CreateWorkspaceResponse)(nil),                   // 3: terrabase.workspace.v1.CreateWorkspaceResponse
+	(*GetWorkspaceRequest)(nil),                       // 4: terrabase.workspace.v1.GetWorkspaceRequest
+	(*GetWorkspaceResponse)(nil),                      // 5: terrabase.workspace.v1.GetWorkspaceResponse
+	(*ListWorkspacesRequest)(nil),                     // 6: terrabase.workspace.v1.ListWorkspacesRequest
+	(*ListWorkspacesResponse)(nil),                    // 7: terrabase.workspace.v1.ListWorkspacesResponse
+	(*UpdateWorkspaceRequest)(nil),                    // 8: terrabase.workspace.v1.UpdateWorkspaceRequest
+	(*UpdateWorkspaceResponse)(nil),                   // 9: terrabase.workspace.v1.UpdateWorkspaceResponse
+	(*DeleteWorkspaceRequest)(nil),                    // 10: terrabase.workspace.v1.DeleteWorkspaceRequest
+	(*DeleteWorkspaceResponse)(nil),                   // 11: terrabase.workspace.v1.DeleteWorkspaceResponse
+	(*GrantTeamAccessRequest)(nil),                    // 12: terrabase.workspace.v1.GrantTeamAccessRequest
+	(*GrantTeamAccessResponse)(nil),                   // 13: terrabase.workspace.v1.GrantTeamAccessResponse
+	(*RevokeTeamAccessRequest)(nil),                   // 14: terrabase.workspace.v1.RevokeTeamAccessRequest
+	(*RevokeTeamAccessResponse)(nil),                  // 15: terrabase.workspace.v1.RevokeTeamAccessResponse
+	(*timestamppb.Timestamp)(nil),                     // 16: google.protobuf.Timestamp
+	(*v1.CreateS3BackendConfigRequest)(nil),           // 17: terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest
+	(*v11.CreateTeamWorkspaceAccessGrantRequest)(nil), // 18: terrabase.team_workspace_access_grant.v1.CreateTeamWorkspaceAccessGrantRequest
+	(*v12.TeamIds)(nil),                               // 19: terrabase.team.v1.TeamIds
 }
 var file_terrabase_workspace_v1_workspace_proto_depIdxs = []int32{
 	0,  // 0: terrabase.workspace.v1.Workspace.backend_type:type_name -> terrabase.workspace.v1.BackendType
@@ -1129,8 +1094,8 @@ var file_terrabase_workspace_v1_workspace_proto_depIdxs = []int32{
 	0,  // 8: terrabase.workspace.v1.UpdateWorkspaceRequest.backend_type:type_name -> terrabase.workspace.v1.BackendType
 	17, // 9: terrabase.workspace.v1.UpdateWorkspaceRequest.s3_backend_config:type_name -> terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest
 	1,  // 10: terrabase.workspace.v1.UpdateWorkspaceResponse.workspace:type_name -> terrabase.workspace.v1.Workspace
-	18, // 11: terrabase.workspace.v1.GrantTeamAccessRequest.team_ids:type_name -> terrabase.team.v1.TeamIds
-	18, // 12: terrabase.workspace.v1.RevokeTeamAccessRequest.team_ids:type_name -> terrabase.team.v1.TeamIds
+	18, // 11: terrabase.workspace.v1.GrantTeamAccessRequest.team_access_grants:type_name -> terrabase.team_workspace_access_grant.v1.CreateTeamWorkspaceAccessGrantRequest
+	19, // 12: terrabase.workspace.v1.RevokeTeamAccessRequest.team_ids:type_name -> terrabase.team.v1.TeamIds
 	2,  // 13: terrabase.workspace.v1.WorkspaceService.CreateWorkspace:input_type -> terrabase.workspace.v1.CreateWorkspaceRequest
 	4,  // 14: terrabase.workspace.v1.WorkspaceService.GetWorkspace:input_type -> terrabase.workspace.v1.GetWorkspaceRequest
 	6,  // 15: terrabase.workspace.v1.WorkspaceService.ListWorkspaces:input_type -> terrabase.workspace.v1.ListWorkspacesRequest
@@ -1157,10 +1122,7 @@ func file_terrabase_workspace_v1_workspace_proto_init() {
 	if File_terrabase_workspace_v1_workspace_proto != nil {
 		return
 	}
-	file_terrabase_workspace_v1_workspace_proto_msgTypes[0].OneofWrappers = []any{
-		(*Workspace_EnvironmentId)(nil),
-		(*Workspace_TeamId)(nil),
-	}
+	file_terrabase_workspace_v1_workspace_proto_msgTypes[0].OneofWrappers = []any{}
 	file_terrabase_workspace_v1_workspace_proto_msgTypes[1].OneofWrappers = []any{
 		(*CreateWorkspaceRequest_EnvironmentId)(nil),
 		(*CreateWorkspaceRequest_TeamId)(nil),

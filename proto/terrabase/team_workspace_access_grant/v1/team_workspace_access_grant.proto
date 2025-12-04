@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package terrabase.team_workspace_access_grant.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
+import "terrabase/team_access_type/v1/team_access_type.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/team_workspace_access_grant/v1;teamWorkspaceAccessGrantv1";
+
+// Grants a team access to a workspace
+message TeamWorkspaceAccessGrant {
+  // The unique ID of the team access grant
+  string id = 1;
+
+  // The ID of the team that has access to the workspace
+  string team_id = 2;
+
+  // The ID of the workspace the team has access to
+  string workspace_id = 3;
+
+  // The type of access the team has to the workspace
+  terrabase.team_access_type.v1.TeamAccessType access_type = 4;
+
+  // The time the access to the workspace was granted to the team
+  google.protobuf.Timestamp created_at = 5;
+
+  // The time the team's access to the workspaace was last changed
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message CreateTeamWorkspaceAccessGrantRequest {
+  // The ID of the team to grant access to the workspace to
+  string team_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the workspace to grant the team access to
+  string workspace_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The type of access that should be granted to the team
+  terrabase.team_access_type.v1.TeamAccessType access_type = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateTeamWorkspaceAccessGrantResponse {
+  // The team access grant that was created
+  TeamWorkspaceAccessGrant team_workspace_access_grant = 1;
+}
+
+message GetTeamWorkspaceAccessGrantRequest {
+  // The unique ID of the team access grant
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetTeamWorkspaceAccessGrantResponse {
+  // The team access grant
+  TeamWorkspaceAccessGrant team_workspace_access_grant = 1;
+}
+
+message ListTeamWorkspaceAccessGrantsRequest {
+  // The ID of a team to list all workspaces that the team has access to
+  optional string team_id = 1;
+
+  // The ID of an workspace to list all the teams that have access to it
+  optional string workspace_id = 2;
+
+  // The number of access grants on each page of results
+  optional int32 page_size = 3;
+
+  // The token to retrieve the next page of results
+  optional string page_token = 4;
+}
+
+message ListTeamWorkspaceAccessGrantsResponse {
+  // A list of team access grants
+  repeated TeamWorkspaceAccessGrant team_workspace_access_grants = 1;
+
+  // The token to retrieve the next page of results
+  optional string next_page_token = 2;
+}
+
+message UpdateTeamWorkspaceAccessGrantRequest {
+  // The unique ID of the team access grant
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new type of access that should be granted to the team
+  terrabase.team_access_type.v1.TeamAccessType access_type = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message UpdateTeamWorkspaceAccessGrantResponse {
+  // The updated team access grant
+  TeamWorkspaceAccessGrant team_workspace_access_grant = 1;
+}
+
+message DeleteTeamWorkspaceAccessGrantRequest {
+  // The ID of the team to whose access grant should be deleted
+  string team_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the workspace whose access grant should be deleted
+  string workspace_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteTeamWorkspaceAccessGrantResponse {}
+
+message DeleteTeamWorkspaceAccessGrantByIdRequest {
+  // The unique ID of the team access grant
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteTeamWorkspaceAccessGrantByIdResponse {}
+
+service TeamWorkspaceAccessGrantService {
+  rpc CreateTeamWorkspaceAccessGrant(CreateTeamWorkspaceAccessGrantRequest) returns (CreateTeamWorkspaceAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc GetTeamWorkspaceAccessGrant(GetTeamWorkspaceAccessGrantRequest) returns (GetTeamWorkspaceAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc ListTeamWorkspaceAccessGrants(ListTeamWorkspaceAccessGrantsRequest) returns (ListTeamWorkspaceAccessGrantsResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc UpdateTeamWorkspaceAccessGrant(UpdateTeamWorkspaceAccessGrantRequest) returns (UpdateTeamWorkspaceAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc DeleteTeamWorkspaceAccessGrant(DeleteTeamWorkspaceAccessGrantRequest) returns (DeleteTeamWorkspaceAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc DeleteTeamWorkspaceAccessGrantById(DeleteTeamWorkspaceAccessGrantByIdRequest) returns (DeleteTeamWorkspaceAccessGrantByIdResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+}

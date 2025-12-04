@@ -990,6 +990,108 @@ Grants a team access to an application
 
 - (no fields)
 
+## terrabase.team_workspace_access_grant.v1
+
+### TeamWorkspaceAccessGrantService (team_workspace_access_grant.v1)
+
+| Name | Request | Response | Authentication Required | Required Scopes | Description |
+| --- | --- | --- | --- | --- | --- |
+| `CreateTeamWorkspaceAccessGrant` | [CreateTeamWorkspaceAccessGrantRequest](#createteamworkspaceaccessgrantrequest-team_workspace_access_grantv1) | [CreateTeamWorkspaceAccessGrantResponse](#createteamworkspaceaccessgrantresponse-team_workspace_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE`, `SCOPE_TEAM_WRITE` |  |
+| `GetTeamWorkspaceAccessGrant` | [GetTeamWorkspaceAccessGrantRequest](#getteamworkspaceaccessgrantrequest-team_workspace_access_grantv1) | [GetTeamWorkspaceAccessGrantResponse](#getteamworkspaceaccessgrantresponse-team_workspace_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_READ`, `SCOPE_WORKSPACE_WRITE`, `SCOPE_TEAM_READ`, `SCOPE_TEAM_WRITE` |  |
+| `ListTeamWorkspaceAccessGrants` | [ListTeamWorkspaceAccessGrantsRequest](#listteamworkspaceaccessgrantsrequest-team_workspace_access_grantv1) | [ListTeamWorkspaceAccessGrantsResponse](#listteamworkspaceaccessgrantsresponse-team_workspace_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_READ`, `SCOPE_WORKSPACE_WRITE`, `SCOPE_TEAM_READ`, `SCOPE_TEAM_WRITE` |  |
+| `UpdateTeamWorkspaceAccessGrant` | [UpdateTeamWorkspaceAccessGrantRequest](#updateteamworkspaceaccessgrantrequest-team_workspace_access_grantv1) | [UpdateTeamWorkspaceAccessGrantResponse](#updateteamworkspaceaccessgrantresponse-team_workspace_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE`, `SCOPE_TEAM_WRITE` |  |
+| `DeleteTeamWorkspaceAccessGrant` | [DeleteTeamWorkspaceAccessGrantRequest](#deleteteamworkspaceaccessgrantrequest-team_workspace_access_grantv1) | [DeleteTeamWorkspaceAccessGrantResponse](#deleteteamworkspaceaccessgrantresponse-team_workspace_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE`, `SCOPE_TEAM_WRITE` |  |
+| `DeleteTeamWorkspaceAccessGrantById` | [DeleteTeamWorkspaceAccessGrantByIdRequest](#deleteteamworkspaceaccessgrantbyidrequest-team_workspace_access_grantv1) | [DeleteTeamWorkspaceAccessGrantByIdResponse](#deleteteamworkspaceaccessgrantbyidresponse-team_workspace_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE`, `SCOPE_TEAM_WRITE` |  |
+
+### TeamWorkspaceAccessGrant (team_workspace_access_grant.v1)
+
+Grants a team access to a workspace
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `false` | The unique ID of the team access grant |
+| `team_id` | string |  | `false` | The ID of the team that has access to the workspace |
+| `workspace_id` | string |  | `false` | The ID of the workspace the team has access to |
+| `access_type` | [TeamAccessType](#teamaccesstype-team_access_typev1) |  | `false` | The type of access the team has to the workspace |
+| `created_at` | `Timestamp` |  | `false` | The time the access to the workspace was granted to the team |
+| `updated_at` | `Timestamp` |  | `false` | The time the team's access to the workspaace was last changed |
+
+### CreateTeamWorkspaceAccessGrantRequest (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | string |  | `true` | The ID of the team to grant access to the workspace to |
+| `workspace_id` | string |  | `true` | The ID of the workspace to grant the team access to |
+| `access_type` | [TeamAccessType](#teamaccesstype-team_access_typev1) |  | `true` | The type of access that should be granted to the team |
+
+### CreateTeamWorkspaceAccessGrantResponse (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_workspace_access_grant` | [TeamWorkspaceAccessGrant](#teamworkspaceaccessgrant-team_workspace_access_grantv1) |  | `false` | The team access grant that was created |
+
+### GetTeamWorkspaceAccessGrantRequest (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `true` | The unique ID of the team access grant |
+
+### GetTeamWorkspaceAccessGrantResponse (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_workspace_access_grant` | [TeamWorkspaceAccessGrant](#teamworkspaceaccessgrant-team_workspace_access_grantv1) |  | `false` | The team access grant |
+
+### ListTeamWorkspaceAccessGrantsRequest (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | string |  | `false` | The ID of a team to list all workspaces that the team has access to |
+| `workspace_id` | string |  | `false` | The ID of an workspace to list all the teams that have access to it |
+| `page_size` | int32 |  | `false` | The number of access grants on each page of results |
+| `page_token` | string |  | `false` | The token to retrieve the next page of results |
+
+### ListTeamWorkspaceAccessGrantsResponse (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_workspace_access_grants` | [TeamWorkspaceAccessGrant](#teamworkspaceaccessgrant-team_workspace_access_grantv1) | repeated | `false` | A list of team access grants |
+| `next_page_token` | string |  | `false` | The token to retrieve the next page of results |
+
+### UpdateTeamWorkspaceAccessGrantRequest (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `true` | The unique ID of the team access grant |
+| `access_type` | [TeamAccessType](#teamaccesstype-team_access_typev1) |  | `true` | The new type of access that should be granted to the team |
+
+### UpdateTeamWorkspaceAccessGrantResponse (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_workspace_access_grant` | [TeamWorkspaceAccessGrant](#teamworkspaceaccessgrant-team_workspace_access_grantv1) |  | `false` | The updated team access grant |
+
+### DeleteTeamWorkspaceAccessGrantRequest (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | string |  | `true` | The ID of the team to whose access grant should be deleted |
+| `workspace_id` | string |  | `true` | The ID of the workspace whose access grant should be deleted |
+
+### DeleteTeamWorkspaceAccessGrantResponse (team_workspace_access_grant.v1)
+
+- (no fields)
+
+### DeleteTeamWorkspaceAccessGrantByIdRequest (team_workspace_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `true` | The unique ID of the team access grant |
+
+### DeleteTeamWorkspaceAccessGrantByIdResponse (team_workspace_access_grant.v1)
+
+- (no fields)
+
 ## terrabase.user.v1
 
 ### UserService (user.v1)
@@ -1205,13 +1307,13 @@ UserSummary is context aware
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateWorkspace` | [CreateWorkspaceRequest](#createworkspacerequest-workspacev1) | [CreateWorkspaceResponse](#createworkspaceresponse-workspacev1) | `false` |  | Create a new workspace |
-| `GetWorkspace` | [GetWorkspaceRequest](#getworkspacerequest-workspacev1) | [GetWorkspaceResponse](#getworkspaceresponse-workspacev1) | `false` |  | Retrieve details about a single workspace |
-| `ListWorkspaces` | [ListWorkspacesRequest](#listworkspacesrequest-workspacev1) | [ListWorkspacesResponse](#listworkspacesresponse-workspacev1) | `false` |  | List workspaces owned by a specific team, or belong to a specific application |
-| `UpdateWorkspace` | [UpdateWorkspaceRequest](#updateworkspacerequest-workspacev1) | [UpdateWorkspaceResponse](#updateworkspaceresponse-workspacev1) | `false` |  | Change details about a workspace |
-| `DeleteWorkspace` | [DeleteWorkspaceRequest](#deleteworkspacerequest-workspacev1) | [DeleteWorkspaceResponse](#deleteworkspaceresponse-workspacev1) | `false` |  | Delete a workspace |
-| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-workspacev1) | [GrantTeamAccessResponse](#grantteamaccessresponse-workspacev1) | `false` |  | Grant access to a workspace to a single team or multiple teams |
-| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-workspacev1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-workspacev1) | `false` |  | Revoke access to a workspace from a single team or multiple teams |
+| `CreateWorkspace` | [CreateWorkspaceRequest](#createworkspacerequest-workspacev1) | [CreateWorkspaceResponse](#createworkspaceresponse-workspacev1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Create a new workspace |
+| `GetWorkspace` | [GetWorkspaceRequest](#getworkspacerequest-workspacev1) | [GetWorkspaceResponse](#getworkspaceresponse-workspacev1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_READ`, `SCOPE_WORKSPACE_WRITE` | Retrieve details about a single workspace |
+| `ListWorkspaces` | [ListWorkspacesRequest](#listworkspacesrequest-workspacev1) | [ListWorkspacesResponse](#listworkspacesresponse-workspacev1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_READ`, `SCOPE_WORKSPACE_WRITE` | List workspaces owned by a specific team, or belong to a specific application |
+| `UpdateWorkspace` | [UpdateWorkspaceRequest](#updateworkspacerequest-workspacev1) | [UpdateWorkspaceResponse](#updateworkspaceresponse-workspacev1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Change details about a workspace |
+| `DeleteWorkspace` | [DeleteWorkspaceRequest](#deleteworkspacerequest-workspacev1) | [DeleteWorkspaceResponse](#deleteworkspaceresponse-workspacev1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Delete a workspace |
+| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-workspacev1) | [GrantTeamAccessResponse](#grantteamaccessresponse-workspacev1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Grant access to a workspace to a single team or multiple teams |
+| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-workspacev1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-workspacev1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Revoke access to a workspace from a single team or multiple teams |
 
 ### Workspace (workspace.v1)
 
@@ -1223,7 +1325,6 @@ A Terrabase workspace represents a single Terraform state file
 | `name` | string |  | `false` | The name of the workspace |
 | `backend_type` | [BackendType](#backendtype-workspacev1) |  | `false` | The type of the backend configuration of the workspace |
 | `environment_id` | string |  | `false` | The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team. |
-| `team_id` | string |  | `false` | The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment. |
 | `created_at` | `Timestamp` |  | `false` | The time the workspace was created |
 | `updated_at` | `Timestamp` |  | `false` | The time the workspace was last updated at |
 
@@ -1302,8 +1403,7 @@ A Terrabase workspace represents a single Terraform state file
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `workspace_id` | string |  | `true` | The unique ID of the workspace |
-| `team_ids` | [TeamIds](#teamids-teamv1) |  | `true` | A list of team IDs who should be granted access to the workspace |
+| `team_access_grants` | [CreateTeamWorkspaceAccessGrantRequest](#createteamworkspaceaccessgrantrequest-team_workspace_access_grantv1) | repeated | `true` | A list of team access grants |
 
 ### GrantTeamAccessResponse (workspace.v1)
 
