@@ -34,23 +34,35 @@ func (r *ApplicationRepo) Get(ctx context.Context, id string) (*applicationv1.Ap
 	return get(ctx, r.db.NewSelect().Model(model), model, id)
 }
 
-func (r *ApplicationRepo) List(ctx context.Context, pageSize int32, pageToken string) ([]*applicationv1.Application, string, error) {
-	var models []*models.Application
+func (r *ApplicationRepo) List(ctx context.Context, teamId string, pageSize int32, pageToken string) ([]*applicationv1.Application, string, error) {
+	var applications []*models.Application
 
-	return paginate(ctx, r.db.NewSelect().Model(&models).Order("updated_at DESC"), &models, pageSize, pageToken)
+	// Ensure the team exists
+	teamModel := new(models.Team)
+	if _, err := get(ctx, r.db.NewSelect().Model(teamModel), teamModel, teamId); err != nil {
+		return nil, "", err
+	}
+
+	query := r.db.NewSelect().
+		Model(&applications).
+		Relation("TeamApplicationAccessGrantRef").
+		Join(`JOIN "TeamApplication" ta ON ta.application_id = application.id`).
+		Where("ta.team_id = ?", teamId).
+		OrderExpr("application.updated_at DESC")
+
+	return paginate(ctx, query, &applications, pageSize, pageToken)
 }
 
-func (r *ApplicationRepo) Update(ctx context.Context, id string, name *string, teamId *string) (*applicationv1.Application, error) {
+func (r *ApplicationRepo) Update(ctx context.Context, id string, name string) (*applicationv1.Application, error) {
 	model := new(models.Application)
 
 	if _, err := get(ctx, r.db.NewSelect().Model(model), model, id); err != nil {
 		return nil, err
 	}
 
-	model.Name = *name
-	model.TeamID = *teamId
+	model.Name = name
 
-	return update(ctx, r.db, model, "name", "team_id")
+	return update(ctx, r.db, model, "name")
 }
 
 func (r *ApplicationRepo) Delete(ctx context.Context, id string) error {

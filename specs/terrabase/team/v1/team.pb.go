@@ -107,8 +107,9 @@ func (x *Team) GetUpdatedAt() *timestamppb.Timestamp {
 }
 
 type TeamIds struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TeamId        []string               `protobuf:"bytes,1,rep,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// A list of team IDs
+	TeamIds       []string `protobuf:"bytes,1,rep,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -143,9 +144,9 @@ func (*TeamIds) Descriptor() ([]byte, []int) {
 	return file_terrabase_team_v1_team_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *TeamIds) GetTeamId() []string {
+func (x *TeamIds) GetTeamIds() []string {
 	if x != nil {
-		return x.TeamId
+		return x.TeamIds
 	}
 	return nil
 }
@@ -639,9 +640,9 @@ const file_terrabase_team_v1_team_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\"\n" +
-	"\aTeamIds\x12\x17\n" +
-	"\ateam_id\x18\x01 \x03(\tR\x06teamId\"Z\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"$\n" +
+	"\aTeamIds\x12\x19\n" +
+	"\bteam_ids\x18\x01 \x03(\tR\ateamIds\"Z\n" +
 	"\x11CreateTeamRequest\x12\x17\n" +
 	"\x04name\x18\x01 \x01(\tB\x03\xe0A\x02R\x04name\x12,\n" +
 	"\x0forganization_id\x18\x02 \x01(\tB\x03\xe0A\x02R\x0eorganizationId\"A\n" +

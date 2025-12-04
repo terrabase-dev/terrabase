@@ -50,7 +50,7 @@ func init() {
 		}
 
 		// Application table
-		if _, err := db.NewCreateTable().IfNotExists().Model((*models.Application)(nil)).ForeignKey(`("team_id") REFERENCES "team" ("id") ON DELETE RESTRICT`).Exec(ctx); err != nil {
+		if _, err := db.NewCreateTable().IfNotExists().Model((*models.Application)(nil)).Exec(ctx); err != nil {
 			return err
 		}
 
@@ -69,11 +69,22 @@ func init() {
 			return err
 		}
 
+		// Team Application table
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.TeamApplicationAccessGrant)(nil)).
+			ForeignKey(`("team_id") REFERENCES "team" ("id") ON DELETE CASCADE`).
+			ForeignKey(`("application_id") REFERENCES "application" ("id") ON DELETE CASCADE`).
+			Exec(ctx); err != nil {
+			return err
+		}
+
 		return nil
 	}
 
 	down := func(ctx context.Context, db *bun.DB) error {
 		tables := []any{
+			(*models.TeamApplicationAccessGrant)(nil),
 			(*models.S3BackendConfig)(nil),
 			(*models.Workspace)(nil),
 			(*models.Environment)(nil),

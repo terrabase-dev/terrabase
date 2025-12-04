@@ -13,11 +13,11 @@ type Application struct {
 
 	ID        string    `bun:",pk"`
 	Name      string    `bun:",unique,notnull"`
-	TeamID    string    `bun:",nullzero,notnull,on_delete:RESTRICT"`
 	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 
-	TeamRef *Team `bun:"rel:belongs-to,join:team_id=id"`
+	TeamRef                       *Team                       `bun:"rel:belongs-to,join:team_id=id"`
+	TeamApplicationAccessGrantRef *TeamApplicationAccessGrant `bun:"rel:has-many,join:application_id=id"`
 }
 
 func ApplicationFromProto(application *applicationv1.Application) *Application {
@@ -26,9 +26,8 @@ func ApplicationFromProto(application *applicationv1.Application) *Application {
 	}
 
 	return &Application{
-		ID:     application.GetId(),
-		Name:   application.GetName(),
-		TeamID: application.GetTeamId(),
+		ID:   application.GetId(),
+		Name: application.GetName(),
 	}
 }
 
@@ -36,7 +35,6 @@ func (a *Application) ToProto() (*applicationv1.Application, error) {
 	return &applicationv1.Application{
 		Id:        a.ID,
 		Name:      a.Name,
-		TeamId:    a.TeamID,
 		CreatedAt: timestamppb.New(a.CreatedAt.UTC()),
 		UpdatedAt: timestamppb.New(a.UpdatedAt.UTC()),
 	}, nil

@@ -6,13 +6,13 @@
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateApplication` | [CreateApplicationRequest](#createapplicationrequest-applicationv1) | [CreateApplicationResponse](#createapplicationresponse-applicationv1) | `false` |  | Create a new application |
-| `GetApplication` | [GetApplicationRequest](#getapplicationrequest-applicationv1) | [GetApplicationResponse](#getapplicationresponse-applicationv1) | `false` |  | Retrieve details about a single application |
-| `ListApplications` | [ListApplicationsRequest](#listapplicationsrequest-applicationv1) | [ListApplicationsResponse](#listapplicationsresponse-applicationv1) | `false` |  | List applications owned by a specific team |
-| `UpdateApplication` | [UpdateApplicationRequest](#updateapplicationrequest-applicationv1) | [UpdateApplicationResponse](#updateapplicationresponse-applicationv1) | `false` |  | Change details about an application |
-| `DeleteApplication` | [DeleteApplicationRequest](#deleteapplicationrequest-applicationv1) | [DeleteApplicationResponse](#deleteapplicationresponse-applicationv1) | `false` |  | Delete an application |
-| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-applicationv1) | [GrantTeamAccessResponse](#grantteamaccessresponse-applicationv1) | `false` |  | Grant access to an application to a single team or multiple teams |
-| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-applicationv1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-applicationv1) | `false` |  | Revoke access to an application from a single team or multiple teams |
+| `CreateApplication` | [CreateApplicationRequest](#createapplicationrequest-applicationv1) | [CreateApplicationResponse](#createapplicationresponse-applicationv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE` | Create a new application |
+| `GetApplication` | [GetApplicationRequest](#getapplicationrequest-applicationv1) | [GetApplicationResponse](#getapplicationresponse-applicationv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_READ`, `SCOPE_APPLICATION_WRITE` | Retrieve details about a single application |
+| `ListApplications` | [ListApplicationsRequest](#listapplicationsrequest-applicationv1) | [ListApplicationsResponse](#listapplicationsresponse-applicationv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_READ`, `SCOPE_APPLICATION_WRITE` | List applications owned by a specific team |
+| `UpdateApplication` | [UpdateApplicationRequest](#updateapplicationrequest-applicationv1) | [UpdateApplicationResponse](#updateapplicationresponse-applicationv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE` | Change details about an application |
+| `DeleteApplication` | [DeleteApplicationRequest](#deleteapplicationrequest-applicationv1) | [DeleteApplicationResponse](#deleteapplicationresponse-applicationv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE` | Delete an application |
+| `GrantTeamAccess` | [GrantTeamAccessRequest](#grantteamaccessrequest-applicationv1) | [GrantTeamAccessResponse](#grantteamaccessresponse-applicationv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE` | Grant access to an application to a single team or multiple teams |
+| `RevokeTeamAccess` | [RevokeTeamAccessRequest](#revoketeamaccessrequest-applicationv1) | [RevokeTeamAccessResponse](#revoketeamaccessresponse-applicationv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE` | Revoke access to an application from a single team or multiple teams |
 
 ### Application (application.v1)
 
@@ -22,7 +22,6 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `false` | The unique ID of the application |
 | `name` | string |  | `false` | The name of the application |
-| `team_id` | string |  | `false` | The ID of the team that owns the application |
 | `created_at` | `Timestamp` |  | `false` | The time the application was created |
 | `updated_at` | `Timestamp` |  | `false` | The time the application was last updated at |
 
@@ -72,7 +71,6 @@ A Terrabase application can be deployed in multiple environments, each with thei
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `true` | The unique ID of the application to update |
 | `name` | string |  | `false` | The new name of the application |
-| `team_id` | string |  | `false` | The new ID of the team that owns the application |
 
 ### UpdateApplicationResponse (application.v1)
 
@@ -94,8 +92,7 @@ A Terrabase application can be deployed in multiple environments, each with thei
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application_id` | string |  | `true` | The unique ID of the application |
-| `team_id` | string | repeated | `true` | A list of team IDs who should be granted access to the application |
+| `team_access_grants` | [CreateTeamApplicationAccessGrantRequest](#createteamapplicationaccessgrantrequest-team_application_access_grantv1) | repeated | `true` | A list of team access grants |
 
 ### GrantTeamAccessResponse (application.v1)
 
@@ -105,8 +102,8 @@ A Terrabase application can be deployed in multiple environments, each with thei
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `application_id` | string |  | `true` | The unique ID of the application |
-| `team_id` | string | repeated | `true` | A list of team IDs whose access to the application should be revoked |
+| `id` | string |  | `true` | The unique ID of the application |
+| `team_ids` | [TeamIds](#teamids-teamv1) |  | `true` | A list of team IDs whose access to the application should be revoked |
 
 ### RevokeTeamAccessResponse (application.v1)
 
@@ -817,7 +814,7 @@ A Terrabase team belongs to a single organization, and can have many users. Team
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `team_id` | string | repeated | `false` |  |
+| `team_ids` | string | repeated | `false` | A list of team IDs |
 
 ### CreateTeamRequest (team.v1)
 
@@ -890,6 +887,108 @@ A Terrabase team belongs to a single organization, and can have many users. Team
 | `TEAM_ACCESS_TYPE_UNSPECIFIED` | `0` |  |
 | `TEAM_ACCESS_TYPE_OWNER` | `1` |  |
 | `TEAM_ACCESS_TYPE_GRANTED` | `2` |  |
+
+## terrabase.team_application_access_grant.v1
+
+### TeamApplicationAccessGrantService (team_application_access_grant.v1)
+
+| Name | Request | Response | Authentication Required | Required Scopes | Description |
+| --- | --- | --- | --- | --- | --- |
+| `CreateTeamApplicationAccessGrant` | [CreateTeamApplicationAccessGrantRequest](#createteamapplicationaccessgrantrequest-team_application_access_grantv1) | [CreateTeamApplicationAccessGrantResponse](#createteamapplicationaccessgrantresponse-team_application_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE`, `SCOPE_TEAM_WRITE` |  |
+| `GetTeamApplicationAccessGrant` | [GetTeamApplicationAccessGrantRequest](#getteamapplicationaccessgrantrequest-team_application_access_grantv1) | [GetTeamApplicationAccessGrantResponse](#getteamapplicationaccessgrantresponse-team_application_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_READ`, `SCOPE_APPLICATION_WRITE`, `SCOPE_TEAM_READ`, `SCOPE_TEAM_WRITE` |  |
+| `ListTeamApplicationAccessGrants` | [ListTeamApplicationAccessGrantsRequest](#listteamapplicationaccessgrantsrequest-team_application_access_grantv1) | [ListTeamApplicationAccessGrantsResponse](#listteamapplicationaccessgrantsresponse-team_application_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_READ`, `SCOPE_APPLICATION_WRITE`, `SCOPE_TEAM_READ`, `SCOPE_TEAM_WRITE` |  |
+| `UpdateTeamApplicationAccessGrant` | [UpdateTeamApplicationAccessGrantRequest](#updateteamapplicationaccessgrantrequest-team_application_access_grantv1) | [UpdateTeamApplicationAccessGrantResponse](#updateteamapplicationaccessgrantresponse-team_application_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE`, `SCOPE_TEAM_WRITE` |  |
+| `DeleteTeamApplicationAccessGrant` | [DeleteTeamApplicationAccessGrantRequest](#deleteteamapplicationaccessgrantrequest-team_application_access_grantv1) | [DeleteTeamApplicationAccessGrantResponse](#deleteteamapplicationaccessgrantresponse-team_application_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE`, `SCOPE_TEAM_WRITE` |  |
+| `DeleteTeamApplicationAccessGrantById` | [DeleteTeamApplicationAccessGrantByIdRequest](#deleteteamapplicationaccessgrantbyidrequest-team_application_access_grantv1) | [DeleteTeamApplicationAccessGrantByIdResponse](#deleteteamapplicationaccessgrantbyidresponse-team_application_access_grantv1) | `true` | `SCOPE_ADMIN`, `SCOPE_APPLICATION_WRITE`, `SCOPE_TEAM_WRITE` |  |
+
+### TeamApplicationAccessGrant (team_application_access_grant.v1)
+
+Grants a team access to an application
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `false` | The unique ID of the team access grant |
+| `team_id` | string |  | `false` | The ID of the team that has access to the application |
+| `application_id` | string |  | `false` | The ID of the application the team has access to |
+| `access_type` | [TeamAccessType](#teamaccesstype-team_access_typev1) |  | `false` | The type of access the team has to the application |
+| `created_at` | `Timestamp` |  | `false` | The time the access to the application was granted to the team |
+| `updated_at` | `Timestamp` |  | `false` | The time the team's access to the application was last changed |
+
+### CreateTeamApplicationAccessGrantRequest (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | string |  | `true` | The ID of the team to grant access to the application to |
+| `application_id` | string |  | `true` | The ID of the application to grant the team access to |
+| `access_type` | [TeamAccessType](#teamaccesstype-team_access_typev1) |  | `true` | The type of access that should be granted to the team |
+
+### CreateTeamApplicationAccessGrantResponse (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_application_access_grant` | [TeamApplicationAccessGrant](#teamapplicationaccessgrant-team_application_access_grantv1) |  | `false` | The team access grant that was created |
+
+### GetTeamApplicationAccessGrantRequest (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `true` | The unique ID of the team access grant |
+
+### GetTeamApplicationAccessGrantResponse (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_application_access_grant` | [TeamApplicationAccessGrant](#teamapplicationaccessgrant-team_application_access_grantv1) |  | `false` | The team access grant |
+
+### ListTeamApplicationAccessGrantsRequest (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | string |  | `false` | The ID of a team to list all applications that the team has access to |
+| `application_id` | string |  | `false` | The ID of an application to list all the teams that have access to it |
+| `page_size` | int32 |  | `false` | The number of access grants on each page of results |
+| `page_token` | string |  | `false` | The token to retrieve the next page of results |
+
+### ListTeamApplicationAccessGrantsResponse (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_application_access_grants` | [TeamApplicationAccessGrant](#teamapplicationaccessgrant-team_application_access_grantv1) | repeated | `false` | A list of team access grants |
+| `next_page_token` | string |  | `false` | The token to retrieve the next page of results |
+
+### UpdateTeamApplicationAccessGrantRequest (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `true` | The unique ID of the team access grant |
+| `access_type` | [TeamAccessType](#teamaccesstype-team_access_typev1) |  | `true` | The new type of access that should be granted to the team |
+
+### UpdateTeamApplicationAccessGrantResponse (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_application_access_grant` | [TeamApplicationAccessGrant](#teamapplicationaccessgrant-team_application_access_grantv1) |  | `false` | The updated team access grant |
+
+### DeleteTeamApplicationAccessGrantRequest (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `team_id` | string |  | `true` | The ID of the team to whose access grant should be deleted |
+| `application_id` | string |  | `true` | The ID of the application whose access grant should be deleted |
+
+### DeleteTeamApplicationAccessGrantResponse (team_application_access_grant.v1)
+
+- (no fields)
+
+### DeleteTeamApplicationAccessGrantByIdRequest (team_application_access_grant.v1)
+
+| Name | Type | Label | Required | Description |
+| --- | --- | --- | --- | --- |
+| `id` | string |  | `true` | The unique ID of the team access grant |
+
+### DeleteTeamApplicationAccessGrantByIdResponse (team_application_access_grant.v1)
+
+- (no fields)
 
 ## terrabase.user.v1
 

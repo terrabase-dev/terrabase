@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package terrabase.team_application_access_grant.v1;
+
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
+import "terrabase/team_access_type/v1/team_access_type.proto";
+
+option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/team_application_access_grant/v1;teamApplicationAccessGrantv1";
+
+// Grants a team access to an application
+message TeamApplicationAccessGrant {
+  // The unique ID of the team access grant
+  string id = 1;
+
+  // The ID of the team that has access to the application
+  string team_id = 2;
+
+  // The ID of the application the team has access to
+  string application_id = 3;
+
+  // The type of access the team has to the application
+  terrabase.team_access_type.v1.TeamAccessType access_type = 4;
+
+  // The time the access to the application was granted to the team
+  google.protobuf.Timestamp created_at = 5;
+
+  // The time the team's access to the application was last changed
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message CreateTeamApplicationAccessGrantRequest {
+  // The ID of the team to grant access to the application to
+  string team_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the application to grant the team access to
+  string application_id = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // The type of access that should be granted to the team
+  terrabase.team_access_type.v1.TeamAccessType access_type = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+message CreateTeamApplicationAccessGrantResponse {
+  // The team access grant that was created
+  TeamApplicationAccessGrant team_application_access_grant = 1;
+}
+
+message GetTeamApplicationAccessGrantRequest {
+  // The unique ID of the team access grant
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message GetTeamApplicationAccessGrantResponse {
+  // The team access grant
+  TeamApplicationAccessGrant team_application_access_grant = 1;
+}
+
+message ListTeamApplicationAccessGrantsRequest {
+  // The ID of a team to list all applications that the team has access to
+  optional string team_id = 1;
+
+  // The ID of an application to list all the teams that have access to it
+  optional string application_id = 2;
+
+  // The number of access grants on each page of results
+  optional int32 page_size = 3;
+
+  // The token to retrieve the next page of results
+  optional string page_token = 4;
+}
+
+message ListTeamApplicationAccessGrantsResponse {
+  // A list of team access grants
+  repeated TeamApplicationAccessGrant team_application_access_grants = 1;
+
+  // The token to retrieve the next page of results
+  optional string next_page_token = 2;
+}
+
+message UpdateTeamApplicationAccessGrantRequest {
+  // The unique ID of the team access grant
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The new type of access that should be granted to the team
+  terrabase.team_access_type.v1.TeamAccessType access_type = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message UpdateTeamApplicationAccessGrantResponse {
+  // The updated team access grant
+  TeamApplicationAccessGrant team_application_access_grant = 1;
+}
+
+message DeleteTeamApplicationAccessGrantRequest {
+  // The ID of the team to whose access grant should be deleted
+  string team_id = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // The ID of the application whose access grant should be deleted
+  string application_id = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteTeamApplicationAccessGrantResponse {}
+
+message DeleteTeamApplicationAccessGrantByIdRequest {
+  // The unique ID of the team access grant
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+message DeleteTeamApplicationAccessGrantByIdResponse {}
+
+service TeamApplicationAccessGrantService {
+  rpc CreateTeamApplicationAccessGrant(CreateTeamApplicationAccessGrantRequest) returns (CreateTeamApplicationAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc GetTeamApplicationAccessGrant(GetTeamApplicationAccessGrantRequest) returns (GetTeamApplicationAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc ListTeamApplicationAccessGrants(ListTeamApplicationAccessGrantsRequest) returns (ListTeamApplicationAccessGrantsResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc UpdateTeamApplicationAccessGrant(UpdateTeamApplicationAccessGrantRequest) returns (UpdateTeamApplicationAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc DeleteTeamApplicationAccessGrant(DeleteTeamApplicationAccessGrantRequest) returns (DeleteTeamApplicationAccessGrantResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+
+  rpc DeleteTeamApplicationAccessGrantById(DeleteTeamApplicationAccessGrantByIdRequest) returns (DeleteTeamApplicationAccessGrantByIdResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_TEAM_WRITE;
+  }
+}

@@ -27,7 +27,8 @@ message Team {
 }
 
 message TeamIds {
-  repeated string team_id = 1;
+  // A list of team IDs
+  repeated string team_ids = 1;
 }
 
 message CreateTeamRequest {

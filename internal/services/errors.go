@@ -17,3 +17,6 @@ func mapError(err error) error {
 		return connect.NewError(connect.CodeInternal, err)
 	}
 }
+
+var IDRequiredError = connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+var NoUpdatesProvidedError = connect.NewError(connect.CodeInvalidArgument, errors.New("no updates provided"))

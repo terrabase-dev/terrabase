@@ -4,6 +4,9 @@ package terrabase.application.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
+import "terrabase/team/v1/team.proto";
+import "terrabase/team_application_access_grant/v1/team_application_access_grant.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/application/v1;applicationv1";
 
@@ -14,9 +17,6 @@ message Application {
 
   // The name of the application
   string name = 2;
-
-  // The ID of the team that owns the application
-  string team_id = 3;
 
   // The time the application was created
   google.protobuf.Timestamp created_at = 4;
@@ -72,10 +72,7 @@ message UpdateApplicationRequest {
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 
   // The new name of the application
-  optional string name = 2;
-
-  // The new ID of the team that owns the application
-  optional string team_id = 3;
+  string name = 2;
 }
 
 message UpdateApplicationResponse {
@@ -91,44 +88,71 @@ message DeleteApplicationRequest {
 message DeleteApplicationResponse {}
 
 message GrantTeamAccessRequest {
-  // The unique ID of the application
-  string application_id = 1 [(google.api.field_behavior) = REQUIRED];
-
-  // A list of team IDs who should be granted access to the application
-  repeated string team_id = 2 [(google.api.field_behavior) = REQUIRED];
+  // A list of team access grants
+  repeated terrabase.team_application_access_grant.v1.CreateTeamApplicationAccessGrantRequest team_access_grants = 1 [(google.api.field_behavior) = REQUIRED];
 }
 
 message GrantTeamAccessResponse {}
 
 message RevokeTeamAccessRequest {
   // The unique ID of the application
-  string application_id = 1 [(google.api.field_behavior) = REQUIRED];
+  string id = 1 [(google.api.field_behavior) = REQUIRED];
 
   // A list of team IDs whose access to the application should be revoked
-  repeated string team_id = 2 [(google.api.field_behavior) = REQUIRED];
+  terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message RevokeTeamAccessResponse {}
 
 service ApplicationService {
   // Create a new application
-  rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse);
+  rpc CreateApplication(CreateApplicationRequest) returns (CreateApplicationResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+  }
 
   // Retrieve details about a single application
-  rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse);
+  rpc GetApplication(GetApplicationRequest) returns (GetApplicationResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+  }
 
   // List applications owned by a specific team
-  rpc ListApplications(ListApplicationsRequest) returns (ListApplicationsResponse);
+  rpc ListApplications(ListApplicationsRequest) returns (ListApplicationsResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+  }
 
   // Change details about an application
-  rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse);
+  rpc UpdateApplication(UpdateApplicationRequest) returns (UpdateApplicationResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+  }
 
   // Delete an application
-  rpc DeleteApplication(DeleteApplicationRequest) returns (DeleteApplicationResponse);
+  rpc DeleteApplication(DeleteApplicationRequest) returns (DeleteApplicationResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+  }
 
   // Grant access to an application to a single team or multiple teams
-  rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse);
+  rpc GrantTeamAccess(GrantTeamAccessRequest) returns (GrantTeamAccessResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+  }
 
   // Revoke access to an application from a single team or multiple teams
-  rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse);
+  rpc RevokeTeamAccess(RevokeTeamAccessRequest) returns (RevokeTeamAccessResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_APPLICATION_WRITE;
+  }
 }

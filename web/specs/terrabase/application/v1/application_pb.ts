@@ -7,13 +7,18 @@ import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2
 import { file_google_api_field_behavior } from "../../../google/api/field_behavior_pb";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
+import { file_terrabase_authz_v1_authz } from "../../authz/v1/authz_pb";
+import type { TeamIds } from "../../team/v1/team_pb";
+import { file_terrabase_team_v1_team } from "../../team/v1/team_pb";
+import type { CreateTeamApplicationAccessGrantRequest } from "../../team_application_access_grant/v1/team_application_access_grant_pb";
+import { file_terrabase_team_application_access_grant_v1_team_application_access_grant } from "../../team_application_access_grant/v1/team_application_access_grant_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file terrabase/application/v1/application.proto.
  */
 export const file_terrabase_application_v1_application: GenFile = /*@__PURE__*/
-  fileDesc("Cip0ZXJyYWJhc2UvYXBwbGljYXRpb24vdjEvYXBwbGljYXRpb24ucHJvdG8SGHRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MSKYAQoLQXBwbGljYXRpb24SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIPCgd0ZWFtX2lkGAMgASgJEi4KCmNyZWF0ZWRfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIkMKGENyZWF0ZUFwcGxpY2F0aW9uUmVxdWVzdBIRCgRuYW1lGAEgASgJQgPgQQISFAoHdGVhbV9pZBgCIAEoCUID4EECIlcKGUNyZWF0ZUFwcGxpY2F0aW9uUmVzcG9uc2USOgoLYXBwbGljYXRpb24YASABKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24iKAoVR2V0QXBwbGljYXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiVAoWR2V0QXBwbGljYXRpb25SZXNwb25zZRI6CgthcHBsaWNhdGlvbhgBIAEoCzIlLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5BcHBsaWNhdGlvbiJ9ChdMaXN0QXBwbGljYXRpb25zUmVxdWVzdBIUCgd0ZWFtX2lkGAEgASgJQgPgQQISFgoJcGFnZV9zaXplGAIgASgFSACIAQESFwoKcGFnZV90b2tlbhgDIAEoCUgBiAEBQgwKCl9wYWdlX3NpemVCDQoLX3BhZ2VfdG9rZW4iiQEKGExpc3RBcHBsaWNhdGlvbnNSZXNwb25zZRI7CgxhcHBsaWNhdGlvbnMYASADKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24SHAoPbmV4dF9wYWdlX3Rva2VuGAIgASgJSACIAQFCEgoQX25leHRfcGFnZV90b2tlbiJpChhVcGRhdGVBcHBsaWNhdGlvblJlcXVlc3QSDwoCaWQYASABKAlCA+BBAhIRCgRuYW1lGAIgASgJSACIAQESFAoHdGVhbV9pZBgDIAEoCUgBiAEBQgcKBV9uYW1lQgoKCF90ZWFtX2lkIlcKGVVwZGF0ZUFwcGxpY2F0aW9uUmVzcG9uc2USOgoLYXBwbGljYXRpb24YASABKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24iKwoYRGVsZXRlQXBwbGljYXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQIiGwoZRGVsZXRlQXBwbGljYXRpb25SZXNwb25zZSJLChZHcmFudFRlYW1BY2Nlc3NSZXF1ZXN0EhsKDmFwcGxpY2F0aW9uX2lkGAEgASgJQgPgQQISFAoHdGVhbV9pZBgCIAMoCUID4EECIhkKF0dyYW50VGVhbUFjY2Vzc1Jlc3BvbnNlIkwKF1Jldm9rZVRlYW1BY2Nlc3NSZXF1ZXN0EhsKDmFwcGxpY2F0aW9uX2lkGAEgASgJQgPgQQISFAoHdGVhbV9pZBgCIAMoCUID4EECIhoKGFJldm9rZVRlYW1BY2Nlc3NSZXNwb25zZTLxBgoSQXBwbGljYXRpb25TZXJ2aWNlEnwKEUNyZWF0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkNyZWF0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5DcmVhdGVBcHBsaWNhdGlvblJlc3BvbnNlEnMKDkdldEFwcGxpY2F0aW9uEi8udGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkdldEFwcGxpY2F0aW9uUmVxdWVzdBowLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HZXRBcHBsaWNhdGlvblJlc3BvbnNlEnkKEExpc3RBcHBsaWNhdGlvbnMSMS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuTGlzdEFwcGxpY2F0aW9uc1JlcXVlc3QaMi50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuTGlzdEFwcGxpY2F0aW9uc1Jlc3BvbnNlEnwKEVVwZGF0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLlVwZGF0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5VcGRhdGVBcHBsaWNhdGlvblJlc3BvbnNlEnwKEURlbGV0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkRlbGV0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5EZWxldGVBcHBsaWNhdGlvblJlc3BvbnNlEnYKD0dyYW50VGVhbUFjY2VzcxIwLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HcmFudFRlYW1BY2Nlc3NSZXF1ZXN0GjEudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkdyYW50VGVhbUFjY2Vzc1Jlc3BvbnNlEnkKEFJldm9rZVRlYW1BY2Nlc3MSMS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuUmV2b2tlVGVhbUFjY2Vzc1JlcXVlc3QaMi50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuUmV2b2tlVGVhbUFjY2Vzc1Jlc3BvbnNlQlFaT2dpdGh1Yi5jb20vdGVycmFiYXNlLWRldi90ZXJyYWJhc2Uvc3BlY3MvdGVycmFiYXNlL2FwcGxpY2F0aW9uL3YxO2FwcGxpY2F0aW9udjFiBnByb3RvMw", [file_google_api_field_behavior, file_google_protobuf_timestamp]);
+  fileDesc("Cip0ZXJyYWJhc2UvYXBwbGljYXRpb24vdjEvYXBwbGljYXRpb24ucHJvdG8SGHRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MSKHAQoLQXBwbGljYXRpb24SCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJDChhDcmVhdGVBcHBsaWNhdGlvblJlcXVlc3QSEQoEbmFtZRgBIAEoCUID4EECEhQKB3RlYW1faWQYAiABKAlCA+BBAiJXChlDcmVhdGVBcHBsaWNhdGlvblJlc3BvbnNlEjoKC2FwcGxpY2F0aW9uGAEgASgLMiUudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkFwcGxpY2F0aW9uIigKFUdldEFwcGxpY2F0aW9uUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIlQKFkdldEFwcGxpY2F0aW9uUmVzcG9uc2USOgoLYXBwbGljYXRpb24YASABKAsyJS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuQXBwbGljYXRpb24ifQoXTGlzdEFwcGxpY2F0aW9uc1JlcXVlc3QSFAoHdGVhbV9pZBgBIAEoCUID4EECEhYKCXBhZ2Vfc2l6ZRgCIAEoBUgAiAEBEhcKCnBhZ2VfdG9rZW4YAyABKAlIAYgBAUIMCgpfcGFnZV9zaXplQg0KC19wYWdlX3Rva2VuIokBChhMaXN0QXBwbGljYXRpb25zUmVzcG9uc2USOwoMYXBwbGljYXRpb25zGAEgAygLMiUudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkFwcGxpY2F0aW9uEhwKD25leHRfcGFnZV90b2tlbhgCIAEoCUgAiAEBQhIKEF9uZXh0X3BhZ2VfdG9rZW4iOQoYVXBkYXRlQXBwbGljYXRpb25SZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISDAoEbmFtZRgCIAEoCSJXChlVcGRhdGVBcHBsaWNhdGlvblJlc3BvbnNlEjoKC2FwcGxpY2F0aW9uGAEgASgLMiUudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkFwcGxpY2F0aW9uIisKGERlbGV0ZUFwcGxpY2F0aW9uUmVxdWVzdBIPCgJpZBgBIAEoCUID4EECIhsKGURlbGV0ZUFwcGxpY2F0aW9uUmVzcG9uc2UijgEKFkdyYW50VGVhbUFjY2Vzc1JlcXVlc3QSdAoSdGVhbV9hY2Nlc3NfZ3JhbnRzGAEgAygLMlMudGVycmFiYXNlLnRlYW1fYXBwbGljYXRpb25fYWNjZXNzX2dyYW50LnYxLkNyZWF0ZVRlYW1BcHBsaWNhdGlvbkFjY2Vzc0dyYW50UmVxdWVzdEID4EECIhkKF0dyYW50VGVhbUFjY2Vzc1Jlc3BvbnNlIl0KF1Jldm9rZVRlYW1BY2Nlc3NSZXF1ZXN0Eg8KAmlkGAEgASgJQgPgQQISMQoIdGVhbV9pZHMYAiABKAsyGi50ZXJyYWJhc2UudGVhbS52MS5UZWFtSWRzQgPgQQIiGgoYUmV2b2tlVGVhbUFjY2Vzc1Jlc3BvbnNlMs4HChJBcHBsaWNhdGlvblNlcnZpY2USiAEKEUNyZWF0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkNyZWF0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5DcmVhdGVBcHBsaWNhdGlvblJlc3BvbnNlIgqItRgBkrUYAgEGEoABCg5HZXRBcHBsaWNhdGlvbhIvLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HZXRBcHBsaWNhdGlvblJlcXVlc3QaMC50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuR2V0QXBwbGljYXRpb25SZXNwb25zZSILiLUYAZK1GAMBBwYShgEKEExpc3RBcHBsaWNhdGlvbnMSMS50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuTGlzdEFwcGxpY2F0aW9uc1JlcXVlc3QaMi50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuTGlzdEFwcGxpY2F0aW9uc1Jlc3BvbnNlIguItRgBkrUYAwEHBhKIAQoRVXBkYXRlQXBwbGljYXRpb24SMi50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuVXBkYXRlQXBwbGljYXRpb25SZXF1ZXN0GjMudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLlVwZGF0ZUFwcGxpY2F0aW9uUmVzcG9uc2UiCoi1GAGStRgCAQYSiAEKEURlbGV0ZUFwcGxpY2F0aW9uEjIudGVycmFiYXNlLmFwcGxpY2F0aW9uLnYxLkRlbGV0ZUFwcGxpY2F0aW9uUmVxdWVzdBozLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5EZWxldGVBcHBsaWNhdGlvblJlc3BvbnNlIgqItRgBkrUYAgEGEoIBCg9HcmFudFRlYW1BY2Nlc3MSMC50ZXJyYWJhc2UuYXBwbGljYXRpb24udjEuR3JhbnRUZWFtQWNjZXNzUmVxdWVzdBoxLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5HcmFudFRlYW1BY2Nlc3NSZXNwb25zZSIKiLUYAZK1GAIBBhKFAQoQUmV2b2tlVGVhbUFjY2VzcxIxLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5SZXZva2VUZWFtQWNjZXNzUmVxdWVzdBoyLnRlcnJhYmFzZS5hcHBsaWNhdGlvbi52MS5SZXZva2VUZWFtQWNjZXNzUmVzcG9uc2UiCoi1GAGStRgCAQZCUVpPZ2l0aHViLmNvbS90ZXJyYWJhc2UtZGV2L3RlcnJhYmFzZS9zcGVjcy90ZXJyYWJhc2UvYXBwbGljYXRpb24vdjE7YXBwbGljYXRpb252MWIGcHJvdG8z", [file_google_api_field_behavior, file_google_protobuf_timestamp, file_terrabase_authz_v1_authz, file_terrabase_team_v1_team, file_terrabase_team_application_access_grant_v1_team_application_access_grant]);
 
 /**
  * A Terrabase application can be deployed in multiple environments, each with their own workspace
@@ -34,13 +39,6 @@ export type Application = Message<"terrabase.application.v1.Application"> & {
    * @generated from field: string name = 2;
    */
   name: string;
-
-  /**
-   * The ID of the team that owns the application
-   *
-   * @generated from field: string team_id = 3;
-   */
-  teamId: string;
 
   /**
    * The time the application was created
@@ -220,16 +218,9 @@ export type UpdateApplicationRequest = Message<"terrabase.application.v1.UpdateA
   /**
    * The new name of the application
    *
-   * @generated from field: optional string name = 2;
+   * @generated from field: string name = 2;
    */
-  name?: string;
-
-  /**
-   * The new ID of the team that owns the application
-   *
-   * @generated from field: optional string team_id = 3;
-   */
-  teamId?: string;
+  name: string;
 };
 
 /**
@@ -295,18 +286,11 @@ export const DeleteApplicationResponseSchema: GenMessage<DeleteApplicationRespon
  */
 export type GrantTeamAccessRequest = Message<"terrabase.application.v1.GrantTeamAccessRequest"> & {
   /**
-   * The unique ID of the application
+   * A list of team access grants
    *
-   * @generated from field: string application_id = 1;
+   * @generated from field: repeated terrabase.team_application_access_grant.v1.CreateTeamApplicationAccessGrantRequest team_access_grants = 1;
    */
-  applicationId: string;
-
-  /**
-   * A list of team IDs who should be granted access to the application
-   *
-   * @generated from field: repeated string team_id = 2;
-   */
-  teamId: string[];
+  teamAccessGrants: CreateTeamApplicationAccessGrantRequest[];
 };
 
 /**
@@ -336,16 +320,16 @@ export type RevokeTeamAccessRequest = Message<"terrabase.application.v1.RevokeTe
   /**
    * The unique ID of the application
    *
-   * @generated from field: string application_id = 1;
+   * @generated from field: string id = 1;
    */
-  applicationId: string;
+  id: string;
 
   /**
    * A list of team IDs whose access to the application should be revoked
    *
-   * @generated from field: repeated string team_id = 2;
+   * @generated from field: terrabase.team.v1.TeamIds team_ids = 2;
    */
-  teamId: string[];
+  teamIds?: TeamIds;
 };
 
 /**

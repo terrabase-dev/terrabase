@@ -7,6 +7,9 @@
 package applicationv1
 
 import (
+	_ "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
+	v11 "github.com/terrabase-dev/terrabase/specs/terrabase/team/v1"
+	v1 "github.com/terrabase-dev/terrabase/specs/terrabase/team_application_access_grant/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -30,8 +33,6 @@ type Application struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The name of the application
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// The ID of the team that owns the application
-	TeamId string `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
 	// The time the application was created
 	CreatedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	// The time the application was last updated at
@@ -80,13 +81,6 @@ func (x *Application) GetId() string {
 func (x *Application) GetName() string {
 	if x != nil {
 		return x.Name
-	}
-	return ""
-}
-
-func (x *Application) GetTeamId() string {
-	if x != nil {
-		return x.TeamId
 	}
 	return ""
 }
@@ -416,9 +410,7 @@ type UpdateApplicationRequest struct {
 	// The unique ID of the application to update
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The new name of the application
-	Name *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	// The new ID of the team that owns the application
-	TeamId        *string `protobuf:"bytes,3,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
+	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -461,15 +453,8 @@ func (x *UpdateApplicationRequest) GetId() string {
 }
 
 func (x *UpdateApplicationRequest) GetName() string {
-	if x != nil && x.Name != nil {
-		return *x.Name
-	}
-	return ""
-}
-
-func (x *UpdateApplicationRequest) GetTeamId() string {
-	if x != nil && x.TeamId != nil {
-		return *x.TeamId
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -602,12 +587,10 @@ func (*DeleteApplicationResponse) Descriptor() ([]byte, []int) {
 
 type GrantTeamAccessRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The unique ID of the application
-	ApplicationId string `protobuf:"bytes,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
-	// A list of team IDs who should be granted access to the application
-	TeamId        []string `protobuf:"bytes,2,rep,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// A list of team access grants
+	TeamAccessGrants []*v1.CreateTeamApplicationAccessGrantRequest `protobuf:"bytes,1,rep,name=team_access_grants,json=teamAccessGrants,proto3" json:"team_access_grants,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GrantTeamAccessRequest) Reset() {
@@ -640,16 +623,9 @@ func (*GrantTeamAccessRequest) Descriptor() ([]byte, []int) {
 	return file_terrabase_application_v1_application_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GrantTeamAccessRequest) GetApplicationId() string {
+func (x *GrantTeamAccessRequest) GetTeamAccessGrants() []*v1.CreateTeamApplicationAccessGrantRequest {
 	if x != nil {
-		return x.ApplicationId
-	}
-	return ""
-}
-
-func (x *GrantTeamAccessRequest) GetTeamId() []string {
-	if x != nil {
-		return x.TeamId
+		return x.TeamAccessGrants
 	}
 	return nil
 }
@@ -693,9 +669,9 @@ func (*GrantTeamAccessResponse) Descriptor() ([]byte, []int) {
 type RevokeTeamAccessRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique ID of the application
-	ApplicationId string `protobuf:"bytes,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// A list of team IDs whose access to the application should be revoked
-	TeamId        []string `protobuf:"bytes,2,rep,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
+	TeamIds       *v11.TeamIds `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -730,16 +706,16 @@ func (*RevokeTeamAccessRequest) Descriptor() ([]byte, []int) {
 	return file_terrabase_application_v1_application_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *RevokeTeamAccessRequest) GetApplicationId() string {
+func (x *RevokeTeamAccessRequest) GetId() string {
 	if x != nil {
-		return x.ApplicationId
+		return x.Id
 	}
 	return ""
 }
 
-func (x *RevokeTeamAccessRequest) GetTeamId() []string {
+func (x *RevokeTeamAccessRequest) GetTeamIds() *v11.TeamIds {
 	if x != nil {
-		return x.TeamId
+		return x.TeamIds
 	}
 	return nil
 }
@@ -784,11 +760,10 @@ var File_terrabase_application_v1_application_proto protoreflect.FileDescriptor
 
 const file_terrabase_application_v1_application_proto_rawDesc = "" +
 	"\n" +
-	"*terrabase/application/v1/application.proto\x12\x18terrabase.application.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc0\x01\n" +
+	"*terrabase/application/v1/application.proto\x12\x18terrabase.application.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\x1a\x1cterrabase/team/v1/team.proto\x1aNterrabase/team_application_access_grant/v1/team_application_access_grant.proto\"\xa7\x01\n" +
 	"\vApplication\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x17\n" +
-	"\ateam_id\x18\x03 \x01(\tR\x06teamId\x129\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x129\n" +
 	"\n" +
 	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
@@ -813,35 +788,35 @@ const file_terrabase_application_v1_application_proto_rawDesc = "" +
 	"\x18ListApplicationsResponse\x12I\n" +
 	"\fapplications\x18\x01 \x03(\v2%.terrabase.application.v1.ApplicationR\fapplications\x12+\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01B\x12\n" +
-	"\x10_next_page_token\"{\n" +
+	"\x10_next_page_token\"C\n" +
 	"\x18UpdateApplicationRequest\x12\x13\n" +
-	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
-	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x1c\n" +
-	"\ateam_id\x18\x03 \x01(\tH\x01R\x06teamId\x88\x01\x01B\a\n" +
-	"\x05_nameB\n" +
-	"\n" +
-	"\b_team_id\"d\n" +
+	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"d\n" +
 	"\x19UpdateApplicationResponse\x12G\n" +
 	"\vapplication\x18\x01 \x01(\v2%.terrabase.application.v1.ApplicationR\vapplication\"/\n" +
 	"\x18DeleteApplicationRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\"\x1b\n" +
-	"\x19DeleteApplicationResponse\"b\n" +
-	"\x16GrantTeamAccessRequest\x12*\n" +
-	"\x0eapplication_id\x18\x01 \x01(\tB\x03\xe0A\x02R\rapplicationId\x12\x1c\n" +
-	"\ateam_id\x18\x02 \x03(\tB\x03\xe0A\x02R\x06teamId\"\x19\n" +
-	"\x17GrantTeamAccessResponse\"c\n" +
-	"\x17RevokeTeamAccessRequest\x12*\n" +
-	"\x0eapplication_id\x18\x01 \x01(\tB\x03\xe0A\x02R\rapplicationId\x12\x1c\n" +
-	"\ateam_id\x18\x02 \x03(\tB\x03\xe0A\x02R\x06teamId\"\x1a\n" +
-	"\x18RevokeTeamAccessResponse2\xf1\x06\n" +
-	"\x12ApplicationService\x12|\n" +
-	"\x11CreateApplication\x122.terrabase.application.v1.CreateApplicationRequest\x1a3.terrabase.application.v1.CreateApplicationResponse\x12s\n" +
-	"\x0eGetApplication\x12/.terrabase.application.v1.GetApplicationRequest\x1a0.terrabase.application.v1.GetApplicationResponse\x12y\n" +
-	"\x10ListApplications\x121.terrabase.application.v1.ListApplicationsRequest\x1a2.terrabase.application.v1.ListApplicationsResponse\x12|\n" +
-	"\x11UpdateApplication\x122.terrabase.application.v1.UpdateApplicationRequest\x1a3.terrabase.application.v1.UpdateApplicationResponse\x12|\n" +
-	"\x11DeleteApplication\x122.terrabase.application.v1.DeleteApplicationRequest\x1a3.terrabase.application.v1.DeleteApplicationResponse\x12v\n" +
-	"\x0fGrantTeamAccess\x120.terrabase.application.v1.GrantTeamAccessRequest\x1a1.terrabase.application.v1.GrantTeamAccessResponse\x12y\n" +
-	"\x10RevokeTeamAccess\x121.terrabase.application.v1.RevokeTeamAccessRequest\x1a2.terrabase.application.v1.RevokeTeamAccessResponseBQZOgithub.com/terrabase-dev/terrabase/specs/terrabase/application/v1;applicationv1b\x06proto3"
+	"\x19DeleteApplicationResponse\"\xa1\x01\n" +
+	"\x16GrantTeamAccessRequest\x12\x86\x01\n" +
+	"\x12team_access_grants\x18\x01 \x03(\v2S.terrabase.team_application_access_grant.v1.CreateTeamApplicationAccessGrantRequestB\x03\xe0A\x02R\x10teamAccessGrants\"\x19\n" +
+	"\x17GrantTeamAccessResponse\"j\n" +
+	"\x17RevokeTeamAccessRequest\x12\x13\n" +
+	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12:\n" +
+	"\bteam_ids\x18\x02 \x01(\v2\x1a.terrabase.team.v1.TeamIdsB\x03\xe0A\x02R\ateamIds\"\x1a\n" +
+	"\x18RevokeTeamAccessResponse2\xce\a\n" +
+	"\x12ApplicationService\x12\x88\x01\n" +
+	"\x11CreateApplication\x122.terrabase.application.v1.CreateApplicationRequest\x1a3.terrabase.application.v1.CreateApplicationResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x06\x12\x80\x01\n" +
+	"\x0eGetApplication\x12/.terrabase.application.v1.GetApplicationRequest\x1a0.terrabase.application.v1.GetApplicationResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\a\x06\x12\x86\x01\n" +
+	"\x10ListApplications\x121.terrabase.application.v1.ListApplicationsRequest\x1a2.terrabase.application.v1.ListApplicationsResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\a\x06\x12\x88\x01\n" +
+	"\x11UpdateApplication\x122.terrabase.application.v1.UpdateApplicationRequest\x1a3.terrabase.application.v1.UpdateApplicationResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x06\x12\x88\x01\n" +
+	"\x11DeleteApplication\x122.terrabase.application.v1.DeleteApplicationRequest\x1a3.terrabase.application.v1.DeleteApplicationResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x06\x12\x82\x01\n" +
+	"\x0fGrantTeamAccess\x120.terrabase.application.v1.GrantTeamAccessRequest\x1a1.terrabase.application.v1.GrantTeamAccessResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x06\x12\x85\x01\n" +
+	"\x10RevokeTeamAccess\x121.terrabase.application.v1.RevokeTeamAccessRequest\x1a2.terrabase.application.v1.RevokeTeamAccessResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\x06BQZOgithub.com/terrabase-dev/terrabase/specs/terrabase/application/v1;applicationv1b\x06proto3"
 
 var (
 	file_terrabase_application_v1_application_proto_rawDescOnce sync.Once
@@ -857,22 +832,24 @@ func file_terrabase_application_v1_application_proto_rawDescGZIP() []byte {
 
 var file_terrabase_application_v1_application_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_terrabase_application_v1_application_proto_goTypes = []any{
-	(*Application)(nil),               // 0: terrabase.application.v1.Application
-	(*CreateApplicationRequest)(nil),  // 1: terrabase.application.v1.CreateApplicationRequest
-	(*CreateApplicationResponse)(nil), // 2: terrabase.application.v1.CreateApplicationResponse
-	(*GetApplicationRequest)(nil),     // 3: terrabase.application.v1.GetApplicationRequest
-	(*GetApplicationResponse)(nil),    // 4: terrabase.application.v1.GetApplicationResponse
-	(*ListApplicationsRequest)(nil),   // 5: terrabase.application.v1.ListApplicationsRequest
-	(*ListApplicationsResponse)(nil),  // 6: terrabase.application.v1.ListApplicationsResponse
-	(*UpdateApplicationRequest)(nil),  // 7: terrabase.application.v1.UpdateApplicationRequest
-	(*UpdateApplicationResponse)(nil), // 8: terrabase.application.v1.UpdateApplicationResponse
-	(*DeleteApplicationRequest)(nil),  // 9: terrabase.application.v1.DeleteApplicationRequest
-	(*DeleteApplicationResponse)(nil), // 10: terrabase.application.v1.DeleteApplicationResponse
-	(*GrantTeamAccessRequest)(nil),    // 11: terrabase.application.v1.GrantTeamAccessRequest
-	(*GrantTeamAccessResponse)(nil),   // 12: terrabase.application.v1.GrantTeamAccessResponse
-	(*RevokeTeamAccessRequest)(nil),   // 13: terrabase.application.v1.RevokeTeamAccessRequest
-	(*RevokeTeamAccessResponse)(nil),  // 14: terrabase.application.v1.RevokeTeamAccessResponse
-	(*timestamppb.Timestamp)(nil),     // 15: google.protobuf.Timestamp
+	(*Application)(nil),                                // 0: terrabase.application.v1.Application
+	(*CreateApplicationRequest)(nil),                   // 1: terrabase.application.v1.CreateApplicationRequest
+	(*CreateApplicationResponse)(nil),                  // 2: terrabase.application.v1.CreateApplicationResponse
+	(*GetApplicationRequest)(nil),                      // 3: terrabase.application.v1.GetApplicationRequest
+	(*GetApplicationResponse)(nil),                     // 4: terrabase.application.v1.GetApplicationResponse
+	(*ListApplicationsRequest)(nil),                    // 5: terrabase.application.v1.ListApplicationsRequest
+	(*ListApplicationsResponse)(nil),                   // 6: terrabase.application.v1.ListApplicationsResponse
+	(*UpdateApplicationRequest)(nil),                   // 7: terrabase.application.v1.UpdateApplicationRequest
+	(*UpdateApplicationResponse)(nil),                  // 8: terrabase.application.v1.UpdateApplicationResponse
+	(*DeleteApplicationRequest)(nil),                   // 9: terrabase.application.v1.DeleteApplicationRequest
+	(*DeleteApplicationResponse)(nil),                  // 10: terrabase.application.v1.DeleteApplicationResponse
+	(*GrantTeamAccessRequest)(nil),                     // 11: terrabase.application.v1.GrantTeamAccessRequest
+	(*GrantTeamAccessResponse)(nil),                    // 12: terrabase.application.v1.GrantTeamAccessResponse
+	(*RevokeTeamAccessRequest)(nil),                    // 13: terrabase.application.v1.RevokeTeamAccessRequest
+	(*RevokeTeamAccessResponse)(nil),                   // 14: terrabase.application.v1.RevokeTeamAccessResponse
+	(*timestamppb.Timestamp)(nil),                      // 15: google.protobuf.Timestamp
+	(*v1.CreateTeamApplicationAccessGrantRequest)(nil), // 16: terrabase.team_application_access_grant.v1.CreateTeamApplicationAccessGrantRequest
+	(*v11.TeamIds)(nil),                                // 17: terrabase.team.v1.TeamIds
 }
 var file_terrabase_application_v1_application_proto_depIdxs = []int32{
 	15, // 0: terrabase.application.v1.Application.created_at:type_name -> google.protobuf.Timestamp
@@ -881,25 +858,27 @@ var file_terrabase_application_v1_application_proto_depIdxs = []int32{
 	0,  // 3: terrabase.application.v1.GetApplicationResponse.application:type_name -> terrabase.application.v1.Application
 	0,  // 4: terrabase.application.v1.ListApplicationsResponse.applications:type_name -> terrabase.application.v1.Application
 	0,  // 5: terrabase.application.v1.UpdateApplicationResponse.application:type_name -> terrabase.application.v1.Application
-	1,  // 6: terrabase.application.v1.ApplicationService.CreateApplication:input_type -> terrabase.application.v1.CreateApplicationRequest
-	3,  // 7: terrabase.application.v1.ApplicationService.GetApplication:input_type -> terrabase.application.v1.GetApplicationRequest
-	5,  // 8: terrabase.application.v1.ApplicationService.ListApplications:input_type -> terrabase.application.v1.ListApplicationsRequest
-	7,  // 9: terrabase.application.v1.ApplicationService.UpdateApplication:input_type -> terrabase.application.v1.UpdateApplicationRequest
-	9,  // 10: terrabase.application.v1.ApplicationService.DeleteApplication:input_type -> terrabase.application.v1.DeleteApplicationRequest
-	11, // 11: terrabase.application.v1.ApplicationService.GrantTeamAccess:input_type -> terrabase.application.v1.GrantTeamAccessRequest
-	13, // 12: terrabase.application.v1.ApplicationService.RevokeTeamAccess:input_type -> terrabase.application.v1.RevokeTeamAccessRequest
-	2,  // 13: terrabase.application.v1.ApplicationService.CreateApplication:output_type -> terrabase.application.v1.CreateApplicationResponse
-	4,  // 14: terrabase.application.v1.ApplicationService.GetApplication:output_type -> terrabase.application.v1.GetApplicationResponse
-	6,  // 15: terrabase.application.v1.ApplicationService.ListApplications:output_type -> terrabase.application.v1.ListApplicationsResponse
-	8,  // 16: terrabase.application.v1.ApplicationService.UpdateApplication:output_type -> terrabase.application.v1.UpdateApplicationResponse
-	10, // 17: terrabase.application.v1.ApplicationService.DeleteApplication:output_type -> terrabase.application.v1.DeleteApplicationResponse
-	12, // 18: terrabase.application.v1.ApplicationService.GrantTeamAccess:output_type -> terrabase.application.v1.GrantTeamAccessResponse
-	14, // 19: terrabase.application.v1.ApplicationService.RevokeTeamAccess:output_type -> terrabase.application.v1.RevokeTeamAccessResponse
-	13, // [13:20] is the sub-list for method output_type
-	6,  // [6:13] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	16, // 6: terrabase.application.v1.GrantTeamAccessRequest.team_access_grants:type_name -> terrabase.team_application_access_grant.v1.CreateTeamApplicationAccessGrantRequest
+	17, // 7: terrabase.application.v1.RevokeTeamAccessRequest.team_ids:type_name -> terrabase.team.v1.TeamIds
+	1,  // 8: terrabase.application.v1.ApplicationService.CreateApplication:input_type -> terrabase.application.v1.CreateApplicationRequest
+	3,  // 9: terrabase.application.v1.ApplicationService.GetApplication:input_type -> terrabase.application.v1.GetApplicationRequest
+	5,  // 10: terrabase.application.v1.ApplicationService.ListApplications:input_type -> terrabase.application.v1.ListApplicationsRequest
+	7,  // 11: terrabase.application.v1.ApplicationService.UpdateApplication:input_type -> terrabase.application.v1.UpdateApplicationRequest
+	9,  // 12: terrabase.application.v1.ApplicationService.DeleteApplication:input_type -> terrabase.application.v1.DeleteApplicationRequest
+	11, // 13: terrabase.application.v1.ApplicationService.GrantTeamAccess:input_type -> terrabase.application.v1.GrantTeamAccessRequest
+	13, // 14: terrabase.application.v1.ApplicationService.RevokeTeamAccess:input_type -> terrabase.application.v1.RevokeTeamAccessRequest
+	2,  // 15: terrabase.application.v1.ApplicationService.CreateApplication:output_type -> terrabase.application.v1.CreateApplicationResponse
+	4,  // 16: terrabase.application.v1.ApplicationService.GetApplication:output_type -> terrabase.application.v1.GetApplicationResponse
+	6,  // 17: terrabase.application.v1.ApplicationService.ListApplications:output_type -> terrabase.application.v1.ListApplicationsResponse
+	8,  // 18: terrabase.application.v1.ApplicationService.UpdateApplication:output_type -> terrabase.application.v1.UpdateApplicationResponse
+	10, // 19: terrabase.application.v1.ApplicationService.DeleteApplication:output_type -> terrabase.application.v1.DeleteApplicationResponse
+	12, // 20: terrabase.application.v1.ApplicationService.GrantTeamAccess:output_type -> terrabase.application.v1.GrantTeamAccessResponse
+	14, // 21: terrabase.application.v1.ApplicationService.RevokeTeamAccess:output_type -> terrabase.application.v1.RevokeTeamAccessResponse
+	15, // [15:22] is the sub-list for method output_type
+	8,  // [8:15] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_terrabase_application_v1_application_proto_init() }
@@ -909,7 +888,6 @@ func file_terrabase_application_v1_application_proto_init() {
 	}
 	file_terrabase_application_v1_application_proto_msgTypes[5].OneofWrappers = []any{}
 	file_terrabase_application_v1_application_proto_msgTypes[6].OneofWrappers = []any{}
-	file_terrabase_application_v1_application_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
