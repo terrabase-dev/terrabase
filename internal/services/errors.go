@@ -14,6 +14,8 @@ func mapError(err error) error {
 		return connect.NewError(connect.CodeNotFound, err)
 	case errors.Is(err, repos.ErrAlreadyExists):
 		return connect.NewError(connect.CodeAlreadyExists, err)
+	case errors.Is(err, repos.ErrNoUpdatesProvided):
+		return ErrNoUpdatesProvided
 	default:
 		return connect.NewError(connect.CodeInternal, err)
 	}
@@ -23,5 +25,7 @@ func fieldRequiredError(fieldName string) error {
 	return connect.NewError(connect.CodeInvalidArgument, fmt.Errorf("%s is required", fieldName))
 }
 
-var IDRequiredError = fieldRequiredError("id")
-var NoUpdatesProvidedError = connect.NewError(connect.CodeInvalidArgument, errors.New("no updates provided"))
+var (
+	ErrIdRequired        = fieldRequiredError("id")
+	ErrNoUpdatesProvided = connect.NewError(connect.CodeInvalidArgument, repos.ErrNoUpdatesProvided)
+)

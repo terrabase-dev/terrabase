@@ -2,6 +2,7 @@ package repos
 
 import (
 	"context"
+	"errors"
 
 	"github.com/terrabase-dev/terrabase/internal/models"
 	s3BackendConfigv1 "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1"
@@ -87,6 +88,10 @@ func (r *S3BackendConfigRepo) Update(ctx context.Context, id string, workspaceId
 	if dynamodbTable != nil {
 		model.DynamoDBTable = *dynamodbTable
 		colsToUpdate = append(colsToUpdate, "dynamodb_table")
+	}
+
+	if len(colsToUpdate) == 0 {
+		return nil, errors.New("no columns to update")
 	}
 
 	return update(ctx, r.db, model, colsToUpdate...)

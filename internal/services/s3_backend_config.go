@@ -41,7 +41,7 @@ func (s *S3BackendConfigService) CreateS3BackendConfig(ctx context.Context, req 
 
 func (s *S3BackendConfigService) GetS3BackendConfig(ctx context.Context, req *connect.Request[s3BackendConfigv1.GetS3BackendConfigRequest]) (*connect.Response[s3BackendConfigv1.GetS3BackendConfigResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, IDRequiredError
+		return nil, ErrIdRequired
 	}
 
 	s3BackendConfig, err := s.repo.Get(ctx, req.Msg.GetId())
@@ -54,7 +54,7 @@ func (s *S3BackendConfigService) GetS3BackendConfig(ctx context.Context, req *co
 
 func (s *S3BackendConfigService) UpdateS3BackendConfig(ctx context.Context, req *connect.Request[s3BackendConfigv1.UpdateS3BackendConfigRequest]) (*connect.Response[s3BackendConfigv1.UpdateS3BackendConfigResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, IDRequiredError
+		return nil, ErrIdRequired
 	}
 
 	if req.Msg.DynamodbLock != nil && req.Msg.S3Lock != nil {
@@ -75,7 +75,7 @@ func (s *S3BackendConfigService) UpdateS3BackendConfig(ctx context.Context, req 
 
 func (s *S3BackendConfigService) DeleteS3BackendConfig(ctx context.Context, req *connect.Request[s3BackendConfigv1.DeleteS3BackendConfigRequest]) (*connect.Response[s3BackendConfigv1.DeleteS3BackendConfigResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, IDRequiredError
+		return nil, ErrIdRequired
 	}
 
 	if err := s.repo.Delete(ctx, req.Msg.GetId()); err != nil {

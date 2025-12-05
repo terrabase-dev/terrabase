@@ -97,6 +97,10 @@ func (r *WorkspaceRepo) Update(ctx context.Context, id string, name *string, bac
 		colsToUpdate = append(colsToUpdate, "environment_id")
 	}
 
+	if len(colsToUpdate) == 0 {
+		return nil, ErrNoUpdatesProvided
+	}
+
 	return update(ctx, r.db, model, colsToUpdate...)
 }
 

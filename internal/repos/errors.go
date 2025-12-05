@@ -8,8 +8,9 @@ import (
 )
 
 var (
-	ErrNotFound      = errors.New("not found")
-	ErrAlreadyExists = errors.New("already exists")
+	ErrNotFound          = errors.New("not found")
+	ErrAlreadyExists     = errors.New("already exists")
+	ErrNoUpdatesProvided = errors.New("no updates provided")
 )
 
 func isUniqueViolation(err error) bool {

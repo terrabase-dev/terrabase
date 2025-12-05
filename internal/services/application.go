@@ -57,7 +57,7 @@ func (s *ApplicationService) CreateApplication(ctx context.Context, req *connect
 
 func (s *ApplicationService) GetApplication(ctx context.Context, req *connect.Request[applicationv1.GetApplicationRequest]) (*connect.Response[applicationv1.GetApplicationResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, IDRequiredError
+		return nil, ErrIdRequired
 	}
 
 	app, err := s.repo.Get(ctx, req.Msg.GetId())
@@ -92,11 +92,11 @@ func (s *ApplicationService) ListApplications(ctx context.Context, req *connect.
 
 func (s *ApplicationService) UpdateApplication(ctx context.Context, req *connect.Request[applicationv1.UpdateApplicationRequest]) (*connect.Response[applicationv1.UpdateApplicationResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, IDRequiredError
+		return nil, ErrIdRequired
 	}
 
-	if req.Msg.Name == "" {
-		return nil, NoUpdatesProvidedError
+	if req.Msg.GetName() == "" {
+		return nil, fieldRequiredError("name")
 	}
 
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.GetName())
@@ -109,7 +109,7 @@ func (s *ApplicationService) UpdateApplication(ctx context.Context, req *connect
 
 func (s *ApplicationService) DeleteApplication(ctx context.Context, req *connect.Request[applicationv1.DeleteApplicationRequest]) (*connect.Response[applicationv1.DeleteApplicationResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, IDRequiredError
+		return nil, ErrIdRequired
 	}
 
 	if err := s.repo.Delete(ctx, req.Msg.GetId()); err != nil {
