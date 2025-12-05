@@ -36,16 +36,26 @@ func (s *S3BackendConfigService) CreateS3BackendConfig(ctx context.Context, req 
 		return nil, fieldRequiredError("region")
 	}
 
-	if req.Msg.GetDynamodbLock() && req.Msg.GetS3Lock() {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("cannot provide both dynamodb_lock and s3_lock"))
+	var dynamoDbLock, s3Lock bool
+
+	switch l := req.Msg.Lock.(type) {
+	case *s3BackendConfigv1.CreateS3BackendConfigRequest_DynamodbLock:
+		dynamoDbLock = l.DynamodbLock
+		s3Lock = false
+	case *s3BackendConfigv1.CreateS3BackendConfigRequest_S3Lock:
+		s3Lock = l.S3Lock
+		dynamoDbLock = false
+	case nil:
+		dynamoDbLock = false
+		s3Lock = true
+	default:
+		dynamoDbLock = false
+		s3Lock = true
 	}
 
-	if req.Msg.GetDynamodbLock() && req.Msg.GetDynamodbTable() == "" {
+	if dynamoDbLock && req.Msg.GetDynamodbTable() == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("must provide dynamodb_table when dynamodb_lock is true"))
 	}
-
-	dynamoDbLock := req.Msg.GetDynamodbLock() || false
-	s3Lock := req.Msg.GetS3Lock() || true
 
 	s3BackendConfig := &s3BackendConfigv1.S3BackendConfig{
 		Bucket:       req.Msg.GetBucket(),
@@ -86,11 +96,11 @@ func (s *S3BackendConfigService) UpdateS3BackendConfig(ctx context.Context, req 
 		return nil, IDRequiredError
 	}
 
-	if req.Msg.GetDynamodbLock() && req.Msg.GetS3Lock() {
+	if req.Msg.DynamodbLock != nil && req.Msg.S3Lock != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("cannot provide both dynamodb_lock and s3_lock"))
 	}
 
-	if req.Msg.GetDynamodbLock() && req.Msg.GetDynamodbTable() == "" {
+	if req.Msg.DynamodbLock != nil && req.Msg.GetDynamodbLock() && req.Msg.GetDynamodbTable() == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("must provide dynamodb_table when dynamodb_lock is true"))
 	}
 
