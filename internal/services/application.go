@@ -9,10 +9,12 @@ import (
 	applicationv1 "github.com/terrabase-dev/terrabase/specs/terrabase/application/v1"
 	teamAccessTypev1 "github.com/terrabase-dev/terrabase/specs/terrabase/team_access_type/v1"
 	teamApplicationAccessGrantv1 "github.com/terrabase-dev/terrabase/specs/terrabase/team_application_access_grant/v1"
+	"github.com/uptrace/bun"
 )
 
 type ApplicationService struct {
 	AuthAware
+	db              *bun.DB
 	repo            *repos.ApplicationRepo
 	accessGrantRepo *repos.TeamApplicationAccessGrantRepo
 	logger          *log.Logger
@@ -30,27 +32,44 @@ func (s *ApplicationService) CreateApplication(ctx context.Context, req *connect
 		return nil, ErrNameRequired
 	}
 
-	app := &applicationv1.Application{
+	if req.Msg.GetTeamId() == "" {
+		return nil, fieldRequiredError("team_id")
+	}
+
+	application := &applicationv1.Application{
 		Name: req.Msg.GetName(),
 	}
 
-	application, err := s.repo.Create(ctx, app)
-	if err != nil {
-		return nil, mapError(err)
-	}
+	var createdApplication *applicationv1.Application
 
-	teamApplicationAccessGrant := &teamApplicationAccessGrantv1.TeamApplicationAccessGrant{
-		ApplicationId: application.Id,
-		TeamId:        req.Msg.GetTeamId(),
-		AccessType:    teamAccessTypev1.TeamAccessType_TEAM_ACCESS_TYPE_OWNER,
-	}
+	txErr := s.db.RunInTx(ctx, nil, func(ctx context.Context, tx bun.Tx) error {
+		applicationRepo := s.repo.WithTx(tx)
+		accessGrantRepo := s.accessGrantRepo.WithTx(tx)
+		var err error
 
-	if _, err := s.accessGrantRepo.Create(ctx, teamApplicationAccessGrant); err != nil {
-		return nil, mapError(err)
+		createdApplication, err = applicationRepo.Create(ctx, application)
+		if err != nil {
+			return err
+		}
+
+		teamApplicationAccessGrant := &teamApplicationAccessGrantv1.TeamApplicationAccessGrant{
+			ApplicationId: createdApplication.Id,
+			TeamId:        req.Msg.GetTeamId(),
+			AccessType:    teamAccessTypev1.TeamAccessType_TEAM_ACCESS_TYPE_OWNER,
+		}
+
+		if _, err := accessGrantRepo.Create(ctx, teamApplicationAccessGrant); err != nil {
+			return err
+		}
+
+		return nil
+	})
+	if txErr != nil {
+		return nil, mapError(txErr)
 	}
 
 	return connect.NewResponse(&applicationv1.CreateApplicationResponse{
-		Application: application,
+		Application: createdApplication,
 	}), nil
 }
 

@@ -9,13 +9,15 @@ import (
 )
 
 type ApplicationRepo struct {
-	db *bun.DB
+	db bun.IDB
 }
 
 func NewApplicationRepo(db *bun.DB) *ApplicationRepo {
-	return &ApplicationRepo{
-		db: db,
-	}
+	return &ApplicationRepo{db: db}
+}
+
+func (r *ApplicationRepo) WithTx(tx bun.Tx) *ApplicationRepo {
+	return &ApplicationRepo{db: tx}
 }
 
 func (r *ApplicationRepo) Create(ctx context.Context, application *applicationv1.Application) (*applicationv1.Application, error) {

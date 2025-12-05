@@ -11,13 +11,15 @@ import (
 )
 
 type TeamApplicationAccessGrantRepo struct {
-	db *bun.DB
+	db bun.IDB
 }
 
 func NewTeamApplicationRepo(db *bun.DB) *TeamApplicationAccessGrantRepo {
-	return &TeamApplicationAccessGrantRepo{
-		db: db,
-	}
+	return &TeamApplicationAccessGrantRepo{db: db}
+}
+
+func (r *TeamApplicationAccessGrantRepo) WithTx(tx bun.Tx) *TeamApplicationAccessGrantRepo {
+	return &TeamApplicationAccessGrantRepo{db: tx}
 }
 
 func (r *TeamApplicationAccessGrantRepo) Create(ctx context.Context, teamApplicationAccessGrant *teamApplicationAccessGrantv1.TeamApplicationAccessGrant) (*teamApplicationAccessGrantv1.TeamApplicationAccessGrant, error) {

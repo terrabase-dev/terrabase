@@ -23,6 +23,7 @@ type WorkspaceBackendCreator interface {
 }
 
 type WorkspaceService struct {
+	AuthAware
 	db              *bun.DB
 	repo            *repos.WorkspaceRepo
 	accessGrantRepo *repos.TeamWorkspaceAccessGrantRepo
