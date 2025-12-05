@@ -545,14 +545,13 @@ type UpdateWorkspaceRequest struct {
 	// The new name of the workspace
 	Name *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	// The new backend type of the workspace
-	BackendType BackendType `protobuf:"varint,3,opt,name=backend_type,json=backendType,proto3,enum=terrabase.workspace.v1.BackendType" json:"backend_type,omitempty"`
-	// Types that are valid to be assigned to Owner:
-	//
-	//	*UpdateWorkspaceRequest_EnvironmentId
-	//	*UpdateWorkspaceRequest_TeamId
-	Owner isUpdateWorkspaceRequest_Owner `protobuf_oneof:"owner"`
+	BackendType *BackendType `protobuf:"varint,3,opt,name=backend_type,json=backendType,proto3,enum=terrabase.workspace.v1.BackendType,oneof" json:"backend_type,omitempty"`
+	// The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+	EnvironmentId *string `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof" json:"environment_id,omitempty"`
+	// The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+	TeamId *string `protobuf:"bytes,5,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
 	// The new S3 backend configuration, if the backend type is S3 and a new configuration needs to be created
-	S3BackendConfig *v1.CreateS3BackendConfigRequest `protobuf:"bytes,6,opt,name=s3_backend_config,json=s3BackendConfig,proto3" json:"s3_backend_config,omitempty"`
+	S3BackendConfig *v1.CreateS3BackendConfigRequest `protobuf:"bytes,6,opt,name=s3_backend_config,json=s3BackendConfig,proto3,oneof" json:"s3_backend_config,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -602,33 +601,22 @@ func (x *UpdateWorkspaceRequest) GetName() string {
 }
 
 func (x *UpdateWorkspaceRequest) GetBackendType() BackendType {
-	if x != nil {
-		return x.BackendType
+	if x != nil && x.BackendType != nil {
+		return *x.BackendType
 	}
 	return BackendType_BACKEND_TYPE_UNSPECIFIED
 }
 
-func (x *UpdateWorkspaceRequest) GetOwner() isUpdateWorkspaceRequest_Owner {
-	if x != nil {
-		return x.Owner
-	}
-	return nil
-}
-
 func (x *UpdateWorkspaceRequest) GetEnvironmentId() string {
-	if x != nil {
-		if x, ok := x.Owner.(*UpdateWorkspaceRequest_EnvironmentId); ok {
-			return x.EnvironmentId
-		}
+	if x != nil && x.EnvironmentId != nil {
+		return *x.EnvironmentId
 	}
 	return ""
 }
 
 func (x *UpdateWorkspaceRequest) GetTeamId() string {
-	if x != nil {
-		if x, ok := x.Owner.(*UpdateWorkspaceRequest_TeamId); ok {
-			return x.TeamId
-		}
+	if x != nil && x.TeamId != nil {
+		return *x.TeamId
 	}
 	return ""
 }
@@ -639,24 +627,6 @@ func (x *UpdateWorkspaceRequest) GetS3BackendConfig() *v1.CreateS3BackendConfigR
 	}
 	return nil
 }
-
-type isUpdateWorkspaceRequest_Owner interface {
-	isUpdateWorkspaceRequest_Owner()
-}
-
-type UpdateWorkspaceRequest_EnvironmentId struct {
-	// The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
-	EnvironmentId string `protobuf:"bytes,4,opt,name=environment_id,json=environmentId,proto3,oneof"`
-}
-
-type UpdateWorkspaceRequest_TeamId struct {
-	// The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
-	TeamId string `protobuf:"bytes,5,opt,name=team_id,json=teamId,proto3,oneof"`
-}
-
-func (*UpdateWorkspaceRequest_EnvironmentId) isUpdateWorkspaceRequest_Owner() {}
-
-func (*UpdateWorkspaceRequest_TeamId) isUpdateWorkspaceRequest_Owner() {}
 
 type UpdateWorkspaceResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -1000,16 +970,20 @@ const file_terrabase_workspace_v1_workspace_proto_rawDesc = "" +
 	"workspaces\x18\x01 \x03(\v2!.terrabase.workspace.v1.WorkspaceR\n" +
 	"workspaces\x12+\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01B\x12\n" +
-	"\x10_next_page_token\"\xce\x02\n" +
+	"\x10_next_page_token\"\x9b\x03\n" +
 	"\x16UpdateWorkspaceRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
-	"\x04name\x18\x02 \x01(\tH\x01R\x04name\x88\x01\x01\x12F\n" +
-	"\fbackend_type\x18\x03 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeR\vbackendType\x12'\n" +
-	"\x0eenvironment_id\x18\x04 \x01(\tH\x00R\renvironmentId\x12\x19\n" +
-	"\ateam_id\x18\x05 \x01(\tH\x00R\x06teamId\x12h\n" +
-	"\x11s3_backend_config\x18\x06 \x01(\v2<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequestR\x0fs3BackendConfigB\a\n" +
-	"\x05ownerB\a\n" +
-	"\x05_name\"Z\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12K\n" +
+	"\fbackend_type\x18\x03 \x01(\x0e2#.terrabase.workspace.v1.BackendTypeH\x01R\vbackendType\x88\x01\x01\x12*\n" +
+	"\x0eenvironment_id\x18\x04 \x01(\tH\x02R\renvironmentId\x88\x01\x01\x12\x1c\n" +
+	"\ateam_id\x18\x05 \x01(\tH\x03R\x06teamId\x88\x01\x01\x12m\n" +
+	"\x11s3_backend_config\x18\x06 \x01(\v2<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequestH\x04R\x0fs3BackendConfig\x88\x01\x01B\a\n" +
+	"\x05_nameB\x0f\n" +
+	"\r_backend_typeB\x11\n" +
+	"\x0f_environment_idB\n" +
+	"\n" +
+	"\b_team_idB\x14\n" +
+	"\x12_s3_backend_config\"Z\n" +
 	"\x17UpdateWorkspaceResponse\x12?\n" +
 	"\tworkspace\x18\x01 \x01(\v2!.terrabase.workspace.v1.WorkspaceR\tworkspace\"-\n" +
 	"\x16DeleteWorkspaceRequest\x12\x13\n" +
@@ -1129,10 +1103,7 @@ func file_terrabase_workspace_v1_workspace_proto_init() {
 	}
 	file_terrabase_workspace_v1_workspace_proto_msgTypes[5].OneofWrappers = []any{}
 	file_terrabase_workspace_v1_workspace_proto_msgTypes[6].OneofWrappers = []any{}
-	file_terrabase_workspace_v1_workspace_proto_msgTypes[7].OneofWrappers = []any{
-		(*UpdateWorkspaceRequest_EnvironmentId)(nil),
-		(*UpdateWorkspaceRequest_TeamId)(nil),
-	}
+	file_terrabase_workspace_v1_workspace_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

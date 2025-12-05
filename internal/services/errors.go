@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 
 	"connectrpc.com/connect"
 	"github.com/terrabase-dev/terrabase/internal/repos"
@@ -18,5 +19,9 @@ func mapError(err error) error {
 	}
 }
 
-var IDRequiredError = connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+func fieldRequiredError(fieldName string) error {
+	return connect.NewError(connect.CodeInvalidArgument, fmt.Errorf("%s is required", fieldName))
+}
+
+var IDRequiredError = fieldRequiredError("id")
 var NoUpdatesProvidedError = connect.NewError(connect.CodeInvalidArgument, errors.New("no updates provided"))

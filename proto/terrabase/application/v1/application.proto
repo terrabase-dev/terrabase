@@ -96,7 +96,7 @@ message GrantTeamAccessResponse {}
 
 message RevokeTeamAccessRequest {
   // The unique ID of the application
-  string id = 1 [(google.api.field_behavior) = REQUIRED];
+  string application_id = 1 [(google.api.field_behavior) = REQUIRED];
 
   // A list of team IDs whose access to the application should be revoked
   terrabase.team.v1.TeamIds team_ids = 2 [(google.api.field_behavior) = REQUIRED];

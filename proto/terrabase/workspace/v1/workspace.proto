@@ -104,18 +104,16 @@ message UpdateWorkspaceRequest {
   optional string name = 2;
 
   // The new backend type of the workspace
-  BackendType backend_type = 3;
+  optional BackendType backend_type = 3;
 
-  oneof owner {
-    // The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
-    string environment_id = 4;
+  // The ID of the application environment the workspace belongs to. Mutually exclusive with `team_id`. A workspace does not have to belong to an application environment if it is owned by a team.
+  optional string environment_id = 4;
 
-    // The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
-    string team_id = 5;
-  }
+  // The ID of the team that owns this workspace. Mutually exclusive with `environment_id`. A workspace does not have to be owned by a team if it belongs to an application environment.
+  optional string team_id = 5;
 
   // The new S3 backend configuration, if the backend type is S3 and a new configuration needs to be created
-  terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 6;
+  optional terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest s3_backend_config = 6;
 }
 
 message UpdateWorkspaceResponse {

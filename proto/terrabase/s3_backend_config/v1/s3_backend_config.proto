@@ -4,6 +4,7 @@ package terrabase.s3_backend_config.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1;s3BackendConfigv1";
 
@@ -53,11 +54,13 @@ message CreateS3BackendConfigRequest {
   // The AWS region of the S3 Bucket and DynamoDB Table (if used)
   string region = 3 [(google.api.field_behavior) = REQUIRED];
 
-  // Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
-  bool dynamodb_lock = 4;
+  oneof lock {
+    // Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+    bool dynamodb_lock = 4;
 
-  // Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
-  bool s3_lock = 5;
+    // Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+    bool s3_lock = 5;
+  }
 
   // Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
   bool encrypt = 6 [(google.api.field_behavior) = REQUIRED];
@@ -124,14 +127,31 @@ message DeleteS3BackendConfigResponse {}
 
 service S3BackendConfigService {
   // Create a new S3 backend configuration
-  rpc CreateS3BackendConfig(CreateS3BackendConfigRequest) returns (CreateS3BackendConfigResponse);
+  rpc CreateS3BackendConfig(CreateS3BackendConfigRequest) returns (CreateS3BackendConfigResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Retrieve details about a single S3 backend configuration
-  rpc GetS3BackendConfig(GetS3BackendConfigRequest) returns (GetS3BackendConfigResponse);
+  rpc GetS3BackendConfig(GetS3BackendConfigRequest) returns (GetS3BackendConfigResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Change details about an S3 backend configuration
-  rpc UpdateS3BackendConfig(UpdateS3BackendConfigRequest) returns (UpdateS3BackendConfigResponse);
+  rpc UpdateS3BackendConfig(UpdateS3BackendConfigRequest) returns (UpdateS3BackendConfigResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 
   // Delete an S3 backend configuration
-  rpc DeleteS3BackendConfig(DeleteS3BackendConfigRequest) returns (DeleteS3BackendConfigResponse);
+  rpc DeleteS3BackendConfig(DeleteS3BackendConfigRequest) returns (DeleteS3BackendConfigResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_WORKSPACE_WRITE;
+  }
 }

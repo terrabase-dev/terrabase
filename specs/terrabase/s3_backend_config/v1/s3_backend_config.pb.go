@@ -7,6 +7,7 @@
 package s3BackendConfigv1
 
 import (
+	_ "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -167,10 +168,11 @@ type CreateS3BackendConfigRequest struct {
 	Key string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
 	// The AWS region of the S3 Bucket and DynamoDB Table (if used)
 	Region string `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
-	// Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
-	DynamodbLock bool `protobuf:"varint,4,opt,name=dynamodb_lock,json=dynamodbLock,proto3" json:"dynamodb_lock,omitempty"`
-	// Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
-	S3Lock bool `protobuf:"varint,5,opt,name=s3_lock,json=s3Lock,proto3" json:"s3_lock,omitempty"`
+	// Types that are valid to be assigned to Lock:
+	//
+	//	*CreateS3BackendConfigRequest_DynamodbLock
+	//	*CreateS3BackendConfigRequest_S3Lock
+	Lock isCreateS3BackendConfigRequest_Lock `protobuf_oneof:"lock"`
 	// Whether or not to enable [server side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingServerSideEncryption.html) of the state and lock files
 	Encrypt bool `protobuf:"varint,6,opt,name=encrypt,proto3" json:"encrypt,omitempty"`
 	// The name of the DynamoDB Table to use for state file locking. The table must have a partition key named `LockID` with a type of `String`. Required if `dynamodb_lock` is `true`, ignored otherwise.
@@ -230,16 +232,27 @@ func (x *CreateS3BackendConfigRequest) GetRegion() string {
 	return ""
 }
 
+func (x *CreateS3BackendConfigRequest) GetLock() isCreateS3BackendConfigRequest_Lock {
+	if x != nil {
+		return x.Lock
+	}
+	return nil
+}
+
 func (x *CreateS3BackendConfigRequest) GetDynamodbLock() bool {
 	if x != nil {
-		return x.DynamodbLock
+		if x, ok := x.Lock.(*CreateS3BackendConfigRequest_DynamodbLock); ok {
+			return x.DynamodbLock
+		}
 	}
 	return false
 }
 
 func (x *CreateS3BackendConfigRequest) GetS3Lock() bool {
 	if x != nil {
-		return x.S3Lock
+		if x, ok := x.Lock.(*CreateS3BackendConfigRequest_S3Lock); ok {
+			return x.S3Lock
+		}
 	}
 	return false
 }
@@ -257,6 +270,24 @@ func (x *CreateS3BackendConfigRequest) GetDynamodbTable() string {
 	}
 	return ""
 }
+
+type isCreateS3BackendConfigRequest_Lock interface {
+	isCreateS3BackendConfigRequest_Lock()
+}
+
+type CreateS3BackendConfigRequest_DynamodbLock struct {
+	// Whether or not to use DynamoDB state locking. Defaults to `false`, as DynamoDB state locking is deprecated and will be removed in a future Terraform version. Mutually exclusive with `s3_lock`.
+	DynamodbLock bool `protobuf:"varint,4,opt,name=dynamodb_lock,json=dynamodbLock,proto3,oneof"`
+}
+
+type CreateS3BackendConfigRequest_S3Lock struct {
+	// Whether or not to use S3 state locking. Defaults to `true`. Mutually exclusive with `dynamodb_lock`.
+	S3Lock bool `protobuf:"varint,5,opt,name=s3_lock,json=s3Lock,proto3,oneof"`
+}
+
+func (*CreateS3BackendConfigRequest_DynamodbLock) isCreateS3BackendConfigRequest_Lock() {}
+
+func (*CreateS3BackendConfigRequest_S3Lock) isCreateS3BackendConfigRequest_Lock() {}
 
 type CreateS3BackendConfigResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -640,7 +671,7 @@ var File_terrabase_s3_backend_config_v1_s3_backend_config_proto protoreflect.Fil
 
 const file_terrabase_s3_backend_config_v1_s3_backend_config_proto_rawDesc = "" +
 	"\n" +
-	"6terrabase/s3_backend_config/v1/s3_backend_config.proto\x12\x1eterrabase.s3_backend_config.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x93\x03\n" +
+	"6terrabase/s3_backend_config/v1/s3_backend_config.proto\x12\x1eterrabase.s3_backend_config.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\"\x93\x03\n" +
 	"\x0fS3BackendConfig\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fworkspace_id\x18\x02 \x01(\tR\vworkspaceId\x12\x16\n" +
@@ -656,15 +687,16 @@ const file_terrabase_s3_backend_config_v1_s3_backend_config_proto_rawDesc = "" +
 	"updated_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12*\n" +
 	"\x0edynamodb_table\x18\v \x01(\tH\x00R\rdynamodbTable\x88\x01\x01B\x11\n" +
-	"\x0f_dynamodb_table\"\x8b\x02\n" +
+	"\x0f_dynamodb_table\"\x97\x02\n" +
 	"\x1cCreateS3BackendConfigRequest\x12\x1b\n" +
 	"\x06bucket\x18\x01 \x01(\tB\x03\xe0A\x02R\x06bucket\x12\x15\n" +
 	"\x03key\x18\x02 \x01(\tB\x03\xe0A\x02R\x03key\x12\x1b\n" +
-	"\x06region\x18\x03 \x01(\tB\x03\xe0A\x02R\x06region\x12#\n" +
-	"\rdynamodb_lock\x18\x04 \x01(\bR\fdynamodbLock\x12\x17\n" +
-	"\as3_lock\x18\x05 \x01(\bR\x06s3Lock\x12\x1d\n" +
+	"\x06region\x18\x03 \x01(\tB\x03\xe0A\x02R\x06region\x12%\n" +
+	"\rdynamodb_lock\x18\x04 \x01(\bH\x00R\fdynamodbLock\x12\x19\n" +
+	"\as3_lock\x18\x05 \x01(\bH\x00R\x06s3Lock\x12\x1d\n" +
 	"\aencrypt\x18\x06 \x01(\bB\x03\xe0A\x02R\aencrypt\x12*\n" +
-	"\x0edynamodb_table\x18\a \x01(\tH\x00R\rdynamodbTable\x88\x01\x01B\x11\n" +
+	"\x0edynamodb_table\x18\a \x01(\tH\x01R\rdynamodbTable\x88\x01\x01B\x06\n" +
+	"\x04lockB\x11\n" +
 	"\x0f_dynamodb_table\"|\n" +
 	"\x1dCreateS3BackendConfigResponse\x12[\n" +
 	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\"+\n" +
@@ -696,12 +728,19 @@ const file_terrabase_s3_backend_config_v1_s3_backend_config_proto_rawDesc = "" +
 	"\x11s3_backend_config\x18\x01 \x01(\v2/.terrabase.s3_backend_config.v1.S3BackendConfigR\x0fs3BackendConfig\".\n" +
 	"\x1cDeleteS3BackendConfigRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"\x1f\n" +
-	"\x1dDeleteS3BackendConfigResponse2\xeb\x04\n" +
-	"\x16S3BackendConfigService\x12\x94\x01\n" +
-	"\x15CreateS3BackendConfig\x12<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest\x1a=.terrabase.s3_backend_config.v1.CreateS3BackendConfigResponse\x12\x8b\x01\n" +
-	"\x12GetS3BackendConfig\x129.terrabase.s3_backend_config.v1.GetS3BackendConfigRequest\x1a:.terrabase.s3_backend_config.v1.GetS3BackendConfigResponse\x12\x94\x01\n" +
-	"\x15UpdateS3BackendConfig\x12<.terrabase.s3_backend_config.v1.UpdateS3BackendConfigRequest\x1a=.terrabase.s3_backend_config.v1.UpdateS3BackendConfigResponse\x12\x94\x01\n" +
-	"\x15DeleteS3BackendConfig\x12<.terrabase.s3_backend_config.v1.DeleteS3BackendConfigRequest\x1a=.terrabase.s3_backend_config.v1.DeleteS3BackendConfigResponseB[ZYgithub.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1;s3BackendConfigv1b\x06proto3"
+	"\x1dDeleteS3BackendConfigResponse2\x9c\x05\n" +
+	"\x16S3BackendConfigService\x12\xa0\x01\n" +
+	"\x15CreateS3BackendConfig\x12<.terrabase.s3_backend_config.v1.CreateS3BackendConfigRequest\x1a=.terrabase.s3_backend_config.v1.CreateS3BackendConfigResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"\x12\x98\x01\n" +
+	"\x12GetS3BackendConfig\x129.terrabase.s3_backend_config.v1.GetS3BackendConfigRequest\x1a:.terrabase.s3_backend_config.v1.GetS3BackendConfigResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\v\n" +
+	"\x12\xa0\x01\n" +
+	"\x15UpdateS3BackendConfig\x12<.terrabase.s3_backend_config.v1.UpdateS3BackendConfigRequest\x1a=.terrabase.s3_backend_config.v1.UpdateS3BackendConfigResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"\x12\xa0\x01\n" +
+	"\x15DeleteS3BackendConfig\x12<.terrabase.s3_backend_config.v1.DeleteS3BackendConfigRequest\x1a=.terrabase.s3_backend_config.v1.DeleteS3BackendConfigResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\n" +
+	"B[ZYgithub.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1;s3BackendConfigv1b\x06proto3"
 
 var (
 	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_rawDescOnce sync.Once
@@ -755,7 +794,10 @@ func file_terrabase_s3_backend_config_v1_s3_backend_config_proto_init() {
 		return
 	}
 	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_msgTypes[0].OneofWrappers = []any{}
-	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_msgTypes[1].OneofWrappers = []any{}
+	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_msgTypes[1].OneofWrappers = []any{
+		(*CreateS3BackendConfigRequest_DynamodbLock)(nil),
+		(*CreateS3BackendConfigRequest_S3Lock)(nil),
+	}
 	file_terrabase_s3_backend_config_v1_s3_backend_config_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

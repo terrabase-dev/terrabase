@@ -102,7 +102,7 @@ A Terrabase application can be deployed in multiple environments, each with thei
 
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
-| `id` | string |  | `true` | The unique ID of the application |
+| `application_id` | string |  | `true` | The unique ID of the application |
 | `team_ids` | [TeamIds](#teamids-teamv1) |  | `true` | A list of team IDs whose access to the application should be revoked |
 
 ### RevokeTeamAccessResponse (application.v1)
@@ -630,10 +630,10 @@ A Terrabase organization is the top level grouping of resources in a Terrabase i
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateS3BackendConfig` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) | [CreateS3BackendConfigResponse](#creates3backendconfigresponse-s3_backend_configv1) | `false` |  | Create a new S3 backend configuration |
-| `GetS3BackendConfig` | [GetS3BackendConfigRequest](#gets3backendconfigrequest-s3_backend_configv1) | [GetS3BackendConfigResponse](#gets3backendconfigresponse-s3_backend_configv1) | `false` |  | Retrieve details about a single S3 backend configuration |
-| `UpdateS3BackendConfig` | [UpdateS3BackendConfigRequest](#updates3backendconfigrequest-s3_backend_configv1) | [UpdateS3BackendConfigResponse](#updates3backendconfigresponse-s3_backend_configv1) | `false` |  | Change details about an S3 backend configuration |
-| `DeleteS3BackendConfig` | [DeleteS3BackendConfigRequest](#deletes3backendconfigrequest-s3_backend_configv1) | [DeleteS3BackendConfigResponse](#deletes3backendconfigresponse-s3_backend_configv1) | `false` |  | Delete an S3 backend configuration |
+| `CreateS3BackendConfig` | [CreateS3BackendConfigRequest](#creates3backendconfigrequest-s3_backend_configv1) | [CreateS3BackendConfigResponse](#creates3backendconfigresponse-s3_backend_configv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Create a new S3 backend configuration |
+| `GetS3BackendConfig` | [GetS3BackendConfigRequest](#gets3backendconfigrequest-s3_backend_configv1) | [GetS3BackendConfigResponse](#gets3backendconfigresponse-s3_backend_configv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_READ`, `SCOPE_WORKSPACE_WRITE` | Retrieve details about a single S3 backend configuration |
+| `UpdateS3BackendConfig` | [UpdateS3BackendConfigRequest](#updates3backendconfigrequest-s3_backend_configv1) | [UpdateS3BackendConfigResponse](#updates3backendconfigresponse-s3_backend_configv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Change details about an S3 backend configuration |
+| `DeleteS3BackendConfig` | [DeleteS3BackendConfigRequest](#deletes3backendconfigrequest-s3_backend_configv1) | [DeleteS3BackendConfigResponse](#deletes3backendconfigresponse-s3_backend_configv1) | `true` | `SCOPE_ADMIN`, `SCOPE_WORKSPACE_WRITE` | Delete an S3 backend configuration |
 
 ### S3BackendConfig (s3_backend_config.v1)
 

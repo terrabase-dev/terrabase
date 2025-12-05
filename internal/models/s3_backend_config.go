@@ -1,7 +1,6 @@
 package models
 
 import (
-	"errors"
 	"time"
 
 	s3backendconfigv1 "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1"
@@ -41,19 +40,13 @@ func S3BackendConfigFromProto(s3BackendConfig *s3backendconfigv1.S3BackendConfig
 		Encrypt:     s3BackendConfig.GetEncrypt(),
 	}
 
-	if s3BackendConfig.DynamodbLock && s3BackendConfig.S3Lock {
-		return nil, errors.New("cannot provide both dynamodb_lock and s3_lock")
-	}
-
 	if s3BackendConfig.DynamodbLock {
-		if s3BackendConfig.DynamodbTable == nil {
-			return nil, errors.New("must provide dynamodb_table if dynamodb_lock is true")
-		}
-
-		res.DynamoDBLock = s3BackendConfig.GetDynamodbLock()
+		res.DynamoDBLock = true
 		res.DynamoDBTable = s3BackendConfig.GetDynamodbTable()
+		res.S3Lock = false
 	} else if s3BackendConfig.S3Lock {
-		res.S3Lock = s3BackendConfig.GetS3Lock()
+		res.S3Lock = true
+		res.DynamoDBLock = false
 	}
 
 	return res, nil
@@ -71,19 +64,13 @@ func (s *S3BackendConfig) ToProto() (*s3backendconfigv1.S3BackendConfig, error) 
 		UpdatedAt:   timestamppb.New(s.UpdatedAt.UTC()),
 	}
 
-	if s.DynamoDBLock && s.S3Lock {
-		return nil, errors.New("cannot provide both dynamodb_lock and s3_lock")
-	}
-
 	if s.DynamoDBLock {
-		if s.DynamoDBTable == "" {
-			return nil, errors.New("must provide dynamodb_table if dynamodb_lock is true")
-		}
-
-		res.DynamodbLock = s.DynamoDBLock
+		res.DynamodbLock = true
 		res.DynamodbTable = &s.DynamoDBTable
+		res.S3Lock = false
 	} else if s.S3Lock {
-		res.S3Lock = s.S3Lock
+		res.S3Lock = true
+		res.DynamodbLock = false
 	}
 
 	return res, nil

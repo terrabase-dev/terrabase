@@ -79,11 +79,22 @@ func init() {
 			return err
 		}
 
+		// Team Workspace table
+		if _, err := db.NewCreateTable().
+			IfNotExists().
+			Model((*models.TeamWorkspaceAccessGrant)(nil)).
+			ForeignKey(`("team_id") REFERENCES "team" ("id") ON DELETE CASCADE`).
+			ForeignKey(`("workspace_id") REFERENCES "workspace" ("id") ON DELETE CASCADE`).
+			Exec(ctx); err != nil {
+			return err
+		}
+
 		return nil
 	}
 
 	down := func(ctx context.Context, db *bun.DB) error {
 		tables := []any{
+			(*models.TeamWorkspaceAccessGrant)(nil),
 			(*models.TeamApplicationAccessGrant)(nil),
 			(*models.S3BackendConfig)(nil),
 			(*models.Workspace)(nil),

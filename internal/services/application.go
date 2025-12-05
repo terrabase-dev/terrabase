@@ -138,11 +138,11 @@ func (s *ApplicationService) GrantTeamAccess(ctx context.Context, req *connect.R
 }
 
 func (s *ApplicationService) RevokeTeamAccess(ctx context.Context, req *connect.Request[applicationv1.RevokeTeamAccessRequest]) (*connect.Response[applicationv1.RevokeTeamAccessResponse], error) {
-	if req.Msg.GetId() == "" {
-		return nil, IDRequiredError
+	if req.Msg.GetApplicationId() == "" {
+		return nil, fieldRequiredError("application_id")
 	}
 
-	applicationId := req.Msg.GetId()
+	applicationId := req.Msg.GetApplicationId()
 	teamIds := req.Msg.GetTeamIds().GetTeamIds()
 
 	for i := range teamIds {

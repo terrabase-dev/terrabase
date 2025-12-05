@@ -669,7 +669,7 @@ func (*GrantTeamAccessResponse) Descriptor() ([]byte, []int) {
 type RevokeTeamAccessRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique ID of the application
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ApplicationId string `protobuf:"bytes,1,opt,name=application_id,json=applicationId,proto3" json:"application_id,omitempty"`
 	// A list of team IDs whose access to the application should be revoked
 	TeamIds       *v11.TeamIds `protobuf:"bytes,2,opt,name=team_ids,json=teamIds,proto3" json:"team_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -706,9 +706,9 @@ func (*RevokeTeamAccessRequest) Descriptor() ([]byte, []int) {
 	return file_terrabase_application_v1_application_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *RevokeTeamAccessRequest) GetId() string {
+func (x *RevokeTeamAccessRequest) GetApplicationId() string {
 	if x != nil {
-		return x.Id
+		return x.ApplicationId
 	}
 	return ""
 }
@@ -799,9 +799,9 @@ const file_terrabase_application_v1_application_proto_rawDesc = "" +
 	"\x19DeleteApplicationResponse\"\xa1\x01\n" +
 	"\x16GrantTeamAccessRequest\x12\x86\x01\n" +
 	"\x12team_access_grants\x18\x01 \x03(\v2S.terrabase.team_application_access_grant.v1.CreateTeamApplicationAccessGrantRequestB\x03\xe0A\x02R\x10teamAccessGrants\"\x19\n" +
-	"\x17GrantTeamAccessResponse\"j\n" +
-	"\x17RevokeTeamAccessRequest\x12\x13\n" +
-	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12:\n" +
+	"\x17GrantTeamAccessResponse\"\x81\x01\n" +
+	"\x17RevokeTeamAccessRequest\x12*\n" +
+	"\x0eapplication_id\x18\x01 \x01(\tB\x03\xe0A\x02R\rapplicationId\x12:\n" +
 	"\bteam_ids\x18\x02 \x01(\v2\x1a.terrabase.team.v1.TeamIdsB\x03\xe0A\x02R\ateamIds\"\x1a\n" +
 	"\x18RevokeTeamAccessResponse2\xce\a\n" +
 	"\x12ApplicationService\x12\x88\x01\n" +
