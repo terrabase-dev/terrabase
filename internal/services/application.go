@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"log"
 
 	"connectrpc.com/connect"
@@ -28,7 +27,7 @@ func NewApplicationService(repo *repos.ApplicationRepo, logger *log.Logger) *App
 
 func (s *ApplicationService) CreateApplication(ctx context.Context, req *connect.Request[applicationv1.CreateApplicationRequest]) (*connect.Response[applicationv1.CreateApplicationResponse], error) {
 	if req.Msg.GetName() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("name is required"))
+		return nil, ErrNameRequired
 	}
 
 	app := &applicationv1.Application{
@@ -70,7 +69,7 @@ func (s *ApplicationService) GetApplication(ctx context.Context, req *connect.Re
 
 func (s *ApplicationService) ListApplications(ctx context.Context, req *connect.Request[applicationv1.ListApplicationsRequest]) (*connect.Response[applicationv1.ListApplicationsResponse], error) {
 	if req.Msg.GetTeamId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("team_id is required"))
+		return nil, fieldRequiredError("team_id")
 	}
 
 	applications, nextToken, err := s.repo.List(ctx, req.Msg.GetTeamId(), req.Msg.GetPageSize(), req.Msg.GetPageToken())
@@ -96,7 +95,7 @@ func (s *ApplicationService) UpdateApplication(ctx context.Context, req *connect
 	}
 
 	if req.Msg.GetName() == "" {
-		return nil, fieldRequiredError("name")
+		return nil, ErrNameRequired
 	}
 
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.GetName())

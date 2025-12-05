@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"log"
 
 	"connectrpc.com/connect"
@@ -25,11 +24,11 @@ func NewOrganizationService(repo *repos.OrganizationRepo, logger *log.Logger) *O
 
 func (s *OrganizationService) CreateOrganization(ctx context.Context, req *connect.Request[organizationv1.CreateOrganizationRequest]) (*connect.Response[organizationv1.CreateOrganizationResponse], error) {
 	if req.Msg.GetName() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("name is required"))
+		return nil, ErrNameRequired
 	}
 
 	if req.Msg.GetSubscription() == organizationv1.Subscription_SUBSCRIPTION_UNSPECIFIED {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("subscription is required"))
+		return nil, fieldRequiredError("subscription")
 	}
 
 	org := &organizationv1.Organization{
@@ -49,7 +48,7 @@ func (s *OrganizationService) CreateOrganization(ctx context.Context, req *conne
 
 func (s *OrganizationService) GetOrganization(ctx context.Context, req *connect.Request[organizationv1.GetOrganizationRequest]) (*connect.Response[organizationv1.GetOrganizationResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	org, err := s.repo.Get(ctx, req.Msg.GetId())
@@ -80,11 +79,11 @@ func (s *OrganizationService) ListOrganizations(ctx context.Context, req *connec
 
 func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *connect.Request[organizationv1.UpdateOrganizationRequest]) (*connect.Response[organizationv1.UpdateOrganizationResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	if req.Msg.Name == nil && req.Msg.Subscription == nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("no updates provided"))
+		return nil, ErrNoUpdatesProvided
 	}
 
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.Name, req.Msg.Subscription)
@@ -99,7 +98,7 @@ func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *conne
 
 func (s *OrganizationService) DeleteOrganization(ctx context.Context, req *connect.Request[organizationv1.DeleteOrganizationRequest]) (*connect.Response[organizationv1.DeleteOrganizationResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	if err := s.repo.Delete(ctx, req.Msg.GetId()); err != nil {

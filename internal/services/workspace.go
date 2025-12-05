@@ -188,7 +188,7 @@ func (s *WorkspaceService) RevokeTeamAccess(ctx context.Context, req *connect.Re
 
 func buildWorkspaceFromCreateReq(msg *workspacev1.CreateWorkspaceRequest) (*workspacev1.Workspace, string, error) {
 	if msg.GetName() == "" {
-		return nil, "", fieldRequiredError("name")
+		return nil, "", ErrNameRequired
 	}
 
 	if msg.GetBackendType() == workspacev1.BackendType_BACKEND_TYPE_UNSPECIFIED {

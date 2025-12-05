@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"log"
 
 	"connectrpc.com/connect"
@@ -25,11 +24,11 @@ func NewTeamService(repo *repos.TeamRepo, logger *log.Logger) *TeamService {
 
 func (s *TeamService) CreateTeam(ctx context.Context, req *connect.Request[teamv1.CreateTeamRequest]) (*connect.Response[teamv1.CreateTeamResponse], error) {
 	if req.Msg.GetName() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("name is required"))
+		return nil, ErrNameRequired
 	}
 
 	if req.Msg.OrganizationId == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("organization_id is required"))
+		return nil, fieldRequiredError("organization_id")
 	}
 
 	team := &teamv1.Team{
@@ -49,7 +48,7 @@ func (s *TeamService) CreateTeam(ctx context.Context, req *connect.Request[teamv
 
 func (s *TeamService) GetTeam(ctx context.Context, req *connect.Request[teamv1.GetTeamRequest]) (*connect.Response[teamv1.GetTeamResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	team, err := s.repo.Get(ctx, req.Msg.GetId())
@@ -80,11 +79,11 @@ func (s *TeamService) ListTeams(ctx context.Context, req *connect.Request[teamv1
 
 func (s *TeamService) UpdateTeam(ctx context.Context, req *connect.Request[teamv1.UpdateTeamRequest]) (*connect.Response[teamv1.UpdateTeamResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	if req.Msg.GetName() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("no updates provided"))
+		return nil, ErrNameRequired
 	}
 
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.GetName())
@@ -99,7 +98,7 @@ func (s *TeamService) UpdateTeam(ctx context.Context, req *connect.Request[teamv
 
 func (s *TeamService) DeleteTeam(ctx context.Context, req *connect.Request[teamv1.DeleteTeamRequest]) (*connect.Response[teamv1.DeleteTeamResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	if err := s.repo.Delete(ctx, req.Msg.GetId()); err != nil {

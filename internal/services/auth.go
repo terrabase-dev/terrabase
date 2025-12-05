@@ -53,6 +53,12 @@ func NewAuthService(
 	}
 }
 
+var (
+	ErrInvalidCredentials  = connect.NewError(connect.CodeUnauthenticated, errors.New("invalid credentials"))
+	ErrInvalidRefreshToken = connect.NewError(connect.CodeUnauthenticated, errors.New("invalid refresh token"))
+	ErrNoApiKeyStore       = internalError(errors.New("api key store not configured"))
+)
+
 func (s *AuthService) Signup(ctx context.Context, req *connect.Request[authv1.SignupRequest]) (*connect.Response[authv1.SignupResponse], error) {
 	if req.Msg.GetPassword() == "" || len(req.Msg.Password) < 8 {
 		// TODO: add more password requirements
@@ -73,11 +79,11 @@ func (s *AuthService) Signup(ctx context.Context, req *connect.Request[authv1.Si
 
 	hash, err := auth.HashPassword(req.Msg.Password)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("hash password: %w", err))
+		return nil, internalError(fmt.Errorf("hash password: %w", err))
 	}
 
 	if err := s.creds.UpsertPassword(ctx, created.GetId(), hash, "argon2id"); err != nil {
-		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("store credential: %w", err))
+		return nil, internalError(fmt.Errorf("store credential: %w", err))
 	}
 
 	accessToken, refreshToken, err := s.issueTokens(ctx, created, req)
@@ -95,22 +101,22 @@ func (s *AuthService) Signup(ctx context.Context, req *connect.Request[authv1.Si
 func (s *AuthService) Login(ctx context.Context, req *connect.Request[authv1.LoginRequest]) (*connect.Response[authv1.LoginResponse], error) {
 	user, err := s.users.GetByEmail(ctx, req.Msg.GetEmail())
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid credentials"))
+		return nil, ErrInvalidCredentials
 	}
 
 	cred, err := s.creds.GetByUserID(ctx, user.ID)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid credentials"))
+		return nil, ErrInvalidCredentials
 	}
 
 	ok, err := auth.VerifyPassword(req.Msg.GetPassword(), cred.PasswordHash)
 	if err != nil || !ok {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid credentials"))
+		return nil, ErrInvalidCredentials
 	}
 
 	userProto, err := user.ToProto()
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnknown, err)
+		return nil, unknownError(err)
 	}
 
 	accessToken, refreshToken, err := s.issueTokens(ctx, userProto, req)
@@ -128,24 +134,24 @@ func (s *AuthService) Login(ctx context.Context, req *connect.Request[authv1.Log
 func (s *AuthService) Refresh(ctx context.Context, req *connect.Request[authv1.RefreshRequest]) (*connect.Response[authv1.RefreshResponse], error) {
 	refresh := req.Msg.GetRefreshToken()
 	if refresh == "" {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("refresh token required"))
+		return nil, fieldRequiredError("refresh_token")
 	}
 
 	hash := s.hashRefreshToken(refresh)
 
 	session, err := s.sessions.GetByRefreshHash(ctx, hash)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid refresh token"))
+		return nil, ErrInvalidRefreshToken
 	}
 
 	user, err := s.users.Get(ctx, session.UserID)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid refresh token"))
+		return nil, ErrInvalidRefreshToken
 	}
 
 	userProto, err := user.ToProto()
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnknown, err)
+		return nil, unknownError(err)
 	}
 
 	accessToken, newRefreshToken, err := s.issueTokens(ctx, userProto, req)
@@ -170,12 +176,12 @@ func (s *AuthService) WhoAmI(ctx context.Context, _ *connect.Request[authv1.WhoA
 
 	user, err := s.users.Get(ctx, authCtx.SubjectID)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+		return nil, ErrUnauthenticated
 	}
 
 	userProto, err := user.ToProto()
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnknown, err)
+		return nil, unknownError(err)
 	}
 
 	return connect.NewResponse(&authv1.WhoAmIResponse{
@@ -196,11 +202,11 @@ func (s *AuthService) Logout(ctx context.Context, req *connect.Request[authv1.Lo
 	}
 
 	if targetSessionID == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("session_id is required"))
+		return nil, fieldRequiredError("session_id")
 	}
 
 	if err := s.sessions.DeleteByID(ctx, targetSessionID); err != nil && !errors.Is(err, repos.ErrNotFound) {
-		return nil, connect.NewError(connect.CodeInternal, err)
+		return nil, internalError(err)
 	}
 
 	return connect.NewResponse(&authv1.LogoutResponse{}), nil
@@ -214,7 +220,7 @@ func (s *AuthService) ListSessions(ctx context.Context, _ *connect.Request[authv
 
 	sessions, err := s.sessions.ListByUser(ctx, authCtx.SubjectID)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
+		return nil, internalError(err)
 	}
 
 	resp := &authv1.ListSessionsResponse{Sessions: make([]*authv1.Session, 0, len(sessions))}
@@ -267,7 +273,7 @@ func (s *AuthService) CreateMachineUser(ctx context.Context, req *connect.Reques
 
 func (s *AuthService) issueTokens(ctx context.Context, user *userv1.User, req connect.AnyRequest) (accessToken string, refreshToken string, err error) {
 	if s.tokenSigner == nil {
-		return "", "", connect.NewError(connect.CodeInternal, errors.New("token signer not configured"))
+		return "", "", internalError(errors.New("token signer not configured"))
 	}
 
 	scopes := scopesForRole(user.GetDefaultRole())
@@ -279,7 +285,7 @@ func (s *AuthService) issueTokens(ctx context.Context, user *userv1.User, req co
 	ua, ip := extractClientInfo(req)
 
 	if _, err := s.sessions.Create(ctx, sessionID, user.GetId(), refreshHash, time.Now().Add(defaultRefreshTTL), ua, ip, map[string]any{}); err != nil {
-		return "", "", connect.NewError(connect.CodeInternal, fmt.Errorf("create session: %w", err))
+		return "", "", internalError(fmt.Errorf("create session: %w", err))
 	}
 
 	claims := &auth.Claims{
@@ -298,7 +304,7 @@ func (s *AuthService) issueTokens(ctx context.Context, user *userv1.User, req co
 
 	accessToken, err = s.tokenSigner.Issue(claims)
 	if err != nil {
-		return "", "", connect.NewError(connect.CodeInternal, fmt.Errorf("issue access token: %w", err))
+		return "", "", internalError(fmt.Errorf("issue access token: %w", err))
 	}
 
 	return accessToken, refreshToken, nil
@@ -313,7 +319,7 @@ func (s *AuthService) hashRefreshToken(token string) string {
 
 func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[authv1.CreateApiKeyRequest]) (*connect.Response[authv1.CreateApiKeyResponse], error) {
 	if s.apiKeys == nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
+		return nil, ErrNoApiKeyStore
 	}
 
 	authCtx, err := s.requireAuth(ctx)
@@ -323,7 +329,7 @@ func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[aut
 
 	ownerType := apiKeyOwnerTypeToString(req.Msg.GetOwnerType())
 	if ownerType == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("owner_type is required"))
+		return nil, fieldRequiredError("owner_type")
 	}
 
 	ownerID := req.Msg.GetOwnerId()
@@ -332,7 +338,7 @@ func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[aut
 	}
 
 	if len(req.Msg.Scopes) == 0 {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("scopes are required"))
+		return nil, fieldRequiredError("scopes")
 	}
 
 	exp := time.Time{}
@@ -367,7 +373,7 @@ func (s *AuthService) CreateApiKey(ctx context.Context, req *connect.Request[aut
 
 func (s *AuthService) ListApiKeys(ctx context.Context, req *connect.Request[authv1.ListApiKeysRequest]) (*connect.Response[authv1.ListApiKeysResponse], error) {
 	if s.apiKeys == nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
+		return nil, ErrNoApiKeyStore
 	}
 
 	authCtx, err := s.requireAuth(ctx)
@@ -384,7 +390,7 @@ func (s *AuthService) ListApiKeys(ctx context.Context, req *connect.Request[auth
 
 	keys, err := s.apiKeys.ListByOwner(ctx, ownerType, ownerID)
 	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
+		return nil, internalError(err)
 	}
 
 	resp := &authv1.ListApiKeysResponse{ApiKeys: make([]*authv1.ApiKey, 0, len(keys))}
@@ -398,7 +404,7 @@ func (s *AuthService) ListApiKeys(ctx context.Context, req *connect.Request[auth
 
 func (s *AuthService) RevokeApiKey(ctx context.Context, req *connect.Request[authv1.RevokeApiKeyRequest]) (*connect.Response[authv1.RevokeApiKeyResponse], error) {
 	if s.apiKeys == nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
+		return nil, ErrNoApiKeyStore
 	}
 
 	authCtx, err := s.requireAuth(ctx)
@@ -416,7 +422,7 @@ func (s *AuthService) RevokeApiKey(ctx context.Context, req *connect.Request[aut
 	}
 
 	if err := s.apiKeys.Revoke(ctx, req.Msg.GetId(), req.Msg.GetReason()); err != nil {
-		return nil, connect.NewError(connect.CodeInternal, err)
+		return nil, internalError(err)
 	}
 
 	return connect.NewResponse(&authv1.RevokeApiKeyResponse{}), nil
@@ -424,7 +430,7 @@ func (s *AuthService) RevokeApiKey(ctx context.Context, req *connect.Request[aut
 
 func (s *AuthService) RotateApiKey(ctx context.Context, req *connect.Request[authv1.RotateApiKeyRequest]) (*connect.Response[authv1.RotateApiKeyResponse], error) {
 	if s.apiKeys == nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("api key store not configured"))
+		return nil, ErrNoApiKeyStore
 	}
 
 	authCtx, err := s.requireAuth(ctx)

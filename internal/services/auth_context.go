@@ -2,9 +2,7 @@ package services
 
 import (
 	"context"
-	"errors"
 
-	"connectrpc.com/connect"
 	"github.com/terrabase-dev/terrabase/internal/auth"
 	authv1 "github.com/terrabase-dev/terrabase/specs/terrabase/auth/v1"
 	authzv1 "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
@@ -16,7 +14,7 @@ type AuthAware struct{}
 func (AuthAware) requireAuth(ctx context.Context) (*auth.Context, error) {
 	authCtx, ok := auth.FromContext(ctx)
 	if !ok || !authCtx.Authenticated {
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+		return nil, ErrUnauthenticated
 	}
 
 	return authCtx, nil
@@ -24,7 +22,7 @@ func (AuthAware) requireAuth(ctx context.Context) (*auth.Context, error) {
 
 func (a AuthAware) requireAdminOrSelf(authCtx *auth.Context, ownerType string, ownerID string) error {
 	if authCtx == nil {
-		return connect.NewError(connect.CodeUnauthenticated, errors.New("unauthenticated"))
+		return ErrUnauthenticated
 	}
 
 	if authCtx.HasScope(authzv1.Scope_SCOPE_ADMIN) {
@@ -35,7 +33,7 @@ func (a AuthAware) requireAdminOrSelf(authCtx *auth.Context, ownerType string, o
 		return nil
 	}
 
-	return connect.NewError(connect.CodePermissionDenied, errors.New("permission denied"))
+	return ErrPermissionDenied
 }
 
 func scopesForRole(role userRolev1.UserRole) []authzv1.Scope {

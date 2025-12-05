@@ -25,7 +25,7 @@ func NewUserService(repo *repos.UserRepo, logger *log.Logger) *UserService {
 
 func (s *UserService) GetUser(ctx context.Context, req *connect.Request[userv1.GetUserRequest]) (*connect.Response[userv1.GetUserResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	user, err := s.repo.Get(ctx, req.Msg.GetId())
@@ -35,7 +35,7 @@ func (s *UserService) GetUser(ctx context.Context, req *connect.Request[userv1.G
 
 	userProto, err := user.ToProto()
 	if err != nil {
-		return nil, connect.NewError(connect.CodeUnknown, err)
+		return nil, unknownError(err)
 	}
 
 	return connect.NewResponse(&userv1.GetUserResponse{User: userProto}), nil
@@ -47,7 +47,7 @@ func (s *UserService) ListUsers(ctx context.Context, req *connect.Request[userv1
 
 func (s *UserService) UpdateUser(ctx context.Context, req *connect.Request[userv1.UpdateUserRequest]) (*connect.Response[userv1.UpdateUserResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.Name, req.Msg.Email, (*int32)(req.Msg.DefaultRole))
@@ -60,7 +60,7 @@ func (s *UserService) UpdateUser(ctx context.Context, req *connect.Request[userv
 
 func (s *UserService) DeleteUser(ctx context.Context, req *connect.Request[userv1.DeleteUserRequest]) (*connect.Response[userv1.DeleteUserResponse], error) {
 	if req.Msg.GetId() == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
+		return nil, ErrIdRequired
 	}
 
 	authCtx, err := s.requireAuth(ctx)
