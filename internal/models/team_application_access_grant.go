@@ -36,7 +36,7 @@ func TeamApplicationAccessGrantFromProto(teamApplicationAccessGrant *teamApplica
 	}
 }
 
-func (t *TeamApplicationAccessGrant) ToProto() (*teamApplicationAccessGrantv1.TeamApplicationAccessGrant, error) {
+func (t *TeamApplicationAccessGrant) ToProto() *teamApplicationAccessGrantv1.TeamApplicationAccessGrant {
 	return &teamApplicationAccessGrantv1.TeamApplicationAccessGrant{
 		Id:            t.ID,
 		TeamId:        t.TeamID,
@@ -44,7 +44,7 @@ func (t *TeamApplicationAccessGrant) ToProto() (*teamApplicationAccessGrantv1.Te
 		AccessType:    t.AccessType,
 		CreatedAt:     timestamppb.New(t.CreatedAt.UTC()),
 		UpdatedAt:     timestamppb.New(t.UpdatedAt.UTC()),
-	}, nil
+	}
 }
 
 func (t *TeamApplicationAccessGrant) SetUpdatedAt(updatedAt time.Time) {

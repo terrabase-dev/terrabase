@@ -26,9 +26,9 @@ type S3BackendConfig struct {
 	Workspace *Workspace `bun:"rel:belongs-to,join:workspace_id=id"`
 }
 
-func S3BackendConfigFromProto(s3BackendConfig *s3backendconfigv1.S3BackendConfig) (*S3BackendConfig, error) {
+func S3BackendConfigFromProto(s3BackendConfig *s3backendconfigv1.S3BackendConfig) *S3BackendConfig {
 	if s3BackendConfig == nil {
-		return &S3BackendConfig{}, nil
+		return &S3BackendConfig{}
 	}
 
 	res := &S3BackendConfig{
@@ -49,10 +49,10 @@ func S3BackendConfigFromProto(s3BackendConfig *s3backendconfigv1.S3BackendConfig
 		res.DynamoDBLock = false
 	}
 
-	return res, nil
+	return res
 }
 
-func (s *S3BackendConfig) ToProto() (*s3backendconfigv1.S3BackendConfig, error) {
+func (s *S3BackendConfig) ToProto() *s3backendconfigv1.S3BackendConfig {
 	res := &s3backendconfigv1.S3BackendConfig{
 		Id:          s.ID,
 		WorkspaceId: s.WorkspaceID,
@@ -73,7 +73,7 @@ func (s *S3BackendConfig) ToProto() (*s3backendconfigv1.S3BackendConfig, error) 
 		res.DynamodbLock = false
 	}
 
-	return res, nil
+	return res
 }
 
 func (a *S3BackendConfig) SetUpdatedAt(updatedAt time.Time) {

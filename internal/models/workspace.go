@@ -22,9 +22,9 @@ type Workspace struct {
 	S3BackendConfigRef *S3BackendConfig `bun:"rel:has-one,join:id=workspace_id"`
 }
 
-func WorkspaceFromProto(workspace *workspacev1.Workspace) (*Workspace, error) {
+func WorkspaceFromProto(workspace *workspacev1.Workspace) *Workspace {
 	if workspace == nil {
-		return &Workspace{}, nil
+		return &Workspace{}
 	}
 
 	res := &Workspace{
@@ -37,10 +37,10 @@ func WorkspaceFromProto(workspace *workspacev1.Workspace) (*Workspace, error) {
 		res.EnvironmentID = *workspace.EnvironmentId
 	}
 
-	return res, nil
+	return res
 }
 
-func (w *Workspace) ToProto() (*workspacev1.Workspace, error) {
+func (w *Workspace) ToProto() *workspacev1.Workspace {
 	res := &workspacev1.Workspace{
 		Id:          w.ID,
 		Name:        w.Name,
@@ -53,7 +53,7 @@ func (w *Workspace) ToProto() (*workspacev1.Workspace, error) {
 		res.EnvironmentId = &w.EnvironmentID
 	}
 
-	return res, nil
+	return res
 }
 
 func (w *Workspace) SetUpdatedAt(updatedAt time.Time) {

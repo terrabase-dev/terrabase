@@ -8,6 +8,6 @@ import (
 
 type TerrabaseModel[P proto.Message] interface {
 	SetUpdatedAt(updatedAt time.Time)
-	ToProto() (P, error)
+	ToProto() P
 	ModelName() string
 }

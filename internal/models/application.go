@@ -31,13 +31,13 @@ func ApplicationFromProto(application *applicationv1.Application) *Application {
 	}
 }
 
-func (a *Application) ToProto() (*applicationv1.Application, error) {
+func (a *Application) ToProto() *applicationv1.Application {
 	return &applicationv1.Application{
 		Id:        a.ID,
 		Name:      a.Name,
 		CreatedAt: timestamppb.New(a.CreatedAt.UTC()),
 		UpdatedAt: timestamppb.New(a.UpdatedAt.UTC()),
-	}, nil
+	}
 }
 
 func (a *Application) SetUpdatedAt(updatedAt time.Time) {

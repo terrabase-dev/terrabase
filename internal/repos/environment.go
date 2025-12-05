@@ -45,12 +45,7 @@ func (r *EnvironmentRepo) List(ctx context.Context, applicationId string) ([]*en
 	environments := make([]*environmentv1.Environment, 0, len(models))
 
 	for i := range models {
-		environmentProto, err := models[i].ToProto()
-		if err != nil {
-			return nil, err
-		}
-
-		environments = append(environments, environmentProto)
+		environments = append(environments, models[i].ToProto())
 	}
 
 	return environments, nil

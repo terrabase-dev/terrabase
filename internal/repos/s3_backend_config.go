@@ -19,10 +19,7 @@ func NewS3BackendConfigRepo(db *bun.DB) *S3BackendConfigRepo {
 }
 
 func (r *S3BackendConfigRepo) Create(ctx context.Context, s3BackendConfig *s3backendconfigv1.S3BackendConfig) (*s3backendconfigv1.S3BackendConfig, error) {
-	model, err := models.S3BackendConfigFromProto(s3BackendConfig)
-	if err != nil {
-		return nil, err
-	}
+	model := models.S3BackendConfigFromProto(s3BackendConfig)
 
 	if model.ID == "" {
 		model.ID = uuidString()

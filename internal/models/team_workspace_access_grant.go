@@ -36,7 +36,7 @@ func TeamWorkspaceAccessGrantFromProto(teamWorkspaceAccessGrant *teamWorkspaceAc
 	}
 }
 
-func (t *TeamWorkspaceAccessGrant) ToProto() (*teamWorkspaceAccessGrantv1.TeamWorkspaceAccessGrant, error) {
+func (t *TeamWorkspaceAccessGrant) ToProto() *teamWorkspaceAccessGrantv1.TeamWorkspaceAccessGrant {
 	return &teamWorkspaceAccessGrantv1.TeamWorkspaceAccessGrant{
 		Id:          t.ID,
 		TeamId:      t.TeamID,
@@ -44,7 +44,7 @@ func (t *TeamWorkspaceAccessGrant) ToProto() (*teamWorkspaceAccessGrantv1.TeamWo
 		AccessType:  t.AccessType,
 		CreatedAt:   timestamppb.New(t.CreatedAt.UTC()),
 		UpdatedAt:   timestamppb.New(t.UpdatedAt.UTC()),
-	}, nil
+	}
 }
 
 func (t *TeamWorkspaceAccessGrant) SetUpdatedAt(updatedAt time.Time) {

@@ -32,14 +32,14 @@ func TeamFromProto(team *teamv1.Team) *Team {
 	}
 }
 
-func (t *Team) ToProto() (*teamv1.Team, error) {
+func (t *Team) ToProto() *teamv1.Team {
 	return &teamv1.Team{
 		Id:             t.ID,
 		Name:           t.Name,
 		OrganizationId: t.OrganizationID,
 		CreatedAt:      timestamppb.New(t.CreatedAt.UTC()),
 		UpdatedAt:      timestamppb.New(t.UpdatedAt.UTC()),
-	}, nil
+	}
 }
 
 func (t *Team) SetUpdatedAt(updatedAt time.Time) {
