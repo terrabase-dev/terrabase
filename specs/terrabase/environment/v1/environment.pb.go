@@ -7,6 +7,7 @@
 package environmentv1
 
 import (
+	_ "github.com/terrabase-dev/terrabase/specs/terrabase/authz/v1"
 	v1 "github.com/terrabase-dev/terrabase/specs/terrabase/workspace/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -578,7 +579,7 @@ var File_terrabase_environment_v1_environment_proto protoreflect.FileDescriptor
 
 const file_terrabase_environment_v1_environment_proto_rawDesc = "" +
 	"\n" +
-	"*terrabase/environment/v1/environment.proto\x12\x18terrabase.environment.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&terrabase/workspace/v1/workspace.proto\"\xce\x01\n" +
+	"*terrabase/environment/v1/environment.proto\x12\x18terrabase.environment.v1\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1eterrabase/authz/v1/authz.proto\x1a&terrabase/workspace/v1/workspace.proto\"\xce\x01\n" +
 	"\vEnvironment\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12%\n" +
@@ -609,13 +610,16 @@ const file_terrabase_environment_v1_environment_proto_rawDesc = "" +
 	"\venvironment\x18\x01 \x01(\v2%.terrabase.environment.v1.EnvironmentR\venvironment\"/\n" +
 	"\x18DeleteEnvironmentRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\"\x1b\n" +
-	"\x19DeleteEnvironmentResponse2\xfe\x04\n" +
-	"\x12EnvironmentService\x12|\n" +
-	"\x11CreateEnvironment\x122.terrabase.environment.v1.CreateEnvironmentRequest\x1a3.terrabase.environment.v1.CreateEnvironmentResponse\x12s\n" +
-	"\x0eGetEnvironment\x12/.terrabase.environment.v1.GetEnvironmentRequest\x1a0.terrabase.environment.v1.GetEnvironmentResponse\x12y\n" +
-	"\x10ListEnvironments\x121.terrabase.environment.v1.ListEnvironmentsRequest\x1a2.terrabase.environment.v1.ListEnvironmentsResponse\x12|\n" +
-	"\x11UpdateEnvironment\x122.terrabase.environment.v1.UpdateEnvironmentRequest\x1a3.terrabase.environment.v1.UpdateEnvironmentResponse\x12|\n" +
-	"\x11DeleteEnvironment\x122.terrabase.environment.v1.DeleteEnvironmentRequest\x1a3.terrabase.environment.v1.DeleteEnvironmentResponseBQZOgithub.com/terrabase-dev/terrabase/specs/terrabase/environment/v1;environmentv1b\x06proto3"
+	"\x19DeleteEnvironmentResponse2\xc1\x05\n" +
+	"\x12EnvironmentService\x12\x88\x01\n" +
+	"\x11CreateEnvironment\x122.terrabase.environment.v1.CreateEnvironmentRequest\x1a3.terrabase.environment.v1.CreateEnvironmentResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\b\x12\x80\x01\n" +
+	"\x0eGetEnvironment\x12/.terrabase.environment.v1.GetEnvironmentRequest\x1a0.terrabase.environment.v1.GetEnvironmentResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\t\b\x12\x86\x01\n" +
+	"\x10ListEnvironments\x121.terrabase.environment.v1.ListEnvironmentsRequest\x1a2.terrabase.environment.v1.ListEnvironmentsResponse\"\v\x88\xb5\x18\x01\x92\xb5\x18\x03\x01\t\b\x12\x88\x01\n" +
+	"\x11UpdateEnvironment\x122.terrabase.environment.v1.UpdateEnvironmentRequest\x1a3.terrabase.environment.v1.UpdateEnvironmentResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\b\x12\x88\x01\n" +
+	"\x11DeleteEnvironment\x122.terrabase.environment.v1.DeleteEnvironmentRequest\x1a3.terrabase.environment.v1.DeleteEnvironmentResponse\"\n" +
+	"\x88\xb5\x18\x01\x92\xb5\x18\x02\x01\bBQZOgithub.com/terrabase-dev/terrabase/specs/terrabase/environment/v1;environmentv1b\x06proto3"
 
 var (
 	file_terrabase_environment_v1_environment_proto_rawDescOnce sync.Once

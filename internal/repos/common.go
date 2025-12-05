@@ -26,7 +26,7 @@ func rowCount(res sql.Result) int64 {
 	return n
 }
 
-func create[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db *bun.DB, model T) (P, error) {
+func create[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db bun.IDB, model T) (P, error) {
 	_, err := db.NewInsert().Model(model).Returning("*").Exec(ctx)
 	if err != nil {
 		var zero P
@@ -91,7 +91,7 @@ func paginate[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, 
 	return results, nextToken, nil
 }
 
-func update[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db *bun.DB, model T, columns ...string) (P, error) {
+func update[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db bun.IDB, model T, columns ...string) (P, error) {
 	model.SetUpdatedAt(time.Now().UTC())
 
 	columns = append(columns, "updated_at")
@@ -110,7 +110,7 @@ func update[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db
 	return model.ToProto(), nil
 }
 
-func delete[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db *bun.DB, model T, id string) error {
+func delete[T models.TerrabaseModel[P], P proto.Message](ctx context.Context, db bun.IDB, model T, id string) error {
 	res, err := db.NewDelete().Model(model).Where("id = ?", id).Exec(ctx)
 	if err != nil {
 		return err

@@ -19,6 +19,13 @@ func NewEnvironmentRepo(db *bun.DB) *EnvironmentRepo {
 }
 
 func (r *EnvironmentRepo) Create(ctx context.Context, environment *environmentv1.Environment) (*environmentv1.Environment, error) {
+	// Ensure the application exists
+	applicationModel := new(models.Application)
+	applicationId := environment.GetApplicationId()
+	if _, err := get(ctx, r.db.NewSelect().Model(applicationModel), applicationModel, applicationId); err != nil {
+		return nil, err
+	}
+
 	model := models.EnvironmentFromProto(environment)
 
 	if model.ID == "" {

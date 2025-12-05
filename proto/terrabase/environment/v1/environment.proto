@@ -4,6 +4,7 @@ package terrabase.environment.v1;
 
 import "google/api/field_behavior.proto";
 import "google/protobuf/timestamp.proto";
+import "terrabase/authz/v1/authz.proto";
 import "terrabase/workspace/v1/workspace.proto";
 
 option go_package = "github.com/terrabase-dev/terrabase/specs/terrabase/environment/v1;environmentv1";
@@ -84,17 +85,39 @@ message DeleteEnvironmentResponse {}
 
 service EnvironmentService {
   // Create a new environment
-  rpc CreateEnvironment(CreateEnvironmentRequest) returns (CreateEnvironmentResponse);
+  rpc CreateEnvironment(CreateEnvironmentRequest) returns (CreateEnvironmentResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ENVIRONMENT_WRITE;
+  }
 
   // Retrieve details about a specific environment
-  rpc GetEnvironment(GetEnvironmentRequest) returns (GetEnvironmentResponse);
+  rpc GetEnvironment(GetEnvironmentRequest) returns (GetEnvironmentResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ENVIRONMENT_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ENVIRONMENT_WRITE;
+  }
 
   // List environments that belong to an application
-  rpc ListEnvironments(ListEnvironmentsRequest) returns (ListEnvironmentsResponse);
+  rpc ListEnvironments(ListEnvironmentsRequest) returns (ListEnvironmentsResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ENVIRONMENT_READ;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ENVIRONMENT_WRITE;
+  }
 
   // Change details about an environment
-  rpc UpdateEnvironment(UpdateEnvironmentRequest) returns (UpdateEnvironmentResponse);
+  rpc UpdateEnvironment(UpdateEnvironmentRequest) returns (UpdateEnvironmentResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ENVIRONMENT_WRITE;
+  }
 
   // Delete an environment
-  rpc DeleteEnvironment(DeleteEnvironmentRequest) returns (DeleteEnvironmentResponse);
+  rpc DeleteEnvironment(DeleteEnvironmentRequest) returns (DeleteEnvironmentResponse) {
+    option (terrabase.authz.v1.auth_required) = true;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ADMIN;
+    option (terrabase.authz.v1.required_scopes) = SCOPE_ENVIRONMENT_WRITE;
+  }
 }

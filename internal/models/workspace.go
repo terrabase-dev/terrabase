@@ -18,8 +18,9 @@ type Workspace struct {
 	CreatedAt     time.Time               `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt     time.Time               `bun:",nullzero,notnull,default:current_timestamp"`
 
-	EnvironmentRef     *Environment     `bun:"rel:belongs-to;join:environment_id:id"`
-	S3BackendConfigRef *S3BackendConfig `bun:"rel:has-one,join:id=workspace_id"`
+	EnvironmentRef               *Environment                `bun:"rel:belongs-to;join:environment_id:id"`
+	S3BackendConfigRef           *S3BackendConfig            `bun:"rel:has-one,join:id=workspace_id"`
+	TeamWorkspaceAccessGrantsRef []*TeamWorkspaceAccessGrant `bun:"rel:has-many,join:workspace_id=id"`
 }
 
 func WorkspaceFromProto(workspace *workspacev1.Workspace) *Workspace {

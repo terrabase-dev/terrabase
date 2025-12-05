@@ -4,37 +4,43 @@ import (
 	"context"
 
 	"github.com/terrabase-dev/terrabase/internal/models"
-	s3backendconfigv1 "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1"
+	s3BackendConfigv1 "github.com/terrabase-dev/terrabase/specs/terrabase/s3_backend_config/v1"
 	"github.com/uptrace/bun"
 )
 
 type S3BackendConfigRepo struct {
-	db *bun.DB
+	db bun.IDB
 }
 
 func NewS3BackendConfigRepo(db *bun.DB) *S3BackendConfigRepo {
-	return &S3BackendConfigRepo{
-		db: db,
-	}
+	return &S3BackendConfigRepo{db: db}
 }
 
-func (r *S3BackendConfigRepo) Create(ctx context.Context, s3BackendConfig *s3backendconfigv1.S3BackendConfig) (*s3backendconfigv1.S3BackendConfig, error) {
-	model := models.S3BackendConfigFromProto(s3BackendConfig)
+func (r *S3BackendConfigRepo) WithTx(tx bun.Tx) *S3BackendConfigRepo {
+	return &S3BackendConfigRepo{db: tx}
+}
 
-	if model.ID == "" {
-		model.ID = uuidString()
-	}
+func (r *S3BackendConfigRepo) Create(ctx context.Context, s3BackendConfig *s3BackendConfigv1.S3BackendConfig) (*s3BackendConfigv1.S3BackendConfig, error) {
+	model := r.createWithId(s3BackendConfig)
 
 	return create(ctx, r.db, model)
 }
 
-func (r *S3BackendConfigRepo) Get(ctx context.Context, id string) (*s3backendconfigv1.S3BackendConfig, error) {
+func (r *S3BackendConfigRepo) CreateForWorkspace(ctx context.Context, s3BackendConfig *s3BackendConfigv1.S3BackendConfig, workspaceId string) (*s3BackendConfigv1.S3BackendConfig, error) {
+	model := r.createWithId(s3BackendConfig)
+
+	model.WorkspaceID = workspaceId
+
+	return create(ctx, r.db, model)
+}
+
+func (r *S3BackendConfigRepo) Get(ctx context.Context, id string) (*s3BackendConfigv1.S3BackendConfig, error) {
 	model := new(models.S3BackendConfig)
 
 	return get(ctx, r.db.NewSelect().Model(model), model, id)
 }
 
-func (r *S3BackendConfigRepo) Update(ctx context.Context, id string, workspaceId *string, bucket *string, key *string, region *string, dynamodbLock *bool, s3Lock *bool, encrypt *bool, dynamodbTable *string) (*s3backendconfigv1.S3BackendConfig, error) {
+func (r *S3BackendConfigRepo) Update(ctx context.Context, id string, workspaceId *string, bucket *string, key *string, region *string, dynamodbLock *bool, s3Lock *bool, encrypt *bool, dynamodbTable *string) (*s3BackendConfigv1.S3BackendConfig, error) {
 	model := new(models.S3BackendConfig)
 
 	if _, err := get(ctx, r.db.NewSelect().Model(model), model, id); err != nil {
@@ -55,4 +61,14 @@ func (r *S3BackendConfigRepo) Update(ctx context.Context, id string, workspaceId
 
 func (r *S3BackendConfigRepo) Delete(ctx context.Context, id string) error {
 	return delete(ctx, r.db, (*models.S3BackendConfig)(nil), id)
+}
+
+func (r *S3BackendConfigRepo) createWithId(s3BackendConfig *s3BackendConfigv1.S3BackendConfig) *models.S3BackendConfig {
+	model := models.S3BackendConfigFromProto(s3BackendConfig)
+
+	if model.ID == "" {
+		model.ID = uuidString()
+	}
+
+	return model
 }

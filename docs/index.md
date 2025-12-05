@@ -392,11 +392,11 @@ A Terrabase application can be deployed in multiple environments, each with thei
 
 | Name | Request | Response | Authentication Required | Required Scopes | Description |
 | --- | --- | --- | --- | --- | --- |
-| `CreateEnvironment` | [CreateEnvironmentRequest](#createenvironmentrequest-environmentv1) | [CreateEnvironmentResponse](#createenvironmentresponse-environmentv1) | `false` |  | Create a new environment |
-| `GetEnvironment` | [GetEnvironmentRequest](#getenvironmentrequest-environmentv1) | [GetEnvironmentResponse](#getenvironmentresponse-environmentv1) | `false` |  | Retrieve details about a specific environment |
-| `ListEnvironments` | [ListEnvironmentsRequest](#listenvironmentsrequest-environmentv1) | [ListEnvironmentsResponse](#listenvironmentsresponse-environmentv1) | `false` |  | List environments that belong to an application |
-| `UpdateEnvironment` | [UpdateEnvironmentRequest](#updateenvironmentrequest-environmentv1) | [UpdateEnvironmentResponse](#updateenvironmentresponse-environmentv1) | `false` |  | Change details about an environment |
-| `DeleteEnvironment` | [DeleteEnvironmentRequest](#deleteenvironmentrequest-environmentv1) | [DeleteEnvironmentResponse](#deleteenvironmentresponse-environmentv1) | `false` |  | Delete an environment |
+| `CreateEnvironment` | [CreateEnvironmentRequest](#createenvironmentrequest-environmentv1) | [CreateEnvironmentResponse](#createenvironmentresponse-environmentv1) | `true` | `SCOPE_ADMIN`, `SCOPE_ENVIRONMENT_WRITE` | Create a new environment |
+| `GetEnvironment` | [GetEnvironmentRequest](#getenvironmentrequest-environmentv1) | [GetEnvironmentResponse](#getenvironmentresponse-environmentv1) | `true` | `SCOPE_ADMIN`, `SCOPE_ENVIRONMENT_READ`, `SCOPE_ENVIRONMENT_WRITE` | Retrieve details about a specific environment |
+| `ListEnvironments` | [ListEnvironmentsRequest](#listenvironmentsrequest-environmentv1) | [ListEnvironmentsResponse](#listenvironmentsresponse-environmentv1) | `true` | `SCOPE_ADMIN`, `SCOPE_ENVIRONMENT_READ`, `SCOPE_ENVIRONMENT_WRITE` | List environments that belong to an application |
+| `UpdateEnvironment` | [UpdateEnvironmentRequest](#updateenvironmentrequest-environmentv1) | [UpdateEnvironmentResponse](#updateenvironmentresponse-environmentv1) | `true` | `SCOPE_ADMIN`, `SCOPE_ENVIRONMENT_WRITE` | Change details about an environment |
+| `DeleteEnvironment` | [DeleteEnvironmentRequest](#deleteenvironmentrequest-environmentv1) | [DeleteEnvironmentResponse](#deleteenvironmentresponse-environmentv1) | `true` | `SCOPE_ADMIN`, `SCOPE_ENVIRONMENT_WRITE` | Delete an environment |
 
 ### Environment (environment.v1)
 

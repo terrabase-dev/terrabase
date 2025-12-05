@@ -10,13 +10,15 @@ import (
 )
 
 type TeamWorkspaceAccessGrantRepo struct {
-	db *bun.DB
+	db bun.IDB
 }
 
 func NewTeamWorkspaceRepo(db *bun.DB) *TeamWorkspaceAccessGrantRepo {
-	return &TeamWorkspaceAccessGrantRepo{
-		db: db,
-	}
+	return &TeamWorkspaceAccessGrantRepo{db: db}
+}
+
+func (r *TeamWorkspaceAccessGrantRepo) WithTx(tx bun.Tx) *TeamWorkspaceAccessGrantRepo {
+	return &TeamWorkspaceAccessGrantRepo{db: tx}
 }
 
 func (r *TeamWorkspaceAccessGrantRepo) Create(ctx context.Context, teamWorkspaceAccessGrant *teamWorkspaceAccessGrantv1.TeamWorkspaceAccessGrant) (*teamWorkspaceAccessGrantv1.TeamWorkspaceAccessGrant, error) {

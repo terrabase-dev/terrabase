@@ -2,6 +2,7 @@ package repos
 
 import (
 	"context"
+	"errors"
 
 	"github.com/terrabase-dev/terrabase/internal/models"
 	teamAccessTypev1 "github.com/terrabase-dev/terrabase/specs/terrabase/team_access_type/v1"
@@ -53,6 +54,10 @@ func (r *TeamApplicationAccessGrantRepo) List(ctx context.Context, teamId *strin
 	var teamApplicationAccessGrants []*models.TeamApplicationAccessGrant
 
 	query := r.db.NewSelect().Model(&teamApplicationAccessGrants).Order("updated_at DESC")
+
+	if teamId != nil && applicationId != nil {
+		return nil, "", errors.New("cannot provide both team_id and application_id")
+	}
 
 	if teamId != nil {
 		// Ensure the team exists

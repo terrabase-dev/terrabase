@@ -17,7 +17,7 @@ type Application struct {
 	UpdatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
 
 	TeamRef                        *Team                         `bun:"rel:belongs-to,join:team_id=id"`
-	TeamApplicationAccessGrantsRef *[]TeamApplicationAccessGrant `bun:"rel:has-many,join:application_id=id"`
+	TeamApplicationAccessGrantsRef []*TeamApplicationAccessGrant `bun:"rel:has-many,join:application_id=id"`
 }
 
 func ApplicationFromProto(application *applicationv1.Application) *Application {
