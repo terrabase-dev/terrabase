@@ -80,11 +80,24 @@ func (r *WorkspaceRepo) Update(ctx context.Context, id string, name *string, bac
 		return nil, err
 	}
 
-	model.Name = *name
-	model.BackendType = *backendType
-	model.EnvironmentID = *environmentId
+	colsToUpdate := make([]string, 0, 3)
 
-	return update(ctx, r.db, model, "name", "backend_type", "environment_id")
+	if name != nil {
+		model.Name = *name
+		colsToUpdate = append(colsToUpdate, "name")
+	}
+
+	if backendType != nil {
+		model.BackendType = *backendType
+		colsToUpdate = append(colsToUpdate, "backend_type")
+	}
+
+	if environmentId != nil {
+		model.EnvironmentID = *environmentId
+		colsToUpdate = append(colsToUpdate, "environment_id")
+	}
+
+	return update(ctx, r.db, model, colsToUpdate...)
 }
 
 func (r *WorkspaceRepo) Delete(ctx context.Context, id string) error {

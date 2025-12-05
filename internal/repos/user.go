@@ -126,21 +126,26 @@ func (r *UserRepo) Update(ctx context.Context, id string, name *string, email *s
 		return nil, err
 	}
 
+	colsToUpdate := make([]string, 0, 3)
+
 	if name != nil {
 		user.Name = *name
+		colsToUpdate = append(colsToUpdate, "name")
 	}
 
 	if email != nil {
 		user.Email = *email
+		colsToUpdate = append(colsToUpdate, "email")
 	}
 
 	if default_role != nil {
 		user.DefaultRole = *default_role
+		colsToUpdate = append(colsToUpdate, "default_role")
 	}
 
 	user.UpdatedAt = time.Now().UTC()
 
-	_, err = r.db.NewUpdate().Model(&user).Column("name", "email", "default_role").WherePK().Exec(ctx)
+	_, err = r.db.NewUpdate().Model(&user).Column(colsToUpdate...).WherePK().Exec(ctx)
 	if err != nil {
 		if isUniqueViolation(err) {
 			return nil, fmt.Errorf("user: %w", ErrAlreadyExists)

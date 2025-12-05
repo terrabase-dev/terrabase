@@ -40,14 +40,14 @@ func (r *TeamRepo) List(ctx context.Context, pageSize int32, pageToken string) (
 	return paginate(ctx, r.db.NewSelect().Model(&models).Order("created_at DESC"), &models, pageSize, pageToken)
 }
 
-func (r *TeamRepo) Update(ctx context.Context, id string, name *string) (*teamv1.Team, error) {
+func (r *TeamRepo) Update(ctx context.Context, id string, name string) (*teamv1.Team, error) {
 	model := new(models.Team)
 
 	if _, err := get(ctx, r.db.NewSelect().Model(model), model, id); err != nil {
 		return nil, err
 	}
 
-	model.Name = *name
+	model.Name = name
 
 	return update(ctx, r.db, model, "name")
 }

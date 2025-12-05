@@ -47,16 +47,49 @@ func (r *S3BackendConfigRepo) Update(ctx context.Context, id string, workspaceId
 		return nil, err
 	}
 
-	model.WorkspaceID = *workspaceId
-	model.Bucket = *bucket
-	model.Key = *key
-	model.Region = *region
-	model.DynamoDBLock = *dynamodbLock
-	model.S3Lock = *s3Lock
-	model.Encrypt = *encrypt
-	model.DynamoDBTable = *dynamodbTable
+	colsToUpdate := make([]string, 0, 8)
 
-	return update(ctx, r.db, model, "workspace_id", "bucket", "key", "region", "dynamodb_lock", "s3_lock", "encrypt", "dynamodb_table")
+	if workspaceId != nil {
+		model.WorkspaceID = *workspaceId
+		colsToUpdate = append(colsToUpdate, "workspace_id")
+	}
+
+	if bucket != nil {
+		model.Bucket = *bucket
+		colsToUpdate = append(colsToUpdate, "bucket")
+	}
+
+	if key != nil {
+		model.Key = *key
+		colsToUpdate = append(colsToUpdate, "key")
+	}
+
+	if region != nil {
+		model.Region = *region
+		colsToUpdate = append(colsToUpdate, "region")
+	}
+
+	if dynamodbLock != nil {
+		model.DynamoDBLock = *dynamodbLock
+		colsToUpdate = append(colsToUpdate, "dynamodb_lock")
+	}
+
+	if s3Lock != nil {
+		model.S3Lock = *s3Lock
+		colsToUpdate = append(colsToUpdate, "s3_lock")
+	}
+
+	if encrypt != nil {
+		model.Encrypt = *encrypt
+		colsToUpdate = append(colsToUpdate, "encrypt")
+	}
+
+	if dynamodbTable != nil {
+		model.DynamoDBTable = *dynamodbTable
+		colsToUpdate = append(colsToUpdate, "dynamodb_table")
+	}
+
+	return update(ctx, r.db, model, colsToUpdate...)
 }
 
 func (r *S3BackendConfigRepo) Delete(ctx context.Context, id string) error {

@@ -453,7 +453,7 @@ A Terrabase environment is a business environment that an application is deploye
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `true` | The unique ID of the environment to update |
-| `name` | string |  | `false` | The new name of the environment |
+| `name` | string |  | `true` | The new name of the environment |
 
 ### UpdateEnvironmentResponse (environment.v1)
 

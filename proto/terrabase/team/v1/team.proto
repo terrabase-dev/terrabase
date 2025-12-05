@@ -75,7 +75,7 @@ message UpdateTeamRequest {
   string id = 1 [(google.api.field_behavior) = REQUIRED];
 
   // The new name of the team
-  optional string name = 2;
+  string name = 2 [(google.api.field_behavior) = REQUIRED];
 }
 
 message UpdateTeamResponse {

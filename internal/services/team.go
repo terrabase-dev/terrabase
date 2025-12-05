@@ -83,11 +83,11 @@ func (s *TeamService) UpdateTeam(ctx context.Context, req *connect.Request[teamv
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("id is required"))
 	}
 
-	if req.Msg.Name == nil {
+	if req.Msg.GetName() == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("no updates provided"))
 	}
 
-	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.Name)
+	updated, err := s.repo.Update(ctx, req.Msg.GetId(), req.Msg.GetName())
 	if err != nil {
 		return nil, mapError(err)
 	}

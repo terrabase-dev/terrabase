@@ -58,14 +58,14 @@ func (r *EnvironmentRepo) List(ctx context.Context, applicationId string) ([]*en
 	return environments, nil
 }
 
-func (r *EnvironmentRepo) Update(ctx context.Context, id string, name *string) (*environmentv1.Environment, error) {
+func (r *EnvironmentRepo) Update(ctx context.Context, id string, name string) (*environmentv1.Environment, error) {
 	model := new(models.Environment)
 
 	if _, err := get(ctx, r.db.NewSelect().Model(model), model, id); err != nil {
 		return nil, err
 	}
 
-	model.Name = *name
+	model.Name = name
 
 	return update(ctx, r.db, model, "name")
 }

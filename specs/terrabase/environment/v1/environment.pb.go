@@ -400,7 +400,7 @@ type UpdateEnvironmentRequest struct {
 	// The unique ID of the environment to update
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The new name of the environment
-	Name          *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -443,8 +443,8 @@ func (x *UpdateEnvironmentRequest) GetId() string {
 }
 
 func (x *UpdateEnvironmentRequest) GetName() string {
-	if x != nil && x.Name != nil {
-		return *x.Name
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -601,11 +601,10 @@ const file_terrabase_environment_v1_environment_proto_rawDesc = "" +
 	"\x17ListEnvironmentsRequest\x12*\n" +
 	"\x0eapplication_id\x18\x01 \x01(\tB\x03\xe0A\x02R\rapplicationId\"e\n" +
 	"\x18ListEnvironmentsResponse\x12I\n" +
-	"\fenvironments\x18\x01 \x03(\v2%.terrabase.environment.v1.EnvironmentR\fenvironments\"Q\n" +
+	"\fenvironments\x18\x01 \x03(\v2%.terrabase.environment.v1.EnvironmentR\fenvironments\"H\n" +
 	"\x18UpdateEnvironmentRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
-	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01B\a\n" +
-	"\x05_name\"d\n" +
+	"\x04name\x18\x02 \x01(\tB\x03\xe0A\x02R\x04name\"d\n" +
 	"\x19UpdateEnvironmentResponse\x12G\n" +
 	"\venvironment\x18\x01 \x01(\v2%.terrabase.environment.v1.EnvironmentR\venvironment\"/\n" +
 	"\x18DeleteEnvironmentRequest\x12\x13\n" +
@@ -679,7 +678,6 @@ func file_terrabase_environment_v1_environment_proto_init() {
 	if File_terrabase_environment_v1_environment_proto != nil {
 		return
 	}
-	file_terrabase_environment_v1_environment_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

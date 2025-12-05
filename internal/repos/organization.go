@@ -47,15 +47,19 @@ func (r *OrganizationRepo) Update(ctx context.Context, id string, name *string, 
 		return nil, err
 	}
 
+	colsToUpdate := make([]string, 0, 2)
+
 	if name != nil {
 		model.Name = *name
+		colsToUpdate = append(colsToUpdate, "name")
 	}
 
 	if subscription != nil {
 		model.Subscription = int32(*subscription)
+		colsToUpdate = append(colsToUpdate, "subscription")
 	}
 
-	return update(ctx, r.db, model, "name", "subscription")
+	return update(ctx, r.db, model, colsToUpdate...)
 }
 
 func (r *OrganizationRepo) Delete(ctx context.Context, id string) error {
