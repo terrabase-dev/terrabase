@@ -860,7 +860,7 @@ A Terrabase team belongs to a single organization, and can have many users. Team
 | Name | Type | Label | Required | Description |
 | --- | --- | --- | --- | --- |
 | `id` | string |  | `true` | The unique ID of the team to update |
-| `name` | string |  | `false` | The new name of the team |
+| `name` | string |  | `true` | The new name of the team |
 
 ### UpdateTeamResponse (team.v1)
 

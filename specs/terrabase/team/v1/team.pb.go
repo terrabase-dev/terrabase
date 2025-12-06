@@ -453,7 +453,7 @@ type UpdateTeamRequest struct {
 	// The unique ID of the team to update
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The new name of the team
-	Name          *string `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -496,8 +496,8 @@ func (x *UpdateTeamRequest) GetId() string {
 }
 
 func (x *UpdateTeamRequest) GetName() string {
-	if x != nil && x.Name != nil {
-		return *x.Name
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -662,11 +662,10 @@ const file_terrabase_team_v1_team_proto_rawDesc = "" +
 	"\x11ListTeamsResponse\x12-\n" +
 	"\x05teams\x18\x01 \x03(\v2\x17.terrabase.team.v1.TeamR\x05teams\x12+\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tH\x00R\rnextPageToken\x88\x01\x01B\x12\n" +
-	"\x10_next_page_token\"J\n" +
+	"\x10_next_page_token\"A\n" +
 	"\x11UpdateTeamRequest\x12\x13\n" +
 	"\x02id\x18\x01 \x01(\tB\x03\xe0A\x02R\x02id\x12\x17\n" +
-	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01B\a\n" +
-	"\x05_name\"A\n" +
+	"\x04name\x18\x02 \x01(\tB\x03\xe0A\x02R\x04name\"A\n" +
 	"\x12UpdateTeamResponse\x12+\n" +
 	"\x04team\x18\x01 \x01(\v2\x17.terrabase.team.v1.TeamR\x04team\"(\n" +
 	"\x11DeleteTeamRequest\x12\x13\n" +
@@ -744,7 +743,6 @@ func file_terrabase_team_v1_team_proto_init() {
 	}
 	file_terrabase_team_v1_team_proto_msgTypes[6].OneofWrappers = []any{}
 	file_terrabase_team_v1_team_proto_msgTypes[7].OneofWrappers = []any{}
-	file_terrabase_team_v1_team_proto_msgTypes[8].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
