@@ -9,13 +9,15 @@ import (
 )
 
 type EnvironmentRepo struct {
-	db *bun.DB
+	db bun.IDB
 }
 
 func NewEnvironmentRepo(db *bun.DB) *EnvironmentRepo {
-	return &EnvironmentRepo{
-		db: db,
-	}
+	return &EnvironmentRepo{db: db}
+}
+
+func (r *EnvironmentRepo) WithTx(tx bun.Tx) *EnvironmentRepo {
+	return &EnvironmentRepo{db: tx}
 }
 
 func (r *EnvironmentRepo) Create(ctx context.Context, environment *environmentv1.Environment) (*environmentv1.Environment, error) {
